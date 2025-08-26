@@ -1,19 +1,25 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Slider } from "@/components/ui/slider";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import { AlertCircle, Info, Settings, Heart } from "lucide-react";
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Switch } from '@/components/ui/switch'
+import { Checkbox } from '@/components/ui/checkbox'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Slider } from '@/components/ui/slider'
+import { Progress } from '@/components/ui/progress'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Separator } from '@/components/ui/separator'
+import { AlertCircle, Info, Settings, Heart } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -49,8 +55,9 @@ export default function Home() {
             Beautiful, Accessible Components
           </h2>
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            A comprehensive collection of reusable UI components built with Tailwind CSS and shadcn/ui, 
-            designed to create consistent and delightful user experiences across all CodaPet applications.
+            A comprehensive collection of reusable UI components built with
+            Tailwind CSS and shadcn/ui, designed to create consistent and
+            delightful user experiences across all CodaPet applications.
           </p>
         </div>
 
@@ -63,7 +70,9 @@ export default function Home() {
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 Buttons
               </CardTitle>
-              <CardDescription>Various button styles and states</CardDescription>
+              <CardDescription>
+                Various button styles and states
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex flex-wrap gap-3">
@@ -113,7 +122,9 @@ export default function Home() {
                 <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                 Interactive Elements
               </CardTitle>
-              <CardDescription>Switches, sliders, and progress indicators</CardDescription>
+              <CardDescription>
+                Switches, sliders, and progress indicators
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-center space-x-2">
@@ -122,7 +133,12 @@ export default function Home() {
               </div>
               <div className="space-y-2">
                 <Label>Volume</Label>
-                <Slider defaultValue={[33]} max={100} step={1} className="w-full" />
+                <Slider
+                  defaultValue={[33]}
+                  max={100}
+                  step={1}
+                  className="w-full"
+                />
               </div>
               <div className="space-y-2">
                 <Label>Progress</Label>
@@ -217,7 +233,9 @@ export default function Home() {
                 <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
                 Alerts
               </CardTitle>
-              <CardDescription>Feedback and notification messages</CardDescription>
+              <CardDescription>
+                Feedback and notification messages
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Alert>
@@ -241,7 +259,9 @@ export default function Home() {
                 <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
                 Avatars & Badges
               </CardTitle>
-              <CardDescription>User avatars and status indicators</CardDescription>
+              <CardDescription>
+                User avatars and status indicators
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-4">
@@ -276,5 +296,5 @@ export default function Home() {
         </div>
       </main>
     </div>
-  );
+  )
 }
