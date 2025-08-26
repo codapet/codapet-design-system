@@ -1,0 +1,28 @@
+# Development files
+app/
+components/
+hooks/
+lib/
+src/
+public/
+.next/
+node_modules/
+
+# Configuration files
+tsconfig.json
+tsconfig.lib.json
+tsup.config.ts
+next.config.ts
+postcss.config.mjs
+tailwind.config.ts
+eslint.config.mjs
+components.json
+
+# Documentation
+README.md
+.gitignore
+
+# Build artifacts (except dist)
+*.log
+.DS_Store
+.env*
