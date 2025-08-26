@@ -1,7 +1,7 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 @source "./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./node_modules/@codapet/design-system/dist/**/*.{js,mjs,ts,tsx}";
-@import "@codapet/design-system/styles";
+@import '@codapet/design-system/styles';
 
 @custom-variant dark (&:is(.dark *));
 
