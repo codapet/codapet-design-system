@@ -104,7 +104,7 @@ This ensures that:
 
 ```bash
 # Install the library
-npm install codapet-design-system
+npm install @codapet/design-system
 
 # Install peer dependencies (if not already installed)
 npm install react react-dom

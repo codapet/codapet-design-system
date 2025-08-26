@@ -67,7 +67,7 @@ export default config
 3) Install the design system:
 
 ```bash
-npm install codapet-design-system
+npm install @codapet/design-system
 ```
 
 4) Configure global CSS for Tailwind v4 scanning and import the design system styles.
@@ -333,7 +333,7 @@ module.exports = {
 - Components render unstyled:
   - Ensure your `globals.css` contains `@source` that points to the design system in `node_modules` (Tailwind must see class usage to emit utilities).
   - Restart the dev server after changing `@source` or Tailwind config.
-  - Verify `@import "codapet-design-system/styles";` comes after `@import "tailwindcss";`.
+  - Verify `@import "@codapet/design-system/styles";` comes after `@import "tailwindcss";`.
   - If you use Tailwind v3, configure `content` globs as shown above.
 - PostCSS cannot resolve an import:
   - Ensure `@tailwindcss/postcss` is installed and present in `postcss.config.*`.
