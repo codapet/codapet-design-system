@@ -89,7 +89,7 @@ declare function BreadcrumbEllipsis({ className, ...props }: React$1.ComponentPr
 
 declare const buttonVariants: (props?: ({
     variant?: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined;
-    size?: "default" | "sm" | "lg" | "icon" | null | undefined;
+    size?: "sm" | "md" | "icon" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 declare function Button({ className, variant, size, asChild, ...props }: React$1.ComponentProps<'button'> & VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
@@ -326,16 +326,16 @@ declare function NavigationMenuViewport({ className, ...props }: React$1.Compone
 declare function NavigationMenuLink({ className, ...props }: React$1.ComponentProps<typeof NavigationMenuPrimitive.Link>): react_jsx_runtime.JSX.Element;
 declare function NavigationMenuIndicator({ className, ...props }: React$1.ComponentProps<typeof NavigationMenuPrimitive.Indicator>): react_jsx_runtime.JSX.Element;
 
-declare function Pagination({ className, ...props }: React$1.ComponentProps<"nav">): react_jsx_runtime.JSX.Element;
-declare function PaginationContent({ className, ...props }: React$1.ComponentProps<"ul">): react_jsx_runtime.JSX.Element;
-declare function PaginationItem({ ...props }: React$1.ComponentProps<"li">): react_jsx_runtime.JSX.Element;
+declare function Pagination({ className, ...props }: React$1.ComponentProps<'nav'>): react_jsx_runtime.JSX.Element;
+declare function PaginationContent({ className, ...props }: React$1.ComponentProps<'ul'>): react_jsx_runtime.JSX.Element;
+declare function PaginationItem({ ...props }: React$1.ComponentProps<'li'>): react_jsx_runtime.JSX.Element;
 type PaginationLinkProps = {
     isActive?: boolean;
-} & Pick<React$1.ComponentProps<typeof Button>, "size"> & React$1.ComponentProps<"a">;
+} & Pick<React$1.ComponentProps<typeof Button>, 'size'> & React$1.ComponentProps<'a'>;
 declare function PaginationLink({ className, isActive, size, ...props }: PaginationLinkProps): react_jsx_runtime.JSX.Element;
 declare function PaginationPrevious({ className, ...props }: React$1.ComponentProps<typeof PaginationLink>): react_jsx_runtime.JSX.Element;
 declare function PaginationNext({ className, ...props }: React$1.ComponentProps<typeof PaginationLink>): react_jsx_runtime.JSX.Element;
-declare function PaginationEllipsis({ className, ...props }: React$1.ComponentProps<"span">): react_jsx_runtime.JSX.Element;
+declare function PaginationEllipsis({ className, ...props }: React$1.ComponentProps<'span'>): react_jsx_runtime.JSX.Element;
 
 declare function Popover({ ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Root>): react_jsx_runtime.JSX.Element;
 declare function PopoverTrigger({ ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Trigger>): react_jsx_runtime.JSX.Element;

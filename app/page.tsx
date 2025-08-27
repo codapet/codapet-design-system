@@ -85,8 +85,7 @@ export default function Home() {
               </div>
               <div className="flex flex-wrap gap-3">
                 <Button size="sm">Small</Button>
-                <Button size="default">Default</Button>
-                <Button size="lg">Large</Button>
+                <Button size="md">Medium</Button>
               </div>
             </CardContent>
           </Card>

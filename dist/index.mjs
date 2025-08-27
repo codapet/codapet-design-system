@@ -147,22 +147,22 @@ var buttonVariants = cva2(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground shadow-xs hover:bg-brand-dark",
-        destructive: "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        destructive: "bg-red-400 text-white shadow-xs hover:bg-red-900 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline: "text-zinc-800 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
         secondary: "bg-brand-subtle text-brand-vibrant hover:bg-brand-light border border-brand-light",
         ghost: "text-zinc-800 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline"
       },
       size: {
-        default: "h-10 px-4 py-2 has-[>svg]:px-3 text-lg",
+        /* default: 'h-10 px-4 py-2 has-[>svg]:px-3 text-lg', */
         sm: "h-9 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 text-base",
-        lg: "h-12 rounded-md px-6 has-[>svg]:px-4 text-lg",
+        md: "h-12 rounded-md px-6 has-[>svg]:px-4 text-lg",
         icon: "size-9"
       }
     },
     defaultVariants: {
       variant: "default",
-      size: "default"
+      size: "md"
     }
   }
 );
@@ -2809,7 +2809,7 @@ function PaginationPrevious({
     PaginationLink,
     {
       "aria-label": "Go to previous page",
-      size: "default",
+      size: "sm",
       className: cn("gap-1 px-2.5 sm:pl-2.5", className),
       ...props,
       children: [
@@ -2827,7 +2827,7 @@ function PaginationNext({
     PaginationLink,
     {
       "aria-label": "Go to next page",
-      size: "default",
+      size: "sm",
       className: cn("gap-1 px-2.5 sm:pr-2.5", className),
       ...props,
       children: [
