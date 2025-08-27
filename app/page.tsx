@@ -20,6 +20,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import { AlertCircle, Info, Settings, Heart } from 'lucide-react'
+import packageJson from '../package.json'
 
 export default function Home() {
   return (
@@ -37,7 +38,7 @@ export default function Home() {
               </h1>
             </div>
             <div className="flex items-center space-x-4">
-              <Badge variant="secondary">v1.0.0</Badge>
+              <Badge variant="secondary">v{packageJson.version}</Badge>
               <Button variant="outline" size="sm">
                 <Settings className="w-4 h-4 mr-2" />
                 Settings
