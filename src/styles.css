@@ -47,6 +47,31 @@
   --color-brand-normal: var(--brand-normal);
   --color-brand-vibrant: var(--brand-vibrant);
   --color-brand-dark: var(--brand-dark);
+
+  /* Custom Sand Colors */
+  --color-sand-light: var(--sand-light);
+  --color-sand-normal: var(--sand-normal);
+  --color-sand-dark: var(--sand-dark);
+
+  /* Rose accent */
+  --color-rose-light: var(--rose-light);
+  --color-rose-normal: var(--rose-normal);
+  --color-rose-dark: var(--rose-dark);
+
+  /* Red accent */
+  --color-red-subtle: var(--red-subtle);
+
+  /* Sage accent */
+  --color-sage-light: var(--sage-light);
+  --color-sage-normal: var(--sage-normal);
+  --color-sage-dark: var(--sage-dark);
+
+  /* Custom warning color scale */
+  --color-warning-subtle: var(--warning-subtle);
+  --color-warning-light: var(--warning-light);
+  --color-warning-normal: var(--warning-normal);
+  --color-warning-vibrant: var(--warning-vibrant);
+  --color-warning-dark: var(--warning-dark);
 }
 
 :root {
@@ -91,9 +116,34 @@
   --brand-vibrant: oklch(0.5424 0.1123 253.26);
   --brand-dark: oklch(0.4463 0.0577 255.4);
 
+  /* Custom Sand Colors */
+  --sand-light: oklch(0.9815 0.0046 106.48);
+  --sand-normal: oklch(0.9557 0.0053 67.76);
+  --sand-dark: oklch(0.8691 0.0045 56.36);
+
   /* Primary Color uses brand-normal */
   --primary: var(--brand-normal);
   --primary-foreground: oklch(0.984 0.003 247.858);
+
+  /* Rose accent */
+  --rose-light: oklch(0.9722 0.0086 0.11);
+  --rose-normal: oklch(0.8046 0.0487 0.45);
+  --rose-dark: oklch(0.5133 0.0289 0.34);
+
+  /* Custom red accent */
+  --red-subtle: oklch(0.9903 0.003 17.21);
+
+  /* Sage accent */
+  --sage-light: oklch(0.932 0.01726072052629843 164.64944629777187);
+  --sage-normal: oklch(0.7506 0.034 163.9);
+  --sage-dark: oklch(0.4323 0.0246 165.25);
+
+  /* Custom warning color scale */
+  --warning-subtle: oklch(0.9972 0.0134 106.64);
+  --warning-light: oklch(0.888 0.086 112.02);
+  --warning-normal: oklch(0.845 0.1914 115.53);
+  --warning-vibrant: oklch(0.7956 0.1807 115.58);
+  --warning-dark: oklch(0.473 0.0898 90.46);
 }
 
 .dark {
