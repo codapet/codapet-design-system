@@ -71,7 +71,7 @@ declare function AvatarImage({ className, ...props }: React$1.ComponentProps<typ
 declare function AvatarFallback({ className, ...props }: React$1.ComponentProps<typeof AvatarPrimitive.Fallback>): react_jsx_runtime.JSX.Element;
 
 declare const badgeVariants: (props?: ({
-    variant?: "default" | "destructive" | "outline" | "secondary" | null | undefined;
+    variant?: "default" | "destructive" | "secondary" | "outline" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 declare function Badge({ className, variant, asChild, ...props }: React$1.ComponentProps<"span"> & VariantProps<typeof badgeVariants> & {
     asChild?: boolean;
@@ -88,8 +88,8 @@ declare function BreadcrumbSeparator({ children, className, ...props }: React$1.
 declare function BreadcrumbEllipsis({ className, ...props }: React$1.ComponentProps<"span">): react_jsx_runtime.JSX.Element;
 
 declare const buttonVariants: (props?: ({
-    variant?: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined;
-    size?: "sm" | "md" | "icon" | null | undefined;
+    variant?: "link" | "destructive" | "primary" | "secondary" | "tertiary" | "outline" | "ghost" | "destructive-secondary" | "destructive-tertiary" | null | undefined;
+    size?: "md" | "sm" | "lg" | "icon" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 declare function Button({ className, variant, size, asChild, ...props }: React$1.ComponentProps<'button'> & VariantProps<typeof buttonVariants> & {
     asChild?: boolean;

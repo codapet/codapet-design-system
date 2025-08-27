@@ -19,8 +19,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
-import { AlertCircle, Info, Settings, Heart } from 'lucide-react'
+import { AlertCircle, ArrowRightIcon, Info, PlusIcon } from 'lucide-react'
 import packageJson from '../package.json'
+import Image from 'next/image'
 
 export default function Home() {
   return (
@@ -30,10 +31,12 @@ export default function Home() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <img
+              <Image
                 src="/codapet-logo.png"
                 alt="CodaPet Logo"
                 className="w-10 h-10 object-contain"
+                width={40}
+                height={40}
               />
               <h1 className="text-2xl font-bold bg-gradient-to-r from-brand-vibrant to-brand-normal bg-clip-text text-transparent">
                 CodaPet Design System
@@ -41,13 +44,6 @@ export default function Home() {
             </div>
             <div className="flex items-center space-x-4">
               <Badge variant="secondary">v{packageJson.version}</Badge>
-              {/*
-              <Button variant="outline" size="sm">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </Button>
-
-                */}
             </div>
           </div>
         </div>
@@ -82,15 +78,27 @@ export default function Home() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex flex-wrap gap-3">
-                <Button>Default</Button>
+                <Button>Primary</Button>
                 <Button variant="secondary">Secondary</Button>
+                <Button variant="tertiary">Tertiary</Button>
                 <Button variant="outline">Outline</Button>
                 <Button variant="ghost">Ghost</Button>
+                <Button variant="link">Link</Button>
                 <Button variant="destructive">Destructive</Button>
+                <Button variant="destructive-secondary">
+                  Destructive Secondary
+                </Button>
+                <Button variant="destructive-tertiary">
+                  Destructive Tertiary
+                </Button>
               </div>
               <div className="flex flex-wrap gap-3">
                 <Button size="sm">Small</Button>
                 <Button size="md">Medium</Button>
+                <Button size="lg">Large</Button>
+                <Button variant="primary" size="icon">
+                  <PlusIcon className="w-4 h-4 shrink-0" />
+                </Button>
               </div>
             </CardContent>
           </Card>
