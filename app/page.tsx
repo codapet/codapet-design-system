@@ -78,14 +78,26 @@ export default function Home() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex flex-wrap gap-3">
-                <Button>Primary</Button>
-                <Button variant="secondary">Secondary</Button>
-                <Button variant="tertiary">Tertiary</Button>
-                <Button variant="outline">Outline</Button>
-                <Button variant="ghost">Ghost</Button>
-                <Button variant="link">Link</Button>
-                <Button variant="destructive">Destructive</Button>
-                <Button variant="destructive-secondary">
+                <Button tabIndex={0}>Primary</Button>
+                <Button tabIndex={0} variant="secondary">
+                  Secondary
+                </Button>
+                <Button tabIndex={0} variant="tertiary">
+                  Tertiary
+                </Button>
+                <Button tabIndex={0} variant="outline">
+                  Outline
+                </Button>
+                <Button tabIndex={0} variant="ghost">
+                  Ghost
+                </Button>
+                <Button tabIndex={0} variant="link">
+                  Link
+                </Button>
+                <Button tabIndex={0} variant="destructive">
+                  Destructive
+                </Button>
+                <Button tabIndex={0} variant="destructive-secondary">
                   Destructive Secondary
                 </Button>
                 <Button variant="destructive-tertiary">
