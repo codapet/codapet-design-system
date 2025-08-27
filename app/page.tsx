@@ -30,19 +30,24 @@ export default function Home() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <Heart className="w-4 h-4 text-white" />
-              </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <img
+                src="/codapet-logo.png"
+                alt="CodaPet Logo"
+                className="w-10 h-10 object-contain"
+              />
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-brand-vibrant to-brand-normal bg-clip-text text-transparent">
                 CodaPet Design System
               </h1>
             </div>
             <div className="flex items-center space-x-4">
               <Badge variant="secondary">v{packageJson.version}</Badge>
+              {/*
               <Button variant="outline" size="sm">
                 <Settings className="w-4 h-4 mr-2" />
                 Settings
               </Button>
+
+                */}
             </div>
           </div>
         </div>
