@@ -19,9 +19,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
-import { AlertCircle, ArrowRightIcon, Info, PlusIcon } from 'lucide-react'
+import { AlertCircle, Info, PlusIcon } from 'lucide-react'
 import packageJson from '../package.json'
 import Image from 'next/image'
+import { DisplayHeading } from '@/components/ui/typography'
 
 export default function Home() {
   return (
@@ -310,6 +311,24 @@ export default function Home() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Typography */}
+        <Card className="mb-16">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+              Typography
+            </CardTitle>
+            <CardDescription>Display text variants</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-2">
+              <DisplayHeading size="lg">Display Text Large</DisplayHeading>
+              <DisplayHeading size="md">Display Text Medium</DisplayHeading>
+              <DisplayHeading size="sm">Display Text Small</DisplayHeading>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Footer */}
         <Separator className="my-8" />
