@@ -26,6 +26,7 @@ import {
   HeadingS,
   HeadingXL,
   HeadingXS,
+  HeadingXXS,
   Label
 } from '@/components/ui/typography'
 import { AlertCircle, Info, PlusIcon } from 'lucide-react'
@@ -346,6 +347,7 @@ export default function Home() {
                 <HeadingM>Heading M - Medium Heading</HeadingM>
                 <HeadingS>Heading S - Small Heading</HeadingS>
                 <HeadingXS>Heading XS - Extra Small Heading</HeadingXS>
+                <HeadingXXS>Heading XXS - Extra Extra Small Heading</HeadingXXS>
               </div>
             </div>
             <Separator />
