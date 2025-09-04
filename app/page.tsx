@@ -1,7 +1,6 @@
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { Body } from '@/components/ui/body'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -11,15 +10,7 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  HeadingL,
-  HeadingM,
-  HeadingS,
-  HeadingXL,
-  HeadingXS
-} from '@/components/ui/headings'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
@@ -27,7 +18,16 @@ import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
-import { DisplayHeading } from '@/components/ui/typography'
+import {
+  Body,
+  DisplayHeading,
+  HeadingL,
+  HeadingM,
+  HeadingS,
+  HeadingXL,
+  HeadingXS,
+  Label
+} from '@/components/ui/typography'
 import { AlertCircle, Info, PlusIcon } from 'lucide-react'
 import Image from 'next/image'
 import packageJson from '../package.json'
@@ -393,6 +393,46 @@ export default function Home() {
                     consectetur adipiscing elit. Sed do eiusmod tempor
                     incididunt ut labore et dolore magna aliqua.
                   </Body>
+                </div>
+              </div>
+            </div>
+            <Separator />
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+                Label Components
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Large Label
+                  </p>
+                  <Label size="lg">
+                    Large label text for prominent form fields
+                  </Label>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Medium Label (Default)
+                  </p>
+                  <Label size="md">
+                    Medium label text for standard form fields
+                  </Label>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Small Label
+                  </p>
+                  <Label size="sm">
+                    Small label text for compact form fields
+                  </Label>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Extra Small Label
+                  </p>
+                  <Label size="xs">
+                    Extra small label text for minimal form fields
+                  </Label>
                 </div>
               </div>
             </div>
