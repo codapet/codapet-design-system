@@ -1,3 +1,7 @@
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Body } from '@/components/ui/body'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -6,23 +10,27 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Checkbox } from '@/components/ui/checkbox'
+import {
+  HeadingL,
+  HeadingM,
+  HeadingS,
+  HeadingXL,
+  HeadingXS
+} from '@/components/ui/headings'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Switch } from '@/components/ui/switch'
-import { Checkbox } from '@/components/ui/checkbox'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Slider } from '@/components/ui/slider'
 import { Progress } from '@/components/ui/progress'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
-import { AlertCircle, Info, PlusIcon } from 'lucide-react'
-import packageJson from '../package.json'
-import Image from 'next/image'
+import { Slider } from '@/components/ui/slider'
+import { Switch } from '@/components/ui/switch'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Textarea } from '@/components/ui/textarea'
 import { DisplayHeading } from '@/components/ui/typography'
+import { AlertCircle, Info, PlusIcon } from 'lucide-react'
+import Image from 'next/image'
+import packageJson from '../package.json'
 
 export default function Home() {
   return (
@@ -326,6 +334,67 @@ export default function Home() {
               <DisplayHeading size="lg">Display Text Large</DisplayHeading>
               <DisplayHeading size="md">Display Text Medium</DisplayHeading>
               <DisplayHeading size="sm">Display Text Small</DisplayHeading>
+            </div>
+            <Separator />
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+                Heading Components
+              </h3>
+              <div className="space-y-3">
+                <HeadingXL>Heading XL - Extra Large Heading</HeadingXL>
+                <HeadingL>Heading L - Large Heading</HeadingL>
+                <HeadingM>Heading M - Medium Heading</HeadingM>
+                <HeadingS>Heading S - Small Heading</HeadingS>
+                <HeadingXS>Heading XS - Extra Small Heading</HeadingXS>
+              </div>
+            </div>
+            <Separator />
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+                Body Text Components
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Large Body Text
+                  </p>
+                  <Body size="lg">
+                    This is large body text. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.
+                  </Body>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Medium Body Text (Default)
+                  </p>
+                  <Body size="md">
+                    This is medium body text. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.
+                  </Body>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Small Body Text
+                  </p>
+                  <Body size="sm">
+                    This is small body text. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.
+                  </Body>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Extra Small Body Text
+                  </p>
+                  <Body size="xs">
+                    This is extra small body text. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.
+                  </Body>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
