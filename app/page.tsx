@@ -1,3 +1,6 @@
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -6,23 +9,31 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Switch } from '@/components/ui/switch'
-import { Checkbox } from '@/components/ui/checkbox'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Slider } from '@/components/ui/slider'
 import { Progress } from '@/components/ui/progress'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
-import { AlertCircle, Info, PlusIcon } from 'lucide-react'
-import packageJson from '../package.json'
-import Image from 'next/image'
+import { Slider } from '@/components/ui/slider'
+import { Switch } from '@/components/ui/switch'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Textarea } from '@/components/ui/textarea'
 import { DisplayHeading } from '@/components/ui/typography'
+import {
+  AlertCircle,
+  Eye,
+  EyeOff,
+  Info,
+  Lock,
+  Mail,
+  Phone,
+  PlusIcon,
+  Search,
+  User
+} from 'lucide-react'
+import Image from 'next/image'
+import packageJson from '../package.json'
 
 export default function Home() {
   return (
@@ -326,6 +337,387 @@ export default function Home() {
               <DisplayHeading size="lg">Display Text Large</DisplayHeading>
               <DisplayHeading size="md">Display Text Medium</DisplayHeading>
               <DisplayHeading size="sm">Display Text Small</DisplayHeading>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Input Components Showcase */}
+        <Card className="mb-16">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <div className="p-2 bg-blue-500/10 rounded-lg">
+                <AlertCircle className="h-5 w-5 text-blue-500" />
+              </div>
+              Input Components
+            </CardTitle>
+            <CardDescription>
+              Comprehensive input component with various states, sizes, and icon
+              support
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-8">
+            {/* Basic Input Sizes */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                Input Sizes
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Small Input
+                  </Label>
+                  <Input size="sm" placeholder="Small input field" />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Medium Input (Default)
+                  </Label>
+                  <Input placeholder="Medium input field" />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Large Input
+                  </Label>
+                  <Input size="lg" placeholder="Large input field" />
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Input States */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                Input States
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Default State
+                  </Label>
+                  <Input placeholder="Default input state" />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Error State
+                  </Label>
+                  <Input
+                    placeholder="Error input state"
+                    error={true}
+                    aria-describedby="error-message"
+                  />
+                  <p className="text-sm text-destructive mt-1">
+                    This field is required
+                  </p>
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Disabled State
+                  </Label>
+                  <Input placeholder="Disabled input" disabled />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Focus State
+                  </Label>
+                  <Input placeholder="Focus to see ring effect" />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Click to see focus ring
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Inputs with Icons */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                Inputs with Icons
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Search Input
+                  </Label>
+                  <Input
+                    placeholder="Search..."
+                    leftIcon={<Search className="h-4 w-4" />}
+                  />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Email Input
+                  </Label>
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    leftIcon={<Mail className="h-4 w-4" />}
+                  />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Password Input
+                  </Label>
+                  <Input
+                    type="password"
+                    placeholder="Enter password"
+                    leftIcon={<Lock className="h-4 w-4" />}
+                    rightIcon={<Eye className="h-4 w-4" />}
+                  />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    User Input
+                  </Label>
+                  <Input
+                    placeholder="Username"
+                    leftIcon={<User className="h-4 w-4" />}
+                    rightIcon={<AlertCircle className="h-4 w-4" />}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Different Input Types */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                Input Types
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Text Input
+                  </Label>
+                  <Input type="text" placeholder="Enter text" />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Number Input
+                  </Label>
+                  <Input type="number" placeholder="Enter number" />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Email Input
+                  </Label>
+                  <Input type="email" placeholder="Enter email" />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Phone Input
+                  </Label>
+                  <Input
+                    type="tel"
+                    placeholder="Enter phone number"
+                    leftIcon={<Phone className="h-4 w-4" />}
+                  />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Date Input
+                  </Label>
+                  <Input type="date" />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Time Input
+                  </Label>
+                  <Input type="time" />
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Icon Styling Control */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                Custom Icon Styling
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Custom Icon Container
+                  </Label>
+                  <Input
+                    placeholder="Custom icon background"
+                    leftIcon={<Search className="h-4 w-4" />}
+                    leftIconClassName="bg-primary/10 rounded-full p-1"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Using leftIconClassName=&quot;bg-primary/10 rounded-full
+                    p-1&quot;
+                  </p>
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Colored Icons
+                  </Label>
+                  <Input
+                    placeholder="Different colored icons"
+                    leftIcon={<Mail className="h-4 w-4 text-blue-500" />}
+                    rightIcon={<Eye className="h-4 w-4 text-green-500" />}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Icons with custom colors: text-blue-500, text-green-500
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Size Combinations with Icons */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                Size Variants with Icons
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Small with Icons
+                  </Label>
+                  <Input
+                    size="sm"
+                    placeholder="Small input with icons"
+                    leftIcon={<User className="h-3.5 w-3.5" />}
+                    rightIcon={<EyeOff className="h-3.5 w-3.5" />}
+                  />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Medium with Icons
+                  </Label>
+                  <Input
+                    placeholder="Medium input with icons"
+                    leftIcon={<Mail className="h-4 w-4" />}
+                    rightIcon={<AlertCircle className="h-4 w-4" />}
+                  />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Large with Icons
+                  </Label>
+                  <Input
+                    size="lg"
+                    placeholder="Large input with icons"
+                    leftIcon={<Search className="h-5 w-5" />}
+                    rightIcon={<Info className="h-5 w-5" />}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Error States with Icons */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                Error States
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Small Error Input
+                  </Label>
+                  <Input
+                    size="sm"
+                    placeholder="Small error input"
+                    leftIcon={<Mail className="h-3.5 w-3.5" />}
+                    error={true}
+                  />
+                  <p className="text-xs text-destructive mt-1">
+                    Please enter a valid email address
+                  </p>
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Medium Error Input
+                  </Label>
+                  <Input
+                    placeholder="Medium error input"
+                    leftIcon={<Lock className="h-4 w-4" />}
+                    rightIcon={<AlertCircle className="h-4 w-4" />}
+                    error={true}
+                  />
+                  <p className="text-xs text-destructive mt-1">
+                    Password must be at least 8 characters
+                  </p>
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Large Error Input
+                  </Label>
+                  <Input
+                    size="lg"
+                    placeholder="Large error input"
+                    leftIcon={<User className="h-5 w-5" />}
+                    error={true}
+                  />
+                  <p className="text-xs text-destructive mt-1">
+                    Username is already taken
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Complete Form Example */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                Complete Form Example
+              </h3>
+              <div className="space-y-4 max-w-md">
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Full Name
+                  </Label>
+                  <Input
+                    placeholder="Enter your full name"
+                    leftIcon={<User className="h-4 w-4" />}
+                  />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Email Address
+                  </Label>
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    leftIcon={<Mail className="h-4 w-4" />}
+                    error={true}
+                  />
+                  <p className="text-xs text-destructive mt-1">
+                    Please enter a valid email address
+                  </p>
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Password
+                  </Label>
+                  <Input
+                    type="password"
+                    placeholder="Create a password"
+                    leftIcon={<Lock className="h-4 w-4" />}
+                    rightIcon={<Eye className="h-4 w-4" />}
+                  />
+                </div>
+                <div>
+                  <Label className="mb-2 block text-sm font-medium">
+                    Phone Number
+                  </Label>
+                  <Input
+                    type="tel"
+                    placeholder="+1 (555) 123-4567"
+                    leftIcon={<Phone className="h-4 w-4" />}
+                  />
+                </div>
+                <Button className="w-full">Create Account</Button>
+              </div>
             </div>
           </CardContent>
         </Card>
