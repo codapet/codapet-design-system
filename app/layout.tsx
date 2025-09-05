@@ -30,6 +30,7 @@ const geistMono = Geist_Mono({
 
 const notoSerif = Noto_Serif({
   variable: '--font-noto-serif',
+  style: 'italic',
   subsets: ['latin']
 })
 
