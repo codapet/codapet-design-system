@@ -1,24 +1,42 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import * as LabelPrimitive from "@radix-ui/react-label"
+import { cn } from '@/lib/utils'
+import { Slot } from '@radix-ui/react-slot'
+import { cva, VariantProps } from 'class-variance-authority'
+import * as React from 'react'
 
-import { cn } from "@/lib/utils"
+const labelTextVariants = cva('font-sans font-semibold ', {
+  variants: {
+    size: {
+      lg: 'text-base md:text-lg md:leading-[1.625rem] leading-[1.5rem]',
+      md: 'md:text-base text-sm  md:leading-[1.5rem] leading-[1.25rem] ',
+      sm: 'md:text-sm text-xs  md:leading-[1.25rem] leading-[1.125rem] ',
+      xs: 'text-xs leading-[1.125rem]'
+    }
+  },
+  defaultVariants: {
+    size: 'md'
+  }
+})
 
 function Label({
   className,
+  size,
+  asChild = false,
   ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>) {
+}: React.ComponentProps<'label'> &
+  VariantProps<typeof labelTextVariants> & {
+    asChild?: boolean
+  }) {
+  const Comp = asChild ? Slot : 'label'
+
   return (
-    <LabelPrimitive.Root
+    <Comp
       data-slot="label"
-      className={cn(
-        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
-        className
-      )}
+      className={cn(labelTextVariants({ size, className }))}
       {...props}
     />
   )
 }
 
-export { Label }
+export { Label, labelTextVariants }

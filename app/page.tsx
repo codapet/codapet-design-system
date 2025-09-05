@@ -26,9 +26,9 @@ import {
   HeadingS,
   HeadingXL,
   HeadingXS,
-  HeadingXXS,
-  Label
+  HeadingXXS
 } from '@/components/ui/typography'
+import { Label } from '@/index'
 import { AlertCircle, Info, PlusIcon } from 'lucide-react'
 import Image from 'next/image'
 import packageJson from '../package.json'
