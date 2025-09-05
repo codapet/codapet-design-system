@@ -1,3 +1,6 @@
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -6,23 +9,29 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Switch } from '@/components/ui/switch'
-import { Checkbox } from '@/components/ui/checkbox'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Slider } from '@/components/ui/slider'
 import { Progress } from '@/components/ui/progress'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
+import { Slider } from '@/components/ui/slider'
+import { Switch } from '@/components/ui/switch'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Body,
+  DisplayHeading,
+  HeadingL,
+  HeadingM,
+  HeadingS,
+  HeadingXL,
+  HeadingXS,
+  HeadingXXS
+} from '@/components/ui/typography'
 import { AlertCircle, Info, PlusIcon } from 'lucide-react'
-import packageJson from '../package.json'
 import Image from 'next/image'
-import { DisplayHeading } from '@/components/ui/typography'
+import packageJson from '../package.json'
 
 export default function Home() {
   return (
@@ -326,6 +335,108 @@ export default function Home() {
               <DisplayHeading size="lg">Display Text Large</DisplayHeading>
               <DisplayHeading size="md">Display Text Medium</DisplayHeading>
               <DisplayHeading size="sm">Display Text Small</DisplayHeading>
+            </div>
+            <Separator />
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+                Heading Components
+              </h3>
+              <div className="space-y-3">
+                <HeadingXL>Heading XL - Extra Large Heading</HeadingXL>
+                <HeadingL>Heading L - Large Heading</HeadingL>
+                <HeadingM>Heading M - Medium Heading</HeadingM>
+                <HeadingS>Heading S - Small Heading</HeadingS>
+                <HeadingXS>Heading XS - Extra Small Heading</HeadingXS>
+                <HeadingXXS>Heading XXS - Extra Extra Small Heading</HeadingXXS>
+              </div>
+            </div>
+            <Separator />
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+                Body Text Components
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Large Body Text
+                  </p>
+                  <Body size="lg">
+                    This is large body text. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.
+                  </Body>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Medium Body Text (Default)
+                  </p>
+                  <Body size="md">
+                    This is medium body text. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.
+                  </Body>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Small Body Text
+                  </p>
+                  <Body size="sm">
+                    This is small body text. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.
+                  </Body>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Extra Small Body Text
+                  </p>
+                  <Body size="xs">
+                    This is extra small body text. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua.
+                  </Body>
+                </div>
+              </div>
+            </div>
+            <Separator />
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+                Label Components
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Large Label
+                  </p>
+                  <Label size="lg">
+                    Large label text for prominent form fields
+                  </Label>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Medium Label (Default)
+                  </p>
+                  <Label size="md">
+                    Medium label text for standard form fields
+                  </Label>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Small Label
+                  </p>
+                  <Label size="sm">
+                    Small label text for compact form fields
+                  </Label>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                    Extra Small Label
+                  </p>
+                  <Label size="xs">
+                    Extra small label text for minimal form fields
+                  </Label>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
