@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
@@ -28,7 +29,6 @@ import {
   HeadingXS,
   HeadingXXS
 } from '@/components/ui/typography'
-import { Label } from '@/index'
 import { AlertCircle, Info, PlusIcon } from 'lucide-react'
 import Image from 'next/image'
 import packageJson from '../package.json'

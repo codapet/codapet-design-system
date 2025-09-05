@@ -142,7 +142,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva as cva2 } from "class-variance-authority";
 import { jsx as jsx3 } from "react/jsx-runtime";
 var buttonVariants = cva2(
-  "cursor-pointer active:opacity-70 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "cursor-pointer active:opacity-70 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-colors transition-opacity disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none relative select-none will-change-auto focus-visible:before:absolute focus-visible:before:-inset-[3px] focus-visible:before:rounded-lg focus-visible:before:ring-2 focus-visible:before:ring-blue-500/80 focus-visible:before:pointer-events-none aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
@@ -2101,7 +2101,7 @@ function DropdownMenuSubContent({
 // src/components/ui/form.tsx
 import * as React19 from "react";
 import "@radix-ui/react-label";
-import { Slot as Slot4 } from "@radix-ui/react-slot";
+import { Slot as Slot5 } from "@radix-ui/react-slot";
 import {
   Controller,
   FormProvider,
@@ -2110,21 +2110,35 @@ import {
 } from "react-hook-form";
 
 // src/components/ui/label.tsx
+import { Slot as Slot4 } from "@radix-ui/react-slot";
+import { cva as cva4 } from "class-variance-authority";
 import "react";
-import * as LabelPrimitive from "@radix-ui/react-label";
 import { jsx as jsx20 } from "react/jsx-runtime";
+var labelTextVariants = cva4("font-sans font-semibold ", {
+  variants: {
+    size: {
+      lg: "text-base md:text-lg md:leading-[1.625rem] leading-[1.5rem]",
+      md: "md:text-base text-sm  md:leading-[1.5rem] leading-[1.25rem] ",
+      sm: "md:text-sm text-xs  md:leading-[1.25rem] leading-[1.125rem] ",
+      xs: "text-xs leading-[1.125rem]"
+    }
+  },
+  defaultVariants: {
+    size: "md"
+  }
+});
 function Label3({
   className,
+  size,
+  asChild = false,
   ...props
 }) {
+  const Comp = asChild ? Slot4 : "label";
   return /* @__PURE__ */ jsx20(
-    LabelPrimitive.Root,
+    Comp,
     {
       "data-slot": "label",
-      className: cn(
-        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
-        className
-      ),
+      className: cn(labelTextVariants({ size, className })),
       ...props
     }
   );
@@ -2193,7 +2207,7 @@ function FormLabel({
 function FormControl({ ...props }) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
   return /* @__PURE__ */ jsx21(
-    Slot4,
+    Slot5,
     {
       "data-slot": "form-control",
       id: formItemId,
@@ -2587,7 +2601,7 @@ function MenubarSubContent({
 // src/components/ui/navigation-menu.tsx
 import "react";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
-import { cva as cva4 } from "class-variance-authority";
+import { cva as cva5 } from "class-variance-authority";
 import { ChevronDownIcon as ChevronDownIcon3 } from "lucide-react";
 import { jsx as jsx26, jsxs as jsxs13 } from "react/jsx-runtime";
 function NavigationMenu({
@@ -2642,7 +2656,7 @@ function NavigationMenuItem({
     }
   );
 }
-var navigationMenuTriggerStyle = cva4(
+var navigationMenuTriggerStyle = cva5(
   "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1"
 );
 function NavigationMenuTrigger({
@@ -3379,8 +3393,8 @@ function SheetDescription({
 
 // src/components/ui/sidebar.tsx
 import * as React36 from "react";
-import { Slot as Slot5 } from "@radix-ui/react-slot";
-import { cva as cva5 } from "class-variance-authority";
+import { Slot as Slot6 } from "@radix-ui/react-slot";
+import { cva as cva6 } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
 
 // src/hooks/use-mobile.ts
@@ -3787,7 +3801,7 @@ function SidebarGroupLabel({
   asChild = false,
   ...props
 }) {
-  const Comp = asChild ? Slot5 : "div";
+  const Comp = asChild ? Slot6 : "div";
   return /* @__PURE__ */ jsx38(
     Comp,
     {
@@ -3807,7 +3821,7 @@ function SidebarGroupAction({
   asChild = false,
   ...props
 }) {
-  const Comp = asChild ? Slot5 : "button";
+  const Comp = asChild ? Slot6 : "button";
   return /* @__PURE__ */ jsx38(
     Comp,
     {
@@ -3860,7 +3874,7 @@ function SidebarMenuItem({ className, ...props }) {
     }
   );
 }
-var sidebarMenuButtonVariants = cva5(
+var sidebarMenuButtonVariants = cva6(
   "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
@@ -3889,7 +3903,7 @@ function SidebarMenuButton({
   className,
   ...props
 }) {
-  const Comp = asChild ? Slot5 : "button";
+  const Comp = asChild ? Slot6 : "button";
   const { isMobile, state } = useSidebar();
   const button = /* @__PURE__ */ jsx38(
     Comp,
@@ -3929,7 +3943,7 @@ function SidebarMenuAction({
   showOnHover = false,
   ...props
 }) {
-  const Comp = asChild ? Slot5 : "button";
+  const Comp = asChild ? Slot6 : "button";
   return /* @__PURE__ */ jsx38(
     Comp,
     {
@@ -4045,7 +4059,7 @@ function SidebarMenuSubButton({
   className,
   ...props
 }) {
-  const Comp = asChild ? Slot5 : "a";
+  const Comp = asChild ? Slot6 : "a";
   return /* @__PURE__ */ jsx38(
     Comp,
     {
@@ -4367,9 +4381,9 @@ function Textarea({ className, ...props }) {
 // src/components/ui/toggle.tsx
 import "react";
 import * as TogglePrimitive from "@radix-ui/react-toggle";
-import { cva as cva6 } from "class-variance-authority";
+import { cva as cva7 } from "class-variance-authority";
 import { jsx as jsx45 } from "react/jsx-runtime";
-var toggleVariants = cva6(
+var toggleVariants = cva7(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
   {
     variants: {
@@ -4463,6 +4477,180 @@ function ToggleGroupItem({
     }
   );
 }
+
+// src/components/ui/typography.tsx
+import { Slot as Slot7 } from "@radix-ui/react-slot";
+import { cva as cva8 } from "class-variance-authority";
+import "react";
+import { jsx as jsx47 } from "react/jsx-runtime";
+var displayTextVariants = cva8(
+  "tracking-normal font-normal leading-none text-brand-dark font-serif italic",
+  {
+    variants: {
+      size: {
+        md: "text-[1.75rem] md:text-4xl leading-[2.75rem] md:leading-[4rem]",
+        sm: "text-lg md:text-xl leading-[2.5rem] md:leading-[3rem]",
+        lg: "text-4xl md:text-[3.25rem] leading-[4rem] md:leading-[5rem]"
+      }
+    },
+    defaultVariants: {
+      size: "md"
+    }
+  }
+);
+function DisplayHeading({
+  className,
+  size,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h1";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h1",
+      className: cn(displayTextVariants({ size, className })),
+      ...props
+    }
+  );
+}
+var bodyTextVariants = cva8("font-sans ", {
+  variants: {
+    size: {
+      lg: "text-lg md:text-xl leading-[1.625rem] md:leading-[1.75rem]",
+      md: "text-base  leading-[1.5rem] ",
+      sm: "text-sm  leading-[1.25rem] ",
+      xs: "text-xs leading-[1rem]"
+    }
+  },
+  defaultVariants: {
+    size: "md"
+  }
+});
+function Body({
+  className,
+  size,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "p";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h1",
+      className: cn(bodyTextVariants({ size, className })),
+      ...props
+    }
+  );
+}
+function HeadingXL({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h1";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h1",
+      className: cn(
+        "text-2xl md:text-[2rem] md:leading-[2.5rem] leading-[2rem] font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingL({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h2";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h2",
+      className: cn(
+        "md:text-[1.5rem] text-[1.25rem] md:leading-[2rem] leading-[1.75rem] font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingM({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h3";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h3",
+      className: cn(
+        "text-[1.125rem] md:text-xl md:leading-[1.75rem] leading-[1.625rem] font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingS({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h4";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h4",
+      className: cn(
+        "text-base leading-[1.5rem] font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingXS({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h5";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h5",
+      className: cn(
+        "text-sm  leading-[1.25rem] font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingXXS({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h6";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h5",
+      className: cn(
+        "text-xs leading-[1rem]  font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
 export {
   Accordion,
   AccordionContent,
@@ -4487,6 +4675,7 @@ export {
   AvatarFallback,
   AvatarImage,
   Badge,
+  Body,
   Breadcrumb,
   BreadcrumbEllipsis,
   BreadcrumbItem,
@@ -4553,6 +4742,7 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  DisplayHeading,
   Drawer,
   DrawerClose,
   DrawerContent,
@@ -4585,6 +4775,12 @@ export {
   FormItem,
   FormLabel,
   FormMessage,
+  HeadingL,
+  HeadingM,
+  HeadingS,
+  HeadingXL,
+  HeadingXS,
+  HeadingXXS,
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
@@ -4704,8 +4900,11 @@ export {
   TooltipProvider,
   TooltipTrigger,
   badgeVariants,
+  bodyTextVariants,
   buttonVariants,
   cn,
+  displayTextVariants,
+  labelTextVariants,
   navigationMenuTriggerStyle,
   toggleVariants,
   useFormField,
