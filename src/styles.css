@@ -68,13 +68,6 @@
   --color-sage-light: var(--sage-light);
   --color-sage-normal: var(--sage-normal);
   --color-sage-dark: var(--sage-dark);
-
-  /* Custom warning color scale */
-  --color-warning-subtle: var(--warning-subtle);
-  --color-warning-light: var(--warning-light);
-  --color-warning-normal: var(--warning-normal);
-  --color-warning-vibrant: var(--warning-vibrant);
-  --color-warning-dark: var(--warning-dark);
 }
 
 :root {
@@ -142,13 +135,6 @@
   --sage-light: oklch(0.932 0.01726072052629843 164.64944629777187);
   --sage-normal: oklch(0.7506 0.034 163.9);
   --sage-dark: oklch(0.4323 0.0246 165.25);
-
-  /* Custom warning color scale */
-  --warning-subtle: oklch(0.9972 0.0134 106.64);
-  --warning-light: oklch(0.888 0.086 112.02);
-  --warning-normal: oklch(0.845 0.1914 115.53);
-  --warning-vibrant: oklch(0.7956 0.1807 115.58);
-  --warning-dark: oklch(0.473 0.0898 90.46);
 
   --gray-subtle: oklch(0.6722 0.0119 286.08);
 }
