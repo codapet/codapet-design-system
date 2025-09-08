@@ -551,10 +551,7 @@ export default function Home() {
                   <Label className="mb-2 block text-sm font-medium">
                     Search Input
                   </Label>
-                  <Input
-                    placeholder="Search..."
-                    leftIcon={<Search className="h-4 w-4" />}
-                  />
+                  <Input placeholder="Search..." leftIcon={<Search />} />
                 </div>
                 <div>
                   <Label className="mb-2 block text-sm font-medium">
@@ -563,7 +560,7 @@ export default function Home() {
                   <Input
                     type="email"
                     placeholder="Enter your email"
-                    leftIcon={<Mail className="h-4 w-4" />}
+                    leftIcon={<Mail />}
                   />
                 </div>
                 <div>
@@ -573,8 +570,8 @@ export default function Home() {
                   <Input
                     type="password"
                     placeholder="Enter password"
-                    leftIcon={<Lock className="h-4 w-4" />}
-                    rightIcon={<Eye className="h-4 w-4" />}
+                    leftIcon={<Lock />}
+                    rightIcon={<Eye />}
                   />
                 </div>
                 <div>
@@ -583,8 +580,8 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Username"
-                    leftIcon={<User className="h-4 w-4" />}
-                    rightIcon={<AlertCircle className="h-4 w-4" />}
+                    leftIcon={<User />}
+                    rightIcon={<AlertCircle />}
                   />
                 </div>
               </div>
@@ -623,7 +620,7 @@ export default function Home() {
                   <Input
                     type="tel"
                     placeholder="Enter phone number"
-                    leftIcon={<Phone className="h-4 w-4" />}
+                    leftIcon={<Phone />}
                   />
                 </div>
                 <div>
@@ -655,7 +652,7 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Custom icon background"
-                    leftIcon={<Search className="h-4 w-4" />}
+                    leftIcon={<Search />}
                     leftIconClassName="bg-primary/10 rounded-full p-1"
                   />
                   <p className="text-xs text-muted-foreground mt-1">
@@ -669,8 +666,8 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Different colored icons"
-                    leftIcon={<Mail className="h-4 w-4 text-blue-500" />}
-                    rightIcon={<Eye className="h-4 w-4 text-green-500" />}
+                    leftIcon={<Mail />}
+                    rightIcon={<Eye />}
                   />
                   <p className="text-xs text-muted-foreground mt-1">
                     Icons with custom colors: text-blue-500, text-green-500
@@ -694,8 +691,8 @@ export default function Home() {
                   <Input
                     size="sm"
                     placeholder="Small input with icons"
-                    leftIcon={<User className="h-3.5 w-3.5" />}
-                    rightIcon={<EyeOff className="h-3.5 w-3.5" />}
+                    leftIcon={<User />}
+                    rightIcon={<EyeOff />}
                   />
                 </div>
                 <div>
@@ -704,8 +701,8 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Medium input with icons"
-                    leftIcon={<Mail className="h-4 w-4" />}
-                    rightIcon={<AlertCircle className="h-4 w-4" />}
+                    leftIcon={<Mail />}
+                    rightIcon={<AlertCircle />}
                   />
                 </div>
                 <div>
@@ -715,8 +712,8 @@ export default function Home() {
                   <Input
                     size="lg"
                     placeholder="Large input with icons"
-                    leftIcon={<Search className="h-5 w-5" />}
-                    rightIcon={<Info className="h-5 w-5" />}
+                    leftIcon={<Search />}
+                    rightIcon={<Info />}
                   />
                 </div>
               </div>
@@ -737,7 +734,7 @@ export default function Home() {
                   <Input
                     size="sm"
                     placeholder="Small error input"
-                    leftIcon={<Mail className="h-3.5 w-3.5" />}
+                    leftIcon={<Mail />}
                     error={true}
                   />
                   <p className="text-xs text-destructive mt-1">
@@ -750,8 +747,8 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Medium error input"
-                    leftIcon={<Lock className="h-4 w-4" />}
-                    rightIcon={<AlertCircle className="h-4 w-4" />}
+                    leftIcon={<Lock />}
+                    rightIcon={<AlertCircle />}
                     error={true}
                   />
                   <p className="text-xs text-destructive mt-1">
@@ -765,7 +762,7 @@ export default function Home() {
                   <Input
                     size="lg"
                     placeholder="Large error input"
-                    leftIcon={<User className="h-5 w-5" />}
+                    leftIcon={<User />}
                     error={true}
                   />
                   <p className="text-xs text-destructive mt-1">
@@ -789,7 +786,7 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Enter your full name"
-                    leftIcon={<User className="h-4 w-4" />}
+                    leftIcon={<User />}
                   />
                 </div>
                 <div>
@@ -799,7 +796,7 @@ export default function Home() {
                   <Input
                     type="email"
                     placeholder="Enter your email"
-                    leftIcon={<Mail className="h-4 w-4" />}
+                    leftIcon={<Mail />}
                     error={true}
                   />
                   <p className="text-xs text-destructive mt-1">
@@ -813,8 +810,8 @@ export default function Home() {
                   <Input
                     type="password"
                     placeholder="Create a password"
-                    leftIcon={<Lock className="h-4 w-4" />}
-                    rightIcon={<Eye className="h-4 w-4" />}
+                    leftIcon={<Lock />}
+                    rightIcon={<Eye />}
                   />
                 </div>
                 <div>
@@ -824,7 +821,7 @@ export default function Home() {
                   <Input
                     type="tel"
                     placeholder="+1 (555) 123-4567"
-                    leftIcon={<Phone className="h-4 w-4" />}
+                    leftIcon={<Phone />}
                   />
                 </div>
                 <Button className="w-full">Create Account</Button>
@@ -932,10 +929,7 @@ export default function Home() {
                   <Label className="mb-2 block text-sm font-medium">
                     Search Input
                   </Label>
-                  <Input
-                    placeholder="Search..."
-                    leftIcon={<Search className="h-4 w-4" />}
-                  />
+                  <Input placeholder="Search..." leftIcon={<Search />} />
                 </div>
                 <div>
                   <Label className="mb-2 block text-sm font-medium">
@@ -944,7 +938,7 @@ export default function Home() {
                   <Input
                     type="email"
                     placeholder="Enter your email"
-                    leftIcon={<Mail className="h-4 w-4" />}
+                    leftIcon={<Mail />}
                   />
                 </div>
                 <div>
@@ -954,8 +948,8 @@ export default function Home() {
                   <Input
                     type="password"
                     placeholder="Enter password"
-                    leftIcon={<Lock className="h-4 w-4" />}
-                    rightIcon={<Eye className="h-4 w-4" />}
+                    leftIcon={<Lock />}
+                    rightIcon={<Eye />}
                   />
                 </div>
                 <div>
@@ -964,8 +958,8 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Username"
-                    leftIcon={<User className="h-4 w-4" />}
-                    rightIcon={<AlertCircle className="h-4 w-4" />}
+                    leftIcon={<User />}
+                    rightIcon={<AlertCircle />}
                   />
                 </div>
               </div>
@@ -1004,7 +998,7 @@ export default function Home() {
                   <Input
                     type="tel"
                     placeholder="Enter phone number"
-                    leftIcon={<Phone className="h-4 w-4" />}
+                    leftIcon={<Phone />}
                   />
                 </div>
                 <div>
@@ -1036,7 +1030,7 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Custom icon background"
-                    leftIcon={<Search className="h-4 w-4" />}
+                    leftIcon={<Search />}
                     leftIconClassName="bg-primary/10 rounded-full p-1"
                   />
                   <p className="text-xs text-muted-foreground mt-1">
@@ -1050,8 +1044,8 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Different colored icons"
-                    leftIcon={<Mail className="h-4 w-4 text-blue-500" />}
-                    rightIcon={<Eye className="h-4 w-4 text-green-500" />}
+                    leftIcon={<Mail />}
+                    rightIcon={<Eye />}
                   />
                   <p className="text-xs text-muted-foreground mt-1">
                     Icons with custom colors: text-blue-500, text-green-500
@@ -1075,8 +1069,8 @@ export default function Home() {
                   <Input
                     size="sm"
                     placeholder="Small input with icons"
-                    leftIcon={<User className="h-3.5 w-3.5" />}
-                    rightIcon={<EyeOff className="h-3.5 w-3.5" />}
+                    leftIcon={<User />}
+                    rightIcon={<EyeOff />}
                   />
                 </div>
                 <div>
@@ -1085,8 +1079,8 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Medium input with icons"
-                    leftIcon={<Mail className="h-4 w-4" />}
-                    rightIcon={<AlertCircle className="h-4 w-4" />}
+                    leftIcon={<Mail />}
+                    rightIcon={<AlertCircle />}
                   />
                 </div>
                 <div>
@@ -1096,8 +1090,8 @@ export default function Home() {
                   <Input
                     size="lg"
                     placeholder="Large input with icons"
-                    leftIcon={<Search className="h-5 w-5" />}
-                    rightIcon={<Info className="h-5 w-5" />}
+                    leftIcon={<Search />}
+                    rightIcon={<Info />}
                   />
                 </div>
               </div>
@@ -1118,7 +1112,7 @@ export default function Home() {
                   <Input
                     size="sm"
                     placeholder="Small error input"
-                    leftIcon={<Mail className="h-3.5 w-3.5" />}
+                    leftIcon={<Mail />}
                     error={true}
                   />
                   <p className="text-xs text-destructive mt-1">
@@ -1131,8 +1125,8 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Medium error input"
-                    leftIcon={<Lock className="h-4 w-4" />}
-                    rightIcon={<AlertCircle className="h-4 w-4" />}
+                    leftIcon={<Lock />}
+                    rightIcon={<AlertCircle />}
                     error={true}
                   />
                   <p className="text-xs text-destructive mt-1">
@@ -1146,7 +1140,7 @@ export default function Home() {
                   <Input
                     size="lg"
                     placeholder="Large error input"
-                    leftIcon={<User className="h-5 w-5" />}
+                    leftIcon={<User />}
                     error={true}
                   />
                   <p className="text-xs text-destructive mt-1">
@@ -1170,7 +1164,7 @@ export default function Home() {
                   </Label>
                   <Input
                     placeholder="Enter your full name"
-                    leftIcon={<User className="h-4 w-4" />}
+                    leftIcon={<User />}
                   />
                 </div>
                 <div>
@@ -1180,7 +1174,7 @@ export default function Home() {
                   <Input
                     type="email"
                     placeholder="Enter your email"
-                    leftIcon={<Mail className="h-4 w-4" />}
+                    leftIcon={<Mail />}
                     error={true}
                   />
                   <p className="text-xs text-destructive mt-1">
@@ -1194,8 +1188,8 @@ export default function Home() {
                   <Input
                     type="password"
                     placeholder="Create a password"
-                    leftIcon={<Lock className="h-4 w-4" />}
-                    rightIcon={<Eye className="h-4 w-4" />}
+                    leftIcon={<Lock />}
+                    rightIcon={<Eye />}
                   />
                 </div>
                 <div>
@@ -1205,7 +1199,7 @@ export default function Home() {
                   <Input
                     type="tel"
                     placeholder="+1 (555) 123-4567"
-                    leftIcon={<Phone className="h-4 w-4" />}
+                    leftIcon={<Phone />}
                   />
                 </div>
                 <Button className="w-full">Create Account</Button>
