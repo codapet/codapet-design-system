@@ -2283,30 +2283,134 @@ function HoverCardContent({
 }
 
 // src/components/ui/input.tsx
-import "react";
-import { jsx as jsx23 } from "react/jsx-runtime";
-function Input({ className, type, ...props }) {
-  return /* @__PURE__ */ jsx23(
-    "input",
-    {
-      type,
-      "data-slot": "input",
-      className: cn(
-        "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-12 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-        className
-      ),
-      ...props
+import { cva as cva5 } from "class-variance-authority";
+import * as React21 from "react";
+import { jsx as jsx23, jsxs as jsxs11 } from "react/jsx-runtime";
+var inputVariants = cva5(
+  [
+    // Base styles
+    "file:text-zinc-800 placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
+    "flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-200",
+    "outline-none font-sans",
+    // File input styles
+    "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
+    // Disabled styles
+    "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+    // Responsive text size
+    "md:text-sm",
+    // Default state
+    "border-zinc-300 bg-background",
+    // Hover state
+    "hover:border-brand-normal",
+    // Focus state
+    "focus:border-blue-500",
+    "active:border-brand-normal"
+  ],
+  {
+    variants: {
+      size: {
+        sm: "h-9 px-3 py-1 text-sm",
+        md: "h-10 px-3 py-2 text-sm",
+        lg: "h-12 px-4 py-3 text-base"
+      }
+    },
+    defaultVariants: {
+      size: "md"
     }
-  );
-}
+  }
+);
+var Input = React21.forwardRef(
+  ({
+    className,
+    type,
+    size,
+    leftIcon,
+    rightIcon,
+    leftIconClassName,
+    rightIconClassName,
+    error,
+    ...props
+  }, ref) => {
+    const errorStyles = error ? [
+      "border-destructive bg-red-subtle",
+      "focus:border-destructive focus:ring-destructive/20",
+      "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+    ] : [];
+    if (leftIcon || rightIcon) {
+      return /* @__PURE__ */ jsxs11("div", { className: "relative", children: [
+        /* @__PURE__ */ jsx23(
+          "input",
+          {
+            type,
+            "data-slot": "input",
+            className: cn(
+              inputVariants({ size }),
+              errorStyles,
+              "peer",
+              leftIcon && "pl-10",
+              rightIcon && "pr-10",
+              className
+            ),
+            ref,
+            "aria-invalid": error,
+            ...props
+          }
+        ),
+        leftIcon && /* @__PURE__ */ jsx23(
+          "div",
+          {
+            className: cn(
+              "pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center",
+              "transition-colors",
+              error ? "text-destructive peer-hover:text-destructive peer-focus:text-destructive peer-active:text-destructive" : "text-muted-foreground peer-hover:text-brand-normal peer-focus:text-blue-500 peer-active:text-brand-normal",
+              leftIconClassName
+            ),
+            children: React21.isValidElement(leftIcon) ? (() => {
+              const iconEl = leftIcon;
+              return React21.cloneElement(iconEl, {
+                className: cn("h-4 w-4", iconEl.props.className)
+              });
+            })() : leftIcon
+          }
+        ),
+        rightIcon && /* @__PURE__ */ jsx23(
+          "div",
+          {
+            className: cn(
+              "pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center",
+              "transition-colors",
+              rightIconClassName
+            ),
+            children: React21.isValidElement(rightIcon) ? (() => {
+              const iconEl = rightIcon;
+              return React21.cloneElement(iconEl, {
+                className: cn("h-4 w-4", iconEl.props.className)
+              });
+            })() : rightIcon
+          }
+        )
+      ] });
+    }
+    return /* @__PURE__ */ jsx23(
+      "input",
+      {
+        type,
+        "data-slot": "input",
+        className: cn(inputVariants({ size }), errorStyles, className),
+        ref,
+        "aria-invalid": error,
+        ...props
+      }
+    );
+  }
+);
+Input.displayName = "Input";
 
 // src/components/ui/input-otp.tsx
 import * as React22 from "react";
 import { OTPInput, OTPInputContext } from "input-otp";
 import { MinusIcon } from "lucide-react";
-import { jsx as jsx24, jsxs as jsxs11 } from "react/jsx-runtime";
+import { jsx as jsx24, jsxs as jsxs12 } from "react/jsx-runtime";
 function InputOTP({
   className,
   containerClassName,
@@ -2342,7 +2446,7 @@ function InputOTPSlot({
 }) {
   const inputOTPContext = React22.useContext(OTPInputContext);
   const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
-  return /* @__PURE__ */ jsxs11(
+  return /* @__PURE__ */ jsxs12(
     "div",
     {
       "data-slot": "input-otp-slot",
@@ -2367,7 +2471,7 @@ function InputOTPSeparator({ ...props }) {
 import "react";
 import * as MenubarPrimitive from "@radix-ui/react-menubar";
 import { CheckIcon as CheckIcon4, ChevronRightIcon as ChevronRightIcon4, CircleIcon as CircleIcon3 } from "lucide-react";
-import { jsx as jsx25, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx25, jsxs as jsxs13 } from "react/jsx-runtime";
 function Menubar({
   className,
   ...props
@@ -2468,7 +2572,7 @@ function MenubarCheckboxItem({
   checked,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs12(
+  return /* @__PURE__ */ jsxs13(
     MenubarPrimitive.CheckboxItem,
     {
       "data-slot": "menubar-checkbox-item",
@@ -2490,7 +2594,7 @@ function MenubarRadioItem({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs12(
+  return /* @__PURE__ */ jsxs13(
     MenubarPrimitive.RadioItem,
     {
       "data-slot": "menubar-radio-item",
@@ -2564,7 +2668,7 @@ function MenubarSubTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs12(
+  return /* @__PURE__ */ jsxs13(
     MenubarPrimitive.SubTrigger,
     {
       "data-slot": "menubar-sub-trigger",
@@ -2601,16 +2705,16 @@ function MenubarSubContent({
 // src/components/ui/navigation-menu.tsx
 import "react";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
-import { cva as cva5 } from "class-variance-authority";
+import { cva as cva6 } from "class-variance-authority";
 import { ChevronDownIcon as ChevronDownIcon3 } from "lucide-react";
-import { jsx as jsx26, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx26, jsxs as jsxs14 } from "react/jsx-runtime";
 function NavigationMenu({
   className,
   children,
   viewport = true,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs13(
+  return /* @__PURE__ */ jsxs14(
     NavigationMenuPrimitive.Root,
     {
       "data-slot": "navigation-menu",
@@ -2656,7 +2760,7 @@ function NavigationMenuItem({
     }
   );
 }
-var navigationMenuTriggerStyle = cva5(
+var navigationMenuTriggerStyle = cva6(
   "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1"
 );
 function NavigationMenuTrigger({
@@ -2664,7 +2768,7 @@ function NavigationMenuTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs13(
+  return /* @__PURE__ */ jsxs14(
     NavigationMenuPrimitive.Trigger,
     {
       "data-slot": "navigation-menu-trigger",
@@ -2766,7 +2870,7 @@ import {
   ChevronRightIcon as ChevronRightIcon5,
   MoreHorizontalIcon
 } from "lucide-react";
-import { jsx as jsx27, jsxs as jsxs14 } from "react/jsx-runtime";
+import { jsx as jsx27, jsxs as jsxs15 } from "react/jsx-runtime";
 function Pagination({ className, ...props }) {
   return /* @__PURE__ */ jsx27(
     "nav",
@@ -2822,7 +2926,7 @@ function PaginationPrevious({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs14(
+  return /* @__PURE__ */ jsxs15(
     PaginationLink,
     {
       "aria-label": "Go to previous page",
@@ -2840,7 +2944,7 @@ function PaginationNext({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs14(
+  return /* @__PURE__ */ jsxs15(
     PaginationLink,
     {
       "aria-label": "Go to next page",
@@ -2858,7 +2962,7 @@ function PaginationEllipsis({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs14(
+  return /* @__PURE__ */ jsxs15(
     "span",
     {
       "aria-hidden": true,
@@ -3034,13 +3138,13 @@ function ResizableHandle({
 // src/components/ui/scroll-area.tsx
 import "react";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
-import { jsx as jsx32, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx32, jsxs as jsxs16 } from "react/jsx-runtime";
 function ScrollArea({
   className,
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs15(
+  return /* @__PURE__ */ jsxs16(
     ScrollAreaPrimitive.Root,
     {
       "data-slot": "scroll-area",
@@ -3093,7 +3197,7 @@ function ScrollBar({
 import "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { CheckIcon as CheckIcon5, ChevronDownIcon as ChevronDownIcon4, ChevronUpIcon } from "lucide-react";
-import { jsx as jsx33, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx33, jsxs as jsxs17 } from "react/jsx-runtime";
 function Select({
   ...props
 }) {
@@ -3115,7 +3219,7 @@ function SelectTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs16(
+  return /* @__PURE__ */ jsxs17(
     SelectPrimitive.Trigger,
     {
       "data-slot": "select-trigger",
@@ -3138,7 +3242,7 @@ function SelectContent({
   position = "popper",
   ...props
 }) {
-  return /* @__PURE__ */ jsx33(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs16(
+  return /* @__PURE__ */ jsx33(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs17(
     SelectPrimitive.Content,
     {
       "data-slot": "select-content",
@@ -3184,7 +3288,7 @@ function SelectItem({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs16(
+  return /* @__PURE__ */ jsxs17(
     SelectPrimitive.Item,
     {
       "data-slot": "select-item",
@@ -3277,7 +3381,7 @@ function Separator5({
 import "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { XIcon as XIcon2 } from "lucide-react";
-import { jsx as jsx35, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx35, jsxs as jsxs18 } from "react/jsx-runtime";
 function Sheet({ ...props }) {
   return /* @__PURE__ */ jsx35(SheetPrimitive.Root, { "data-slot": "sheet", ...props });
 }
@@ -3318,9 +3422,9 @@ function SheetContent({
   side = "right",
   ...props
 }) {
-  return /* @__PURE__ */ jsxs17(SheetPortal, { children: [
+  return /* @__PURE__ */ jsxs18(SheetPortal, { children: [
     /* @__PURE__ */ jsx35(SheetOverlay, {}),
-    /* @__PURE__ */ jsxs17(
+    /* @__PURE__ */ jsxs18(
       SheetPrimitive.Content,
       {
         "data-slot": "sheet-content",
@@ -3335,7 +3439,7 @@ function SheetContent({
         ...props,
         children: [
           children,
-          /* @__PURE__ */ jsxs17(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
+          /* @__PURE__ */ jsxs18(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
             /* @__PURE__ */ jsx35(XIcon2, { className: "size-4" }),
             /* @__PURE__ */ jsx35("span", { className: "sr-only", children: "Close" })
           ] })
@@ -3394,7 +3498,7 @@ function SheetDescription({
 // src/components/ui/sidebar.tsx
 import * as React36 from "react";
 import { Slot as Slot6 } from "@radix-ui/react-slot";
-import { cva as cva6 } from "class-variance-authority";
+import { cva as cva7 } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
 
 // src/hooks/use-mobile.ts
@@ -3430,7 +3534,7 @@ function Skeleton({ className, ...props }) {
 // src/components/ui/tooltip.tsx
 import "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { jsx as jsx37, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx37, jsxs as jsxs19 } from "react/jsx-runtime";
 function TooltipProvider({
   delayDuration = 0,
   ...props
@@ -3460,7 +3564,7 @@ function TooltipContent({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs18(
+  return /* @__PURE__ */ jsx37(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs19(
     TooltipPrimitive.Content,
     {
       "data-slot": "tooltip-content",
@@ -3479,7 +3583,7 @@ function TooltipContent({
 }
 
 // src/components/ui/sidebar.tsx
-import { jsx as jsx38, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx38, jsxs as jsxs20 } from "react/jsx-runtime";
 var SIDEBAR_COOKIE_NAME = "sidebar_state";
 var SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 var SIDEBAR_WIDTH = "16rem";
@@ -3587,7 +3691,7 @@ function Sidebar({
     );
   }
   if (isMobile) {
-    return /* @__PURE__ */ jsx38(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: /* @__PURE__ */ jsxs19(
+    return /* @__PURE__ */ jsx38(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: /* @__PURE__ */ jsxs20(
       SheetContent,
       {
         "data-sidebar": "sidebar",
@@ -3599,7 +3703,7 @@ function Sidebar({
         },
         side,
         children: [
-          /* @__PURE__ */ jsxs19(SheetHeader, { className: "sr-only", children: [
+          /* @__PURE__ */ jsxs20(SheetHeader, { className: "sr-only", children: [
             /* @__PURE__ */ jsx38(SheetTitle, { children: "Sidebar" }),
             /* @__PURE__ */ jsx38(SheetDescription, { children: "Displays the mobile sidebar." })
           ] }),
@@ -3608,7 +3712,7 @@ function Sidebar({
       }
     ) });
   }
-  return /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsxs20(
     "div",
     {
       className: "group peer text-sidebar-foreground hidden md:block",
@@ -3663,7 +3767,7 @@ function SidebarTrigger({
   ...props
 }) {
   const { toggleSidebar } = useSidebar();
-  return /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsxs20(
     Button,
     {
       "data-sidebar": "trigger",
@@ -3874,7 +3978,7 @@ function SidebarMenuItem({ className, ...props }) {
     }
   );
 }
-var sidebarMenuButtonVariants = cva6(
+var sidebarMenuButtonVariants = cva7(
   "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
@@ -3924,7 +4028,7 @@ function SidebarMenuButton({
       children: tooltip
     };
   }
-  return /* @__PURE__ */ jsxs19(Tooltip2, { children: [
+  return /* @__PURE__ */ jsxs20(Tooltip2, { children: [
     /* @__PURE__ */ jsx38(TooltipTrigger, { asChild: true, children: button }),
     /* @__PURE__ */ jsx38(
       TooltipContent,
@@ -3994,7 +4098,7 @@ function SidebarMenuSkeleton({
   const width = React36.useMemo(() => {
     return `${Math.floor(Math.random() * 40) + 50}%`;
   }, []);
-  return /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsxs20(
     "div",
     {
       "data-slot": "sidebar-menu-skeleton",
@@ -4083,7 +4187,7 @@ function SidebarMenuSubButton({
 // src/components/ui/slider.tsx
 import * as React37 from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { jsx as jsx39, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx39, jsxs as jsxs21 } from "react/jsx-runtime";
 function Slider({
   className,
   defaultValue,
@@ -4096,7 +4200,7 @@ function Slider({
     () => Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max],
     [value, defaultValue, min, max]
   );
-  return /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsxs21(
     SliderPrimitive.Root,
     {
       "data-slot": "slider",
@@ -4381,9 +4485,9 @@ function Textarea({ className, ...props }) {
 // src/components/ui/toggle.tsx
 import "react";
 import * as TogglePrimitive from "@radix-ui/react-toggle";
-import { cva as cva7 } from "class-variance-authority";
+import { cva as cva8 } from "class-variance-authority";
 import { jsx as jsx45 } from "react/jsx-runtime";
-var toggleVariants = cva7(
+var toggleVariants = cva8(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
   {
     variants: {
@@ -4477,180 +4581,6 @@ function ToggleGroupItem({
     }
   );
 }
-
-// src/components/ui/typography.tsx
-import { Slot as Slot7 } from "@radix-ui/react-slot";
-import { cva as cva8 } from "class-variance-authority";
-import "react";
-import { jsx as jsx47 } from "react/jsx-runtime";
-var displayTextVariants = cva8(
-  "tracking-normal font-normal leading-none text-brand-dark font-serif italic",
-  {
-    variants: {
-      size: {
-        md: "text-[1.75rem] md:text-4xl leading-[2.75rem] md:leading-[4rem]",
-        sm: "text-lg md:text-xl leading-[2.5rem] md:leading-[3rem]",
-        lg: "text-4xl md:text-[3.25rem] leading-[4rem] md:leading-[5rem]"
-      }
-    },
-    defaultVariants: {
-      size: "md"
-    }
-  }
-);
-function DisplayHeading({
-  className,
-  size,
-  asChild = false,
-  ...props
-}) {
-  const Comp = asChild ? Slot7 : "h1";
-  return /* @__PURE__ */ jsx47(
-    Comp,
-    {
-      "data-slot": "h1",
-      className: cn(displayTextVariants({ size, className })),
-      ...props
-    }
-  );
-}
-var bodyTextVariants = cva8("font-sans ", {
-  variants: {
-    size: {
-      lg: "text-lg md:text-xl leading-[1.625rem] md:leading-[1.75rem]",
-      md: "text-base  leading-[1.5rem] ",
-      sm: "text-sm  leading-[1.25rem] ",
-      xs: "text-xs leading-[1rem]"
-    }
-  },
-  defaultVariants: {
-    size: "md"
-  }
-});
-function Body({
-  className,
-  size,
-  asChild = false,
-  ...props
-}) {
-  const Comp = asChild ? Slot7 : "p";
-  return /* @__PURE__ */ jsx47(
-    Comp,
-    {
-      "data-slot": "h1",
-      className: cn(bodyTextVariants({ size, className })),
-      ...props
-    }
-  );
-}
-function HeadingXL({
-  className,
-  asChild = false,
-  ...props
-}) {
-  const Comp = asChild ? Slot7 : "h1";
-  return /* @__PURE__ */ jsx47(
-    Comp,
-    {
-      "data-slot": "h1",
-      className: cn(
-        "text-2xl md:text-[2rem] md:leading-[2.5rem] leading-[2rem] font-semibold font-sans",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function HeadingL({
-  className,
-  asChild = false,
-  ...props
-}) {
-  const Comp = asChild ? Slot7 : "h2";
-  return /* @__PURE__ */ jsx47(
-    Comp,
-    {
-      "data-slot": "h2",
-      className: cn(
-        "md:text-[1.5rem] text-[1.25rem] md:leading-[2rem] leading-[1.75rem] font-semibold font-sans",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function HeadingM({
-  className,
-  asChild = false,
-  ...props
-}) {
-  const Comp = asChild ? Slot7 : "h3";
-  return /* @__PURE__ */ jsx47(
-    Comp,
-    {
-      "data-slot": "h3",
-      className: cn(
-        "text-[1.125rem] md:text-xl md:leading-[1.75rem] leading-[1.625rem] font-semibold font-sans",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function HeadingS({
-  className,
-  asChild = false,
-  ...props
-}) {
-  const Comp = asChild ? Slot7 : "h4";
-  return /* @__PURE__ */ jsx47(
-    Comp,
-    {
-      "data-slot": "h4",
-      className: cn(
-        "text-base leading-[1.5rem] font-semibold font-sans",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function HeadingXS({
-  className,
-  asChild = false,
-  ...props
-}) {
-  const Comp = asChild ? Slot7 : "h5";
-  return /* @__PURE__ */ jsx47(
-    Comp,
-    {
-      "data-slot": "h5",
-      className: cn(
-        "text-sm  leading-[1.25rem] font-semibold font-sans",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function HeadingXXS({
-  className,
-  asChild = false,
-  ...props
-}) {
-  const Comp = asChild ? Slot7 : "h6";
-  return /* @__PURE__ */ jsx47(
-    Comp,
-    {
-      "data-slot": "h5",
-      className: cn(
-        "text-xs leading-[1rem]  font-semibold font-sans",
-        className
-      ),
-      ...props
-    }
-  );
-}
 export {
   Accordion,
   AccordionContent,
@@ -4675,7 +4605,6 @@ export {
   AvatarFallback,
   AvatarImage,
   Badge,
-  Body,
   Breadcrumb,
   BreadcrumbEllipsis,
   BreadcrumbItem,
@@ -4742,7 +4671,6 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-  DisplayHeading,
   Drawer,
   DrawerClose,
   DrawerContent,
@@ -4775,12 +4703,6 @@ export {
   FormItem,
   FormLabel,
   FormMessage,
-  HeadingL,
-  HeadingM,
-  HeadingS,
-  HeadingXL,
-  HeadingXS,
-  HeadingXXS,
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
@@ -4900,10 +4822,9 @@ export {
   TooltipProvider,
   TooltipTrigger,
   badgeVariants,
-  bodyTextVariants,
   buttonVariants,
   cn,
-  displayTextVariants,
+  inputVariants,
   labelTextVariants,
   navigationMenuTriggerStyle,
   toggleVariants,
