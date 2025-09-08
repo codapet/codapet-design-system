@@ -905,15 +905,6 @@ export default function Home() {
                   </Label>
                   <Input placeholder="Disabled input" disabled />
                 </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Focus State
-                  </Label>
-                  <Input placeholder="Focus to see ring effect" />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Click to see focus ring
-                  </p>
-                </div>
               </div>
             </div>
 

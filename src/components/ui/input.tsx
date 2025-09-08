@@ -74,22 +74,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     if (leftIcon || rightIcon) {
       return (
         <div className="relative">
-          {leftIcon && (
-            <div
-              className={cn(
-                'absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none flex items-center justify-center',
-                leftIconClassName
-              )}
-            >
-              {leftIcon}
-            </div>
-          )}
           <input
             type={type}
             data-slot="input"
             className={cn(
               inputVariants({ size }),
               errorStyles,
+              'peer',
               leftIcon && 'pl-10',
               rightIcon && 'pr-10',
               className
@@ -98,14 +89,48 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             aria-invalid={error}
             {...props}
           />
+          {leftIcon && (
+            <div
+              className={cn(
+                'pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center',
+                'transition-colors',
+                error
+                  ? 'text-destructive peer-hover:text-destructive peer-focus:text-destructive peer-active:text-destructive'
+                  : 'text-muted-foreground peer-hover:text-brand-normal peer-focus:text-blue-500 peer-active:text-brand-normal',
+                leftIconClassName
+              )}
+            >
+              {React.isValidElement(leftIcon)
+                ? (() => {
+                    const iconEl = leftIcon as React.ReactElement<{
+                      className?: string
+                    }>
+                    return React.cloneElement(iconEl, {
+                      className: cn('h-4 w-4', iconEl.props.className)
+                    })
+                  })()
+                : leftIcon}
+            </div>
+          )}
           {rightIcon && (
             <div
               className={cn(
-                'absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none flex items-center justify-center',
+                'pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center',
+                'transition-colors',
+
                 rightIconClassName
               )}
             >
-              {rightIcon}
+              {React.isValidElement(rightIcon)
+                ? (() => {
+                    const iconEl = rightIcon as React.ReactElement<{
+                      className?: string
+                    }>
+                    return React.cloneElement(iconEl, {
+                      className: cn('h-4 w-4', iconEl.props.className)
+                    })
+                  })()
+                : rightIcon}
             </div>
           )}
         </div>
