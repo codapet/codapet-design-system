@@ -1,18 +1,69 @@
-import * as React from "react"
+import { cva, type VariantProps } from 'class-variance-authority'
+import * as React from 'react'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
-function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
-  return (
-    <textarea
-      data-slot="textarea"
-      className={cn(
-        "border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        className
-      )}
-      {...props}
-    />
-  )
+const textareaVariants = cva(
+  [
+    // Base styles aligned with Input
+    'placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground',
+    'flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-200',
+    'outline-none font-sans',
+    // Disabled
+    'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
+    // Responsive text size
+    'md:text-sm',
+    // Default state
+    'border-zinc-300 bg-background',
+    // Hover/Focus/Active states
+    'hover:border-brand-normal',
+    'focus:border-blue-500',
+    'active:border-brand-normal',
+    // Textarea specific
+    'field-sizing-content min-h-16 resize-y'
+  ],
+  {
+    variants: {
+      size: {
+        sm: 'px-3 py-1 text-sm',
+        md: 'px-3 py-2 text-sm',
+        lg: 'px-4 py-3 text-base'
+      }
+    },
+    defaultVariants: {
+      size: 'md'
+    }
+  }
+)
+
+interface TextareaProps
+  extends Omit<React.ComponentProps<'textarea'>, 'size'>,
+    VariantProps<typeof textareaVariants> {
+  error?: boolean
 }
 
-export { Textarea }
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ className, size, error, ...props }, ref) => {
+    const errorStyles = error
+      ? [
+          'border-destructive bg-red-subtle',
+          'focus:border-destructive focus:ring-destructive/20',
+          'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
+        ]
+      : []
+
+    return (
+      <textarea
+        data-slot="textarea"
+        className={cn(textareaVariants({ size }), errorStyles, className)}
+        aria-invalid={error}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+
+Textarea.displayName = 'Textarea'
+
+export { Textarea, textareaVariants }

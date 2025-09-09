@@ -830,71 +830,66 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        {/* Input Components Showcase */}
+        {/* Textarea Components Showcase */}
         <Card className="mb-16">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <div className="p-2 bg-blue-500/10 rounded-lg">
-                <AlertCircle className="h-5 w-5 text-blue-500" />
+              <div className="p-2 bg-emerald-500/10 rounded-lg">
+                <AlertCircle className="h-5 w-5 text-emerald-500" />
               </div>
-              Input Components
+              Textarea Components
             </CardTitle>
             <CardDescription>
-              Comprehensive input component with various states, sizes, and icon
-              support
+              Textarea variants for sizes and common states
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
-            {/* Basic Input Sizes */}
+            {/* Basic Textarea Sizes */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Input Sizes
+                Textarea Sizes
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <Label className="mb-2 block text-sm font-medium">
-                    Small Input
+                    Small Textarea
                   </Label>
-                  <Input size="sm" placeholder="Small input field" />
+                  <Textarea size="sm" placeholder="Small textarea field" />
                 </div>
                 <div>
                   <Label className="mb-2 block text-sm font-medium">
-                    Medium Input (Default)
+                    Medium Textarea (Default)
                   </Label>
-                  <Input placeholder="Medium input field" />
+                  <Textarea placeholder="Medium textarea field" />
                 </div>
                 <div>
                   <Label className="mb-2 block text-sm font-medium">
-                    Large Input
+                    Large Textarea
                   </Label>
-                  <Input size="lg" placeholder="Large input field" />
+                  <Textarea size="lg" placeholder="Large textarea field" />
                 </div>
               </div>
             </div>
 
             <Separator />
 
-            {/* Input States */}
+            {/* Textarea States */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Input States
+                Textarea States
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label className="mb-2 block text-sm font-medium">
                     Default State
                   </Label>
-                  <Input placeholder="Default input state" />
+                  <Textarea placeholder="Default textarea state" />
                 </div>
                 <div>
                   <Label className="mb-2 block text-sm font-medium">
                     Error State
                   </Label>
-                  <Input
-                    placeholder="Error input state"
-                    error={true}
-                    aria-describedby="error-message"
-                  />
+                  <Textarea placeholder="Error textarea state" error={true} />
                   <p className="text-sm text-destructive mt-1">
                     This field is required
                   </p>
@@ -903,297 +898,8 @@ export default function Home() {
                   <Label className="mb-2 block text-sm font-medium">
                     Disabled State
                   </Label>
-                  <Input placeholder="Disabled input" disabled />
+                  <Textarea placeholder="Disabled textarea" disabled />
                 </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Inputs with Icons */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Inputs with Icons
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Search Input
-                  </Label>
-                  <Input placeholder="Search..." leftIcon={<Search />} />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Email Input
-                  </Label>
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    leftIcon={<Mail />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Password Input
-                  </Label>
-                  <Input
-                    type="password"
-                    placeholder="Enter password"
-                    leftIcon={<Lock />}
-                    rightIcon={<Eye />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    User Input
-                  </Label>
-                  <Input
-                    placeholder="Username"
-                    leftIcon={<User />}
-                    rightIcon={<AlertCircle />}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Different Input Types */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Input Types
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Text Input
-                  </Label>
-                  <Input type="text" placeholder="Enter text" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Number Input
-                  </Label>
-                  <Input type="number" placeholder="Enter number" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Email Input
-                  </Label>
-                  <Input type="email" placeholder="Enter email" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Phone Input
-                  </Label>
-                  <Input
-                    type="tel"
-                    placeholder="Enter phone number"
-                    leftIcon={<Phone />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Date Input
-                  </Label>
-                  <Input type="date" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Time Input
-                  </Label>
-                  <Input type="time" />
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Icon Styling Control */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Custom Icon Styling
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Custom Icon Container
-                  </Label>
-                  <Input
-                    placeholder="Custom icon background"
-                    leftIcon={<Search />}
-                    leftIconClassName="bg-primary/10 rounded-full p-1"
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Using leftIconClassName=&quot;bg-primary/10 rounded-full
-                    p-1&quot;
-                  </p>
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Colored Icons
-                  </Label>
-                  <Input
-                    placeholder="Different colored icons"
-                    leftIcon={<Mail />}
-                    rightIcon={<Eye />}
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Icons with custom colors: text-blue-500, text-green-500
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Size Combinations with Icons */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Size Variants with Icons
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Small with Icons
-                  </Label>
-                  <Input
-                    size="sm"
-                    placeholder="Small input with icons"
-                    leftIcon={<User />}
-                    rightIcon={<EyeOff />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Medium with Icons
-                  </Label>
-                  <Input
-                    placeholder="Medium input with icons"
-                    leftIcon={<Mail />}
-                    rightIcon={<AlertCircle />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Large with Icons
-                  </Label>
-                  <Input
-                    size="lg"
-                    placeholder="Large input with icons"
-                    leftIcon={<Search />}
-                    rightIcon={<Info />}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Error States with Icons */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Error States
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Small Error Input
-                  </Label>
-                  <Input
-                    size="sm"
-                    placeholder="Small error input"
-                    leftIcon={<Mail />}
-                    error={true}
-                  />
-                  <p className="text-xs text-destructive mt-1">
-                    Please enter a valid email address
-                  </p>
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Medium Error Input
-                  </Label>
-                  <Input
-                    placeholder="Medium error input"
-                    leftIcon={<Lock />}
-                    rightIcon={<AlertCircle />}
-                    error={true}
-                  />
-                  <p className="text-xs text-destructive mt-1">
-                    Password must be at least 8 characters
-                  </p>
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Large Error Input
-                  </Label>
-                  <Input
-                    size="lg"
-                    placeholder="Large error input"
-                    leftIcon={<User />}
-                    error={true}
-                  />
-                  <p className="text-xs text-destructive mt-1">
-                    Username is already taken
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Complete Form Example */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Complete Form Example
-              </h3>
-              <div className="space-y-4 max-w-md">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Full Name
-                  </Label>
-                  <Input
-                    placeholder="Enter your full name"
-                    leftIcon={<User />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Email Address
-                  </Label>
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    leftIcon={<Mail />}
-                    error={true}
-                  />
-                  <p className="text-xs text-destructive mt-1">
-                    Please enter a valid email address
-                  </p>
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Password
-                  </Label>
-                  <Input
-                    type="password"
-                    placeholder="Create a password"
-                    leftIcon={<Lock />}
-                    rightIcon={<Eye />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Phone Number
-                  </Label>
-                  <Input
-                    type="tel"
-                    placeholder="+1 (555) 123-4567"
-                    leftIcon={<Phone />}
-                  />
-                </div>
-                <Button className="w-full">Create Account</Button>
               </div>
             </div>
           </CardContent>
