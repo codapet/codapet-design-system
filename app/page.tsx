@@ -844,30 +844,16 @@ export default function Home() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
-            {/* Basic Textarea Sizes */}
+            {/* Basic Textarea */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Textarea Sizes
+                Textarea
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Small Textarea
-                  </Label>
-                  <Textarea size="sm" placeholder="Small textarea field" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Medium Textarea (Default)
-                  </Label>
-                  <Textarea placeholder="Medium textarea field" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Large Textarea
-                  </Label>
-                  <Textarea size="lg" placeholder="Large textarea field" />
-                </div>
+              <div>
+                <Label className="mb-2 block text-sm font-medium">
+                  Default
+                </Label>
+                <Textarea placeholder="Textarea field" />
               </div>
             </div>
 
