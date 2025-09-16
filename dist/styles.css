@@ -68,6 +68,12 @@
   --color-sage-light: var(--sage-light);
   --color-sage-normal: var(--sage-normal);
   --color-sage-dark: var(--sage-dark);
+
+  /* Icon disabled */
+  --color-icon-disabled: var(--icon-disabled);
+
+  /* Surface default */
+  --color-surface-default: var(--surface-default);
 }
 
 :root {
@@ -137,6 +143,8 @@
   --sage-dark: oklch(0.4323 0.0246 165.25);
 
   --gray-subtle: oklch(0.6722 0.0119 286.08);
+  --icon-disabled: oklch(0.8686 0.0216 252.51);
+  --surface-default: oklch(0.8711 0.0055 286.29);
 }
 
 .dark {
