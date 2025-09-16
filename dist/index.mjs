@@ -150,11 +150,11 @@ var buttonVariants = cva2(
         secondary: "bg-brand-subtle text-brand-vibrant hover:bg-brand-light border border-brand-light active:bg-icon-disabled",
         tertiary: "bg-zinc-100 text-zinc-700 hover:bg-zinc-300 hover:border-zinc-300 border border-zinc-200 active:bg-zinc-400",
         outline: "text-zinc-800 border bg-background hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 active:bg-surface-default",
-        ghost: "text-zinc-800 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
-        destructive: "bg-red-400 text-white hover:bg-red-900 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        "destructive-secondary": "bg-red-50 border border-red-200 text-red-400 hover:border-red-400 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        "destructive-tertiary": "bg-transparent border border-red-200 text-red-400 hover:border-red-200 hover:bg-red-50 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60"
+        ghost: "text-zinc-800 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-surface-default",
+        link: "text-primary underline-offset-4 hover:underline active:bg-surface-light",
+        destructive: "bg-red-400 text-white hover:bg-red-900 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-surface-dark",
+        "destructive-secondary": "bg-red-50 border border-red-200 text-red-400 hover:border-red-400 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100",
+        "destructive-tertiary": "bg-transparent border border-red-200 text-red-400 hover:border-red-200 hover:bg-red-50 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100"
       },
       size: {
         md: "h-10 px-4 py-2 has-[>svg]:px-3 text-lg",
