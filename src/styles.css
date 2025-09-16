@@ -50,6 +50,8 @@
   --color-brand-dark: var(--brand-dark);
 
   --color-gray-subtle: var(--gray-subtle);
+  --color-surface-light: var(--surface-light);
+  --color-surface-default: var(--surface-default);
 
   /* Custom Sand Colors */
   --color-sand-light: var(--sand-light);
@@ -63,6 +65,7 @@
 
   /* Red accent */
   --color-red-subtle: var(--red-subtle);
+  --color-red-surface-dark: var(--red-surface-dark);
 
   /* Sage accent */
   --color-sage-light: var(--sage-light);
@@ -133,6 +136,7 @@
 
   /* Custom red accent */
   --red-subtle: oklch(0.9903 0.003 17.21);
+  --red-surface-dark: oklch(0.3967 0.1408 25.71);
 
   /* Sage accent */
   --sage-light: oklch(0.932 0.01726072052629843 164.64944629777187);
@@ -141,6 +145,8 @@
 
   --gray-subtle: oklch(0.6722 0.0119 286.08);
   --icon-disabled: oklch(0.8686 0.0216 252.51);
+  --surface-light: oklch(0.9397 0.0149 251.16);
+  --surface-default: oklch(0.8711 0.0055 286.29);
 }
 
 .dark {
