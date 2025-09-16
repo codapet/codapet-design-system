@@ -71,9 +71,6 @@
 
   /* Icon disabled */
   --color-icon-disabled: var(--icon-disabled);
-
-  /* Surface default */
-  --color-surface-default: var(--surface-default);
 }
 
 :root {
@@ -144,7 +141,6 @@
 
   --gray-subtle: oklch(0.6722 0.0119 286.08);
   --icon-disabled: oklch(0.8686 0.0216 252.51);
-  --surface-default: oklch(0.8711 0.0055 286.29);
 }
 
 .dark {
