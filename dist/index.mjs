@@ -4606,6 +4606,180 @@ function ToggleGroupItem({
     }
   );
 }
+
+// src/components/ui/typography.tsx
+import { Slot as Slot7 } from "@radix-ui/react-slot";
+import { cva as cva9 } from "class-variance-authority";
+import "react";
+import { jsx as jsx47 } from "react/jsx-runtime";
+var displayTextVariants = cva9(
+  "tracking-normal font-normal leading-none text-brand-dark font-serif italic",
+  {
+    variants: {
+      size: {
+        md: "text-[1.75rem] md:text-4xl leading-[2.75rem] md:leading-[4rem]",
+        sm: "text-lg md:text-xl leading-[2.5rem] md:leading-[3rem]",
+        lg: "text-4xl md:text-[3.25rem] leading-[4rem] md:leading-[5rem]"
+      }
+    },
+    defaultVariants: {
+      size: "md"
+    }
+  }
+);
+function DisplayHeading({
+  className,
+  size,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h1";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h1",
+      className: cn(displayTextVariants({ size, className })),
+      ...props
+    }
+  );
+}
+var bodyTextVariants = cva9("font-sans ", {
+  variants: {
+    size: {
+      lg: "text-lg md:text-xl leading-[1.625rem] md:leading-[1.75rem]",
+      md: "text-base  leading-[1.5rem] ",
+      sm: "text-sm  leading-[1.25rem] ",
+      xs: "text-xs leading-[1rem]"
+    }
+  },
+  defaultVariants: {
+    size: "md"
+  }
+});
+function Body({
+  className,
+  size,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "p";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h1",
+      className: cn(bodyTextVariants({ size, className })),
+      ...props
+    }
+  );
+}
+function HeadingXL({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h1";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h1",
+      className: cn(
+        "text-2xl md:text-[2rem] md:leading-[2.5rem] leading-[2rem] font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingL({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h2";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h2",
+      className: cn(
+        "md:text-[1.5rem] text-[1.25rem] md:leading-[2rem] leading-[1.75rem] font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingM({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h3";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h3",
+      className: cn(
+        "text-[1.125rem] md:text-xl md:leading-[1.75rem] leading-[1.625rem] font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingS({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h4";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h4",
+      className: cn(
+        "text-base leading-[1.5rem] font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingXS({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h5";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h5",
+      className: cn(
+        "text-sm  leading-[1.25rem] font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingXXS({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h6";
+  return /* @__PURE__ */ jsx47(
+    Comp,
+    {
+      "data-slot": "h5",
+      className: cn(
+        "text-xs leading-[1rem]  font-semibold font-sans",
+        className
+      ),
+      ...props
+    }
+  );
+}
 export {
   Accordion,
   AccordionContent,
@@ -4630,6 +4804,7 @@ export {
   AvatarFallback,
   AvatarImage,
   Badge,
+  Body,
   Breadcrumb,
   BreadcrumbEllipsis,
   BreadcrumbItem,
@@ -4696,6 +4871,7 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  DisplayHeading,
   Drawer,
   DrawerClose,
   DrawerContent,
@@ -4728,6 +4904,12 @@ export {
   FormItem,
   FormLabel,
   FormMessage,
+  HeadingL,
+  HeadingM,
+  HeadingS,
+  HeadingXL,
+  HeadingXS,
+  HeadingXXS,
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
@@ -4847,8 +5029,10 @@ export {
   TooltipProvider,
   TooltipTrigger,
   badgeVariants,
+  bodyTextVariants,
   buttonVariants,
   cn,
+  displayTextVariants,
   inputVariants,
   labelTextVariants,
   navigationMenuTriggerStyle,
