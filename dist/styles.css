@@ -149,7 +149,6 @@
 
   /* Custom red accent */
   --red-subtle: oklch(0.9903 0.003 17.21);
-  --red-surface-dark: oklch(0.3967 0.1408 25.71);
 
   /* Sage accent */
   --sage-light: oklch(0.932 0.01726072052629843 164.64944629777187);
