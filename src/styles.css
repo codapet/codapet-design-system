@@ -50,8 +50,6 @@
   --color-brand-dark: var(--brand-dark);
 
   --color-gray-subtle: var(--gray-subtle);
-  --color-surface-light: var(--surface-light);
-  --color-surface-default: var(--surface-default);
 
   /* Custom Sand Colors */
   --color-sand-light: var(--sand-light);
@@ -65,7 +63,6 @@
 
   /* Red accent */
   --color-red-subtle: var(--red-subtle);
-  --color-red-surface-dark: var(--red-surface-dark);
 
   /* Sage accent */
   --color-sage-light: var(--sage-light);
@@ -74,6 +71,22 @@
 
   /* Icon disabled */
   --color-icon-disabled: var(--icon-disabled);
+
+  /* Surface */
+  --color-gray-surface-light: var(--gray-surface-light);
+  --color-gray-surface-default: var(--gray-surface-default);
+  --color-primary-surface-subtle: var(--primary-surface-subtle);
+  --color-primary-surface-light: var(--primary-surface-light);
+  --color-primary-surface-default: var(--primary-surface-default);
+
+  /* stroke */
+  --color-gray-stroke-light: var(--gray-stroke-light);
+  --color-error-stroke-light: var(--error-stroke-light);
+
+  /* error surface */
+  --color-error-surface-dark: var(--error-surface-dark);
+  --color-error-surface-light: var(--error-surface-light);
+  --color-error-surface-default: var(--error-surface-default);
 }
 
 :root {
@@ -136,7 +149,6 @@
 
   /* Custom red accent */
   --red-subtle: oklch(0.9903 0.003 17.21);
-  --red-surface-dark: oklch(0.3967 0.1408 25.71);
 
   /* Sage accent */
   --sage-light: oklch(0.932 0.01726072052629843 164.64944629777187);
@@ -145,8 +157,22 @@
 
   --gray-subtle: oklch(0.6722 0.0119 286.08);
   --icon-disabled: oklch(0.8686 0.0216 252.51);
-  --surface-light: oklch(0.9397 0.0149 251.16);
-  --surface-default: oklch(0.8711 0.0055 286.29);
+
+  /* gray*/
+  --gray-surface-light: oklch(0.9674 0.0013 286.37);
+  --gray-surface-default: oklch(0.8711 0.0055 286.29);
+  --gray-stroke-light: oklch(0.9197 0.004 286.32);
+
+  /* primary surface */
+  --primary-surface-subtle: oklch(0.9678 0.0086 247.91);
+  --primary-surface-light: oklch(0.9397 0.0149 251.16);
+  --primary-surface-default: oklch(0.5661 0.0865 252.66);
+
+  /* error surface */
+  --error-surface-default: oklch(0.7022 0.1892 22.23);
+  --error-surface-dark: oklch(0.3967 0.1408 25.71);
+  --error-surface-light: oklch(0.9705 0.0129 17.38);
+  --error-stroke-light: oklch(0.8834 0.0616 18.39);
 }
 
 .dark {
