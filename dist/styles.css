@@ -48,7 +48,7 @@
   --color-brand-normal: var(--brand-normal);
   --color-brand-vibrant: var(--brand-vibrant);
   --color-brand-dark: var(--brand-dark);
-
+  --color-brand-text-vibrant: var(--brand-text-vibrant);
   --color-gray-subtle: var(--gray-subtle);
 
   /* Custom Sand Colors */
@@ -132,6 +132,7 @@
   --brand-normal: oklch(0.5695 0.0859 252.57);
   --brand-vibrant: oklch(0.5424 0.1123 253.26);
   --brand-dark: oklch(0.4463 0.0577 255.4);
+  --brand-text-vibrant: oklch(0.6187 0.2067 259.23);
 
   /* Custom Sand Colors */
   --sand-light: oklch(0.9815 0.0046 106.48);
