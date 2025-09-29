@@ -269,53 +269,48 @@ function ButtonsSection() {
               With Left Icons
             </h4>
             <div className="flex flex-wrap gap-3">
-              <Button tabIndex={0} leftIcon={<ArrowLeft />}>
+              <Button tabIndex={0}>
+                <ArrowLeft />
                 Primary
               </Button>
-              <Button tabIndex={0} variant="secondary" leftIcon={<ArrowLeft />}>
+              <Button tabIndex={0} variant="secondary">
+                <ArrowLeft />
                 Secondary
               </Button>
-              <Button tabIndex={0} variant="tertiary" leftIcon={<ArrowLeft />}>
+              <Button tabIndex={0} variant="tertiary">
+                <ArrowLeft />
                 Tertiary
               </Button>
-              <Button tabIndex={0} variant="outline" leftIcon={<ArrowLeft />}>
+              <Button tabIndex={0} variant="outline">
+                <ArrowLeft />
                 Outline
               </Button>
-              <Button tabIndex={0} variant="ghost" leftIcon={<ArrowLeft />}>
+              <Button tabIndex={0} variant="ghost">
+                <ArrowLeft />
                 Ghost
               </Button>
-              <Button
-                tabIndex={0}
-                variant="ghost-secondary"
-                leftIcon={<ArrowLeft />}
-              >
+              <Button tabIndex={0} variant="ghost-secondary">
+                <ArrowLeft />
                 Ghost Secondary
               </Button>
-              <Button
-                tabIndex={0}
-                variant="ghost-destructive"
-                leftIcon={<ArrowLeft />}
-              >
+              <Button tabIndex={0} variant="ghost-destructive">
+                <ArrowLeft />
                 Ghost Destructive
               </Button>
-              <Button tabIndex={0} variant="link" leftIcon={<ArrowLeft />}>
+              <Button tabIndex={0} variant="link">
+                <ArrowLeft />
                 Link
               </Button>
-              <Button
-                tabIndex={0}
-                variant="destructive"
-                leftIcon={<ArrowLeft />}
-              >
+              <Button tabIndex={0} variant="destructive">
+                <ArrowLeft />
                 Destructive
               </Button>
-              <Button
-                tabIndex={0}
-                variant="destructive-secondary"
-                leftIcon={<ArrowLeft />}
-              >
+              <Button tabIndex={0} variant="destructive-secondary">
+                <ArrowLeft />
                 Destructive Secondary
               </Button>
-              <Button variant="destructive-tertiary" leftIcon={<ArrowLeft />}>
+              <Button variant="destructive-tertiary">
+                <ArrowLeft />
                 Destructive Tertiary
               </Button>
             </div>
@@ -327,61 +322,48 @@ function ButtonsSection() {
               With Right Icons
             </h4>
             <div className="flex flex-wrap gap-3">
-              <Button tabIndex={0} rightIcon={<ArrowRight />}>
+              <Button tabIndex={0}>
+                <ArrowRight />
                 Primary
               </Button>
-              <Button
-                tabIndex={0}
-                variant="secondary"
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="secondary">
+                <ArrowRight />
                 Secondary
               </Button>
-              <Button
-                tabIndex={0}
-                variant="tertiary"
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="tertiary">
+                <ArrowRight />
                 Tertiary
               </Button>
-              <Button tabIndex={0} variant="outline" rightIcon={<ArrowRight />}>
+              <Button tabIndex={0} variant="outline">
+                <ArrowRight />
                 Outline
               </Button>
-              <Button tabIndex={0} variant="ghost" rightIcon={<ArrowRight />}>
+              <Button tabIndex={0} variant="ghost">
+                <ArrowRight />
                 Ghost
               </Button>
-              <Button
-                tabIndex={0}
-                variant="ghost-secondary"
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="ghost-secondary">
+                <ArrowRight />
                 Ghost Secondary
               </Button>
-              <Button
-                tabIndex={0}
-                variant="ghost-destructive"
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="ghost-destructive">
+                <ArrowRight />
                 Ghost Destructive
               </Button>
-              <Button tabIndex={0} variant="link" rightIcon={<ArrowRight />}>
+              <Button tabIndex={0} variant="link">
+                <ArrowRight />
                 Link
               </Button>
-              <Button
-                tabIndex={0}
-                variant="destructive"
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="destructive">
+                <ArrowRight />
                 Destructive
               </Button>
-              <Button
-                tabIndex={0}
-                variant="destructive-secondary"
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="destructive-secondary">
+                <ArrowRight />
                 Destructive Secondary
               </Button>
-              <Button variant="destructive-tertiary" rightIcon={<ArrowRight />}>
+              <Button variant="destructive-tertiary">
+                <ArrowRight />
                 Destructive Tertiary
               </Button>
             </div>
@@ -393,91 +375,60 @@ function ButtonsSection() {
               With Both Icons
             </h4>
             <div className="flex flex-wrap gap-3">
-              <Button
-                tabIndex={0}
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0}>
+                <ArrowLeft />
                 Primary
+                <ArrowRight />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="secondary"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="secondary">
+                <ArrowLeft />
                 Secondary
+                <ArrowRight />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="tertiary"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="tertiary">
+                <ArrowLeft />
                 Tertiary
+                <ArrowRight />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="outline"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="outline">
+                <ArrowLeft />
                 Outline
+                <ArrowRight />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="ghost"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="ghost">
+                <ArrowLeft />
                 Ghost
+                <ArrowRight />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="ghost-secondary"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="ghost-secondary">
+                <ArrowLeft />
                 Ghost Secondary
+                <ArrowRight />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="ghost-destructive"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="ghost-destructive">
+                <ArrowLeft />
                 Ghost Destructive
+                <ArrowRight />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="link"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="link">
+                <ArrowLeft />
                 Link
+                <ArrowRight />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="destructive"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="destructive">
+                <ArrowLeft />
                 Destructive
+                <ArrowRight />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="destructive-secondary"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="destructive-secondary">
+                <ArrowLeft />
                 Destructive Secondary
+                <ArrowRight />
               </Button>
-              <Button
-                variant="destructive-tertiary"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button variant="destructive-tertiary">
+                <ArrowLeft />
                 Destructive Tertiary
+                <ArrowRight />
               </Button>
             </div>
           </div>
@@ -488,66 +439,70 @@ function ButtonsSection() {
               Icon Only (Left Arrow)
             </h4>
             <div className="flex flex-wrap gap-3">
-              <Button
-                tabIndex={0}
-                leftIcon={<ArrowLeft />}
-                className="py-2 px-2 h-fit"
-              ></Button>
+              <Button tabIndex={0} className="py-2 px-2 h-fit">
+                <ArrowLeft />
+              </Button>
               <Button
                 tabIndex={0}
                 variant="secondary"
-                leftIcon={<ArrowLeft />}
                 className="py-2 px-2 h-fit"
-              ></Button>
+              >
+                <ArrowLeft />
+              </Button>
               <Button
                 tabIndex={0}
                 variant="tertiary"
-                leftIcon={<ArrowLeft />}
                 className="py-2 px-2 h-fit"
-              ></Button>
+              >
+                <ArrowLeft />
+              </Button>
               <Button
                 tabIndex={0}
                 variant="outline"
-                leftIcon={<ArrowLeft />}
                 className="py-2 px-2 h-fit"
-              ></Button>
-              <Button
-                tabIndex={0}
-                variant="ghost"
-                leftIcon={<ArrowLeft />}
-                className="py-2 px-2 h-fit"
-              ></Button>
+              >
+                <ArrowLeft />
+              </Button>
+              <Button tabIndex={0} variant="ghost">
+                <ArrowLeft />
+              </Button>
+
               <Button
                 tabIndex={0}
                 variant="ghost-secondary"
-                leftIcon={<ArrowLeft />}
                 className="py-2 px-2 h-fit"
-              ></Button>
+              >
+                <ArrowLeft />
+              </Button>
               <Button
                 tabIndex={0}
                 variant="ghost-destructive"
-                leftIcon={<ArrowLeft />}
                 className="py-2 px-2 h-fit"
-              ></Button>
+              >
+                <ArrowLeft />
+              </Button>
 
               <Button
                 tabIndex={0}
                 variant="destructive"
-                leftIcon={<ArrowLeft />}
                 className="py-2 px-2 h-fit"
-              ></Button>
+              >
+                <ArrowLeft />
+              </Button>
               <Button
                 tabIndex={0}
                 variant="destructive-secondary"
-                leftIcon={<ArrowLeft />}
                 className="py-2 px-2 h-fit"
-              ></Button>
+              >
+                <ArrowLeft />
+              </Button>
               <Button
                 tabIndex={0}
                 variant="destructive-tertiary"
-                leftIcon={<ArrowLeft />}
                 className="py-2 px-2 h-fit"
-              ></Button>
+              >
+                <ArrowLeft />
+              </Button>
             </div>
           </div>
 
@@ -625,53 +580,48 @@ function ButtonsSection() {
               With Left Icons
             </h4>
             <div className="flex flex-wrap gap-3">
-              <Button disabled leftIcon={<ArrowLeft />}>
+              <Button disabled>
+                <ArrowLeft />
                 Primary
               </Button>
-              <Button disabled variant="secondary" leftIcon={<ArrowLeft />}>
+              <Button disabled variant="secondary">
+                <ArrowLeft />
                 Secondary
               </Button>
-              <Button disabled variant="tertiary" leftIcon={<ArrowLeft />}>
+              <Button disabled variant="tertiary">
+                <ArrowLeft />
                 Tertiary
               </Button>
-              <Button disabled variant="outline" leftIcon={<ArrowLeft />}>
+              <Button disabled variant="outline">
+                <ArrowLeft />
                 Outline
               </Button>
-              <Button disabled variant="ghost" leftIcon={<ArrowLeft />}>
+              <Button disabled variant="ghost">
+                <ArrowLeft />
                 Ghost
               </Button>
-              <Button
-                disabled
-                variant="ghost-secondary"
-                leftIcon={<ArrowLeft />}
-              >
+              <Button disabled variant="ghost-secondary">
+                <ArrowLeft />
                 Ghost Secondary
               </Button>
-              <Button
-                disabled
-                variant="ghost-destructive"
-                leftIcon={<ArrowLeft />}
-              >
+              <Button disabled variant="ghost-destructive">
+                <ArrowLeft />
                 Ghost Destructive
               </Button>
-              <Button disabled variant="link" leftIcon={<ArrowLeft />}>
+              <Button disabled variant="link">
+                <ArrowLeft />
                 Link
               </Button>
-              <Button disabled variant="destructive" leftIcon={<ArrowLeft />}>
+              <Button disabled variant="destructive">
+                <ArrowLeft />
                 Destructive
               </Button>
-              <Button
-                disabled
-                variant="destructive-secondary"
-                leftIcon={<ArrowLeft />}
-              >
+              <Button disabled variant="destructive-secondary">
+                <ArrowLeft />
                 Destructive Secondary
               </Button>
-              <Button
-                disabled
-                variant="destructive-tertiary"
-                leftIcon={<ArrowLeft />}
-              >
+              <Button disabled variant="destructive-tertiary">
+                <ArrowLeft />
                 Destructive Tertiary
               </Button>
             </div>
@@ -683,53 +633,48 @@ function ButtonsSection() {
               With Right Icons
             </h4>
             <div className="flex flex-wrap gap-3">
-              <Button disabled rightIcon={<ArrowRight />}>
+              <Button disabled>
+                <ArrowRight />
                 Primary
               </Button>
-              <Button disabled variant="secondary" rightIcon={<ArrowRight />}>
+              <Button disabled variant="secondary">
+                <ArrowRight />
                 Secondary
               </Button>
-              <Button disabled variant="tertiary" rightIcon={<ArrowRight />}>
+              <Button disabled variant="tertiary">
+                <ArrowRight />
                 Tertiary
               </Button>
-              <Button disabled variant="outline" rightIcon={<ArrowRight />}>
+              <Button disabled variant="outline">
+                <ArrowRight />
                 Outline
               </Button>
-              <Button disabled variant="ghost" rightIcon={<ArrowRight />}>
+              <Button disabled variant="ghost">
+                <ArrowRight />
                 Ghost
               </Button>
-              <Button
-                disabled
-                variant="ghost-secondary"
-                rightIcon={<ArrowRight />}
-              >
+              <Button disabled variant="ghost-secondary">
+                <ArrowRight />
                 Ghost Secondary
               </Button>
-              <Button
-                disabled
-                variant="ghost-destructive"
-                rightIcon={<ArrowRight />}
-              >
+              <Button disabled variant="ghost-destructive">
+                <ArrowRight />
                 Ghost Destructive
               </Button>
-              <Button disabled variant="link" rightIcon={<ArrowRight />}>
+              <Button disabled variant="link">
+                <ArrowRight />
                 Link
               </Button>
-              <Button disabled variant="destructive" rightIcon={<ArrowRight />}>
+              <Button disabled variant="destructive">
+                <ArrowRight />
                 Destructive
               </Button>
-              <Button
-                disabled
-                variant="destructive-secondary"
-                rightIcon={<ArrowRight />}
-              >
+              <Button disabled variant="destructive-secondary">
+                <ArrowRight />
                 Destructive Secondary
               </Button>
-              <Button
-                disabled
-                variant="destructive-tertiary"
-                rightIcon={<ArrowRight />}
-              >
+              <Button disabled variant="destructive-tertiary">
+                <ArrowRight />
                 Destructive Tertiary
               </Button>
             </div>
@@ -741,92 +686,60 @@ function ButtonsSection() {
               With Both Icons
             </h4>
             <div className="flex flex-wrap gap-3">
-              <Button
-                disabled
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} disabled>
+                <ArrowLeft />
                 Primary
+                <ArrowRight />
               </Button>
-              <Button
-                disabled
-                variant="secondary"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="secondary" disabled>
+                <ArrowLeft />
                 Secondary
+                <ArrowRight />
               </Button>
-              <Button
-                disabled
-                variant="tertiary"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="tertiary" disabled>
+                <ArrowLeft />
                 Tertiary
+                <ArrowRight />
               </Button>
-              <Button
-                disabled
-                variant="outline"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="outline" disabled>
+                <ArrowLeft />
                 Outline
+                <ArrowRight />
               </Button>
-              <Button
-                disabled
-                variant="ghost"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="ghost" disabled>
+                <ArrowLeft />
                 Ghost
+                <ArrowRight />
               </Button>
-              <Button
-                disabled
-                variant="ghost-secondary"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="ghost-secondary" disabled>
+                <ArrowLeft />
                 Ghost Secondary
+                <ArrowRight />
               </Button>
-              <Button
-                disabled
-                variant="ghost-destructive"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="ghost-destructive" disabled>
+                <ArrowLeft />
                 Ghost Destructive
+                <ArrowRight />
               </Button>
-              <Button
-                disabled
-                variant="link"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="link" disabled>
+                <ArrowLeft />
                 Link
+                <ArrowRight />
               </Button>
-              <Button
-                disabled
-                variant="destructive"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="destructive" disabled>
+                <ArrowLeft />
                 Destructive
+                <ArrowRight />
               </Button>
-              <Button
-                disabled
-                variant="destructive-secondary"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button tabIndex={0} variant="destructive-secondary" disabled>
+                <ArrowLeft />
                 Destructive Secondary
+                <ArrowRight />
               </Button>
-              <Button
-                disabled
-                variant="destructive-tertiary"
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-              >
+              <Button variant="destructive-tertiary" disabled>
+                <ArrowLeft />
                 Destructive Tertiary
+                <ArrowRight />
               </Button>
             </div>
           </div>
@@ -837,53 +750,78 @@ function ButtonsSection() {
               Icon Only (Left Arrow)
             </h4>
             <div className="flex flex-wrap gap-3">
-              <Button disabled leftIcon={<ArrowLeft />}></Button>
+              <Button tabIndex={0} className="py-2 px-2 h-fit" disabled>
+                <ArrowLeft />
+              </Button>
               <Button
-                disabled
+                tabIndex={0}
                 variant="secondary"
-                leftIcon={<ArrowLeft />}
-              ></Button>
-              <Button
                 disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
                 variant="tertiary"
-                leftIcon={<ArrowLeft />}
-              ></Button>
-              <Button
                 disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
                 variant="outline"
-                leftIcon={<ArrowLeft />}
-              ></Button>
-              <Button
                 disabled
-                variant="ghost"
-                leftIcon={<ArrowLeft />}
-              ></Button>
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button tabIndex={0} variant="ghost" disabled>
+                <ArrowLeft />
+              </Button>
+
               <Button
-                disabled
+                tabIndex={0}
                 variant="ghost-secondary"
-                leftIcon={<ArrowLeft />}
-              ></Button>
-              <Button
                 disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
                 variant="ghost-destructive"
-                leftIcon={<ArrowLeft />}
-              ></Button>
-              <Button disabled variant="link" leftIcon={<ArrowLeft />}></Button>
-              <Button
                 disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+
+              <Button
+                tabIndex={0}
                 variant="destructive"
-                leftIcon={<ArrowLeft />}
-              ></Button>
-              <Button
                 disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
                 variant="destructive-secondary"
-                leftIcon={<ArrowLeft />}
-              ></Button>
-              <Button
                 disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
                 variant="destructive-tertiary"
-                leftIcon={<ArrowLeft />}
-              ></Button>
+                disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
             </div>
           </div>
 
@@ -904,145 +842,6 @@ function ButtonsSection() {
               </Button>
               <Button disabled variant="primary" size="icon">
                 <PlusIcon className="w-4 h-4 shrink-0" />
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            Icon Customization
-          </CardTitle>
-          <CardDescription>
-            Examples of custom icon styling and positioning
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Custom Icon Sizes */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Custom Icon Sizes
-            </h4>
-            <div className="flex flex-wrap gap-3">
-              <Button
-                leftIcon={<ArrowLeft />}
-                leftIconClassName="[&_svg]:size-3"
-              >
-                Small Icon
-              </Button>
-              <Button
-                leftIcon={<ArrowLeft />}
-                leftIconClassName="[&_svg]:size-5"
-              >
-                Medium Icon
-              </Button>
-              <Button
-                leftIcon={<ArrowLeft />}
-                leftIconClassName="[&_svg]:size-6"
-              >
-                Large Icon
-              </Button>
-              <Button
-                leftIcon={<ArrowLeft />}
-                leftIconClassName="[&_svg]:size-8"
-              >
-                Extra Large Icon
-              </Button>
-            </div>
-          </div>
-
-          {/* Custom Icon Spacing */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Custom Icon Spacing
-            </h4>
-            <div className="flex flex-wrap gap-3">
-              <Button leftIcon={<ArrowLeft />} leftIconClassName="mr-1">
-                Tight Spacing
-              </Button>
-              <Button leftIcon={<ArrowLeft />} leftIconClassName="mr-3">
-                Normal Spacing
-              </Button>
-              <Button leftIcon={<ArrowLeft />} leftIconClassName="mr-6">
-                Wide Spacing
-              </Button>
-              <Button rightIcon={<ArrowRight />} rightIconClassName="ml-1">
-                Tight Right
-              </Button>
-              <Button rightIcon={<ArrowRight />} rightIconClassName="ml-3">
-                Normal Right
-              </Button>
-              <Button rightIcon={<ArrowRight />} rightIconClassName="ml-6">
-                Wide Right
-              </Button>
-            </div>
-          </div>
-
-          {/* Custom Icon Colors */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Custom Icon Colors
-            </h4>
-            <div className="flex flex-wrap gap-3">
-              <Button
-                leftIcon={<ArrowLeft />}
-                leftIconClassName="[&_svg]:stroke-blue-500"
-              >
-                Blue Icon
-              </Button>
-              <Button
-                leftIcon={<ArrowLeft />}
-                leftIconClassName="[&_svg]:stroke-green-500"
-              >
-                Green Icon
-              </Button>
-              <Button
-                leftIcon={<ArrowLeft />}
-                leftIconClassName="[&_svg]:stroke-purple-500"
-              >
-                Purple Icon
-              </Button>
-              <Button
-                leftIcon={<ArrowLeft />}
-                leftIconClassName="[&_svg]:stroke-orange-500"
-              >
-                Orange Icon
-              </Button>
-            </div>
-          </div>
-
-          {/* Mixed Customizations */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Mixed Customizations
-            </h4>
-            <div className="flex flex-wrap gap-3">
-              <Button
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-                leftIconClassName="[&_svg]:size-5 [&_svg]:stroke-blue-500 mr-2"
-                rightIconClassName="[&_svg]:size-3 [&_svg]:stroke-green-500 ml-2"
-              >
-                Different Sizes
-              </Button>
-              <Button
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-                leftIconClassName="[&_svg]:stroke-red-500 mr-4"
-                rightIconClassName="[&_svg]:stroke-blue-500 ml-4"
-              >
-                Different Colors
-              </Button>
-              <Button
-                leftIcon={<ArrowLeft />}
-                rightIcon={<ArrowRight />}
-                leftIconClassName="[&_svg]:size-6 [&_svg]:stroke-purple-500 mr-1"
-                rightIconClassName="[&_svg]:size-4 [&_svg]:stroke-orange-500 ml-1"
-              >
-                Mixed Styles
               </Button>
             </div>
           </div>
