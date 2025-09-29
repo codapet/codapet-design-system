@@ -35,6 +35,7 @@ import {
   AlertCircle,
   ArrowLeft,
   ArrowRight,
+  CircleUser,
   Info,
   Layout,
   MessageSquare,
@@ -42,7 +43,8 @@ import {
   PlusIcon,
   Search,
   ToggleLeft,
-  Type
+  Type,
+  X
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -931,9 +933,40 @@ function InputsSection() {
             </div>
             <div>
               <Label className="mb-2 block text-sm font-medium">
+                Default State with left icon
+              </Label>
+              <Input
+                placeholder="Default input state"
+                leftIcon={<CircleUser className="stroke-[1.5px] size-4" />}
+              />
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Default State with right icon
+              </Label>
+              <Input
+                placeholder="Default input state"
+                rightIcon={<X className="stroke-[1.5px] size-4 " />}
+              />
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
                 Error State
               </Label>
               <Input placeholder="Error input state" error={true} />
+              <p className="text-sm text-destructive mt-1">
+                This field is required
+              </p>
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Error State with Left Icon
+              </Label>
+              <Input
+                placeholder="Error input state"
+                error={true}
+                leftIcon={<CircleUser className="stroke-[1.5px] size-4" />}
+              />
               <p className="text-sm text-destructive mt-1">
                 This field is required
               </p>
