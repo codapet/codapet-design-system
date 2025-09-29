@@ -47,6 +47,7 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import packageJson from '../package.json'
 
 const navigationItems = [
@@ -100,7 +101,7 @@ const navigationItems = [
   }
 ]
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams()
   const activeTab = searchParams.get('tab') || 'buttons'
   const renderContent = () => {
@@ -196,6 +197,20 @@ export default function Home() {
         </main>
       </div>
     </div>
+  )
+}
+
+export default function Home() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <HomeContent />
+    </Suspense>
   )
 }
 
@@ -463,7 +478,7 @@ function ButtonsSection() {
               >
                 <ArrowLeft />
               </Button>
-              <Button tabIndex={0} variant="ghost">
+              <Button tabIndex={0} variant="ghost" className="py-2 px-2 h-fit">
                 <ArrowLeft />
               </Button>
 
