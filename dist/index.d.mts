@@ -88,7 +88,7 @@ declare function BreadcrumbSeparator({ children, className, ...props }: React$1.
 declare function BreadcrumbEllipsis({ className, ...props }: React$1.ComponentProps<"span">): react_jsx_runtime.JSX.Element;
 
 declare const buttonVariants: (props?: ({
-    variant?: "link" | "destructive" | "primary" | "secondary" | "tertiary" | "outline" | "ghost" | "destructive-secondary" | "destructive-tertiary" | null | undefined;
+    variant?: "link" | "destructive" | "primary" | "secondary" | "tertiary" | "outline" | "ghost" | "ghost-secondary" | "ghost-destructive" | "destructive-secondary" | "destructive-tertiary" | null | undefined;
     size?: "md" | "sm" | "lg" | "icon" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 declare function Button({ className, variant, size, asChild, ...props }: React$1.ComponentProps<'button'> & VariantProps<typeof buttonVariants> & {
@@ -285,6 +285,8 @@ interface InputProps extends Omit<React$1.ComponentProps<'input'>, 'size'>, Vari
     rightIcon?: React$1.ReactNode;
     leftIconClassName?: string;
     rightIconClassName?: string;
+    rightIconOnClick?: () => void;
+    rightIconButtonProps?: React$1.ButtonHTMLAttributes<HTMLButtonElement>;
     error?: boolean;
 }
 declare const Input: React$1.ForwardRefExoticComponent<Omit<InputProps, "ref"> & React$1.RefAttributes<HTMLInputElement>>;

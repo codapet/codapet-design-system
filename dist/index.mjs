@@ -150,8 +150,10 @@ var buttonVariants = cva2(
         secondary: "bg-brand-subtle text-brand-vibrant hover:bg-primary-surface-light border border-brand-light active:bg-icon-disabled hover:border-transparent active:border-transparent",
         tertiary: "bg-gray-surface-light text-zinc-700 hover:bg-gray-surface-default border border-gray-stroke-light active:bg-zinc-400",
         outline: "text-zinc-800 border border-gray-surface-default bg-background hover:bg-gray-surface-light hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 active:bg-gray-surface-default",
-        ghost: "text-zinc-800 hover:bg-gray-surface-light hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-gray-surface-default",
-        link: "text-primary underline-offset-4 hover:underline hover:bg-primary-surface-subtle active:bg-primary-surface-light",
+        ghost: "text-brand-vibrant hover:bg-primary-surface-subtle  dark:hover:bg-accent/50 active:bg-primary-surface-light",
+        "ghost-secondary": "text-zinc-800 hover:bg-gray-surface-light hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-gray-surface-default",
+        "ghost-destructive": "bg-transparent  text-red-400  hover:bg-red-50 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100",
+        link: "text-zinc-800 underline-offset-4 underline hover:bg-none active:bg-none hover:text-brand-vibrant ",
         destructive: "bg-error-surface-default text-white hover:bg-red-800 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-error-surface-dark",
         "destructive-secondary": "bg-error-surface-light  border border-error-stroke-light text-red-400 hover:border-error-surface-default focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100",
         "destructive-tertiary": "bg-transparent border border-error-stroke-light text-red-400  hover:bg-red-50 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100"
@@ -1209,7 +1211,7 @@ function getPayloadConfigFromPayload(config, payload, key) {
 
 // src/components/ui/checkbox.tsx
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { CheckIcon } from "lucide-react";
+import { Check } from "lucide-react";
 import "react";
 import { jsx as jsx13 } from "react/jsx-runtime";
 function Checkbox({
@@ -1221,7 +1223,7 @@ function Checkbox({
     {
       "data-slot": "checkbox",
       className: cn(
-        "peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:before:absolute focus-visible:before:-inset-[3px] focus:ring-offset-1 focus:ring-offset-brand-text-vibrant",
+        "peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border  transition-shadow outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:before:absolute focus-visible:before:-inset-[3px] focus:ring-offset-1 focus:ring-offset-brand-text-vibrant",
         className
       ),
       ...props,
@@ -1230,7 +1232,7 @@ function Checkbox({
         {
           "data-slot": "checkbox-indicator",
           className: "flex items-center justify-center text-current transition-none",
-          children: /* @__PURE__ */ jsx13(CheckIcon, { className: "size-3.5" })
+          children: /* @__PURE__ */ jsx13(Check, { className: "size-3.5" })
         }
       )
     }
@@ -1559,7 +1561,7 @@ function CommandShortcut({
 // src/components/ui/context-menu.tsx
 import "react";
 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
-import { CheckIcon as CheckIcon2, ChevronRightIcon as ChevronRightIcon2, CircleIcon } from "lucide-react";
+import { CheckIcon, ChevronRightIcon as ChevronRightIcon2, CircleIcon } from "lucide-react";
 import { jsx as jsx17, jsxs as jsxs8 } from "react/jsx-runtime";
 function ContextMenu({
   ...props
@@ -1689,7 +1691,7 @@ function ContextMenuCheckboxItem({
       checked,
       ...props,
       children: [
-        /* @__PURE__ */ jsx17("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx17(ContextMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx17(CheckIcon2, { className: "size-4" }) }) }),
+        /* @__PURE__ */ jsx17("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx17(ContextMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx17(CheckIcon, { className: "size-4" }) }) }),
         children
       ]
     }
@@ -1885,7 +1887,7 @@ function DrawerDescription({
 // src/components/ui/dropdown-menu.tsx
 import "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { CheckIcon as CheckIcon3, ChevronRightIcon as ChevronRightIcon3, CircleIcon as CircleIcon2 } from "lucide-react";
+import { CheckIcon as CheckIcon2, ChevronRightIcon as ChevronRightIcon3, CircleIcon as CircleIcon2 } from "lucide-react";
 import { jsx as jsx19, jsxs as jsxs10 } from "react/jsx-runtime";
 function DropdownMenu({
   ...props
@@ -1968,7 +1970,7 @@ function DropdownMenuCheckboxItem({
       checked,
       ...props,
       children: [
-        /* @__PURE__ */ jsx19("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx19(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx19(CheckIcon3, { className: "size-4" }) }) }),
+        /* @__PURE__ */ jsx19("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx19(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx19(CheckIcon2, { className: "size-4" }) }) }),
         children
       ]
     }
@@ -2290,7 +2292,7 @@ var inputVariants = cva5(
   [
     // Base styles
     "file:text-zinc-800 placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
-    "flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-200",
+    "flex w-full min-w-0 rounded-md border bg-transparent text-base  transition-all duration-200",
     "outline-none font-sans",
     // File input styles
     "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
@@ -2301,7 +2303,7 @@ var inputVariants = cva5(
     // Default state
     "border-zinc-300 bg-background",
     // Hover state
-    "hover:border-brand-normal",
+    "hover:border-primary-stroke-default",
     // Focus state
     "focus:border-blue-500",
     "active:border-brand-normal"
@@ -2328,6 +2330,8 @@ var Input = React21.forwardRef(
     rightIcon,
     leftIconClassName,
     rightIconClassName,
+    rightIconOnClick,
+    rightIconButtonProps,
     error,
     ...props
   }, ref) => {
@@ -2347,7 +2351,7 @@ var Input = React21.forwardRef(
               inputVariants({ size }),
               errorStyles2,
               "peer",
-              leftIcon && "pl-10",
+              leftIcon && "pl-8",
               rightIcon && "pr-10",
               className
             ),
@@ -2361,7 +2365,7 @@ var Input = React21.forwardRef(
           {
             className: cn(
               "pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center",
-              "transition-colors",
+              "transition-colors stroke-[1.5px]",
               error ? "text-destructive peer-hover:text-destructive peer-focus:text-destructive peer-active:text-destructive" : "text-muted-foreground peer-hover:text-brand-normal peer-focus:text-blue-500 peer-active:text-brand-normal",
               leftIconClassName
             ),
@@ -2374,13 +2378,19 @@ var Input = React21.forwardRef(
           }
         ),
         rightIcon && /* @__PURE__ */ jsx23(
-          "div",
+          Button,
           {
+            onClick: rightIconOnClick,
+            variant: "ghost",
+            size: "icon",
             className: cn(
-              "pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center",
-              "transition-colors",
+              "absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center",
+              "h-6 w-6 rounded-sm transition-colors",
+              error ? "text-destructive hover:text-destructive focus:text-destructive" : "text-muted-foreground hover:text-brand-normal focus:text-blue-500",
               rightIconClassName
             ),
+            "aria-label": "Input action",
+            ...rightIconButtonProps,
             children: React21.isValidElement(rightIcon) ? (() => {
               const iconEl = rightIcon;
               return React21.cloneElement(iconEl, {
@@ -2470,7 +2480,7 @@ function InputOTPSeparator({ ...props }) {
 // src/components/ui/menubar.tsx
 import "react";
 import * as MenubarPrimitive from "@radix-ui/react-menubar";
-import { CheckIcon as CheckIcon4, ChevronRightIcon as ChevronRightIcon4, CircleIcon as CircleIcon3 } from "lucide-react";
+import { CheckIcon as CheckIcon3, ChevronRightIcon as ChevronRightIcon4, CircleIcon as CircleIcon3 } from "lucide-react";
 import { jsx as jsx25, jsxs as jsxs13 } from "react/jsx-runtime";
 function Menubar({
   className,
@@ -2583,7 +2593,7 @@ function MenubarCheckboxItem({
       checked,
       ...props,
       children: [
-        /* @__PURE__ */ jsx25("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx25(MenubarPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx25(CheckIcon4, { className: "size-4" }) }) }),
+        /* @__PURE__ */ jsx25("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx25(MenubarPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx25(CheckIcon3, { className: "size-4" }) }) }),
         children
       ]
     }
@@ -3018,8 +3028,8 @@ function PopoverAnchor({
 }
 
 // src/components/ui/progress.tsx
-import "react";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
+import "react";
 import { jsx as jsx29 } from "react/jsx-runtime";
 function Progress({
   className,
@@ -3039,7 +3049,7 @@ function Progress({
         ProgressPrimitive.Indicator,
         {
           "data-slot": "progress-indicator",
-          className: "bg-primary h-full w-full flex-1 transition-all",
+          className: "bg-primary h-full w-full flex-1 transition-all rounded-full",
           style: { transform: `translateX(-${100 - (value || 0)}%)` }
         }
       )
@@ -3074,7 +3084,7 @@ function RadioGroupItem({
     {
       "data-slot": "radio-group-item",
       className: cn(
-        "border-input text-primary focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:border-primary",
+        "border-input text-primary focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border transition-[color,box-shadow] outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:border-primary",
         className
       ),
       ...props,
@@ -3083,7 +3093,7 @@ function RadioGroupItem({
         {
           "data-slot": "radio-group-indicator",
           className: "relative flex items-center justify-center ",
-          children: /* @__PURE__ */ jsx30(CircleIcon4, { className: "fill-white absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 " })
+          children: /* @__PURE__ */ jsx30(CircleIcon4, { className: "fill-white absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 " })
         }
       )
     }
@@ -3196,7 +3206,7 @@ function ScrollBar({
 // src/components/ui/select.tsx
 import "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
-import { CheckIcon as CheckIcon5, ChevronDownIcon as ChevronDownIcon4, ChevronUpIcon } from "lucide-react";
+import { CheckIcon as CheckIcon4, ChevronDownIcon as ChevronDownIcon4, ChevronUpIcon } from "lucide-react";
 import { jsx as jsx33, jsxs as jsxs17 } from "react/jsx-runtime";
 function Select({
   ...props
@@ -3298,7 +3308,7 @@ function SelectItem({
       ),
       ...props,
       children: [
-        /* @__PURE__ */ jsx33("span", { className: "absolute right-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx33(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx33(CheckIcon5, { className: "size-4" }) }) }),
+        /* @__PURE__ */ jsx33("span", { className: "absolute right-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx33(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx33(CheckIcon4, { className: "size-4" }) }) }),
         /* @__PURE__ */ jsx33(SelectPrimitive.ItemText, { children })
       ]
     }
@@ -4279,7 +4289,7 @@ function Switch({
     {
       "data-slot": "switch",
       className: cn(
-        "peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-brand-text-vibrant dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-offset-1",
+        "peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-brand-text-vibrant dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.25rem] w-[2.1rem] shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-offset-1 ",
         className
       ),
       ...props,
@@ -4288,7 +4298,7 @@ function Switch({
         {
           "data-slot": "switch-thumb",
           className: cn(
-            "bg-background dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"
+            "bg-background dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0.5"
           )
         }
       )
