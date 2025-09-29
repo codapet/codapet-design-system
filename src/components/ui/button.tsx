@@ -19,7 +19,7 @@ const buttonVariants = cva(
           'text-zinc-800 border border-gray-surface-default bg-background hover:bg-gray-surface-light hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 active:bg-gray-surface-default',
         ghost:
           'text-zinc-800 hover:bg-gray-surface-light hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-gray-surface-default',
-        link: 'text-primary underline-offset-4 hover:underline hover:bg-primary-surface-subtle active:bg-primary-surface-light',
+        link: 'text-zinc-800 underline-offset-4 underline hover:bg-none active:bg-none hover:text-brand-vibrant ',
         destructive:
           'bg-error-surface-default text-white hover:bg-red-800 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-error-surface-dark',
         'destructive-secondary':
@@ -46,10 +46,19 @@ function Button({
   variant,
   size,
   asChild = false,
+  leftIcon,
+  rightIcon,
+  leftIconClassName,
+  rightIconClassName,
+  children,
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    leftIcon?: React.ReactNode
+    rightIcon?: React.ReactNode
+    leftIconClassName?: string
+    rightIconClassName?: string
   }) {
   const Comp = asChild ? Slot : 'button'
 
@@ -58,7 +67,29 @@ function Button({
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {leftIcon && (
+        <span
+          className={cn(
+            'flex items-center justify-center [&_svg]:size-4 [&_svg]:stroke-current',
+            leftIconClassName
+          )}
+        >
+          {leftIcon}
+        </span>
+      )}
+      {children}
+      {rightIcon && (
+        <span
+          className={cn(
+            'flex items-center justify-center [&_svg]:size-4 [&_svg]:stroke-current',
+            rightIconClassName
+          )}
+        >
+          {rightIcon}
+        </span>
+      )}
+    </Comp>
   )
 }
 
