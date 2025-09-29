@@ -1076,6 +1076,10 @@ function FormsSection() {
               <Switch id="airplane-mode" />
               <Label htmlFor="airplane-mode">Airplane mode</Label>
             </div>
+            <div className="flex items-center space-x-2">
+              <Switch id="airplane-mode" disabled />
+              <Label htmlFor="airplane-mode">disabled Airplane mode</Label>
+            </div>
             <div className="space-y-2">
               <Label>Volume</Label>
               <Slider
@@ -1103,17 +1107,38 @@ function FormsSection() {
           <CardContent className="space-y-4">
             <RadioGroup defaultValue="option-one">
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="option-one" id="option-one" />
+                <RadioGroupItem
+                  value="option-one"
+                  id="option-one"
+                  className="size-5"
+                />
                 <Label htmlFor="option-one">Option One</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="option-two" id="option-two" />
+                <RadioGroupItem
+                  value="option-two"
+                  id="option-two"
+                  className="size-5"
+                />
                 <Label htmlFor="option-two">Option Two</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem
+                  value="option-three"
+                  id="option-three"
+                  disabled
+                  className="size-5"
+                />
+                <Label htmlFor="option-three">disabled Option </Label>
               </div>
             </RadioGroup>
             <div className="flex items-center space-x-2">
-              <Checkbox id="notifications" />
+              <Checkbox id="notifications" className="size-5" />
               <Label htmlFor="notifications">Enable notifications</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="notifications" disabled className="size-5" />
+              <Label htmlFor="notifications">disabled notifications</Label>
             </div>
           </CardContent>
         </Card>
