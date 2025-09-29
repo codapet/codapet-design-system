@@ -482,6 +482,75 @@ function ButtonsSection() {
             </div>
           </div>
 
+          {/* Icon Only */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Icon Only (Left Arrow)
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button
+                tabIndex={0}
+                leftIcon={<ArrowLeft />}
+                className="py-2 px-2 h-fit"
+              ></Button>
+              <Button
+                tabIndex={0}
+                variant="secondary"
+                leftIcon={<ArrowLeft />}
+                className="py-2 px-2 h-fit"
+              ></Button>
+              <Button
+                tabIndex={0}
+                variant="tertiary"
+                leftIcon={<ArrowLeft />}
+                className="py-2 px-2 h-fit"
+              ></Button>
+              <Button
+                tabIndex={0}
+                variant="outline"
+                leftIcon={<ArrowLeft />}
+                className="py-2 px-2 h-fit"
+              ></Button>
+              <Button
+                tabIndex={0}
+                variant="ghost"
+                leftIcon={<ArrowLeft />}
+                className="py-2 px-2 h-fit"
+              ></Button>
+              <Button
+                tabIndex={0}
+                variant="ghost-secondary"
+                leftIcon={<ArrowLeft />}
+                className="py-2 px-2 h-fit"
+              ></Button>
+              <Button
+                tabIndex={0}
+                variant="ghost-destructive"
+                leftIcon={<ArrowLeft />}
+                className="py-2 px-2 h-fit"
+              ></Button>
+
+              <Button
+                tabIndex={0}
+                variant="destructive"
+                leftIcon={<ArrowLeft />}
+                className="py-2 px-2 h-fit"
+              ></Button>
+              <Button
+                tabIndex={0}
+                variant="destructive-secondary"
+                leftIcon={<ArrowLeft />}
+                className="py-2 px-2 h-fit"
+              ></Button>
+              <Button
+                tabIndex={0}
+                variant="destructive-tertiary"
+                leftIcon={<ArrowLeft />}
+                className="py-2 px-2 h-fit"
+              ></Button>
+            </div>
+          </div>
+
           {/* Sizes */}
           <div className="space-y-3">
             <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -759,6 +828,62 @@ function ButtonsSection() {
               >
                 Destructive Tertiary
               </Button>
+            </div>
+          </div>
+
+          {/* Icon Only */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Icon Only (Left Arrow)
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button disabled leftIcon={<ArrowLeft />}></Button>
+              <Button
+                disabled
+                variant="secondary"
+                leftIcon={<ArrowLeft />}
+              ></Button>
+              <Button
+                disabled
+                variant="tertiary"
+                leftIcon={<ArrowLeft />}
+              ></Button>
+              <Button
+                disabled
+                variant="outline"
+                leftIcon={<ArrowLeft />}
+              ></Button>
+              <Button
+                disabled
+                variant="ghost"
+                leftIcon={<ArrowLeft />}
+              ></Button>
+              <Button
+                disabled
+                variant="ghost-secondary"
+                leftIcon={<ArrowLeft />}
+              ></Button>
+              <Button
+                disabled
+                variant="ghost-destructive"
+                leftIcon={<ArrowLeft />}
+              ></Button>
+              <Button disabled variant="link" leftIcon={<ArrowLeft />}></Button>
+              <Button
+                disabled
+                variant="destructive"
+                leftIcon={<ArrowLeft />}
+              ></Button>
+              <Button
+                disabled
+                variant="destructive-secondary"
+                leftIcon={<ArrowLeft />}
+              ></Button>
+              <Button
+                disabled
+                variant="destructive-tertiary"
+                leftIcon={<ArrowLeft />}
+              ></Button>
             </div>
           </div>
 
