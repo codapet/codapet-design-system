@@ -242,6 +242,12 @@ function ButtonsSection() {
               <Button tabIndex={0} variant="ghost">
                 Ghost
               </Button>
+              <Button tabIndex={0} variant="ghost-secondary">
+                Ghost Secondary
+              </Button>
+              <Button tabIndex={0} variant="ghost-destructive">
+                Ghost Destructive
+              </Button>
               <Button tabIndex={0} variant="link">
                 Link
               </Button>
@@ -277,6 +283,20 @@ function ButtonsSection() {
               </Button>
               <Button tabIndex={0} variant="ghost" leftIcon={<ArrowLeft />}>
                 Ghost
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="ghost-secondary"
+                leftIcon={<ArrowLeft />}
+              >
+                Ghost Secondary
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="ghost-destructive"
+                leftIcon={<ArrowLeft />}
+              >
+                Ghost Destructive
               </Button>
               <Button tabIndex={0} variant="link" leftIcon={<ArrowLeft />}>
                 Link
@@ -329,6 +349,20 @@ function ButtonsSection() {
               </Button>
               <Button tabIndex={0} variant="ghost" rightIcon={<ArrowRight />}>
                 Ghost
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="ghost-secondary"
+                rightIcon={<ArrowRight />}
+              >
+                Ghost Secondary
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="ghost-destructive"
+                rightIcon={<ArrowRight />}
+              >
+                Ghost Destructive
               </Button>
               <Button tabIndex={0} variant="link" rightIcon={<ArrowRight />}>
                 Link
@@ -397,6 +431,22 @@ function ButtonsSection() {
                 rightIcon={<ArrowRight />}
               >
                 Ghost
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="ghost-secondary"
+                leftIcon={<ArrowLeft />}
+                rightIcon={<ArrowRight />}
+              >
+                Ghost Secondary
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="ghost-destructive"
+                leftIcon={<ArrowLeft />}
+                rightIcon={<ArrowRight />}
+              >
+                Ghost Destructive
               </Button>
               <Button
                 tabIndex={0}
@@ -479,6 +529,12 @@ function ButtonsSection() {
               <Button disabled variant="ghost">
                 Ghost
               </Button>
+              <Button disabled variant="ghost-secondary">
+                Ghost Secondary
+              </Button>
+              <Button disabled variant="ghost-destructive">
+                Ghost Destructive
+              </Button>
               <Button disabled variant="link">
                 Link
               </Button>
@@ -514,6 +570,20 @@ function ButtonsSection() {
               </Button>
               <Button disabled variant="ghost" leftIcon={<ArrowLeft />}>
                 Ghost
+              </Button>
+              <Button
+                disabled
+                variant="ghost-secondary"
+                leftIcon={<ArrowLeft />}
+              >
+                Ghost Secondary
+              </Button>
+              <Button
+                disabled
+                variant="ghost-destructive"
+                leftIcon={<ArrowLeft />}
+              >
+                Ghost Destructive
               </Button>
               <Button disabled variant="link" leftIcon={<ArrowLeft />}>
                 Link
@@ -558,6 +628,20 @@ function ButtonsSection() {
               </Button>
               <Button disabled variant="ghost" rightIcon={<ArrowRight />}>
                 Ghost
+              </Button>
+              <Button
+                disabled
+                variant="ghost-secondary"
+                rightIcon={<ArrowRight />}
+              >
+                Ghost Secondary
+              </Button>
+              <Button
+                disabled
+                variant="ghost-destructive"
+                rightIcon={<ArrowRight />}
+              >
+                Ghost Destructive
               </Button>
               <Button disabled variant="link" rightIcon={<ArrowRight />}>
                 Link
@@ -626,6 +710,22 @@ function ButtonsSection() {
                 rightIcon={<ArrowRight />}
               >
                 Ghost
+              </Button>
+              <Button
+                disabled
+                variant="ghost-secondary"
+                leftIcon={<ArrowLeft />}
+                rightIcon={<ArrowRight />}
+              >
+                Ghost Secondary
+              </Button>
+              <Button
+                disabled
+                variant="ghost-destructive"
+                leftIcon={<ArrowLeft />}
+                rightIcon={<ArrowRight />}
+              >
+                Ghost Destructive
               </Button>
               <Button
                 disabled
