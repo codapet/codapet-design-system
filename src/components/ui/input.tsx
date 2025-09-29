@@ -2,12 +2,13 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import { Button } from './button'
 
 const inputVariants = cva(
   [
     // Base styles
     'file:text-zinc-800 placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground',
-    'flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-200',
+    'flex w-full min-w-0 rounded-md border bg-transparent text-base  transition-all duration-200',
     'outline-none font-sans',
     // File input styles
     'file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium',
@@ -18,7 +19,7 @@ const inputVariants = cva(
     // Default state
     'border-zinc-300 bg-background',
     // Hover state
-    'hover:border-brand-normal',
+    'hover:border-primary-stroke-default',
     // Focus state
     'focus:border-blue-500',
     'active:border-brand-normal'
@@ -44,6 +45,8 @@ interface InputProps
   rightIcon?: React.ReactNode
   leftIconClassName?: string
   rightIconClassName?: string
+  rightIconOnClick?: () => void
+  rightIconButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>
   error?: boolean
 }
 
@@ -57,6 +60,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       rightIcon,
       leftIconClassName,
       rightIconClassName,
+      rightIconOnClick,
+      rightIconButtonProps,
       error,
       ...props
     },
@@ -81,7 +86,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               inputVariants({ size }),
               errorStyles,
               'peer',
-              leftIcon && 'pl-10',
+              leftIcon && 'pl-8',
               rightIcon && 'pr-10',
               className
             )}
@@ -93,7 +98,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <div
               className={cn(
                 'pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center',
-                'transition-colors',
+                'transition-colors stroke-[1.5px]',
                 error
                   ? 'text-destructive peer-hover:text-destructive peer-focus:text-destructive peer-active:text-destructive'
                   : 'text-muted-foreground peer-hover:text-brand-normal peer-focus:text-blue-500 peer-active:text-brand-normal',
@@ -113,13 +118,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             </div>
           )}
           {rightIcon && (
-            <div
+            <Button
+              onClick={rightIconOnClick}
+              variant="ghost"
+              size="icon"
               className={cn(
-                'pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center',
-                'transition-colors',
-
+                'absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center',
+                'h-6 w-6 rounded-sm transition-colors',
+                error
+                  ? 'text-destructive hover:text-destructive focus:text-destructive'
+                  : 'text-muted-foreground hover:text-brand-normal focus:text-blue-500',
                 rightIconClassName
               )}
+              aria-label="Input action"
+              {...rightIconButtonProps}
             >
               {React.isValidElement(rightIcon)
                 ? (() => {
@@ -131,7 +143,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     })
                   })()
                 : rightIcon}
-            </div>
+            </Button>
           )}
         </div>
       )

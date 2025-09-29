@@ -83,6 +83,7 @@
   /* stroke */
   --color-gray-stroke-light: var(--gray-stroke-light);
   --color-error-stroke-light: var(--error-stroke-light);
+  --color-primary-stroke-default: var(--primary-stroke-default);
 
   /* error surface */
   --color-error-surface-dark: var(--error-surface-dark);
@@ -143,6 +144,7 @@
   /* Primary Color uses brand-normal */
   --primary: var(--brand-normal);
   --primary-foreground: oklch(0.984 0.003 247.858);
+  --primary-stroke-default: oklch(0.5444 0.1133 253.36);
 
   /* Rose accent */
   --rose-light: oklch(0.9722 0.0086 0.11);

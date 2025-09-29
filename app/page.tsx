@@ -1,3 +1,5 @@
+'use client'
+
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -14,7 +16,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Separator } from '@/components/ui/separator'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -31,20 +33,102 @@ import {
 import { Textarea } from '@/index'
 import {
   AlertCircle,
-  Eye,
-  EyeOff,
+  ArrowLeft,
+  ArrowRight,
+  CircleUser,
   Info,
-  Lock,
-  Mail,
-  Phone,
+  Layout,
+  MessageSquare,
+  MousePointer,
   PlusIcon,
   Search,
-  User
+  ToggleLeft,
+  Type,
+  X
 } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import packageJson from '../package.json'
 
-export default function Home() {
+const navigationItems = [
+  {
+    id: 'buttons',
+    label: 'Buttons',
+    icon: MousePointer,
+    description: 'Various button styles and states'
+  },
+  {
+    id: 'inputs',
+    label: 'Inputs',
+    icon: Type,
+    description: 'Input fields and form controls'
+  },
+  {
+    id: 'textareas',
+    label: 'Textareas',
+    icon: MessageSquare,
+    description: 'Multi-line text input fields'
+  },
+  {
+    id: 'forms',
+    label: 'Form Elements',
+    icon: ToggleLeft,
+    description: 'Checkboxes, radio buttons, switches'
+  },
+  {
+    id: 'typography',
+    label: 'Typography',
+    icon: Type,
+    description: 'Text styles and headings'
+  },
+  {
+    id: 'feedback',
+    label: 'Feedback',
+    icon: AlertCircle,
+    description: 'Alerts, badges, and notifications'
+  },
+  {
+    id: 'layout',
+    label: 'Layout',
+    icon: Layout,
+    description: 'Cards, tabs, and containers'
+  },
+  {
+    id: 'interactive',
+    label: 'Interactive',
+    icon: MousePointer,
+    description: 'Sliders, progress bars, and controls'
+  }
+]
+
+function HomeContent() {
+  const searchParams = useSearchParams()
+  const activeTab = searchParams.get('tab') || 'buttons'
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'buttons':
+        return <ButtonsSection />
+      case 'inputs':
+        return <InputsSection />
+      case 'textareas':
+        return <TextareasSection />
+      case 'forms':
+        return <FormsSection />
+      case 'typography':
+        return <TypographySection />
+      case 'feedback':
+        return <FeedbackSection />
+      case 'layout':
+        return <LayoutSection />
+      case 'interactive':
+        return <InteractiveSection />
+      default:
+        return <ButtonsSection />
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
       {/* Header */}
@@ -70,836 +154,1272 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-6 py-12">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
-            Beautiful, Accessible Components
-          </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            A comprehensive collection of reusable UI components built with
-            Tailwind CSS and shadcn/ui, designed to create consistent and
-            delightful user experiences across all CodaPet applications.
-          </p>
+      {/* Main Layout */}
+      <div className="flex h-[calc(100vh-80px)]">
+        {/* Sidebar Navigation */}
+        <aside className="w-80 border-r bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+          <ScrollArea className="h-full">
+            <div className="p-6">
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
+                Components
+              </h2>
+              <nav className="space-y-2">
+                {navigationItems.map(item => {
+                  const Icon = item.icon
+                  return (
+                    <Link
+                      key={item.id}
+                      href={`?tab=${item.id}`}
+                      className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                        activeTab === item.id
+                          ? 'bg-primary text-primary-foreground'
+                          : 'hover:bg-slate-100 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      <Icon className="w-5 h-5 shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium">{item.label}</div>
+                        <div className="text-sm opacity-70 truncate">
+                          {item.description}
+                        </div>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </nav>
+            </div>
+          </ScrollArea>
+        </aside>
+
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-auto">
+          <ScrollArea className="h-full">
+            <div className="p-8">{renderContent()}</div>
+          </ScrollArea>
+        </main>
+      </div>
+    </div>
+  )
+}
+
+export default function Home() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading...
         </div>
+      }
+    >
+      <HomeContent />
+    </Suspense>
+  )
+}
 
-        {/* Component Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          {/* Buttons */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                Buttons
-              </CardTitle>
-              <CardDescription>
-                Various button styles and states
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex flex-wrap gap-3">
-                <Button tabIndex={0}>Primary</Button>
-                <Button tabIndex={0} variant="secondary">
-                  Secondary
-                </Button>
-                <Button tabIndex={0} variant="tertiary">
-                  Tertiary
-                </Button>
-                <Button tabIndex={0} variant="outline">
-                  Outline
-                </Button>
-                <Button tabIndex={0} variant="ghost">
-                  Ghost
-                </Button>
-                <Button tabIndex={0} variant="link">
-                  Link
-                </Button>
-                <Button tabIndex={0} variant="destructive">
-                  Destructive
-                </Button>
-                <Button tabIndex={0} variant="destructive-secondary">
-                  Destructive Secondary
-                </Button>
-                <Button variant="destructive-tertiary">
-                  Destructive Tertiary
-                </Button>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <Button size="sm">Small</Button>
-                <Button size="md">Medium</Button>
-                <Button size="lg">Large</Button>
-                <Button variant="primary" size="icon">
-                  <PlusIcon className="w-4 h-4 shrink-0" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+// Component Sections
+function ButtonsSection() {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+          Buttons
+        </h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">
+          Various button styles and states for different use cases
+        </p>
+      </div>
 
-          {/* Form Elements */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                Form Elements
-              </CardTitle>
-              <CardDescription>Input fields and form controls</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="Enter your email" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="message">Message</Label>
-                <Textarea id="message" placeholder="Enter your message" />
-              </div>
-              <div className="flex items-center space-x-2">
-                <Checkbox id="terms" />
-                <Label htmlFor="terms">Accept terms and conditions</Label>
-              </div>
-            </CardContent>
-          </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            Button Variants
+          </CardTitle>
+          <CardDescription>
+            Different button styles and their use cases
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Without Icons */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Without Icons
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button tabIndex={0}>Primary</Button>
+              <Button tabIndex={0} variant="secondary">
+                Secondary
+              </Button>
+              <Button tabIndex={0} variant="tertiary">
+                Tertiary
+              </Button>
+              <Button tabIndex={0} variant="outline">
+                Outline
+              </Button>
+              <Button tabIndex={0} variant="ghost">
+                Ghost
+              </Button>
+              <Button tabIndex={0} variant="ghost-secondary">
+                Ghost Secondary
+              </Button>
+              <Button tabIndex={0} variant="ghost-destructive">
+                Ghost Destructive
+              </Button>
+              <Button tabIndex={0} variant="link">
+                Link
+              </Button>
+              <Button tabIndex={0} variant="destructive">
+                Destructive
+              </Button>
+              <Button tabIndex={0} variant="destructive-secondary">
+                Destructive Secondary
+              </Button>
+              <Button variant="destructive-tertiary">
+                Destructive Tertiary
+              </Button>
+            </div>
+          </div>
 
-          {/* Interactive Elements */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                Interactive Elements
-              </CardTitle>
-              <CardDescription>
-                Switches, sliders, and progress indicators
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center space-x-2">
-                <Switch id="airplane-mode" />
-                <Label htmlFor="airplane-mode">Airplane mode</Label>
-              </div>
-              <div className="space-y-2">
-                <Label>Volume</Label>
-                <Slider
-                  defaultValue={[33]}
-                  max={100}
-                  step={1}
-                  className="w-full"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Progress</Label>
-                <Progress value={65} className="w-full" />
-              </div>
-            </CardContent>
-          </Card>
+          {/* With Left Icons */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              With Left Icons
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button tabIndex={0}>
+                <ArrowLeft />
+                Primary
+              </Button>
+              <Button tabIndex={0} variant="secondary">
+                <ArrowLeft />
+                Secondary
+              </Button>
+              <Button tabIndex={0} variant="tertiary">
+                <ArrowLeft />
+                Tertiary
+              </Button>
+              <Button tabIndex={0} variant="outline">
+                <ArrowLeft />
+                Outline
+              </Button>
+              <Button tabIndex={0} variant="ghost">
+                <ArrowLeft />
+                Ghost
+              </Button>
+              <Button tabIndex={0} variant="ghost-secondary">
+                <ArrowLeft />
+                Ghost Secondary
+              </Button>
+              <Button tabIndex={0} variant="ghost-destructive">
+                <ArrowLeft />
+                Ghost Destructive
+              </Button>
+              <Button tabIndex={0} variant="link">
+                <ArrowLeft />
+                Link
+              </Button>
+              <Button tabIndex={0} variant="destructive">
+                <ArrowLeft />
+                Destructive
+              </Button>
+              <Button tabIndex={0} variant="destructive-secondary">
+                <ArrowLeft />
+                Destructive Secondary
+              </Button>
+              <Button variant="destructive-tertiary">
+                <ArrowLeft />
+                Destructive Tertiary
+              </Button>
+            </div>
+          </div>
 
-          {/* Selection Controls */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                Selection Controls
-              </CardTitle>
-              <CardDescription>Radio buttons and checkboxes</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <RadioGroup defaultValue="option-one">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="option-one" id="option-one" />
-                  <Label htmlFor="option-one">Option One</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="option-two" id="option-two" />
-                  <Label htmlFor="option-two">Option Two</Label>
-                </div>
-              </RadioGroup>
-              <div className="flex items-center space-x-2">
-                <Checkbox id="notifications" />
-                <Label htmlFor="notifications">Enable notifications</Label>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          {/* With Right Icons */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              With Right Icons
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button tabIndex={0}>
+                <ArrowRight />
+                Primary
+              </Button>
+              <Button tabIndex={0} variant="secondary">
+                <ArrowRight />
+                Secondary
+              </Button>
+              <Button tabIndex={0} variant="tertiary">
+                <ArrowRight />
+                Tertiary
+              </Button>
+              <Button tabIndex={0} variant="outline">
+                <ArrowRight />
+                Outline
+              </Button>
+              <Button tabIndex={0} variant="ghost">
+                <ArrowRight />
+                Ghost
+              </Button>
+              <Button tabIndex={0} variant="ghost-secondary">
+                <ArrowRight />
+                Ghost Secondary
+              </Button>
+              <Button tabIndex={0} variant="ghost-destructive">
+                <ArrowRight />
+                Ghost Destructive
+              </Button>
+              <Button tabIndex={0} variant="link">
+                <ArrowRight />
+                Link
+              </Button>
+              <Button tabIndex={0} variant="destructive">
+                <ArrowRight />
+                Destructive
+              </Button>
+              <Button tabIndex={0} variant="destructive-secondary">
+                <ArrowRight />
+                Destructive Secondary
+              </Button>
+              <Button variant="destructive-tertiary">
+                <ArrowRight />
+                Destructive Tertiary
+              </Button>
+            </div>
+          </div>
 
-        {/* Tabs Section */}
-        <Card className="mb-16">
+          {/* With Both Icons */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              With Both Icons
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button tabIndex={0}>
+                <ArrowLeft />
+                Primary
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="secondary">
+                <ArrowLeft />
+                Secondary
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="tertiary">
+                <ArrowLeft />
+                Tertiary
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="outline">
+                <ArrowLeft />
+                Outline
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="ghost">
+                <ArrowLeft />
+                Ghost
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="ghost-secondary">
+                <ArrowLeft />
+                Ghost Secondary
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="ghost-destructive">
+                <ArrowLeft />
+                Ghost Destructive
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="link">
+                <ArrowLeft />
+                Link
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="destructive">
+                <ArrowLeft />
+                Destructive
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="destructive-secondary">
+                <ArrowLeft />
+                Destructive Secondary
+                <ArrowRight />
+              </Button>
+              <Button variant="destructive-tertiary">
+                <ArrowLeft />
+                Destructive Tertiary
+                <ArrowRight />
+              </Button>
+            </div>
+          </div>
+
+          {/* Icon Only */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Icon Only (Left Arrow)
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button tabIndex={0} className="py-2 px-2 h-fit">
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="secondary"
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="tertiary"
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="outline"
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button tabIndex={0} variant="ghost" className="py-2 px-2 h-fit">
+                <ArrowLeft />
+              </Button>
+
+              <Button
+                tabIndex={0}
+                variant="ghost-secondary"
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="ghost-destructive"
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+
+              <Button
+                tabIndex={0}
+                variant="destructive"
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="destructive-secondary"
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="destructive-tertiary"
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+            </div>
+          </div>
+
+          {/* Sizes */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Sizes
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button size="sm">Small</Button>
+              <Button size="md">Medium</Button>
+              <Button size="lg">Large</Button>
+              <Button variant="primary" size="icon">
+                <PlusIcon className="w-4 h-4 shrink-0" />
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
+            Disabled Buttons
+          </CardTitle>
+          <CardDescription>
+            All button variants in disabled state
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Without Icons */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Without Icons
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button disabled>Primary</Button>
+              <Button disabled variant="secondary">
+                Secondary
+              </Button>
+              <Button disabled variant="tertiary">
+                Tertiary
+              </Button>
+              <Button disabled variant="outline">
+                Outline
+              </Button>
+              <Button disabled variant="ghost">
+                Ghost
+              </Button>
+              <Button disabled variant="ghost-secondary">
+                Ghost Secondary
+              </Button>
+              <Button disabled variant="ghost-destructive">
+                Ghost Destructive
+              </Button>
+              <Button disabled variant="link">
+                Link
+              </Button>
+              <Button disabled variant="destructive">
+                Destructive
+              </Button>
+              <Button disabled variant="destructive-secondary">
+                Destructive Secondary
+              </Button>
+              <Button disabled variant="destructive-tertiary">
+                Destructive Tertiary
+              </Button>
+            </div>
+          </div>
+
+          {/* With Left Icons */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              With Left Icons
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button disabled>
+                <ArrowLeft />
+                Primary
+              </Button>
+              <Button disabled variant="secondary">
+                <ArrowLeft />
+                Secondary
+              </Button>
+              <Button disabled variant="tertiary">
+                <ArrowLeft />
+                Tertiary
+              </Button>
+              <Button disabled variant="outline">
+                <ArrowLeft />
+                Outline
+              </Button>
+              <Button disabled variant="ghost">
+                <ArrowLeft />
+                Ghost
+              </Button>
+              <Button disabled variant="ghost-secondary">
+                <ArrowLeft />
+                Ghost Secondary
+              </Button>
+              <Button disabled variant="ghost-destructive">
+                <ArrowLeft />
+                Ghost Destructive
+              </Button>
+              <Button disabled variant="link">
+                <ArrowLeft />
+                Link
+              </Button>
+              <Button disabled variant="destructive">
+                <ArrowLeft />
+                Destructive
+              </Button>
+              <Button disabled variant="destructive-secondary">
+                <ArrowLeft />
+                Destructive Secondary
+              </Button>
+              <Button disabled variant="destructive-tertiary">
+                <ArrowLeft />
+                Destructive Tertiary
+              </Button>
+            </div>
+          </div>
+
+          {/* With Right Icons */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              With Right Icons
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button disabled>
+                <ArrowRight />
+                Primary
+              </Button>
+              <Button disabled variant="secondary">
+                <ArrowRight />
+                Secondary
+              </Button>
+              <Button disabled variant="tertiary">
+                <ArrowRight />
+                Tertiary
+              </Button>
+              <Button disabled variant="outline">
+                <ArrowRight />
+                Outline
+              </Button>
+              <Button disabled variant="ghost">
+                <ArrowRight />
+                Ghost
+              </Button>
+              <Button disabled variant="ghost-secondary">
+                <ArrowRight />
+                Ghost Secondary
+              </Button>
+              <Button disabled variant="ghost-destructive">
+                <ArrowRight />
+                Ghost Destructive
+              </Button>
+              <Button disabled variant="link">
+                <ArrowRight />
+                Link
+              </Button>
+              <Button disabled variant="destructive">
+                <ArrowRight />
+                Destructive
+              </Button>
+              <Button disabled variant="destructive-secondary">
+                <ArrowRight />
+                Destructive Secondary
+              </Button>
+              <Button disabled variant="destructive-tertiary">
+                <ArrowRight />
+                Destructive Tertiary
+              </Button>
+            </div>
+          </div>
+
+          {/* With Both Icons */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              With Both Icons
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button tabIndex={0} disabled>
+                <ArrowLeft />
+                Primary
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="secondary" disabled>
+                <ArrowLeft />
+                Secondary
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="tertiary" disabled>
+                <ArrowLeft />
+                Tertiary
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="outline" disabled>
+                <ArrowLeft />
+                Outline
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="ghost" disabled>
+                <ArrowLeft />
+                Ghost
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="ghost-secondary" disabled>
+                <ArrowLeft />
+                Ghost Secondary
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="ghost-destructive" disabled>
+                <ArrowLeft />
+                Ghost Destructive
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="link" disabled>
+                <ArrowLeft />
+                Link
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="destructive" disabled>
+                <ArrowLeft />
+                Destructive
+                <ArrowRight />
+              </Button>
+              <Button tabIndex={0} variant="destructive-secondary" disabled>
+                <ArrowLeft />
+                Destructive Secondary
+                <ArrowRight />
+              </Button>
+              <Button variant="destructive-tertiary" disabled>
+                <ArrowLeft />
+                Destructive Tertiary
+                <ArrowRight />
+              </Button>
+            </div>
+          </div>
+
+          {/* Icon Only */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Icon Only (Left Arrow)
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button tabIndex={0} className="py-2 px-2 h-fit" disabled>
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="secondary"
+                disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="tertiary"
+                disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="outline"
+                disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button tabIndex={0} variant="ghost" disabled>
+                <ArrowLeft />
+              </Button>
+
+              <Button
+                tabIndex={0}
+                variant="ghost-secondary"
+                disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="ghost-destructive"
+                disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+
+              <Button
+                tabIndex={0}
+                variant="destructive"
+                disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="destructive-secondary"
+                disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+              <Button
+                tabIndex={0}
+                variant="destructive-tertiary"
+                disabled
+                className="py-2 px-2 h-fit"
+              >
+                <ArrowLeft />
+              </Button>
+            </div>
+          </div>
+
+          {/* Sizes */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Sizes
+            </h4>
+            <div className="flex flex-wrap gap-3">
+              <Button disabled size="sm">
+                Small
+              </Button>
+              <Button disabled size="md">
+                Medium
+              </Button>
+              <Button disabled size="lg">
+                Large
+              </Button>
+              <Button disabled variant="primary" size="icon">
+                <PlusIcon className="w-4 h-4 shrink-0" />
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function InputsSection() {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+          Input Components
+        </h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">
+          Comprehensive input components with various states, sizes, and icon
+          support
+        </p>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            Input Sizes
+          </CardTitle>
+          <CardDescription>Different input field sizes</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Small Input
+              </Label>
+              <Input size="sm" placeholder="Small input field" />
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Medium Input (Default)
+              </Label>
+              <Input placeholder="Medium input field" />
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Large Input
+              </Label>
+              <Input size="lg" placeholder="Large input field" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            Input States
+          </CardTitle>
+          <CardDescription>
+            Different input states and validation
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Default State
+              </Label>
+              <Input placeholder="Default input state" />
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Default State with left icon
+              </Label>
+              <Input
+                placeholder="Default input state"
+                leftIcon={<CircleUser className="stroke-[1.5px] size-4" />}
+              />
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Default State with right icon
+              </Label>
+              <Input
+                placeholder="Default input state"
+                rightIcon={<X className="stroke-[1.5px] size-4 " />}
+              />
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Error State
+              </Label>
+              <Input placeholder="Error input state" error={true} />
+              <p className="text-sm text-destructive mt-1">
+                This field is required
+              </p>
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Error State with Left Icon
+              </Label>
+              <Input
+                placeholder="Error input state"
+                error={true}
+                leftIcon={<CircleUser className="stroke-[1.5px] size-4" />}
+              />
+              <p className="text-sm text-destructive mt-1">
+                This field is required
+              </p>
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Disabled State
+              </Label>
+              <Input placeholder="Disabled input" disabled />
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                With Icons
+              </Label>
+              <Input placeholder="Search..." leftIcon={<Search />} />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function TextareasSection() {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+          Textarea Components
+        </h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">
+          Multi-line text input fields for longer content
+        </p>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+            Textarea States
+          </CardTitle>
+          <CardDescription>
+            Different textarea states and validation
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Default State
+              </Label>
+              <Textarea placeholder="Default textarea state" />
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Error State
+              </Label>
+              <Textarea placeholder="Error textarea state" error={true} />
+              <p className="text-sm text-destructive mt-1">
+                This field is required
+              </p>
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                Disabled State
+              </Label>
+              <Textarea placeholder="Disabled textarea" disabled />
+            </div>
+            <div>
+              <Label className="mb-2 block text-sm font-medium">
+                With Label
+              </Label>
+              <Textarea placeholder="Enter your message" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function FormsSection() {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+          Form Elements
+        </h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">
+          Checkboxes, radio buttons, switches, and other form controls
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
-              Tabs & Navigation
+              <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+              Interactive Elements
             </CardTitle>
-            <CardDescription>Organized content with tabs</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Tabs defaultValue="account" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="account">Account</TabsTrigger>
-                <TabsTrigger value="password">Password</TabsTrigger>
-                <TabsTrigger value="settings">Settings</TabsTrigger>
-              </TabsList>
-              <TabsContent value="account" className="space-y-4 mt-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" placeholder="Enter your name" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="username">Username</Label>
-                  <Input id="username" placeholder="Enter your username" />
-                </div>
-              </TabsContent>
-              <TabsContent value="password" className="space-y-4 mt-4">
-                <div className="space-y-2">
-                  <Label htmlFor="current">Current password</Label>
-                  <Input id="current" type="password" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="new">New password</Label>
-                  <Input id="new" type="password" />
-                </div>
-              </TabsContent>
-              <TabsContent value="settings" className="space-y-4 mt-4">
-                <div className="flex items-center space-x-2">
-                  <Switch id="notifications" />
-                  <Label htmlFor="notifications">Email notifications</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Switch id="marketing" />
-                  <Label htmlFor="marketing">Marketing emails</Label>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-        </Card>
-
-        {/* Alerts and Feedback */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                Alerts
-              </CardTitle>
-              <CardDescription>
-                Feedback and notification messages
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Alert>
-                <Info className="h-4 w-4" />
-                <AlertDescription>
-                  This is an informational alert with an icon.
-                </AlertDescription>
-              </Alert>
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
-                  This is a destructive alert for errors.
-                </AlertDescription>
-              </Alert>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
-                Avatars & Badges
-              </CardTitle>
-              <CardDescription>
-                User avatars and status indicators
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarFallback>JD</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarFallback>AB</AvatarFallback>
-                </Avatar>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Badge>Default</Badge>
-                <Badge variant="secondary">Secondary</Badge>
-                <Badge variant="destructive">Destructive</Badge>
-                <Badge variant="outline">Outline</Badge>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Typography */}
-        <Card className="mb-16">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
-              Typography
-            </CardTitle>
-            <CardDescription>Display text variants</CardDescription>
+            <CardDescription>
+              Switches, sliders, and progress indicators
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            <div className="flex items-center space-x-2">
+              <Switch id="airplane-mode" />
+              <Label htmlFor="airplane-mode">Airplane mode</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch id="airplane-mode" disabled />
+              <Label htmlFor="airplane-mode">disabled Airplane mode</Label>
+            </div>
             <div className="space-y-2">
-              <DisplayHeading size="lg">Display Text Large</DisplayHeading>
-              <DisplayHeading size="md">Display Text Medium</DisplayHeading>
-              <DisplayHeading size="sm">Display Text Small</DisplayHeading>
+              <Label>Volume</Label>
+              <Slider
+                defaultValue={[33]}
+                max={100}
+                step={1}
+                className="w-full"
+              />
             </div>
-            <Separator />
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
-                Heading Components
-              </h3>
-              <div className="space-y-3">
-                <HeadingXL>Heading XL - Extra Large Heading</HeadingXL>
-                <HeadingL>Heading L - Large Heading</HeadingL>
-                <HeadingM>Heading M - Medium Heading</HeadingM>
-                <HeadingS>Heading S - Small Heading</HeadingS>
-                <HeadingXS>Heading XS - Extra Small Heading</HeadingXS>
-                <HeadingXXS>Heading XXS - Extra Extra Small Heading</HeadingXXS>
-              </div>
-            </div>
-            <Separator />
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
-                Body Text Components
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                    Large Body Text
-                  </p>
-                  <Body size="lg">
-                    This is large body text. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua.
-                  </Body>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                    Medium Body Text (Default)
-                  </p>
-                  <Body size="md">
-                    This is medium body text. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua.
-                  </Body>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                    Small Body Text
-                  </p>
-                  <Body size="sm">
-                    This is small body text. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua.
-                  </Body>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                    Extra Small Body Text
-                  </p>
-                  <Body size="xs">
-                    This is extra small body text. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua.
-                  </Body>
-                </div>
-              </div>
-            </div>
-            <Separator />
-            <div className="space-y-4">
-              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
-                Label Components
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                    Large Label
-                  </p>
-                  <Label size="lg">
-                    Large label text for prominent form fields
-                  </Label>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                    Medium Label (Default)
-                  </p>
-                  <Label size="md">
-                    Medium label text for standard form fields
-                  </Label>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                    Small Label
-                  </p>
-                  <Label size="sm">
-                    Small label text for compact form fields
-                  </Label>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                    Extra Small Label
-                  </p>
-                  <Label size="xs">
-                    Extra small label text for minimal form fields
-                  </Label>
-                </div>
-              </div>
+            <div className="space-y-2">
+              <Label>Progress</Label>
+              <Progress value={65} className="w-full" />
             </div>
           </CardContent>
         </Card>
 
-        {/* Input Components Showcase */}
-        <Card className="mb-16">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <div className="p-2 bg-blue-500/10 rounded-lg">
-                <AlertCircle className="h-5 w-5 text-blue-500" />
-              </div>
-              Input Components
+              <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+              Selection Controls
             </CardTitle>
-            <CardDescription>
-              Comprehensive input component with various states, sizes, and icon
-              support
-            </CardDescription>
+            <CardDescription>Radio buttons and checkboxes</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-8">
-            {/* Basic Input Sizes */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Input Sizes
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Small Input
-                  </Label>
-                  <Input size="sm" placeholder="Small input field" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Medium Input (Default)
-                  </Label>
-                  <Input placeholder="Medium input field" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Large Input
-                  </Label>
-                  <Input size="lg" placeholder="Large input field" />
-                </div>
+          <CardContent className="space-y-4">
+            <RadioGroup defaultValue="option-one">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem
+                  value="option-one"
+                  id="option-one"
+                  className="size-5"
+                />
+                <Label htmlFor="option-one">Option One</Label>
               </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem
+                  value="option-two"
+                  id="option-two"
+                  className="size-5"
+                />
+                <Label htmlFor="option-two">Option Two</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem
+                  value="option-three"
+                  id="option-three"
+                  disabled
+                  className="size-5"
+                />
+                <Label htmlFor="option-three">disabled Option </Label>
+              </div>
+            </RadioGroup>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="notifications" className="size-5" />
+              <Label htmlFor="notifications">Enable notifications</Label>
             </div>
-
-            <Separator />
-
-            {/* Input States */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Input States
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Default State
-                  </Label>
-                  <Input placeholder="Default input state" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Error State
-                  </Label>
-                  <Input
-                    placeholder="Error input state"
-                    error={true}
-                    aria-describedby="error-message"
-                  />
-                  <p className="text-sm text-destructive mt-1">
-                    This field is required
-                  </p>
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Disabled State
-                  </Label>
-                  <Input placeholder="Disabled input" disabled />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Focus State
-                  </Label>
-                  <Input placeholder="Focus to see ring effect" />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Click to see focus ring
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Inputs with Icons */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Inputs with Icons
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Search Input
-                  </Label>
-                  <Input placeholder="Search..." leftIcon={<Search />} />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Email Input
-                  </Label>
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    leftIcon={<Mail />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Password Input
-                  </Label>
-                  <Input
-                    type="password"
-                    placeholder="Enter password"
-                    leftIcon={<Lock />}
-                    rightIcon={<Eye />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    User Input
-                  </Label>
-                  <Input
-                    placeholder="Username"
-                    leftIcon={<User />}
-                    rightIcon={<AlertCircle />}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Different Input Types */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Input Types
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Text Input
-                  </Label>
-                  <Input type="text" placeholder="Enter text" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Number Input
-                  </Label>
-                  <Input type="number" placeholder="Enter number" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Email Input
-                  </Label>
-                  <Input type="email" placeholder="Enter email" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Phone Input
-                  </Label>
-                  <Input
-                    type="tel"
-                    placeholder="Enter phone number"
-                    leftIcon={<Phone />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Date Input
-                  </Label>
-                  <Input type="date" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Time Input
-                  </Label>
-                  <Input type="time" />
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Icon Styling Control */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Custom Icon Styling
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Custom Icon Container
-                  </Label>
-                  <Input
-                    placeholder="Custom icon background"
-                    leftIcon={<Search />}
-                    leftIconClassName="bg-primary/10 rounded-full p-1"
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Using leftIconClassName=&quot;bg-primary/10 rounded-full
-                    p-1&quot;
-                  </p>
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Colored Icons
-                  </Label>
-                  <Input
-                    placeholder="Different colored icons"
-                    leftIcon={<Mail />}
-                    rightIcon={<Eye />}
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Icons with custom colors: text-blue-500, text-green-500
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Size Combinations with Icons */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Size Variants with Icons
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Small with Icons
-                  </Label>
-                  <Input
-                    size="sm"
-                    placeholder="Small input with icons"
-                    leftIcon={<User />}
-                    rightIcon={<EyeOff />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Medium with Icons
-                  </Label>
-                  <Input
-                    placeholder="Medium input with icons"
-                    leftIcon={<Mail />}
-                    rightIcon={<AlertCircle />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Large with Icons
-                  </Label>
-                  <Input
-                    size="lg"
-                    placeholder="Large input with icons"
-                    leftIcon={<Search />}
-                    rightIcon={<Info />}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Error States with Icons */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Error States
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Small Error Input
-                  </Label>
-                  <Input
-                    size="sm"
-                    placeholder="Small error input"
-                    leftIcon={<Mail />}
-                    error={true}
-                  />
-                  <p className="text-xs text-destructive mt-1">
-                    Please enter a valid email address
-                  </p>
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Medium Error Input
-                  </Label>
-                  <Input
-                    placeholder="Medium error input"
-                    leftIcon={<Lock />}
-                    rightIcon={<AlertCircle />}
-                    error={true}
-                  />
-                  <p className="text-xs text-destructive mt-1">
-                    Password must be at least 8 characters
-                  </p>
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Large Error Input
-                  </Label>
-                  <Input
-                    size="lg"
-                    placeholder="Large error input"
-                    leftIcon={<User />}
-                    error={true}
-                  />
-                  <p className="text-xs text-destructive mt-1">
-                    Username is already taken
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Complete Form Example */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Complete Form Example
-              </h3>
-              <div className="space-y-4 max-w-md">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Full Name
-                  </Label>
-                  <Input
-                    placeholder="Enter your full name"
-                    leftIcon={<User />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Email Address
-                  </Label>
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    leftIcon={<Mail />}
-                    error={true}
-                  />
-                  <p className="text-xs text-destructive mt-1">
-                    Please enter a valid email address
-                  </p>
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Password
-                  </Label>
-                  <Input
-                    type="password"
-                    placeholder="Create a password"
-                    leftIcon={<Lock />}
-                    rightIcon={<Eye />}
-                  />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Phone Number
-                  </Label>
-                  <Input
-                    type="tel"
-                    placeholder="+1 (555) 123-4567"
-                    leftIcon={<Phone />}
-                  />
-                </div>
-                <Button className="w-full">Create Account</Button>
-              </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="notifications" disabled className="size-5" />
+              <Label htmlFor="notifications">disabled notifications</Label>
             </div>
           </CardContent>
         </Card>
+      </div>
+    </div>
+  )
+}
 
-        {/* Textarea Components Showcase */}
-        <Card className="mb-16">
+function TypographySection() {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+          Typography
+        </h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">
+          Text styles and typography components for consistent content hierarchy
+        </p>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+            Display Headings
+          </CardTitle>
+          <CardDescription>
+            Large display text for hero sections
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <DisplayHeading size="lg">Display Text Large</DisplayHeading>
+            <DisplayHeading size="md">Display Text Medium</DisplayHeading>
+            <DisplayHeading size="sm">Display Text Small</DisplayHeading>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            Heading Components
+          </CardTitle>
+          <CardDescription>Hierarchical heading styles</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-3">
+            <HeadingXL>Heading XL - Extra Large Heading</HeadingXL>
+            <HeadingL>Heading L - Large Heading</HeadingL>
+            <HeadingM>Heading M - Medium Heading</HeadingM>
+            <HeadingS>Heading S - Small Heading</HeadingS>
+            <HeadingXS>Heading XS - Extra Small Heading</HeadingXS>
+            <HeadingXXS>Heading XXS - Extra Extra Small Heading</HeadingXXS>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            Body Text Components
+          </CardTitle>
+          <CardDescription>
+            Body text for content and descriptions
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-4">
+            <div>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                Large Body Text
+              </p>
+              <Body size="lg">
+                This is large body text. Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit.
+              </Body>
+            </div>
+            <div>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                Medium Body Text (Default)
+              </p>
+              <Body size="md">
+                This is medium body text. Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit.
+              </Body>
+            </div>
+            <div>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                Small Body Text
+              </p>
+              <Body size="sm">
+                This is small body text. Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit.
+              </Body>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function FeedbackSection() {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+          Feedback Components
+        </h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">
+          Alerts, badges, and notification components for user feedback
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <div className="p-2 bg-emerald-500/10 rounded-lg">
-                <AlertCircle className="h-5 w-5 text-emerald-500" />
-              </div>
-              Textarea Components
+              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+              Alerts
             </CardTitle>
             <CardDescription>
-              Textarea variants for sizes and common states
+              Feedback and notification messages
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-8">
-            {/* Basic Textarea */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Textarea
-              </h3>
-              <div>
-                <Label className="mb-2 block text-sm font-medium">
-                  Default
-                </Label>
-                <Textarea placeholder="Textarea field" />
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Textarea States */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Textarea States
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Default State
-                  </Label>
-                  <Textarea placeholder="Default textarea state" />
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Error State
-                  </Label>
-                  <Textarea placeholder="Error textarea state" error={true} />
-                  <p className="text-sm text-destructive mt-1">
-                    This field is required
-                  </p>
-                </div>
-                <div>
-                  <Label className="mb-2 block text-sm font-medium">
-                    Disabled State
-                  </Label>
-                  <Textarea placeholder="Disabled textarea" disabled />
-                </div>
-              </div>
-            </div>
+          <CardContent className="space-y-4">
+            <Alert>
+              <Info className="h-4 w-4" />
+              <AlertDescription>
+                This is an informational alert with an icon.
+              </AlertDescription>
+            </Alert>
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                This is a destructive alert for errors.
+              </AlertDescription>
+            </Alert>
           </CardContent>
         </Card>
 
-        {/* Footer */}
-        <Separator className="my-8" />
-        <div className="text-center text-slate-600 dark:text-slate-400">
-          <p className="mb-2">Built with ❤️ for CodaPet</p>
-          <p className="text-sm">
-            Powered by Tailwind CSS, shadcn/ui, and Next.js
-          </p>
-        </div>
-      </main>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
+              Avatars & Badges
+            </CardTitle>
+            <CardDescription>
+              User avatars and status indicators
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center space-x-4">
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarFallback>JD</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarFallback>AB</AvatarFallback>
+              </Avatar>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Badge>Default</Badge>
+              <Badge variant="secondary">Secondary</Badge>
+              <Badge variant="destructive">Destructive</Badge>
+              <Badge variant="outline">Outline</Badge>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
+function LayoutSection() {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+          Layout Components
+        </h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">
+          Cards, tabs, and container components for organizing content
+        </p>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
+            Tabs & Navigation
+          </CardTitle>
+          <CardDescription>Organized content with tabs</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="account" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="account">Account</TabsTrigger>
+              <TabsTrigger value="password">Password</TabsTrigger>
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </TabsList>
+            <TabsContent value="account" className="space-y-4 mt-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" placeholder="Enter your name" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input id="username" placeholder="Enter your username" />
+              </div>
+            </TabsContent>
+            <TabsContent value="password" className="space-y-4 mt-4">
+              <div className="space-y-2">
+                <Label htmlFor="current">Current password</Label>
+                <Input id="current" type="password" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new">New password</Label>
+                <Input id="new" type="password" />
+              </div>
+            </TabsContent>
+            <TabsContent value="settings" className="space-y-4 mt-4">
+              <div className="flex items-center space-x-2">
+                <Switch id="notifications" />
+                <Label htmlFor="notifications">Email notifications</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch id="marketing" />
+                <Label htmlFor="marketing">Marketing emails</Label>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function InteractiveSection() {
+  return (
+    <div className="space-y-8">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+          Interactive Components
+        </h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">
+          Sliders, progress bars, and interactive controls
+        </p>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+            Interactive Controls
+          </CardTitle>
+          <CardDescription>
+            Sliders, switches, and progress indicators
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center space-x-2">
+            <Switch id="airplane-mode" />
+            <Label htmlFor="airplane-mode">Airplane mode</Label>
+          </div>
+          <div className="space-y-2">
+            <Label>Volume</Label>
+            <Slider defaultValue={[33]} max={100} step={1} className="w-full" />
+          </div>
+          <div className="space-y-2">
+            <Label>Progress</Label>
+            <Progress value={65} className="w-full" />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
