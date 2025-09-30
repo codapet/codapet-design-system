@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 const textareaBaseStyles = [
   // Base styles aligned with Input
   'placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground',
-  'flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-200',
+  'flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-400',
   'outline-none font-sans',
   // Disabled
   'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',

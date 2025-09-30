@@ -8,7 +8,7 @@ const inputVariants = cva(
   [
     // Base styles
     'file:text-zinc-800 placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground',
-    'flex w-full min-w-0 rounded-md border bg-transparent text-base  transition-all duration-200',
+    'flex w-full min-w-0 rounded-md border bg-transparent text-base  transition-all duration-400',
     'outline-none font-sans',
     // File input styles
     'file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium',
