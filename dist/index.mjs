@@ -48,7 +48,7 @@ function AccordionTrigger({
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx(ChevronDownIcon, { className: "text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" })
+        /* @__PURE__ */ jsx(ChevronDownIcon, { className: "text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-400" })
       ]
     }
   ) });
@@ -142,7 +142,7 @@ import { cva as cva2 } from "class-variance-authority";
 import "react";
 import { jsx as jsx3 } from "react/jsx-runtime";
 var buttonVariants = cva2(
-  "cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-colors transition-opacity disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none relative select-none will-change-auto  focus-visible:before:absolute focus-visible:before:-inset-[3px] focus-visible:before:rounded-lg focus-visible:before:ring-2 focus-visible:before:ring-blue-500/80 focus-visible:before:pointer-events-none aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none relative select-none will-change-auto  focus-visible:before:absolute focus-visible:before:-inset-[3px] focus-visible:before:rounded-lg focus-visible:before:ring-2 focus-visible:before:ring-blue-500/80 focus-visible:before:pointer-events-none aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive duration-400",
   {
     variants: {
       variant: {
@@ -1223,7 +1223,7 @@ function Checkbox({
     {
       "data-slot": "checkbox",
       className: cn(
-        "peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border  transition-shadow outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:before:absolute focus-visible:before:-inset-[3px] focus:ring-offset-1 focus:ring-offset-brand-text-vibrant",
+        "group peer border-input dark:bg-input/30 transition-colors duration-400 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:before:absolute focus-visible:before:-inset-[3px] focus:ring-offset-1 focus:ring-offset-brand-text-vibrant",
         className
       ),
       ...props,
@@ -1231,7 +1231,8 @@ function Checkbox({
         CheckboxPrimitive.Indicator,
         {
           "data-slot": "checkbox-indicator",
-          className: "flex items-center justify-center text-current transition-none",
+          forceMount: true,
+          className: "flex items-center justify-center text-current transition-opacity duration-400 opacity-0 group-data-[state=checked]:opacity-100",
           children: /* @__PURE__ */ jsx13(Check, { className: "size-3.5" })
         }
       )
@@ -1329,7 +1330,7 @@ function DialogContent({
       {
         "data-slot": "dialog-content",
         className: cn(
-          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg",
+          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-400 sm:max-w-lg",
           className
         ),
         ...props,
@@ -2292,7 +2293,7 @@ var inputVariants = cva5(
   [
     // Base styles
     "file:text-zinc-800 placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
-    "flex w-full min-w-0 rounded-md border bg-transparent text-base  transition-all duration-200",
+    "flex w-full min-w-0 rounded-md border bg-transparent text-base  transition-all duration-400",
     "outline-none font-sans",
     // File input styles
     "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
@@ -2790,7 +2791,7 @@ function NavigationMenuTrigger({
         /* @__PURE__ */ jsx26(
           ChevronDownIcon3,
           {
-            className: "relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180",
+            className: "relative top-[1px] ml-1 size-3 transition duration-400 group-data-[state=open]:rotate-180",
             "aria-hidden": "true"
           }
         )
@@ -2808,7 +2809,7 @@ function NavigationMenuContent({
       "data-slot": "navigation-menu-content",
       className: cn(
         "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 top-0 left-0 w-full p-2 pr-2.5 md:absolute md:w-auto",
-        "group-data-[viewport=false]/navigation-menu:bg-popover group-data-[viewport=false]/navigation-menu:text-popover-foreground group-data-[viewport=false]/navigation-menu:data-[state=open]:animate-in group-data-[viewport=false]/navigation-menu:data-[state=closed]:animate-out group-data-[viewport=false]/navigation-menu:data-[state=closed]:zoom-out-95 group-data-[viewport=false]/navigation-menu:data-[state=open]:zoom-in-95 group-data-[viewport=false]/navigation-menu:data-[state=open]:fade-in-0 group-data-[viewport=false]/navigation-menu:data-[state=closed]:fade-out-0 group-data-[viewport=false]/navigation-menu:top-full group-data-[viewport=false]/navigation-menu:mt-1.5 group-data-[viewport=false]/navigation-menu:overflow-hidden group-data-[viewport=false]/navigation-menu:rounded-md group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:shadow group-data-[viewport=false]/navigation-menu:duration-200 **:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none",
+        "group-data-[viewport=false]/navigation-menu:bg-popover group-data-[viewport=false]/navigation-menu:text-popover-foreground group-data-[viewport=false]/navigation-menu:data-[state=open]:animate-in group-data-[viewport=false]/navigation-menu:data-[state=closed]:animate-out group-data-[viewport=false]/navigation-menu:data-[state=closed]:zoom-out-95 group-data-[viewport=false]/navigation-menu:data-[state=open]:zoom-in-95 group-data-[viewport=false]/navigation-menu:data-[state=open]:fade-in-0 group-data-[viewport=false]/navigation-menu:data-[state=closed]:fade-out-0 group-data-[viewport=false]/navigation-menu:top-full group-data-[viewport=false]/navigation-menu:mt-1.5 group-data-[viewport=false]/navigation-menu:overflow-hidden group-data-[viewport=false]/navigation-menu:rounded-md group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:shadow group-data-[viewport=false]/navigation-menu:duration-400 **:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none",
         className
       ),
       ...props
@@ -3084,7 +3085,7 @@ function RadioGroupItem({
     {
       "data-slot": "radio-group-item",
       className: cn(
-        "border-input text-primary focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border transition-[color,box-shadow] outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:border-primary",
+        "border-input text-primary focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border transition-all duration-400 outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:border-primary",
         className
       ),
       ...props,
@@ -3092,8 +3093,8 @@ function RadioGroupItem({
         RadioGroupPrimitive.Indicator,
         {
           "data-slot": "radio-group-indicator",
-          className: "relative flex items-center justify-center ",
-          children: /* @__PURE__ */ jsx30(CircleIcon4, { className: "fill-white absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 " })
+          className: "relative flex items-center justify-center",
+          children: /* @__PURE__ */ jsx30(CircleIcon4, { className: "fill-white absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2" })
         }
       )
     }
@@ -4289,7 +4290,7 @@ function Switch({
     {
       "data-slot": "switch",
       className: cn(
-        "peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-brand-text-vibrant dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.25rem] w-[2.1rem] shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-offset-1 ",
+        "peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-brand-text-vibrant dark:data-[state=unchecked]:bg-input/80 inline-flex h-[24px] w-[40px] shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-offset-1 ",
         className
       ),
       ...props,
@@ -4298,7 +4299,7 @@ function Switch({
         {
           "data-slot": "switch-thumb",
           className: cn(
-            "bg-background dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0.5"
+            "bg-background dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-5 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-3px)] data-[state=unchecked]:translate-x-[1px]"
           )
         }
       )
@@ -4481,7 +4482,7 @@ import { jsx as jsx44 } from "react/jsx-runtime";
 var textareaBaseStyles = [
   // Base styles aligned with Input
   "placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
-  "flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-200",
+  "flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-400",
   "outline-none font-sans",
   // Disabled
   "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",

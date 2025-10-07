@@ -287,47 +287,47 @@ function ButtonsSection() {
             </h4>
             <div className="flex flex-wrap gap-3">
               <Button tabIndex={0}>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Primary
               </Button>
               <Button tabIndex={0} variant="secondary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Secondary
               </Button>
               <Button tabIndex={0} variant="tertiary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Tertiary
               </Button>
               <Button tabIndex={0} variant="outline">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Outline
               </Button>
               <Button tabIndex={0} variant="ghost">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost
               </Button>
               <Button tabIndex={0} variant="ghost-secondary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost Secondary
               </Button>
               <Button tabIndex={0} variant="ghost-destructive">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost Destructive
               </Button>
               <Button tabIndex={0} variant="link">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Link
               </Button>
               <Button tabIndex={0} variant="destructive">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive
               </Button>
               <Button tabIndex={0} variant="destructive-secondary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive Secondary
               </Button>
               <Button variant="destructive-tertiary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive Tertiary
               </Button>
             </div>
@@ -340,48 +340,48 @@ function ButtonsSection() {
             </h4>
             <div className="flex flex-wrap gap-3">
               <Button tabIndex={0}>
-                <ArrowRight />
                 Primary
+                <ArrowRight className="size-4" />
               </Button>
               <Button tabIndex={0} variant="secondary">
-                <ArrowRight />
                 Secondary
+                <ArrowRight className="size-4" />
               </Button>
               <Button tabIndex={0} variant="tertiary">
-                <ArrowRight />
                 Tertiary
+                <ArrowRight className="size-4" />
               </Button>
               <Button tabIndex={0} variant="outline">
-                <ArrowRight />
                 Outline
+                <ArrowRight className="size-4" />
               </Button>
               <Button tabIndex={0} variant="ghost">
-                <ArrowRight />
                 Ghost
+                <ArrowRight className="size-4" />
               </Button>
               <Button tabIndex={0} variant="ghost-secondary">
-                <ArrowRight />
                 Ghost Secondary
+                <ArrowRight className="size-4" />
               </Button>
               <Button tabIndex={0} variant="ghost-destructive">
-                <ArrowRight />
                 Ghost Destructive
+                <ArrowRight className="size-4" />
               </Button>
               <Button tabIndex={0} variant="link">
-                <ArrowRight />
                 Link
+                <ArrowRight className="size-4" />
               </Button>
               <Button tabIndex={0} variant="destructive">
-                <ArrowRight />
                 Destructive
+                <ArrowRight className="size-4" />
               </Button>
               <Button tabIndex={0} variant="destructive-secondary">
-                <ArrowRight />
                 Destructive Secondary
+                <ArrowRight className="size-4" />
               </Button>
               <Button variant="destructive-tertiary">
-                <ArrowRight />
                 Destructive Tertiary
+                <ArrowRight className="size-4" />
               </Button>
             </div>
           </div>
@@ -393,57 +393,57 @@ function ButtonsSection() {
             </h4>
             <div className="flex flex-wrap gap-3">
               <Button tabIndex={0}>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Primary
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="secondary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Secondary
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="tertiary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Tertiary
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="outline">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Outline
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="ghost">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="ghost-secondary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost Secondary
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="ghost-destructive">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost Destructive
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="link">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Link
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="destructive">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="destructive-secondary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive Secondary
                 <ArrowRight />
               </Button>
               <Button variant="destructive-tertiary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive Tertiary
                 <ArrowRight />
               </Button>
@@ -456,68 +456,40 @@ function ButtonsSection() {
               Icon Only (Left Arrow)
             </h4>
             <div className="flex flex-wrap gap-3">
-              <Button tabIndex={0} className="py-2 px-2 h-fit">
-                <ArrowLeft />
+              <Button tabIndex={0} className="">
+                <ArrowLeft className="size-4" />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="secondary"
-                className="py-2 px-2 h-fit"
-              >
-                <ArrowLeft />
+              <Button tabIndex={0} variant="secondary" className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="tertiary"
-                className="py-2 px-2 h-fit"
-              >
-                <ArrowLeft />
+              <Button tabIndex={0} variant="tertiary" className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="outline"
-                className="py-2 px-2 h-fit"
-              >
-                <ArrowLeft />
+              <Button tabIndex={0} variant="outline" className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
-              <Button tabIndex={0} variant="ghost" className="py-2 px-2 h-fit">
-                <ArrowLeft />
+              <Button tabIndex={0} variant="ghost" className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
 
-              <Button
-                tabIndex={0}
-                variant="ghost-secondary"
-                className="py-2 px-2 h-fit"
-              >
-                <ArrowLeft />
+              <Button tabIndex={0} variant="ghost-secondary" className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="ghost-destructive"
-                className="py-2 px-2 h-fit"
-              >
-                <ArrowLeft />
+              <Button tabIndex={0} variant="ghost-destructive" className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
 
-              <Button
-                tabIndex={0}
-                variant="destructive"
-                className="py-2 px-2 h-fit"
-              >
-                <ArrowLeft />
+              <Button tabIndex={0} variant="destructive" className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
               <Button
                 tabIndex={0}
                 variant="destructive-secondary"
-                className="py-2 px-2 h-fit"
+                className=" "
               >
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="destructive-tertiary"
-                className="py-2 px-2 h-fit"
-              >
+              <Button tabIndex={0} variant="destructive-tertiary" className=" ">
                 <ArrowLeft />
               </Button>
             </div>
@@ -598,47 +570,47 @@ function ButtonsSection() {
             </h4>
             <div className="flex flex-wrap gap-3">
               <Button disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Primary
               </Button>
               <Button disabled variant="secondary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Secondary
               </Button>
               <Button disabled variant="tertiary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Tertiary
               </Button>
               <Button disabled variant="outline">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Outline
               </Button>
               <Button disabled variant="ghost">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost
               </Button>
               <Button disabled variant="ghost-secondary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost Secondary
               </Button>
               <Button disabled variant="ghost-destructive">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost Destructive
               </Button>
               <Button disabled variant="link">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Link
               </Button>
               <Button disabled variant="destructive">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive
               </Button>
               <Button disabled variant="destructive-secondary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive Secondary
               </Button>
               <Button disabled variant="destructive-tertiary">
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive Tertiary
               </Button>
             </div>
@@ -651,47 +623,47 @@ function ButtonsSection() {
             </h4>
             <div className="flex flex-wrap gap-3">
               <Button disabled>
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Primary
               </Button>
               <Button disabled variant="secondary">
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Secondary
               </Button>
               <Button disabled variant="tertiary">
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Tertiary
               </Button>
               <Button disabled variant="outline">
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Outline
               </Button>
               <Button disabled variant="ghost">
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Ghost
               </Button>
               <Button disabled variant="ghost-secondary">
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Ghost Secondary
               </Button>
               <Button disabled variant="ghost-destructive">
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Ghost Destructive
               </Button>
               <Button disabled variant="link">
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Link
               </Button>
               <Button disabled variant="destructive">
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Destructive
               </Button>
               <Button disabled variant="destructive-secondary">
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Destructive Secondary
               </Button>
               <Button disabled variant="destructive-tertiary">
-                <ArrowRight />
+                <ArrowRight className="size-4" />
                 Destructive Tertiary
               </Button>
             </div>
@@ -704,57 +676,57 @@ function ButtonsSection() {
             </h4>
             <div className="flex flex-wrap gap-3">
               <Button tabIndex={0} disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Primary
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="secondary" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Secondary
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="tertiary" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Tertiary
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="outline" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Outline
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="ghost" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="ghost-secondary" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost Secondary
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="ghost-destructive" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Ghost Destructive
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="link" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Link
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="destructive" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive
                 <ArrowRight />
               </Button>
               <Button tabIndex={0} variant="destructive-secondary" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive Secondary
                 <ArrowRight />
               </Button>
               <Button variant="destructive-tertiary" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
                 Destructive Tertiary
                 <ArrowRight />
               </Button>
@@ -767,77 +739,57 @@ function ButtonsSection() {
               Icon Only (Left Arrow)
             </h4>
             <div className="flex flex-wrap gap-3">
-              <Button tabIndex={0} className="py-2 px-2 h-fit" disabled>
-                <ArrowLeft />
+              <Button tabIndex={0} className=" " disabled>
+                <ArrowLeft className="size-4" />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="secondary"
-                disabled
-                className="py-2 px-2 h-fit"
-              >
-                <ArrowLeft />
+              <Button tabIndex={0} variant="secondary" disabled className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="tertiary"
-                disabled
-                className="py-2 px-2 h-fit"
-              >
-                <ArrowLeft />
+              <Button tabIndex={0} variant="tertiary" disabled className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
-              <Button
-                tabIndex={0}
-                variant="outline"
-                disabled
-                className="py-2 px-2 h-fit"
-              >
-                <ArrowLeft />
+              <Button tabIndex={0} variant="outline" disabled className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
               <Button tabIndex={0} variant="ghost" disabled>
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
               </Button>
 
               <Button
                 tabIndex={0}
                 variant="ghost-secondary"
                 disabled
-                className="py-2 px-2 h-fit"
+                className=" "
               >
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
               </Button>
               <Button
                 tabIndex={0}
                 variant="ghost-destructive"
                 disabled
-                className="py-2 px-2 h-fit"
+                className=" "
               >
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
               </Button>
 
-              <Button
-                tabIndex={0}
-                variant="destructive"
-                disabled
-                className="py-2 px-2 h-fit"
-              >
-                <ArrowLeft />
+              <Button tabIndex={0} variant="destructive" disabled className=" ">
+                <ArrowLeft className="size-4" />
               </Button>
               <Button
                 tabIndex={0}
                 variant="destructive-secondary"
                 disabled
-                className="py-2 px-2 h-fit"
+                className=" "
               >
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
               </Button>
               <Button
                 tabIndex={0}
                 variant="destructive-tertiary"
                 disabled
-                className="py-2 px-2 h-fit"
+                className=" "
               >
-                <ArrowLeft />
+                <ArrowLeft className="size-4" />
               </Button>
             </div>
           </div>
