@@ -1277,9 +1277,9 @@ import { Command as CommandPrimitive } from "cmdk";
 import { SearchIcon } from "lucide-react";
 
 // src/components/ui/dialog.tsx
-import "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
+import "react";
 import { jsx as jsx15, jsxs as jsxs6 } from "react/jsx-runtime";
 function Dialog({
   ...props
@@ -1320,11 +1320,12 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
+  overlayClassName,
   showCloseButton = true,
   ...props
 }) {
   return /* @__PURE__ */ jsxs6(DialogPortal, { "data-slot": "dialog-portal", children: [
-    /* @__PURE__ */ jsx15(DialogOverlay, {}),
+    /* @__PURE__ */ jsx15(DialogOverlay, { className: overlayClassName }),
     /* @__PURE__ */ jsxs6(
       DialogPrimitive.Content,
       {
@@ -1810,6 +1811,7 @@ function DrawerOverlay({
 function DrawerContent({
   className,
   children,
+  withCloseButton = true,
   ...props
 }) {
   return /* @__PURE__ */ jsxs9(DrawerPortal, { "data-slot": "drawer-portal", children: [
@@ -1828,7 +1830,7 @@ function DrawerContent({
         ),
         ...props,
         children: [
-          /* @__PURE__ */ jsx18("div", { className: "bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block" }),
+          withCloseButton && /* @__PURE__ */ jsx18("div", { className: "bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block" }),
           children
         ]
       }
@@ -4256,13 +4258,114 @@ function Slider({
   );
 }
 
+// src/components/ui/useMediaQuery.ts
+import { useEffect as useEffect5, useState as useState4 } from "react";
+function useMediaQuery(query) {
+  const getMatches = (query2) => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia(query2).matches;
+    }
+    return false;
+  };
+  const [matches, setMatches] = useState4(getMatches(query));
+  function handleChange() {
+    setMatches(getMatches(query));
+  }
+  useEffect5(() => {
+    const matchMedia = window.matchMedia(query);
+    handleChange();
+    if (matchMedia.addListener) {
+      matchMedia.addListener(handleChange);
+    } else {
+      matchMedia.addEventListener("change", handleChange);
+    }
+    return () => {
+      if (matchMedia.removeListener) {
+        matchMedia.removeListener(handleChange);
+      } else {
+        matchMedia.removeEventListener("change", handleChange);
+      }
+    };
+  }, [query]);
+  return matches;
+}
+
+// src/components/ui/smart-dialog-drawer.tsx
+import { Fragment as Fragment2, jsx as jsx40 } from "react/jsx-runtime";
+var SmartDialog = ({
+  children,
+  ...props
+}) => {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  return isMobile ? /* @__PURE__ */ jsx40(Drawer, { ...props, children }) : /* @__PURE__ */ jsx40(Dialog, { ...props, children });
+};
+var SmartDialogContent = ({
+  children,
+  overlayClassName = "",
+  withCloseButton = true,
+  ...props
+}) => {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  return isMobile ? /* @__PURE__ */ jsx40(DrawerContent, { ...props, withCloseButton, children }) : /* @__PURE__ */ jsx40(
+    DialogContent,
+    {
+      ...props,
+      showCloseButton: withCloseButton,
+      overlayClassName,
+      children
+    }
+  );
+};
+var SmartDialogDescription = ({
+  children,
+  ...props
+}) => {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  return isMobile ? /* @__PURE__ */ jsx40(DrawerDescription, { ...props, children }) : /* @__PURE__ */ jsx40(DialogDescription, { ...props, children });
+};
+var SmartDialogHeader = ({
+  children,
+  ...props
+}) => {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  return isMobile ? /* @__PURE__ */ jsx40(DrawerHeader, { ...props, children }) : /* @__PURE__ */ jsx40(DialogHeader, { ...props, children });
+};
+var SmartDialogTitle = ({
+  children,
+  ...props
+}) => {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  return isMobile ? /* @__PURE__ */ jsx40(DrawerTitle, { ...props, children }) : /* @__PURE__ */ jsx40(DialogTitle, { ...props, children });
+};
+var SmartDialogTrigger = ({
+  children,
+  ...props
+}) => {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  return isMobile ? /* @__PURE__ */ jsx40(DrawerTrigger, { ...props, children }) : /* @__PURE__ */ jsx40(DialogTrigger, { ...props, children });
+};
+var SmartDialogFooter = ({
+  children,
+  ...props
+}) => {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  return isMobile ? /* @__PURE__ */ jsx40(DrawerFooter, { ...props, children }) : /* @__PURE__ */ jsx40(DialogFooter, { ...props, children });
+};
+var SmartDialogClose = ({
+  children,
+  ...props
+}) => {
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  return isMobile ? /* @__PURE__ */ jsx40(Fragment2, { children: /* @__PURE__ */ jsx40(DrawerClose, { ...props, children }) }) : /* @__PURE__ */ jsx40(DialogClose, { ...props, children });
+};
+
 // src/components/ui/sonner.tsx
 import { useTheme } from "next-themes";
 import { Toaster as Sonner } from "sonner";
-import { jsx as jsx40 } from "react/jsx-runtime";
+import { jsx as jsx41 } from "react/jsx-runtime";
 var Toaster = ({ ...props }) => {
   const { theme = "system" } = useTheme();
-  return /* @__PURE__ */ jsx40(
+  return /* @__PURE__ */ jsx41(
     Sonner,
     {
       theme,
@@ -4280,12 +4383,12 @@ var Toaster = ({ ...props }) => {
 // src/components/ui/switch.tsx
 import * as SwitchPrimitive from "@radix-ui/react-switch";
 import "react";
-import { jsx as jsx41 } from "react/jsx-runtime";
+import { jsx as jsx42 } from "react/jsx-runtime";
 function Switch({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx41(
+  return /* @__PURE__ */ jsx42(
     SwitchPrimitive.Root,
     {
       "data-slot": "switch",
@@ -4294,7 +4397,7 @@ function Switch({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx41(
+      children: /* @__PURE__ */ jsx42(
         SwitchPrimitive.Thumb,
         {
           "data-slot": "switch-thumb",
@@ -4309,14 +4412,14 @@ function Switch({
 
 // src/components/ui/table.tsx
 import "react";
-import { jsx as jsx42 } from "react/jsx-runtime";
+import { jsx as jsx43 } from "react/jsx-runtime";
 function Table({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "div",
     {
       "data-slot": "table-container",
       className: "relative w-full overflow-x-auto",
-      children: /* @__PURE__ */ jsx42(
+      children: /* @__PURE__ */ jsx43(
         "table",
         {
           "data-slot": "table",
@@ -4328,7 +4431,7 @@ function Table({ className, ...props }) {
   );
 }
 function TableHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "thead",
     {
       "data-slot": "table-header",
@@ -4338,7 +4441,7 @@ function TableHeader({ className, ...props }) {
   );
 }
 function TableBody({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "tbody",
     {
       "data-slot": "table-body",
@@ -4348,7 +4451,7 @@ function TableBody({ className, ...props }) {
   );
 }
 function TableFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "tfoot",
     {
       "data-slot": "table-footer",
@@ -4361,7 +4464,7 @@ function TableFooter({ className, ...props }) {
   );
 }
 function TableRow({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "tr",
     {
       "data-slot": "table-row",
@@ -4374,7 +4477,7 @@ function TableRow({ className, ...props }) {
   );
 }
 function TableHead({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "th",
     {
       "data-slot": "table-head",
@@ -4387,7 +4490,7 @@ function TableHead({ className, ...props }) {
   );
 }
 function TableCell({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "td",
     {
       "data-slot": "table-cell",
@@ -4403,7 +4506,7 @@ function TableCaption({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "caption",
     {
       "data-slot": "table-caption",
@@ -4416,12 +4519,12 @@ function TableCaption({
 // src/components/ui/tabs.tsx
 import "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import { jsx as jsx43 } from "react/jsx-runtime";
+import { jsx as jsx44 } from "react/jsx-runtime";
 function Tabs({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx44(
     TabsPrimitive.Root,
     {
       "data-slot": "tabs",
@@ -4434,7 +4537,7 @@ function TabsList({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx44(
     TabsPrimitive.List,
     {
       "data-slot": "tabs-list",
@@ -4450,7 +4553,7 @@ function TabsTrigger({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx44(
     TabsPrimitive.Trigger,
     {
       "data-slot": "tabs-trigger",
@@ -4466,7 +4569,7 @@ function TabsContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx44(
     TabsPrimitive.Content,
     {
       "data-slot": "tabs-content",
@@ -4478,7 +4581,7 @@ function TabsContent({
 
 // src/components/ui/textarea.tsx
 import * as React41 from "react";
-import { jsx as jsx44 } from "react/jsx-runtime";
+import { jsx as jsx45 } from "react/jsx-runtime";
 var textareaBaseStyles = [
   // Base styles aligned with Input
   "placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
@@ -4504,7 +4607,7 @@ var errorStyles = [
 ].join(" ");
 var Textarea = React41.forwardRef(
   ({ className, error, ...props }, ref) => {
-    return /* @__PURE__ */ jsx44(
+    return /* @__PURE__ */ jsx45(
       "textarea",
       {
         "data-slot": "textarea",
@@ -4522,7 +4625,7 @@ Textarea.displayName = "Textarea";
 import "react";
 import * as TogglePrimitive from "@radix-ui/react-toggle";
 import { cva as cva8 } from "class-variance-authority";
-import { jsx as jsx45 } from "react/jsx-runtime";
+import { jsx as jsx46 } from "react/jsx-runtime";
 var toggleVariants = cva8(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
   {
@@ -4549,7 +4652,7 @@ function Toggle({
   size,
   ...props
 }) {
-  return /* @__PURE__ */ jsx45(
+  return /* @__PURE__ */ jsx46(
     TogglePrimitive.Root,
     {
       "data-slot": "toggle",
@@ -4563,7 +4666,7 @@ function Toggle({
 import * as React43 from "react";
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
 import "class-variance-authority";
-import { jsx as jsx46 } from "react/jsx-runtime";
+import { jsx as jsx47 } from "react/jsx-runtime";
 var ToggleGroupContext = React43.createContext({
   size: "default",
   variant: "default"
@@ -4575,7 +4678,7 @@ function ToggleGroup({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsx46(
+  return /* @__PURE__ */ jsx47(
     ToggleGroupPrimitive.Root,
     {
       "data-slot": "toggle-group",
@@ -4586,7 +4689,7 @@ function ToggleGroup({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx46(ToggleGroupContext.Provider, { value: { variant, size }, children })
+      children: /* @__PURE__ */ jsx47(ToggleGroupContext.Provider, { value: { variant, size }, children })
     }
   );
 }
@@ -4598,7 +4701,7 @@ function ToggleGroupItem({
   ...props
 }) {
   const context = React43.useContext(ToggleGroupContext);
-  return /* @__PURE__ */ jsx46(
+  return /* @__PURE__ */ jsx47(
     ToggleGroupPrimitive.Item,
     {
       "data-slot": "toggle-group-item",
@@ -4622,7 +4725,7 @@ function ToggleGroupItem({
 import { Slot as Slot7 } from "@radix-ui/react-slot";
 import { cva as cva9 } from "class-variance-authority";
 import "react";
-import { jsx as jsx47 } from "react/jsx-runtime";
+import { jsx as jsx48 } from "react/jsx-runtime";
 var displayTextVariants = cva9(
   "tracking-normal font-normal leading-none text-brand-dark font-serif italic",
   {
@@ -4645,7 +4748,7 @@ function DisplayHeading({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h1";
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     Comp,
     {
       "data-slot": "h1",
@@ -4674,7 +4777,7 @@ function Body({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "p";
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     Comp,
     {
       "data-slot": "h1",
@@ -4689,7 +4792,7 @@ function HeadingXL({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h1";
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     Comp,
     {
       "data-slot": "h1",
@@ -4707,7 +4810,7 @@ function HeadingL({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h2";
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     Comp,
     {
       "data-slot": "h2",
@@ -4725,7 +4828,7 @@ function HeadingM({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h3";
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     Comp,
     {
       "data-slot": "h3",
@@ -4743,7 +4846,7 @@ function HeadingS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h4";
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     Comp,
     {
       "data-slot": "h4",
@@ -4761,7 +4864,7 @@ function HeadingXS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h5";
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     Comp,
     {
       "data-slot": "h5",
@@ -4779,7 +4882,7 @@ function HeadingXXS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h6";
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     Comp,
     {
       "data-slot": "h5",
@@ -5017,6 +5120,14 @@ export {
   SidebarTrigger,
   Skeleton,
   Slider,
+  SmartDialog,
+  SmartDialogClose,
+  SmartDialogContent,
+  SmartDialogDescription,
+  SmartDialogFooter,
+  SmartDialogHeader,
+  SmartDialogTitle,
+  SmartDialogTrigger,
   Switch,
   Table,
   TableBody,
