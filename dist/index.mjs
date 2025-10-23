@@ -2314,8 +2314,8 @@ var inputVariants = cva5(
   {
     variants: {
       size: {
-        sm: "h-9 px-3 py-1 text-sm",
-        md: "h-10 px-3 py-2 text-sm",
+        sm: "h-9 px-3 py-1 text-base",
+        md: "h-10 px-3 py-2 text-base",
         lg: "h-12 px-4 py-3 text-base"
       }
     },
