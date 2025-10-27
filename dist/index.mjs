@@ -3391,9 +3391,9 @@ function Separator5({
 }
 
 // src/components/ui/sheet.tsx
-import "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { XIcon as XIcon2 } from "lucide-react";
+import "react";
 import { jsx as jsx35, jsxs as jsxs18 } from "react/jsx-runtime";
 function Sheet({ ...props }) {
   return /* @__PURE__ */ jsx35(SheetPrimitive.Root, { "data-slot": "sheet", ...props });
@@ -3433,6 +3433,7 @@ function SheetContent({
   className,
   children,
   side = "right",
+  showCloseButton = true,
   ...props
 }) {
   return /* @__PURE__ */ jsxs18(SheetPortal, { children: [
@@ -3452,7 +3453,7 @@ function SheetContent({
         ...props,
         children: [
           children,
-          /* @__PURE__ */ jsxs18(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
+          showCloseButton && /* @__PURE__ */ jsxs18(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
             /* @__PURE__ */ jsx35(XIcon2, { className: "size-4" }),
             /* @__PURE__ */ jsx35("span", { className: "sr-only", children: "Close" })
           ] })
@@ -4517,8 +4518,8 @@ function TableCaption({
 }
 
 // src/components/ui/tabs.tsx
-import "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
+import "react";
 import { jsx as jsx44 } from "react/jsx-runtime";
 function Tabs({
   className,
@@ -4542,7 +4543,7 @@ function TabsList({
     {
       "data-slot": "tabs-list",
       className: cn(
-        "bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]",
+        " text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]",
         className
       ),
       ...props
@@ -4558,7 +4559,7 @@ function TabsTrigger({
     {
       "data-slot": "tabs-trigger",
       className: cn(
-        "cursor-pointer data-[state=active]:bg-background dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:shadow-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "cursor-pointer data-[state=active]:border-b-2 data-[state=active]:border-brand-normal border-0 border-t-0 rounded-none data-[state=active]:text-black data-[state=active]:font-semibold  data-[state=active]:bg-background dark:data-[state=active]:text-white focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30  dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5  px-2 py-[6px]  font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50  [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 text-zinc-500 font-sans border-b-1 border-b-gray-stroke-light text-sm",
         className
       ),
       ...props
