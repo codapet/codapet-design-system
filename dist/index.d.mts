@@ -471,7 +471,7 @@ declare function SidebarMenuSubButton({ asChild, size, isActive, className, ...p
     isActive?: boolean;
 }): react_jsx_runtime.JSX.Element;
 
-declare function Skeleton({ className, ...props }: React.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
+declare function Skeleton({ className, ...props }: React.ComponentProps<'div'>): react_jsx_runtime.JSX.Element;
 
 declare function Slider({ className, defaultValue, value, min, max, ...props }: React$1.ComponentProps<typeof SliderPrimitive.Root>): react_jsx_runtime.JSX.Element;
 
