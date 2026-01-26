@@ -22,6 +22,7 @@ import {
   Layout,
   MessageSquare,
   MousePointer,
+  Palette,
   ToggleLeft,
   Type
 } from 'lucide-react'
@@ -81,6 +82,15 @@ const navigationItems = [
   }
 ]
 
+const TokensItems = [
+  {
+    id: 'colors',
+    label: 'Colors',
+    icon: Palette,
+    description: 'Color tokens'
+  }
+]
+
 export default function DocsLayout({
   children
 }: {
@@ -109,6 +119,26 @@ export default function DocsLayout({
           </div>
         </SidebarHeader>
         <SidebarContent>
+           <SidebarGroup>
+            <SidebarGroupLabel>Tokens</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {TokensItems.map(item => {
+                  const Icon = item.icon
+                  return (
+                    <SidebarMenuItem key={item.id}>
+                      <SidebarMenuButton asChild isActive={activeRoute === item.id} tooltip={item.description}>
+                        <Link href={`/${item.id}`}>
+                          <Icon />
+                          <span>{item.label}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
           <SidebarGroup>
             <SidebarGroupLabel>Components</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -133,6 +163,7 @@ export default function DocsLayout({
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
+
         </SidebarContent>
         <SidebarFooter>
            <div className="ml-auto flex items-center space-x-4">

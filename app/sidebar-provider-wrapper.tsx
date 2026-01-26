@@ -7,5 +7,7 @@ export function SidebarProviderWrapper({
 }: {
   children: React.ReactNode
 }) {
-  return <SidebarProvider defaultOpen={true}>{children}</SidebarProvider>
+  return <SidebarProvider defaultOpen={true}>
+    <div className='w-full'>{children}</div>
+  </SidebarProvider>
 }
