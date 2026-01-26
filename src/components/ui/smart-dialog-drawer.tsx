@@ -1,3 +1,6 @@
+'use client'
+
+import * as React from 'react'
 import {
   Dialog,
   DialogClose,
@@ -20,10 +23,10 @@ import {
 } from './drawer'
 import { useMediaQuery } from './useMediaQuery'
 
-const SmartDialog = ({
-  children,
-  ...props
-}: React.ComponentProps<typeof Dialog>) => {
+type SmartDialogProps = React.ComponentProps<typeof Dialog> &
+  React.ComponentProps<typeof Drawer>
+
+const SmartDialog = ({ children, ...props }: SmartDialogProps) => {
   const isMobile = useMediaQuery('(max-width: 600px)')
 
   return isMobile ? (
@@ -33,25 +36,29 @@ const SmartDialog = ({
   )
 }
 
+type SmartDialogContentProps = React.ComponentProps<typeof DialogContent> &
+  React.ComponentProps<typeof DrawerContent>
+
 const SmartDialogContent = ({
   children,
   overlayClassName = '',
-  withCloseButton = true,
+  withCloseButton,
+  showCloseButton,
   ...props
-}: React.ComponentProps<typeof DrawerContent> & {
-  overlayClassName?: string
-  withCloseButton?: boolean
-}) => {
+}: SmartDialogContentProps) => {
   const isMobile = useMediaQuery('(max-width: 600px)')
 
   return isMobile ? (
-    <DrawerContent {...props} withCloseButton={withCloseButton}>
+    <DrawerContent
+      {...props}
+      withCloseButton={withCloseButton ?? showCloseButton ?? true}
+    >
       {children}
     </DrawerContent>
   ) : (
     <DialogContent
       {...props}
-      showCloseButton={withCloseButton}
+      showCloseButton={showCloseButton ?? withCloseButton ?? true}
       overlayClassName={overlayClassName}
     >
       {children}
@@ -59,10 +66,15 @@ const SmartDialogContent = ({
   )
 }
 
+type SmartDialogDescriptionProps = React.ComponentProps<
+  typeof DialogDescription
+> &
+  React.ComponentProps<typeof DrawerDescription>
+
 const SmartDialogDescription = ({
   children,
   ...props
-}: React.ComponentProps<typeof DrawerDescription>) => {
+}: SmartDialogDescriptionProps) => {
   const isMobile = useMediaQuery('(max-width: 600px)')
 
   return isMobile ? (
@@ -72,10 +84,10 @@ const SmartDialogDescription = ({
   )
 }
 
-const SmartDialogHeader = ({
-  children,
-  ...props
-}: React.ComponentProps<typeof DrawerHeader>) => {
+type SmartDialogHeaderProps = React.ComponentProps<typeof DialogHeader> &
+  React.ComponentProps<typeof DrawerHeader>
+
+const SmartDialogHeader = ({ children, ...props }: SmartDialogHeaderProps) => {
   const isMobile = useMediaQuery('(max-width: 600px)')
 
   return isMobile ? (
@@ -85,10 +97,10 @@ const SmartDialogHeader = ({
   )
 }
 
-const SmartDialogTitle = ({
-  children,
-  ...props
-}: React.ComponentProps<typeof DrawerTitle>) => {
+type SmartDialogTitleProps = React.ComponentProps<typeof DialogTitle> &
+  React.ComponentProps<typeof DrawerTitle>
+
+const SmartDialogTitle = ({ children, ...props }: SmartDialogTitleProps) => {
   const isMobile = useMediaQuery('(max-width: 600px)')
 
   return isMobile ? (
@@ -98,10 +110,13 @@ const SmartDialogTitle = ({
   )
 }
 
+type SmartDialogTriggerProps = React.ComponentProps<typeof DialogTrigger> &
+  React.ComponentProps<typeof DrawerTrigger>
+
 const SmartDialogTrigger = ({
   children,
   ...props
-}: React.ComponentProps<typeof DrawerTrigger>) => {
+}: SmartDialogTriggerProps) => {
   const isMobile = useMediaQuery('(max-width: 600px)')
 
   return isMobile ? (
@@ -111,10 +126,10 @@ const SmartDialogTrigger = ({
   )
 }
 
-const SmartDialogFooter = ({
-  children,
-  ...props
-}: React.ComponentProps<typeof DrawerFooter>) => {
+type SmartDialogFooterProps = React.ComponentProps<typeof DialogFooter> &
+  React.ComponentProps<typeof DrawerFooter>
+
+const SmartDialogFooter = ({ children, ...props }: SmartDialogFooterProps) => {
   const isMobile = useMediaQuery('(max-width: 600px)')
 
   return isMobile ? (
@@ -124,10 +139,10 @@ const SmartDialogFooter = ({
   )
 }
 
-const SmartDialogClose = ({
-  children,
-  ...props
-}: React.ComponentProps<typeof DrawerClose>) => {
+type SmartDialogCloseProps = React.ComponentProps<typeof DialogClose> &
+  React.ComponentProps<typeof DrawerClose>
+
+const SmartDialogClose = ({ children, ...props }: SmartDialogCloseProps) => {
   const isMobile = useMediaQuery('(max-width: 600px)')
 
   return isMobile ? (
