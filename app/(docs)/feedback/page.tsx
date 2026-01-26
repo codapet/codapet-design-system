@@ -9,6 +9,7 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { AlertCircle, Info } from 'lucide-react'
+import { CodeBlock } from '../buttons/CodeBlock'
 
 export default function FeedbackPage() {
   return (
@@ -46,6 +47,26 @@ export default function FeedbackPage() {
                 This is a destructive alert for errors.
               </AlertDescription>
             </Alert>
+            <CodeBlock
+              code={`import { Alert, AlertDescription } from '@codapet/design-system'
+import { Info, AlertCircle } from 'lucide-react'
+
+{/* Informational Alert */}
+<Alert>
+  <Info className="h-4 w-4" />
+  <AlertDescription>
+    This is an informational alert with an icon.
+  </AlertDescription>
+</Alert>
+
+{/* Destructive Alert */}
+<Alert variant="destructive">
+  <AlertCircle className="h-4 w-4" />
+  <AlertDescription>
+    This is a destructive alert for errors.
+  </AlertDescription>
+</Alert>`}
+            />
           </CardContent>
         </Card>
 
@@ -78,6 +99,32 @@ export default function FeedbackPage() {
               <Badge variant="destructive">Destructive</Badge>
               <Badge variant="outline">Outline</Badge>
             </div>
+            <CodeBlock
+              code={`import { Avatar, AvatarFallback, AvatarImage } from '@codapet/design-system'
+import { Badge } from '@codapet/design-system'
+
+{/* Avatars */}
+<div className="flex items-center space-x-4">
+  <Avatar>
+    <AvatarImage src="https://github.com/shadcn.png" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarFallback>JD</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarFallback>AB</AvatarFallback>
+  </Avatar>
+</div>
+
+{/* Badges */}
+<div className="flex flex-wrap gap-2">
+  <Badge>Default</Badge>
+  <Badge variant="secondary">Secondary</Badge>
+  <Badge variant="destructive">Destructive</Badge>
+  <Badge variant="outline">Outline</Badge>
+</div>`}
+            />
           </CardContent>
         </Card>
       </div>

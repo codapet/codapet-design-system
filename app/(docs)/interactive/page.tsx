@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
 import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
+import { CodeBlock } from '../buttons/CodeBlock'
 
 export default function InteractivePage() {
   return (
@@ -45,6 +46,30 @@ export default function InteractivePage() {
             <Label>Progress</Label>
             <Progress value={65} className="w-full" />
           </div>
+          <CodeBlock
+            code={`import { Switch } from '@codapet/design-system'
+import { Label } from '@codapet/design-system'
+import { Slider } from '@codapet/design-system'
+import { Progress } from '@codapet/design-system'
+
+{/* Switch */}
+<div className="flex items-center space-x-2">
+  <Switch id="airplane-mode" />
+  <Label htmlFor="airplane-mode">Airplane mode</Label>
+</div>
+
+{/* Slider */}
+<div className="space-y-2">
+  <Label>Volume</Label>
+  <Slider defaultValue={[33]} max={100} step={1} className="w-full" />
+</div>
+
+{/* Progress */}
+<div className="space-y-2">
+  <Label>Progress</Label>
+  <Progress value={65} className="w-full" />
+</div>`}
+          />
         </CardContent>
       </Card>
     </div>

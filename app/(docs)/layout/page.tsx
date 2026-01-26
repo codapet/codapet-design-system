@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { CodeBlock } from '../buttons/CodeBlock'
 
 export default function LayoutPage() {
   return (
@@ -30,7 +31,7 @@ export default function LayoutPage() {
           </CardTitle>
           <CardDescription>Organized content with tabs</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
           <Tabs defaultValue="account" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="account">Account</TabsTrigger>
@@ -68,6 +69,50 @@ export default function LayoutPage() {
               </div>
             </TabsContent>
           </Tabs>
+          <CodeBlock
+            code={`import { Tabs, TabsContent, TabsList, TabsTrigger } from '@codapet/design-system'
+import { Input } from '@codapet/design-system'
+import { Label } from '@codapet/design-system'
+import { Switch } from '@codapet/design-system'
+
+<Tabs defaultValue="account" className="w-full">
+  <TabsList className="grid w-full grid-cols-3">
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+    <TabsTrigger value="settings">Settings</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account" className="space-y-4 mt-4">
+    <div className="space-y-2">
+      <Label htmlFor="name">Name</Label>
+      <Input id="name" placeholder="Enter your name" />
+    </div>
+    <div className="space-y-2">
+      <Label htmlFor="username">Username</Label>
+      <Input id="username" placeholder="Enter your username" />
+    </div>
+  </TabsContent>
+  <TabsContent value="password" className="space-y-4 mt-4">
+    <div className="space-y-2">
+      <Label htmlFor="current">Current password</Label>
+      <Input id="current" type="password" />
+    </div>
+    <div className="space-y-2">
+      <Label htmlFor="new">New password</Label>
+      <Input id="new" type="password" />
+    </div>
+  </TabsContent>
+  <TabsContent value="settings" className="space-y-4 mt-4">
+    <div className="flex items-center space-x-2">
+      <Switch id="notifications" />
+      <Label htmlFor="notifications">Email notifications</Label>
+    </div>
+    <div className="flex items-center space-x-2">
+      <Switch id="marketing" />
+      <Label htmlFor="marketing">Marketing emails</Label>
+    </div>
+  </TabsContent>
+</Tabs>`}
+          />
         </CardContent>
       </Card>
     </div>

@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Card,
   CardContent,
@@ -49,7 +47,6 @@ export default function TypographyPage() {
           </div>
           <CodeBlock
             code={`import { DisplayHeading } from '@codapet/design-system'
-
 <DisplayHeading size="lg">Display Text Large</DisplayHeading>
 <DisplayHeading size="md">Display Text Medium</DisplayHeading>
 <DisplayHeading size="sm">Display Text Small</DisplayHeading>`}
