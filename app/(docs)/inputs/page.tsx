@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -8,6 +10,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { CircleUser, Search, X } from 'lucide-react'
+import { CodeBlock } from '../buttons/CodeBlock'
 
 export default function InputsPage() {
   return (
@@ -51,6 +54,19 @@ export default function InputsPage() {
               <Input size="lg" placeholder="Large input field" />
             </div>
           </div>
+          <CodeBlock
+            code={`import { Input } from '@codapet/design-system'
+import { Label } from '@codapet/design-system'
+
+<Label>Small Input</Label>
+<Input size="sm" placeholder="Small input field" />
+
+<Label>Medium Input (Default)</Label>
+<Input placeholder="Medium input field" />
+
+<Label>Large Input</Label>
+<Input size="lg" placeholder="Large input field" />`}
+          />
         </CardContent>
       </Card>
 
@@ -125,6 +141,49 @@ export default function InputsPage() {
               <Input placeholder="Search..." leftIcon={<Search />} />
             </div>
           </div>
+          <CodeBlock
+              code={`import { Input } from '@codapet/design-system'
+import { Label } from '@codapet/design-system'
+import { CircleUser, Search, X } from 'lucide-react'
+
+{/* Default State */}
+<Label>Default State</Label>
+<Input placeholder="Default input state" />
+
+{/* Default State with left icon */}
+<Label>Default State with left icon</Label>
+<Input
+  placeholder="Default input state"
+  leftIcon={<CircleUser className="stroke-[1.5px] size-4" />}
+/>
+
+{/* Default State with right icon */}
+<Label>Default State with right icon</Label>
+<Input
+  placeholder="Default input state"
+  rightIcon={<X className="stroke-[1.5px] size-4" />}
+/>
+
+{/* Error State */}
+<Label>Error State</Label>
+<Input placeholder="Error input state" error={true} />
+
+{/* Error State with Left Icon */}
+<Label>Error State with Left Icon</Label>
+<Input
+  placeholder="Error input state"
+  error={true}
+  leftIcon={<CircleUser className="stroke-[1.5px] size-4" />}
+/>
+
+{/* Disabled State */}
+<Label>Disabled State</Label>
+<Input placeholder="Disabled input" disabled />
+
+{/* With Icons */}
+<Label>With Icons</Label>
+<Input placeholder="Search..." leftIcon={<Search />} />`}
+          />
         </CardContent>
       </Card>
     </div>

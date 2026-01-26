@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -6,12 +8,12 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
+import { CodeBlock } from '../buttons/CodeBlock'
 
 export default function FormsPage() {
   return (
@@ -58,6 +60,41 @@ export default function FormsPage() {
               <Label>Progress</Label>
               <Progress value={65} className="w-full" />
             </div>
+            <CodeBlock
+              code={`import { Switch } from '@codapet/design-system'
+import { Label } from '@codapet/design-system'
+import { Slider } from '@codapet/design-system'
+import { Progress } from '@codapet/design-system'
+
+{/* Switch */}
+<div className="flex items-center space-x-2">
+  <Switch id="airplane-mode" />
+  <Label htmlFor="airplane-mode">Airplane mode</Label>
+</div>
+
+{/* Disabled Switch */}
+<div className="flex items-center space-x-2">
+  <Switch id="airplane-mode" disabled />
+  <Label htmlFor="airplane-mode">disabled Airplane mode</Label>
+</div>
+
+{/* Slider */}
+<div className="space-y-2">
+  <Label>Volume</Label>
+  <Slider
+    defaultValue={[33]}
+    max={100}
+    step={1}
+    className="w-full"
+  />
+</div>
+
+{/* Progress */}
+<div className="space-y-2">
+  <Label>Progress</Label>
+  <Progress value={65} className="w-full" />
+</div>`}
+            />
           </CardContent>
         </Card>
 
@@ -105,6 +142,52 @@ export default function FormsPage() {
               <Checkbox id="notifications" disabled className="size-5" />
               <Label htmlFor="notifications">disabled notifications</Label>
             </div>
+            <CodeBlock
+                code={`import { RadioGroup, RadioGroupItem } from '@codapet/design-system'
+import { Checkbox } from '@codapet/design-system'
+import { Label } from '@codapet/design-system'
+
+{/* Radio Group */}
+<RadioGroup defaultValue="option-one">
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem
+      value="option-one"
+      id="option-one"
+      className="size-5"
+    />
+    <Label htmlFor="option-one">Option One</Label>
+  </div>
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem
+      value="option-two"
+      id="option-two"
+      className="size-5"
+    />
+    <Label htmlFor="option-two">Option Two</Label>
+  </div>
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem
+      value="option-three"
+      id="option-three"
+      disabled
+      className="size-5"
+    />
+    <Label htmlFor="option-three">disabled Option</Label>
+  </div>
+</RadioGroup>
+
+{/* Checkbox */}
+<div className="flex items-center space-x-2">
+  <Checkbox id="notifications" className="size-5" />
+  <Label htmlFor="notifications">Enable notifications</Label>
+</div>
+
+{/* Disabled Checkbox */}
+<div className="flex items-center space-x-2">
+  <Checkbox id="notifications" disabled className="size-5" />
+  <Label htmlFor="notifications">disabled notifications</Label>
+</div>`}
+            />
           </CardContent>
         </Card>
       </div>

@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -7,6 +9,7 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { ArrowLeft, ArrowRight, PlusIcon } from 'lucide-react'
+import { CodeBlock } from './CodeBlock'
 
 export default function ButtonsPage() {
   return (
@@ -69,6 +72,21 @@ export default function ButtonsPage() {
                 Destructive Tertiary
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@codapet/design-system'
+
+<Button>Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="tertiary">Tertiary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="ghost-secondary">Ghost Secondary</Button>
+<Button variant="ghost-destructive">Ghost Destructive</Button>
+<Button variant="link">Link</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="destructive-secondary">Destructive Secondary</Button>
+<Button variant="destructive-tertiary">Destructive Tertiary</Button>`}
+            />
           </div>
 
           {/* With Left Icons */}
@@ -122,6 +140,55 @@ export default function ButtonsPage() {
                 Destructive Tertiary
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@codapet/design-system'
+import { ArrowLeft } from 'lucide-react'
+
+<Button>
+  <ArrowLeft className="size-4" />
+  Primary
+</Button>
+<Button variant="secondary">
+  <ArrowLeft className="size-4" />
+  Secondary
+</Button>
+<Button variant="tertiary">
+  <ArrowLeft className="size-4" />
+  Tertiary
+</Button>
+<Button variant="outline">
+  <ArrowLeft className="size-4" />
+  Outline
+</Button>
+<Button variant="ghost">
+  <ArrowLeft className="size-4" />
+  Ghost
+</Button>
+<Button variant="ghost-secondary">
+  <ArrowLeft className="size-4" />
+  Ghost Secondary
+</Button>
+<Button variant="ghost-destructive">
+  <ArrowLeft className="size-4" />
+  Ghost Destructive
+</Button>
+<Button variant="link">
+  <ArrowLeft className="size-4" />
+  Link
+</Button>
+<Button variant="destructive">
+  <ArrowLeft className="size-4" />
+  Destructive
+</Button>
+<Button variant="destructive-secondary">
+  <ArrowLeft className="size-4" />
+  Destructive Secondary
+</Button>
+<Button variant="destructive-tertiary">
+  <ArrowLeft className="size-4" />
+  Destructive Tertiary
+</Button>`}
+            />
           </div>
 
           {/* With Right Icons */}
@@ -175,6 +242,55 @@ export default function ButtonsPage() {
                 <ArrowRight className="size-4" />
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@codapet/design-system'
+import { ArrowRight } from 'lucide-react'
+
+<Button>
+  Primary
+  <ArrowRight className="size-4" />
+</Button>
+<Button variant="secondary">
+  Secondary
+  <ArrowRight className="size-4" />
+</Button>
+<Button variant="tertiary">
+  Tertiary
+  <ArrowRight className="size-4" />
+</Button>
+<Button variant="outline">
+  Outline
+  <ArrowRight className="size-4" />
+</Button>
+<Button variant="ghost">
+  Ghost
+  <ArrowRight className="size-4" />
+</Button>
+<Button variant="ghost-secondary">
+  Ghost Secondary
+  <ArrowRight className="size-4" />
+</Button>
+<Button variant="ghost-destructive">
+  Ghost Destructive
+  <ArrowRight className="size-4" />
+</Button>
+<Button variant="link">
+  Link
+  <ArrowRight className="size-4" />
+</Button>
+<Button variant="destructive">
+  Destructive
+  <ArrowRight className="size-4" />
+</Button>
+<Button variant="destructive-secondary">
+  Destructive Secondary
+  <ArrowRight className="size-4" />
+</Button>
+<Button variant="destructive-tertiary">
+  Destructive Tertiary
+  <ArrowRight className="size-4" />
+</Button>`}
+            />
           </div>
 
           {/* With Both Icons */}
@@ -239,6 +355,66 @@ export default function ButtonsPage() {
                 <ArrowRight />
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@codapet/design-system'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+
+<Button>
+  <ArrowLeft className="size-4" />
+  Primary
+  <ArrowRight />
+</Button>
+<Button variant="secondary">
+  <ArrowLeft className="size-4" />
+  Secondary
+  <ArrowRight />
+</Button>
+<Button variant="tertiary">
+  <ArrowLeft className="size-4" />
+  Tertiary
+  <ArrowRight />
+</Button>
+<Button variant="outline">
+  <ArrowLeft className="size-4" />
+  Outline
+  <ArrowRight />
+</Button>
+<Button variant="ghost">
+  <ArrowLeft className="size-4" />
+  Ghost
+  <ArrowRight />
+</Button>
+<Button variant="ghost-secondary">
+  <ArrowLeft className="size-4" />
+  Ghost Secondary
+  <ArrowRight />
+</Button>
+<Button variant="ghost-destructive">
+  <ArrowLeft className="size-4" />
+  Ghost Destructive
+  <ArrowRight />
+</Button>
+<Button variant="link">
+  <ArrowLeft className="size-4" />
+  Link
+  <ArrowRight />
+</Button>
+<Button variant="destructive">
+  <ArrowLeft className="size-4" />
+  Destructive
+  <ArrowRight />
+</Button>
+<Button variant="destructive-secondary">
+  <ArrowLeft className="size-4" />
+  Destructive Secondary
+  <ArrowRight />
+</Button>
+<Button variant="destructive-tertiary">
+  <ArrowLeft className="size-4" />
+  Destructive Tertiary
+  <ArrowRight />
+</Button>`}
+            />
           </div>
 
           {/* Icon Only */}
@@ -284,6 +460,41 @@ export default function ButtonsPage() {
                 <ArrowLeft />
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@/components/ui/button'
+import { ArrowLeft } from 'lucide-react'
+
+<Button>
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="secondary">
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="tertiary">
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="outline">
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="ghost">
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="ghost-secondary">
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="ghost-destructive">
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="destructive">
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="destructive-secondary">
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="destructive-tertiary">
+  <ArrowLeft />
+</Button>`}
+            />
           </div>
 
           {/* Sizes */}
@@ -299,6 +510,17 @@ export default function ButtonsPage() {
                 <PlusIcon className="w-4 h-4 shrink-0" />
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@/components/ui/button'
+import { PlusIcon } from 'lucide-react'
+
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>
+<Button variant="primary" size="icon">
+  <PlusIcon className="w-4 h-4 shrink-0" />
+</Button>`}
+            />
           </div>
         </CardContent>
       </Card>
@@ -352,6 +574,21 @@ export default function ButtonsPage() {
                 Destructive Tertiary
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@/components/ui/button'
+
+<Button disabled>Primary</Button>
+<Button disabled variant="secondary">Secondary</Button>
+<Button disabled variant="tertiary">Tertiary</Button>
+<Button disabled variant="outline">Outline</Button>
+<Button disabled variant="ghost">Ghost</Button>
+<Button disabled variant="ghost-secondary">Ghost Secondary</Button>
+<Button disabled variant="ghost-destructive">Ghost Destructive</Button>
+<Button disabled variant="link">Link</Button>
+<Button disabled variant="destructive">Destructive</Button>
+<Button disabled variant="destructive-secondary">Destructive Secondary</Button>
+<Button disabled variant="destructive-tertiary">Destructive Tertiary</Button>`}
+            />
           </div>
 
           {/* With Left Icons */}
@@ -405,6 +642,55 @@ export default function ButtonsPage() {
                 Destructive Tertiary
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@codapet/design-system'
+import { ArrowLeft } from 'lucide-react'
+
+<Button disabled>
+  <ArrowLeft className="size-4" />
+  Primary
+</Button>
+<Button disabled variant="secondary">
+  <ArrowLeft className="size-4" />
+  Secondary
+</Button>
+<Button disabled variant="tertiary">
+  <ArrowLeft className="size-4" />
+  Tertiary
+</Button>
+<Button disabled variant="outline">
+  <ArrowLeft className="size-4" />
+  Outline
+</Button>
+<Button disabled variant="ghost">
+  <ArrowLeft className="size-4" />
+  Ghost
+</Button>
+<Button disabled variant="ghost-secondary">
+  <ArrowLeft className="size-4" />
+  Ghost Secondary
+</Button>
+<Button disabled variant="ghost-destructive">
+  <ArrowLeft className="size-4" />
+  Ghost Destructive
+</Button>
+<Button disabled variant="link">
+  <ArrowLeft className="size-4" />
+  Link
+</Button>
+<Button disabled variant="destructive">
+  <ArrowLeft className="size-4" />
+  Destructive
+</Button>
+<Button disabled variant="destructive-secondary">
+  <ArrowLeft className="size-4" />
+  Destructive Secondary
+</Button>
+<Button disabled variant="destructive-tertiary">
+  <ArrowLeft className="size-4" />
+  Destructive Tertiary
+</Button>`}
+            />
           </div>
 
           {/* With Right Icons */}
@@ -458,6 +744,55 @@ export default function ButtonsPage() {
                 Destructive Tertiary
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@/components/ui/button'
+import { ArrowRight } from 'lucide-react'
+
+<Button disabled>
+  <ArrowRight className="size-4" />
+  Primary
+</Button>
+<Button disabled variant="secondary">
+  <ArrowRight className="size-4" />
+  Secondary
+</Button>
+<Button disabled variant="tertiary">
+  <ArrowRight className="size-4" />
+  Tertiary
+</Button>
+<Button disabled variant="outline">
+  <ArrowRight className="size-4" />
+  Outline
+</Button>
+<Button disabled variant="ghost">
+  <ArrowRight className="size-4" />
+  Ghost
+</Button>
+<Button disabled variant="ghost-secondary">
+  <ArrowRight className="size-4" />
+  Ghost Secondary
+</Button>
+<Button disabled variant="ghost-destructive">
+  <ArrowRight className="size-4" />
+  Ghost Destructive
+</Button>
+<Button disabled variant="link">
+  <ArrowRight className="size-4" />
+  Link
+</Button>
+<Button disabled variant="destructive">
+  <ArrowRight className="size-4" />
+  Destructive
+</Button>
+<Button disabled variant="destructive-secondary">
+  <ArrowRight className="size-4" />
+  Destructive Secondary
+</Button>
+<Button disabled variant="destructive-tertiary">
+  <ArrowRight className="size-4" />
+  Destructive Tertiary
+</Button>`}
+            />
           </div>
 
           {/* With Both Icons */}
@@ -522,6 +857,66 @@ export default function ButtonsPage() {
                 <ArrowRight />
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@/components/ui/button'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+
+<Button disabled>
+  <ArrowLeft className="size-4" />
+  Primary
+  <ArrowRight />
+</Button>
+<Button variant="secondary" disabled>
+  <ArrowLeft className="size-4" />
+  Secondary
+  <ArrowRight />
+</Button>
+<Button variant="tertiary" disabled>
+  <ArrowLeft className="size-4" />
+  Tertiary
+  <ArrowRight />
+</Button>
+<Button variant="outline" disabled>
+  <ArrowLeft className="size-4" />
+  Outline
+  <ArrowRight />
+</Button>
+<Button variant="ghost" disabled>
+  <ArrowLeft className="size-4" />
+  Ghost
+  <ArrowRight />
+</Button>
+<Button variant="ghost-secondary" disabled>
+  <ArrowLeft className="size-4" />
+  Ghost Secondary
+  <ArrowRight />
+</Button>
+<Button variant="ghost-destructive" disabled>
+  <ArrowLeft className="size-4" />
+  Ghost Destructive
+  <ArrowRight />
+</Button>
+<Button variant="link" disabled>
+  <ArrowLeft className="size-4" />
+  Link
+  <ArrowRight />
+</Button>
+<Button variant="destructive" disabled>
+  <ArrowLeft className="size-4" />
+  Destructive
+  <ArrowRight />
+</Button>
+<Button variant="destructive-secondary" disabled>
+  <ArrowLeft className="size-4" />
+  Destructive Secondary
+  <ArrowRight />
+</Button>
+<Button variant="destructive-tertiary" disabled>
+  <ArrowLeft className="size-4" />
+  Destructive Tertiary
+  <ArrowRight />
+</Button>`}
+            />
           </div>
 
           {/* Icon Only */}
@@ -583,6 +978,41 @@ export default function ButtonsPage() {
                 <ArrowLeft className="size-4" />
               </Button>
             </div>
+            <CodeBlock
+                  code={`import { Button } from '@codapet/design-system'
+import { ArrowLeft } from 'lucide-react'
+
+<Button disabled>
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="secondary" disabled>
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="tertiary" disabled>
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="outline" disabled>
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="ghost" disabled>
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="ghost-secondary" disabled>
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="ghost-destructive" disabled>
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="destructive" disabled>
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="destructive-secondary" disabled>
+  <ArrowLeft className="size-4" />
+</Button>
+<Button variant="destructive-tertiary" disabled>
+  <ArrowLeft className="size-4" />
+</Button>`}
+            />
           </div>
 
           {/* Sizes */}
@@ -604,6 +1034,17 @@ export default function ButtonsPage() {
                 <PlusIcon className="w-4 h-4 shrink-0" />
               </Button>
             </div>
+            <CodeBlock
+              code={`import { Button } from '@/components/ui/button'
+import { PlusIcon } from 'lucide-react'
+
+<Button disabled size="sm">Small</Button>
+<Button disabled size="md">Medium</Button>
+<Button disabled size="lg">Large</Button>
+<Button disabled variant="primary" size="icon">
+  <PlusIcon className="w-4 h-4 shrink-0" />
+</Button>`}
+            />
           </div>
         </CardContent>
       </Card>

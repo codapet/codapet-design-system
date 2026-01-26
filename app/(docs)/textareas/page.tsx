@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -7,6 +9,7 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/index'
+import { CodeBlock } from '../buttons/CodeBlock'
 
 export default function TextareasPage() {
   return (
@@ -60,6 +63,29 @@ export default function TextareasPage() {
               <Textarea placeholder="Enter your message" />
             </div>
           </div>
+          <CodeBlock
+                code={`import { Textarea } from '@codapet/design-system'
+import { Label } from '@codapet/design-system'
+
+{/* Default State */}
+<Label>Default State</Label>
+<Textarea placeholder="Default textarea state" />
+
+{/* Error State */}
+<Label>Error State</Label>
+<Textarea placeholder="Error textarea state" error={true} />
+<p className="text-sm text-destructive mt-1">
+  This field is required
+</p>
+
+{/* Disabled State */}
+<Label>Disabled State</Label>
+<Textarea placeholder="Disabled textarea" disabled />
+
+{/* With Label */}
+<Label>With Label</Label>
+<Textarea placeholder="Enter your message" />`}
+          />
         </CardContent>
       </Card>
     </div>

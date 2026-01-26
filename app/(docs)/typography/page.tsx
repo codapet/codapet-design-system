@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -15,6 +17,7 @@ import {
   HeadingXS,
   HeadingXXS
 } from '@/components/ui/typography'
+import { CodeBlock } from '../buttons/CodeBlock'
 
 export default function TypographyPage() {
   return (
@@ -44,6 +47,13 @@ export default function TypographyPage() {
             <DisplayHeading size="md">Display Text Medium</DisplayHeading>
             <DisplayHeading size="sm">Display Text Small</DisplayHeading>
           </div>
+          <CodeBlock
+            code={`import { DisplayHeading } from '@codapet/design-system'
+
+<DisplayHeading size="lg">Display Text Large</DisplayHeading>
+<DisplayHeading size="md">Display Text Medium</DisplayHeading>
+<DisplayHeading size="sm">Display Text Small</DisplayHeading>`}
+          />
         </CardContent>
       </Card>
 
@@ -64,6 +74,23 @@ export default function TypographyPage() {
             <HeadingXS>Heading XS - Extra Small Heading</HeadingXS>
             <HeadingXXS>Heading XXS - Extra Extra Small Heading</HeadingXXS>
           </div>
+          <CodeBlock
+            code={`import {
+  HeadingXL,
+  HeadingL,
+  HeadingM,
+  HeadingS,
+  HeadingXS,
+  HeadingXXS
+} from '@codapet/design-system'
+
+<HeadingXL>Heading XL - Extra Large Heading</HeadingXL>
+<HeadingL>Heading L - Large Heading</HeadingL>
+<HeadingM>Heading M - Medium Heading</HeadingM>
+<HeadingS>Heading S - Small Heading</HeadingS>
+<HeadingXS>Heading XS - Extra Small Heading</HeadingXS>
+<HeadingXXS>Heading XXS - Extra Extra Small Heading</HeadingXXS>`}
+          />
         </CardContent>
       </Card>
 
@@ -107,6 +134,26 @@ export default function TypographyPage() {
               </Body>
             </div>
           </div>
+          <CodeBlock
+            code={`import { Body } from '@codapet/design-system'
+{/* Large Body Text */}
+<Body size="lg">
+  This is large body text. Lorem ipsum dolor sit amet, consectetur
+  adipiscing elit.
+</Body>
+
+{/* Medium Body Text (Default) */}
+<Body size="md">
+  This is medium body text. Lorem ipsum dolor sit amet,
+  consectetur adipiscing elit.
+</Body>
+
+{/* Small Body Text */}
+<Body size="sm">
+  This is small body text. Lorem ipsum dolor sit amet, consectetur
+  adipiscing elit.
+</Body>`}
+          />
         </CardContent>
       </Card>
     </div>

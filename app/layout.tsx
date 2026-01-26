@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Plus_Jakarta_Sans, Geist_Mono, Noto_Serif } from 'next/font/google'
 import './globals.css'
 import { SidebarProviderWrapper } from './sidebar-provider-wrapper'
+import { Toaster } from '@/components/ui/sonner'
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: '--font-plus-jakarta-sans',
@@ -53,6 +54,7 @@ export default function RootLayout({
         <SidebarProviderWrapper>
           {children}
         </SidebarProviderWrapper>
+        <Toaster />
       </body>
     </html>
   )
