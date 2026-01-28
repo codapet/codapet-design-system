@@ -47,11 +47,7 @@ export default function InteractivePage() {
             <Progress value={65} className="w-full" />
           </div>
           <CodeBlock
-            code={`import { Switch } from '@codapet/design-system'
-import { Label } from '@codapet/design-system'
-import { Slider } from '@codapet/design-system'
-import { Progress } from '@codapet/design-system'
-
+            code={`import { Switch, Label, Slider, Progress } from '@codapet/design-system'
 {/* Switch */}
 <div className="flex items-center space-x-2">
   <Switch id="airplane-mode" />

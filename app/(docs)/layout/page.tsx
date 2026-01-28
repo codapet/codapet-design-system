@@ -70,10 +70,7 @@ export default function LayoutPage() {
             </TabsContent>
           </Tabs>
           <CodeBlock
-            code={`import { Tabs, TabsContent, TabsList, TabsTrigger } from '@codapet/design-system'
-import { Input } from '@codapet/design-system'
-import { Label } from '@codapet/design-system'
-import { Switch } from '@codapet/design-system'
+            code={`import { Tabs, TabsContent, TabsList, TabsTrigger, Input, Label, Switch } from '@codapet/design-system'
 
 <Tabs defaultValue="account" className="w-full">
   <TabsList className="grid w-full grid-cols-3">

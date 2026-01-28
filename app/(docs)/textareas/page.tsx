@@ -62,8 +62,7 @@ export default function TextareasPage() {
             </div>
           </div>
           <CodeBlock
-                code={`import { Textarea } from '@codapet/design-system'
-import { Label } from '@codapet/design-system'
+                code={`import { Textarea, Label  } from '@codapet/design-system'
 
 {/* Default State */}
 <Label>Default State</Label>

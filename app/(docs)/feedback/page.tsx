@@ -100,8 +100,7 @@ import { Info, AlertCircle } from 'lucide-react'
               <Badge variant="outline">Outline</Badge>
             </div>
             <CodeBlock
-              code={`import { Avatar, AvatarFallback, AvatarImage } from '@codapet/design-system'
-import { Badge } from '@codapet/design-system'
+              code={`import { Avatar, AvatarFallback, AvatarImage, Badge } from '@codapet/design-system'
 
 {/* Avatars */}
 <div className="flex items-center space-x-4">

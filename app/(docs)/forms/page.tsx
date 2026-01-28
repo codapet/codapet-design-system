@@ -59,10 +59,7 @@ export default function FormsPage() {
               <Progress value={65} className="w-full" />
             </div>
             <CodeBlock
-              code={`import { Switch } from '@codapet/design-system'
-import { Label } from '@codapet/design-system'
-import { Slider } from '@codapet/design-system'
-import { Progress } from '@codapet/design-system'
+              code={`import { Switch, Label, Slider, Progress } from '@codapet/design-system'
 
 {/* Switch */}
 <div className="flex items-center space-x-2">
@@ -141,9 +138,7 @@ import { Progress } from '@codapet/design-system'
               <Label htmlFor="notifications">disabled notifications</Label>
             </div>
             <CodeBlock
-                code={`import { RadioGroup, RadioGroupItem } from '@codapet/design-system'
-import { Checkbox } from '@codapet/design-system'
-import { Label } from '@codapet/design-system'
+                code={`import { RadioGroup, RadioGroupItem, Checkbox, Label  } from '@codapet/design-system'
 
 {/* Radio Group */}
 <RadioGroup defaultValue="option-one">

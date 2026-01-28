@@ -53,8 +53,7 @@ export default function InputsPage() {
             </div>
           </div>
           <CodeBlock
-            code={`import { Input } from '@codapet/design-system'
-import { Label } from '@codapet/design-system'
+            code={`import { Input, Label } from '@codapet/design-system'
 
 <Label>Small Input</Label>
 <Input size="sm" placeholder="Small input field" />
@@ -140,8 +139,7 @@ import { Label } from '@codapet/design-system'
             </div>
           </div>
           <CodeBlock
-              code={`import { Input } from '@codapet/design-system'
-import { Label } from '@codapet/design-system'
+              code={`import { Input, Label } from '@codapet/design-system'
 import { CircleUser, Search, X } from 'lucide-react'
 
 {/* Default State */}
