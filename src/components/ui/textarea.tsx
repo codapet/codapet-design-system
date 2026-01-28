@@ -29,7 +29,7 @@ const errorStyles = [
   'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
 ].join(' ')
 
-interface TextareaProps extends Omit<React.ComponentProps<'textarea'>, 'size'> {
+export interface TextareaProps extends Omit<React.ComponentProps<'textarea'>, 'size'> {
   error?: boolean
 }
 

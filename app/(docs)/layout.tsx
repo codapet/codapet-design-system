@@ -51,6 +51,12 @@ const navigationItems = [
     description: 'Multi-line text input fields'
   },
   {
+    id: 'auto-resize-textarea',
+    label: 'Auto-resize Textarea',
+    icon: MessageSquare,
+    description: 'Textarea that grows with content, optional max height'
+  },
+  {
     id: 'forms',
     label: 'Form Elements',
     icon: ToggleLeft,
