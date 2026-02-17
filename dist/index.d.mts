@@ -66,6 +66,18 @@ declare function AlertDialogCancel({ className, ...props }: React$1.ComponentPro
 
 declare function AspectRatio({ ...props }: React.ComponentProps<typeof AspectRatioPrimitive.Root>): react_jsx_runtime.JSX.Element;
 
+interface TextareaProps extends Omit<React$1.ComponentProps<'textarea'>, 'size'> {
+    error?: boolean;
+}
+declare const Textarea: React$1.ForwardRefExoticComponent<Omit<TextareaProps, "ref"> & React$1.RefAttributes<HTMLTextAreaElement>>;
+
+declare const AutoResizeTextarea: React$1.ForwardRefExoticComponent<Omit<Omit<TextareaProps, "ref"> & React$1.RefAttributes<HTMLTextAreaElement>, "ref"> & {
+    /** Stop growing after this many px and allow scroll */
+    maxHeight?: number;
+    /** Minimum height in px */
+    minHeight?: number;
+} & React$1.RefAttributes<HTMLTextAreaElement>>;
+
 declare function Avatar({ className, ...props }: React$1.ComponentProps<typeof AvatarPrimitive.Root>): react_jsx_runtime.JSX.Element;
 declare function AvatarImage({ className, ...props }: React$1.ComponentProps<typeof AvatarPrimitive.Image>): react_jsx_runtime.JSX.Element;
 declare function AvatarFallback({ className, ...props }: React$1.ComponentProps<typeof AvatarPrimitive.Fallback>): react_jsx_runtime.JSX.Element;
@@ -220,6 +232,33 @@ declare function ContextMenuLabel({ className, inset, ...props }: React$1.Compon
 declare function ContextMenuSeparator({ className, ...props }: React$1.ComponentProps<typeof ContextMenuPrimitive.Separator>): react_jsx_runtime.JSX.Element;
 declare function ContextMenuShortcut({ className, ...props }: React$1.ComponentProps<"span">): react_jsx_runtime.JSX.Element;
 
+declare const inputVariants: (props?: ({
+    size?: "md" | "sm" | "lg" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
+interface InputProps extends Omit<React$1.ComponentProps<'input'>, 'size'>, VariantProps<typeof inputVariants> {
+    leftIcon?: React$1.ReactNode;
+    rightIcon?: React$1.ReactNode;
+    leftIconClassName?: string;
+    rightIconClassName?: string;
+    rightIconOnClick?: () => void;
+    rightIconButtonProps?: React$1.ButtonHTMLAttributes<HTMLButtonElement>;
+    error?: boolean;
+}
+declare const Input: React$1.ForwardRefExoticComponent<Omit<InputProps, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
+
+interface DateInputProps extends Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size'> {
+    date: Date | null;
+    setDate: (date: Date | null) => void;
+    maxDate?: Date | null;
+    minDate?: Date | null;
+    disableFuture?: boolean;
+    size?: VariantProps<typeof inputVariants>['size'];
+    inputClassName?: string;
+    calendarClassName?: string;
+    calendarProps?: React$1.ComponentProps<typeof Calendar>;
+}
+declare function DateInput({ date, setDate, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, calendarProps, placeholder, disabled, onBlur, ...props }: DateInputProps): react_jsx_runtime.JSX.Element;
+
 declare function Drawer({ ...props }: React$1.ComponentProps<typeof Drawer$1.Root>): react_jsx_runtime.JSX.Element;
 declare function DrawerTrigger({ ...props }: React$1.ComponentProps<typeof Drawer$1.Trigger>): react_jsx_runtime.JSX.Element;
 declare function DrawerPortal({ ...props }: React$1.ComponentProps<typeof Drawer$1.Portal>): react_jsx_runtime.JSX.Element;
@@ -279,20 +318,6 @@ declare function FormMessage({ className, ...props }: React$1.ComponentProps<"p"
 declare function HoverCard({ ...props }: React$1.ComponentProps<typeof HoverCardPrimitive.Root>): react_jsx_runtime.JSX.Element;
 declare function HoverCardTrigger({ ...props }: React$1.ComponentProps<typeof HoverCardPrimitive.Trigger>): react_jsx_runtime.JSX.Element;
 declare function HoverCardContent({ className, align, sideOffset, ...props }: React$1.ComponentProps<typeof HoverCardPrimitive.Content>): react_jsx_runtime.JSX.Element;
-
-declare const inputVariants: (props?: ({
-    size?: "md" | "sm" | "lg" | null | undefined;
-} & class_variance_authority_types.ClassProp) | undefined) => string;
-interface InputProps extends Omit<React$1.ComponentProps<'input'>, 'size'>, VariantProps<typeof inputVariants> {
-    leftIcon?: React$1.ReactNode;
-    rightIcon?: React$1.ReactNode;
-    leftIconClassName?: string;
-    rightIconClassName?: string;
-    rightIconOnClick?: () => void;
-    rightIconButtonProps?: React$1.ButtonHTMLAttributes<HTMLButtonElement>;
-    error?: boolean;
-}
-declare const Input: React$1.ForwardRefExoticComponent<Omit<InputProps, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
 
 declare function InputOTP({ className, containerClassName, ...props }: React$1.ComponentProps<typeof OTPInput> & {
     containerClassName?: string;
@@ -475,17 +500,22 @@ declare function Skeleton({ className, ...props }: React.ComponentProps<'div'>):
 
 declare function Slider({ className, defaultValue, value, min, max, ...props }: React$1.ComponentProps<typeof SliderPrimitive.Root>): react_jsx_runtime.JSX.Element;
 
-declare const SmartDialog: ({ children, ...props }: React.ComponentProps<typeof Dialog>) => react_jsx_runtime.JSX.Element;
-declare const SmartDialogContent: ({ children, overlayClassName, withCloseButton, ...props }: React.ComponentProps<typeof DrawerContent> & {
-    overlayClassName?: string;
-    withCloseButton?: boolean;
-}) => react_jsx_runtime.JSX.Element;
-declare const SmartDialogDescription: ({ children, ...props }: React.ComponentProps<typeof DrawerDescription>) => react_jsx_runtime.JSX.Element;
-declare const SmartDialogHeader: ({ children, ...props }: React.ComponentProps<typeof DrawerHeader>) => react_jsx_runtime.JSX.Element;
-declare const SmartDialogTitle: ({ children, ...props }: React.ComponentProps<typeof DrawerTitle>) => react_jsx_runtime.JSX.Element;
-declare const SmartDialogTrigger: ({ children, ...props }: React.ComponentProps<typeof DrawerTrigger>) => react_jsx_runtime.JSX.Element;
-declare const SmartDialogFooter: ({ children, ...props }: React.ComponentProps<typeof DrawerFooter>) => react_jsx_runtime.JSX.Element;
-declare const SmartDialogClose: ({ children, ...props }: React.ComponentProps<typeof DrawerClose>) => react_jsx_runtime.JSX.Element;
+type SmartDialogProps = React$1.ComponentProps<typeof Dialog> & React$1.ComponentProps<typeof Drawer>;
+declare const SmartDialog: ({ children, ...props }: SmartDialogProps) => react_jsx_runtime.JSX.Element;
+type SmartDialogContentProps = React$1.ComponentProps<typeof DialogContent> & React$1.ComponentProps<typeof DrawerContent>;
+declare const SmartDialogContent: ({ children, overlayClassName, withCloseButton, showCloseButton, ...props }: SmartDialogContentProps) => react_jsx_runtime.JSX.Element;
+type SmartDialogDescriptionProps = React$1.ComponentProps<typeof DialogDescription> & React$1.ComponentProps<typeof DrawerDescription>;
+declare const SmartDialogDescription: ({ children, ...props }: SmartDialogDescriptionProps) => react_jsx_runtime.JSX.Element;
+type SmartDialogHeaderProps = React$1.ComponentProps<typeof DialogHeader> & React$1.ComponentProps<typeof DrawerHeader>;
+declare const SmartDialogHeader: ({ children, ...props }: SmartDialogHeaderProps) => react_jsx_runtime.JSX.Element;
+type SmartDialogTitleProps = React$1.ComponentProps<typeof DialogTitle> & React$1.ComponentProps<typeof DrawerTitle>;
+declare const SmartDialogTitle: ({ children, ...props }: SmartDialogTitleProps) => react_jsx_runtime.JSX.Element;
+type SmartDialogTriggerProps = React$1.ComponentProps<typeof DialogTrigger> & React$1.ComponentProps<typeof DrawerTrigger>;
+declare const SmartDialogTrigger: ({ children, ...props }: SmartDialogTriggerProps) => react_jsx_runtime.JSX.Element;
+type SmartDialogFooterProps = React$1.ComponentProps<typeof DialogFooter> & React$1.ComponentProps<typeof DrawerFooter>;
+declare const SmartDialogFooter: ({ children, ...props }: SmartDialogFooterProps) => react_jsx_runtime.JSX.Element;
+type SmartDialogCloseProps = React$1.ComponentProps<typeof DialogClose> & React$1.ComponentProps<typeof DrawerClose>;
+declare const SmartDialogClose: ({ children, ...props }: SmartDialogCloseProps) => react_jsx_runtime.JSX.Element;
 
 declare const Toaster: ({ ...props }: ToasterProps) => react_jsx_runtime.JSX.Element;
 
@@ -504,11 +534,6 @@ declare function Tabs({ className, ...props }: React$1.ComponentProps<typeof Tab
 declare function TabsList({ className, ...props }: React$1.ComponentProps<typeof TabsPrimitive.List>): react_jsx_runtime.JSX.Element;
 declare function TabsTrigger({ className, ...props }: React$1.ComponentProps<typeof TabsPrimitive.Trigger>): react_jsx_runtime.JSX.Element;
 declare function TabsContent({ className, ...props }: React$1.ComponentProps<typeof TabsPrimitive.Content>): react_jsx_runtime.JSX.Element;
-
-interface TextareaProps extends Omit<React$1.ComponentProps<'textarea'>, 'size'> {
-    error?: boolean;
-}
-declare const Textarea: React$1.ForwardRefExoticComponent<Omit<TextareaProps, "ref"> & React$1.RefAttributes<HTMLTextAreaElement>>;
 
 declare const toggleVariants: (props?: ({
     variant?: "default" | "outline" | null | undefined;
@@ -554,4 +579,4 @@ declare function cn(...inputs: ClassValue[]): string;
 
 declare function useIsMobile(): boolean;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, Avatar, AvatarFallback, AvatarImage, Badge, Body, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DisplayHeading, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HeadingL, HeadingM, HeadingS, HeadingXL, HeadingXS, HeadingXXS, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, ScrollArea, ScrollBar, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, SmartDialog, SmartDialogClose, SmartDialogContent, SmartDialogDescription, SmartDialogFooter, SmartDialogHeader, SmartDialogTitle, SmartDialogTrigger, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, bodyTextVariants, buttonVariants, cn, displayTextVariants, inputVariants, labelTextVariants, navigationMenuTriggerStyle, toggleVariants, useFormField, useIsMobile, useSidebar };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, AutoResizeTextarea, Avatar, AvatarFallback, AvatarImage, Badge, Body, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, DateInput, type DateInputProps, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DisplayHeading, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HeadingL, HeadingM, HeadingS, HeadingXL, HeadingXS, HeadingXXS, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, ScrollArea, ScrollBar, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, SmartDialog, SmartDialogClose, SmartDialogContent, SmartDialogDescription, SmartDialogFooter, SmartDialogHeader, SmartDialogTitle, SmartDialogTrigger, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, type TextareaProps, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, bodyTextVariants, buttonVariants, cn, displayTextVariants, inputVariants, labelTextVariants, navigationMenuTriggerStyle, toggleVariants, useFormField, useIsMobile, useSidebar };

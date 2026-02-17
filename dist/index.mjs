@@ -330,15 +330,124 @@ function AspectRatio({
   return /* @__PURE__ */ jsx5(AspectRatioPrimitive.Root, { "data-slot": "aspect-ratio", ...props });
 }
 
+// src/components/ui/auto-resize-textarea.tsx
+import * as React6 from "react";
+
+// src/components/ui/textarea.tsx
+import * as React5 from "react";
+import { jsx as jsx6 } from "react/jsx-runtime";
+var textareaBaseStyles = [
+  // Base styles aligned with Input
+  "placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
+  "flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-400",
+  "outline-none font-sans",
+  // Disabled
+  "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+  // Responsive text size
+  "md:text-sm",
+  // Default state
+  "border-zinc-300 bg-background",
+  // Hover/Focus/Active states
+  "hover:border-brand-normal",
+  "focus:border-blue-500",
+  "active:border-brand-normal",
+  // Textarea specific
+  "field-sizing-content min-h-16 resize-y px-3 py-2"
+].join(" ");
+var errorStyles = [
+  "border-destructive bg-red-subtle",
+  "focus:border-destructive focus:ring-destructive/20",
+  "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+].join(" ");
+var Textarea = React5.forwardRef(
+  ({ className, error, ...props }, ref) => {
+    return /* @__PURE__ */ jsx6(
+      "textarea",
+      {
+        "data-slot": "textarea",
+        className: cn(textareaBaseStyles, error && errorStyles, className),
+        "aria-invalid": error,
+        ref,
+        ...props
+      }
+    );
+  }
+);
+Textarea.displayName = "Textarea";
+
+// src/components/ui/auto-resize-textarea.tsx
+import { jsx as jsx7 } from "react/jsx-runtime";
+var AutoResizeTextarea = React6.forwardRef(
+  ({
+    className,
+    style,
+    onInput,
+    onChange,
+    maxHeight,
+    minHeight = 120,
+    value,
+    ...props
+  }, forwardedRef) => {
+    const innerRef = React6.useRef(null);
+    const setRefs = React6.useCallback(
+      (node) => {
+        innerRef.current = node;
+        if (typeof forwardedRef === "function") forwardedRef(node);
+        else if (forwardedRef) forwardedRef.current = node;
+      },
+      [forwardedRef]
+    );
+    const resize = React6.useCallback(() => {
+      const el = innerRef.current;
+      if (!el) return;
+      el.style.height = "auto";
+      const nextHeight = Math.max(minHeight, el.scrollHeight);
+      if (maxHeight && nextHeight > maxHeight) {
+        el.style.height = `${maxHeight}px`;
+        el.style.overflowY = "auto";
+      } else {
+        el.style.height = `${nextHeight}px`;
+        el.style.overflowY = "hidden";
+      }
+    }, [maxHeight, minHeight]);
+    React6.useLayoutEffect(() => {
+      resize();
+    }, [resize, value]);
+    return /* @__PURE__ */ jsx7(
+      Textarea,
+      {
+        ...props,
+        ref: setRefs,
+        value,
+        onInput: (e) => {
+          resize();
+          onInput?.(e);
+        },
+        onChange: (e) => {
+          onChange?.(e);
+        },
+        className: cn("resize-none", className),
+        style: {
+          ...style,
+          minHeight,
+          height: style?.height ?? "auto",
+          overflowY: style?.overflowY ?? "hidden"
+        }
+      }
+    );
+  }
+);
+AutoResizeTextarea.displayName = "AutoResizeTextarea";
+
 // src/components/ui/avatar.tsx
 import "react";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
-import { jsx as jsx6 } from "react/jsx-runtime";
+import { jsx as jsx8 } from "react/jsx-runtime";
 function Avatar({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx6(
+  return /* @__PURE__ */ jsx8(
     AvatarPrimitive.Root,
     {
       "data-slot": "avatar",
@@ -354,7 +463,7 @@ function AvatarImage({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx6(
+  return /* @__PURE__ */ jsx8(
     AvatarPrimitive.Image,
     {
       "data-slot": "avatar-image",
@@ -367,7 +476,7 @@ function AvatarFallback({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx6(
+  return /* @__PURE__ */ jsx8(
     AvatarPrimitive.Fallback,
     {
       "data-slot": "avatar-fallback",
@@ -384,7 +493,7 @@ function AvatarFallback({
 import "react";
 import { Slot as Slot2 } from "@radix-ui/react-slot";
 import { cva as cva3 } from "class-variance-authority";
-import { jsx as jsx7 } from "react/jsx-runtime";
+import { jsx as jsx9 } from "react/jsx-runtime";
 var badgeVariants = cva3(
   "inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
   {
@@ -408,7 +517,7 @@ function Badge({
   ...props
 }) {
   const Comp = asChild ? Slot2 : "span";
-  return /* @__PURE__ */ jsx7(
+  return /* @__PURE__ */ jsx9(
     Comp,
     {
       "data-slot": "badge",
@@ -422,12 +531,12 @@ function Badge({
 import "react";
 import { Slot as Slot3 } from "@radix-ui/react-slot";
 import { ChevronRight, MoreHorizontal } from "lucide-react";
-import { jsx as jsx8, jsxs as jsxs3 } from "react/jsx-runtime";
+import { jsx as jsx10, jsxs as jsxs3 } from "react/jsx-runtime";
 function Breadcrumb({ ...props }) {
-  return /* @__PURE__ */ jsx8("nav", { "aria-label": "breadcrumb", "data-slot": "breadcrumb", ...props });
+  return /* @__PURE__ */ jsx10("nav", { "aria-label": "breadcrumb", "data-slot": "breadcrumb", ...props });
 }
 function BreadcrumbList({ className, ...props }) {
-  return /* @__PURE__ */ jsx8(
+  return /* @__PURE__ */ jsx10(
     "ol",
     {
       "data-slot": "breadcrumb-list",
@@ -440,7 +549,7 @@ function BreadcrumbList({ className, ...props }) {
   );
 }
 function BreadcrumbItem({ className, ...props }) {
-  return /* @__PURE__ */ jsx8(
+  return /* @__PURE__ */ jsx10(
     "li",
     {
       "data-slot": "breadcrumb-item",
@@ -455,7 +564,7 @@ function BreadcrumbLink({
   ...props
 }) {
   const Comp = asChild ? Slot3 : "a";
-  return /* @__PURE__ */ jsx8(
+  return /* @__PURE__ */ jsx10(
     Comp,
     {
       "data-slot": "breadcrumb-link",
@@ -465,7 +574,7 @@ function BreadcrumbLink({
   );
 }
 function BreadcrumbPage({ className, ...props }) {
-  return /* @__PURE__ */ jsx8(
+  return /* @__PURE__ */ jsx10(
     "span",
     {
       "data-slot": "breadcrumb-page",
@@ -482,7 +591,7 @@ function BreadcrumbSeparator({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx8(
+  return /* @__PURE__ */ jsx10(
     "li",
     {
       "data-slot": "breadcrumb-separator",
@@ -490,7 +599,7 @@ function BreadcrumbSeparator({
       "aria-hidden": "true",
       className: cn("[&>svg]:size-3.5", className),
       ...props,
-      children: children ?? /* @__PURE__ */ jsx8(ChevronRight, {})
+      children: children ?? /* @__PURE__ */ jsx10(ChevronRight, {})
     }
   );
 }
@@ -507,22 +616,22 @@ function BreadcrumbEllipsis({
       className: cn("flex size-9 items-center justify-center", className),
       ...props,
       children: [
-        /* @__PURE__ */ jsx8(MoreHorizontal, { className: "size-4" }),
-        /* @__PURE__ */ jsx8("span", { className: "sr-only", children: "More" })
+        /* @__PURE__ */ jsx10(MoreHorizontal, { className: "size-4" }),
+        /* @__PURE__ */ jsx10("span", { className: "sr-only", children: "More" })
       ]
     }
   );
 }
 
 // src/components/ui/calendar.tsx
-import * as React8 from "react";
+import * as React10 from "react";
 import {
   ChevronDownIcon as ChevronDownIcon2,
   ChevronLeftIcon,
   ChevronRightIcon
 } from "lucide-react";
 import { DayPicker, getDefaultClassNames } from "react-day-picker";
-import { jsx as jsx9 } from "react/jsx-runtime";
+import { jsx as jsx11 } from "react/jsx-runtime";
 function Calendar({
   className,
   classNames,
@@ -534,7 +643,7 @@ function Calendar({
   ...props
 }) {
   const defaultClassNames = getDefaultClassNames();
-  return /* @__PURE__ */ jsx9(
+  return /* @__PURE__ */ jsx11(
     DayPicker,
     {
       showOutsideDays,
@@ -633,7 +742,7 @@ function Calendar({
       },
       components: {
         Root: ({ className: className2, rootRef, ...props2 }) => {
-          return /* @__PURE__ */ jsx9(
+          return /* @__PURE__ */ jsx11(
             "div",
             {
               "data-slot": "calendar",
@@ -645,10 +754,10 @@ function Calendar({
         },
         Chevron: ({ className: className2, orientation, ...props2 }) => {
           if (orientation === "left") {
-            return /* @__PURE__ */ jsx9(ChevronLeftIcon, { className: cn("size-4", className2), ...props2 });
+            return /* @__PURE__ */ jsx11(ChevronLeftIcon, { className: cn("size-4", className2), ...props2 });
           }
           if (orientation === "right") {
-            return /* @__PURE__ */ jsx9(
+            return /* @__PURE__ */ jsx11(
               ChevronRightIcon,
               {
                 className: cn("size-4", className2),
@@ -656,11 +765,11 @@ function Calendar({
               }
             );
           }
-          return /* @__PURE__ */ jsx9(ChevronDownIcon2, { className: cn("size-4", className2), ...props2 });
+          return /* @__PURE__ */ jsx11(ChevronDownIcon2, { className: cn("size-4", className2), ...props2 });
         },
         DayButton: CalendarDayButton,
         WeekNumber: ({ children, ...props2 }) => {
-          return /* @__PURE__ */ jsx9("td", { ...props2, children: /* @__PURE__ */ jsx9("div", { className: "flex size-(--cell-size) items-center justify-center text-center", children }) });
+          return /* @__PURE__ */ jsx11("td", { ...props2, children: /* @__PURE__ */ jsx11("div", { className: "flex size-(--cell-size) items-center justify-center text-center", children }) });
         },
         ...components
       },
@@ -675,11 +784,11 @@ function CalendarDayButton({
   ...props
 }) {
   const defaultClassNames = getDefaultClassNames();
-  const ref = React8.useRef(null);
-  React8.useEffect(() => {
+  const ref = React10.useRef(null);
+  React10.useEffect(() => {
     if (modifiers.focused) ref.current?.focus();
   }, [modifiers.focused]);
-  return /* @__PURE__ */ jsx9(
+  return /* @__PURE__ */ jsx11(
     Button,
     {
       ref,
@@ -702,9 +811,9 @@ function CalendarDayButton({
 
 // src/components/ui/card.tsx
 import "react";
-import { jsx as jsx10 } from "react/jsx-runtime";
+import { jsx as jsx12 } from "react/jsx-runtime";
 function Card({ className, ...props }) {
-  return /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsx12(
     "div",
     {
       "data-slot": "card",
@@ -717,7 +826,7 @@ function Card({ className, ...props }) {
   );
 }
 function CardHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsx12(
     "div",
     {
       "data-slot": "card-header",
@@ -730,7 +839,7 @@ function CardHeader({ className, ...props }) {
   );
 }
 function CardTitle({ className, ...props }) {
-  return /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsx12(
     "div",
     {
       "data-slot": "card-title",
@@ -740,7 +849,7 @@ function CardTitle({ className, ...props }) {
   );
 }
 function CardDescription({ className, ...props }) {
-  return /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsx12(
     "div",
     {
       "data-slot": "card-description",
@@ -750,7 +859,7 @@ function CardDescription({ className, ...props }) {
   );
 }
 function CardAction({ className, ...props }) {
-  return /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsx12(
     "div",
     {
       "data-slot": "card-action",
@@ -763,7 +872,7 @@ function CardAction({ className, ...props }) {
   );
 }
 function CardContent({ className, ...props }) {
-  return /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsx12(
     "div",
     {
       "data-slot": "card-content",
@@ -773,7 +882,7 @@ function CardContent({ className, ...props }) {
   );
 }
 function CardFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsx12(
     "div",
     {
       "data-slot": "card-footer",
@@ -784,13 +893,13 @@ function CardFooter({ className, ...props }) {
 }
 
 // src/components/ui/carousel.tsx
-import * as React10 from "react";
+import * as React12 from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { jsx as jsx11, jsxs as jsxs4 } from "react/jsx-runtime";
-var CarouselContext = React10.createContext(null);
+import { jsx as jsx13, jsxs as jsxs4 } from "react/jsx-runtime";
+var CarouselContext = React12.createContext(null);
 function useCarousel() {
-  const context = React10.useContext(CarouselContext);
+  const context = React12.useContext(CarouselContext);
   if (!context) {
     throw new Error("useCarousel must be used within a <Carousel />");
   }
@@ -812,20 +921,20 @@ function Carousel({
     },
     plugins
   );
-  const [canScrollPrev, setCanScrollPrev] = React10.useState(false);
-  const [canScrollNext, setCanScrollNext] = React10.useState(false);
-  const onSelect = React10.useCallback((api2) => {
+  const [canScrollPrev, setCanScrollPrev] = React12.useState(false);
+  const [canScrollNext, setCanScrollNext] = React12.useState(false);
+  const onSelect = React12.useCallback((api2) => {
     if (!api2) return;
     setCanScrollPrev(api2.canScrollPrev());
     setCanScrollNext(api2.canScrollNext());
   }, []);
-  const scrollPrev = React10.useCallback(() => {
+  const scrollPrev = React12.useCallback(() => {
     api?.scrollPrev();
   }, [api]);
-  const scrollNext = React10.useCallback(() => {
+  const scrollNext = React12.useCallback(() => {
     api?.scrollNext();
   }, [api]);
-  const handleKeyDown = React10.useCallback(
+  const handleKeyDown = React12.useCallback(
     (event) => {
       if (event.key === "ArrowLeft") {
         event.preventDefault();
@@ -837,11 +946,11 @@ function Carousel({
     },
     [scrollPrev, scrollNext]
   );
-  React10.useEffect(() => {
+  React12.useEffect(() => {
     if (!api || !setApi) return;
     setApi(api);
   }, [api, setApi]);
-  React10.useEffect(() => {
+  React12.useEffect(() => {
     if (!api) return;
     onSelect(api);
     api.on("reInit", onSelect);
@@ -850,7 +959,7 @@ function Carousel({
       api?.off("select", onSelect);
     };
   }, [api, onSelect]);
-  return /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsx13(
     CarouselContext.Provider,
     {
       value: {
@@ -863,7 +972,7 @@ function Carousel({
         canScrollPrev,
         canScrollNext
       },
-      children: /* @__PURE__ */ jsx11(
+      children: /* @__PURE__ */ jsx13(
         "div",
         {
           onKeyDownCapture: handleKeyDown,
@@ -880,13 +989,13 @@ function Carousel({
 }
 function CarouselContent({ className, ...props }) {
   const { carouselRef, orientation } = useCarousel();
-  return /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsx13(
     "div",
     {
       ref: carouselRef,
       className: "overflow-hidden",
       "data-slot": "carousel-content",
-      children: /* @__PURE__ */ jsx11(
+      children: /* @__PURE__ */ jsx13(
         "div",
         {
           className: cn(
@@ -902,7 +1011,7 @@ function CarouselContent({ className, ...props }) {
 }
 function CarouselItem({ className, ...props }) {
   const { orientation } = useCarousel();
-  return /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsx13(
     "div",
     {
       role: "group",
@@ -939,8 +1048,8 @@ function CarouselPrevious({
       onClick: scrollPrev,
       ...props,
       children: [
-        /* @__PURE__ */ jsx11(ArrowLeft, {}),
-        /* @__PURE__ */ jsx11("span", { className: "sr-only", children: "Previous slide" })
+        /* @__PURE__ */ jsx13(ArrowLeft, {}),
+        /* @__PURE__ */ jsx13("span", { className: "sr-only", children: "Previous slide" })
       ]
     }
   );
@@ -967,21 +1076,21 @@ function CarouselNext({
       onClick: scrollNext,
       ...props,
       children: [
-        /* @__PURE__ */ jsx11(ArrowRight, {}),
-        /* @__PURE__ */ jsx11("span", { className: "sr-only", children: "Next slide" })
+        /* @__PURE__ */ jsx13(ArrowRight, {}),
+        /* @__PURE__ */ jsx13("span", { className: "sr-only", children: "Next slide" })
       ]
     }
   );
 }
 
 // src/components/ui/chart.tsx
-import * as React11 from "react";
+import * as React13 from "react";
 import * as RechartsPrimitive from "recharts";
-import { Fragment, jsx as jsx12, jsxs as jsxs5 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx14, jsxs as jsxs5 } from "react/jsx-runtime";
 var THEMES = { light: "", dark: ".dark" };
-var ChartContext = React11.createContext(null);
+var ChartContext = React13.createContext(null);
 function useChart() {
-  const context = React11.useContext(ChartContext);
+  const context = React13.useContext(ChartContext);
   if (!context) {
     throw new Error("useChart must be used within a <ChartContainer />");
   }
@@ -994,9 +1103,9 @@ function ChartContainer({
   config,
   ...props
 }) {
-  const uniqueId = React11.useId();
+  const uniqueId = React13.useId();
   const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`;
-  return /* @__PURE__ */ jsx12(ChartContext.Provider, { value: { config }, children: /* @__PURE__ */ jsxs5(
+  return /* @__PURE__ */ jsx14(ChartContext.Provider, { value: { config }, children: /* @__PURE__ */ jsxs5(
     "div",
     {
       "data-slot": "chart",
@@ -1007,8 +1116,8 @@ function ChartContainer({
       ),
       ...props,
       children: [
-        /* @__PURE__ */ jsx12(ChartStyle, { id: chartId, config }),
-        /* @__PURE__ */ jsx12(RechartsPrimitive.ResponsiveContainer, { children })
+        /* @__PURE__ */ jsx14(ChartStyle, { id: chartId, config }),
+        /* @__PURE__ */ jsx14(RechartsPrimitive.ResponsiveContainer, { children })
       ]
     }
   ) });
@@ -1020,7 +1129,7 @@ var ChartStyle = ({ id, config }) => {
   if (!colorConfig.length) {
     return null;
   }
-  return /* @__PURE__ */ jsx12(
+  return /* @__PURE__ */ jsx14(
     "style",
     {
       dangerouslySetInnerHTML: {
@@ -1055,7 +1164,7 @@ function ChartTooltipContent({
   labelKey
 }) {
   const { config } = useChart();
-  const tooltipLabel = React11.useMemo(() => {
+  const tooltipLabel = React13.useMemo(() => {
     if (hideLabel || !payload?.length) {
       return null;
     }
@@ -1064,12 +1173,12 @@ function ChartTooltipContent({
     const itemConfig = getPayloadConfigFromPayload(config, item, key);
     const value = !labelKey && typeof label === "string" ? config[label]?.label || label : itemConfig?.label;
     if (labelFormatter) {
-      return /* @__PURE__ */ jsx12("div", { className: cn("font-medium", labelClassName), children: labelFormatter(value, payload) });
+      return /* @__PURE__ */ jsx14("div", { className: cn("font-medium", labelClassName), children: labelFormatter(value, payload) });
     }
     if (!value) {
       return null;
     }
-    return /* @__PURE__ */ jsx12("div", { className: cn("font-medium", labelClassName), children: value });
+    return /* @__PURE__ */ jsx14("div", { className: cn("font-medium", labelClassName), children: value });
   }, [
     label,
     labelFormatter,
@@ -1092,11 +1201,11 @@ function ChartTooltipContent({
       ),
       children: [
         !nestLabel ? tooltipLabel : null,
-        /* @__PURE__ */ jsx12("div", { className: "grid gap-1.5", children: payload.map((item, index) => {
+        /* @__PURE__ */ jsx14("div", { className: "grid gap-1.5", children: payload.map((item, index) => {
           const key = `${nameKey || item.name || item.dataKey || "value"}`;
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
           const indicatorColor = color || item.payload.fill || item.color;
-          return /* @__PURE__ */ jsx12(
+          return /* @__PURE__ */ jsx14(
             "div",
             {
               className: cn(
@@ -1104,7 +1213,7 @@ function ChartTooltipContent({
                 indicator === "dot" && "items-center"
               ),
               children: formatter && item?.value !== void 0 && item.name ? formatter(item.value, item.name, item, index, item.payload) : /* @__PURE__ */ jsxs5(Fragment, { children: [
-                itemConfig?.icon ? /* @__PURE__ */ jsx12(itemConfig.icon, {}) : !hideIndicator && /* @__PURE__ */ jsx12(
+                itemConfig?.icon ? /* @__PURE__ */ jsx14(itemConfig.icon, {}) : !hideIndicator && /* @__PURE__ */ jsx14(
                   "div",
                   {
                     className: cn(
@@ -1132,9 +1241,9 @@ function ChartTooltipContent({
                     children: [
                       /* @__PURE__ */ jsxs5("div", { className: "grid gap-1.5", children: [
                         nestLabel ? tooltipLabel : null,
-                        /* @__PURE__ */ jsx12("span", { className: "text-muted-foreground", children: itemConfig?.label || item.name })
+                        /* @__PURE__ */ jsx14("span", { className: "text-muted-foreground", children: itemConfig?.label || item.name })
                       ] }),
-                      item.value && /* @__PURE__ */ jsx12("span", { className: "text-foreground font-mono font-medium tabular-nums", children: item.value.toLocaleString() })
+                      item.value && /* @__PURE__ */ jsx14("span", { className: "text-foreground font-mono font-medium tabular-nums", children: item.value.toLocaleString() })
                     ]
                   }
                 )
@@ -1159,7 +1268,7 @@ function ChartLegendContent({
   if (!payload?.length) {
     return null;
   }
-  return /* @__PURE__ */ jsx12(
+  return /* @__PURE__ */ jsx14(
     "div",
     {
       className: cn(
@@ -1177,7 +1286,7 @@ function ChartLegendContent({
               "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3"
             ),
             children: [
-              itemConfig?.icon && !hideIcon ? /* @__PURE__ */ jsx12(itemConfig.icon, {}) : /* @__PURE__ */ jsx12(
+              itemConfig?.icon && !hideIcon ? /* @__PURE__ */ jsx14(itemConfig.icon, {}) : /* @__PURE__ */ jsx14(
                 "div",
                 {
                   className: "h-2 w-2 shrink-0 rounded-[2px]",
@@ -1213,12 +1322,12 @@ function getPayloadConfigFromPayload(config, payload, key) {
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { Check } from "lucide-react";
 import "react";
-import { jsx as jsx13 } from "react/jsx-runtime";
+import { jsx as jsx15 } from "react/jsx-runtime";
 function Checkbox({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx13(
+  return /* @__PURE__ */ jsx15(
     CheckboxPrimitive.Root,
     {
       "data-slot": "checkbox",
@@ -1227,13 +1336,13 @@ function Checkbox({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx13(
+      children: /* @__PURE__ */ jsx15(
         CheckboxPrimitive.Indicator,
         {
           "data-slot": "checkbox-indicator",
           forceMount: true,
           className: "flex items-center justify-center text-current transition-opacity duration-400 opacity-0 group-data-[state=checked]:opacity-100",
-          children: /* @__PURE__ */ jsx13(Check, { className: "size-3.5" })
+          children: /* @__PURE__ */ jsx15(Check, { className: "size-3.5" })
         }
       )
     }
@@ -1242,16 +1351,16 @@ function Checkbox({
 
 // src/components/ui/collapsible.tsx
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible";
-import { jsx as jsx14 } from "react/jsx-runtime";
+import { jsx as jsx16 } from "react/jsx-runtime";
 function Collapsible({
   ...props
 }) {
-  return /* @__PURE__ */ jsx14(CollapsiblePrimitive.Root, { "data-slot": "collapsible", ...props });
+  return /* @__PURE__ */ jsx16(CollapsiblePrimitive.Root, { "data-slot": "collapsible", ...props });
 }
 function CollapsibleTrigger2({
   ...props
 }) {
-  return /* @__PURE__ */ jsx14(
+  return /* @__PURE__ */ jsx16(
     CollapsiblePrimitive.CollapsibleTrigger,
     {
       "data-slot": "collapsible-trigger",
@@ -1262,7 +1371,7 @@ function CollapsibleTrigger2({
 function CollapsibleContent2({
   ...props
 }) {
-  return /* @__PURE__ */ jsx14(
+  return /* @__PURE__ */ jsx16(
     CollapsiblePrimitive.CollapsibleContent,
     {
       "data-slot": "collapsible-content",
@@ -1280,32 +1389,32 @@ import { SearchIcon } from "lucide-react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
 import "react";
-import { jsx as jsx15, jsxs as jsxs6 } from "react/jsx-runtime";
+import { jsx as jsx17, jsxs as jsxs6 } from "react/jsx-runtime";
 function Dialog({
   ...props
 }) {
-  return /* @__PURE__ */ jsx15(DialogPrimitive.Root, { "data-slot": "dialog", ...props });
+  return /* @__PURE__ */ jsx17(DialogPrimitive.Root, { "data-slot": "dialog", ...props });
 }
 function DialogTrigger({
   ...props
 }) {
-  return /* @__PURE__ */ jsx15(DialogPrimitive.Trigger, { "data-slot": "dialog-trigger", ...props });
+  return /* @__PURE__ */ jsx17(DialogPrimitive.Trigger, { "data-slot": "dialog-trigger", ...props });
 }
 function DialogPortal({
   ...props
 }) {
-  return /* @__PURE__ */ jsx15(DialogPrimitive.Portal, { "data-slot": "dialog-portal", ...props });
+  return /* @__PURE__ */ jsx17(DialogPrimitive.Portal, { "data-slot": "dialog-portal", ...props });
 }
 function DialogClose({
   ...props
 }) {
-  return /* @__PURE__ */ jsx15(DialogPrimitive.Close, { "data-slot": "dialog-close", ...props });
+  return /* @__PURE__ */ jsx17(DialogPrimitive.Close, { "data-slot": "dialog-close", ...props });
 }
 function DialogOverlay({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx15(
+  return /* @__PURE__ */ jsx17(
     DialogPrimitive.Overlay,
     {
       "data-slot": "dialog-overlay",
@@ -1325,7 +1434,7 @@ function DialogContent({
   ...props
 }) {
   return /* @__PURE__ */ jsxs6(DialogPortal, { "data-slot": "dialog-portal", children: [
-    /* @__PURE__ */ jsx15(DialogOverlay, { className: overlayClassName }),
+    /* @__PURE__ */ jsx17(DialogOverlay, { className: overlayClassName }),
     /* @__PURE__ */ jsxs6(
       DialogPrimitive.Content,
       {
@@ -1343,8 +1452,8 @@ function DialogContent({
               "data-slot": "dialog-close",
               className: "ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
               children: [
-                /* @__PURE__ */ jsx15(XIcon, {}),
-                /* @__PURE__ */ jsx15("span", { className: "sr-only", children: "Close" })
+                /* @__PURE__ */ jsx17(XIcon, {}),
+                /* @__PURE__ */ jsx17("span", { className: "sr-only", children: "Close" })
               ]
             }
           )
@@ -1354,7 +1463,7 @@ function DialogContent({
   ] });
 }
 function DialogHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx15(
+  return /* @__PURE__ */ jsx17(
     "div",
     {
       "data-slot": "dialog-header",
@@ -1364,7 +1473,7 @@ function DialogHeader({ className, ...props }) {
   );
 }
 function DialogFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx15(
+  return /* @__PURE__ */ jsx17(
     "div",
     {
       "data-slot": "dialog-footer",
@@ -1380,7 +1489,7 @@ function DialogTitle({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx15(
+  return /* @__PURE__ */ jsx17(
     DialogPrimitive.Title,
     {
       "data-slot": "dialog-title",
@@ -1393,7 +1502,7 @@ function DialogDescription({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx15(
+  return /* @__PURE__ */ jsx17(
     DialogPrimitive.Description,
     {
       "data-slot": "dialog-description",
@@ -1404,12 +1513,12 @@ function DialogDescription({
 }
 
 // src/components/ui/command.tsx
-import { jsx as jsx16, jsxs as jsxs7 } from "react/jsx-runtime";
+import { jsx as jsx18, jsxs as jsxs7 } from "react/jsx-runtime";
 function Command({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ jsx18(
     CommandPrimitive,
     {
       "data-slot": "command",
@@ -1431,15 +1540,15 @@ function CommandDialog({
 }) {
   return /* @__PURE__ */ jsxs7(Dialog, { ...props, children: [
     /* @__PURE__ */ jsxs7(DialogHeader, { className: "sr-only", children: [
-      /* @__PURE__ */ jsx16(DialogTitle, { children: title }),
-      /* @__PURE__ */ jsx16(DialogDescription, { children: description })
+      /* @__PURE__ */ jsx18(DialogTitle, { children: title }),
+      /* @__PURE__ */ jsx18(DialogDescription, { children: description })
     ] }),
-    /* @__PURE__ */ jsx16(
+    /* @__PURE__ */ jsx18(
       DialogContent,
       {
         className: cn("overflow-hidden p-0", className),
         showCloseButton,
-        children: /* @__PURE__ */ jsx16(Command, { className: "[&_[cmdk-group-heading]]:text-muted-foreground **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5", children })
+        children: /* @__PURE__ */ jsx18(Command, { className: "[&_[cmdk-group-heading]]:text-muted-foreground **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5", children })
       }
     )
   ] });
@@ -1454,8 +1563,8 @@ function CommandInput({
       "data-slot": "command-input-wrapper",
       className: "flex h-9 items-center gap-2 border-b px-3",
       children: [
-        /* @__PURE__ */ jsx16(SearchIcon, { className: "size-4 shrink-0 opacity-50" }),
-        /* @__PURE__ */ jsx16(
+        /* @__PURE__ */ jsx18(SearchIcon, { className: "size-4 shrink-0 opacity-50" }),
+        /* @__PURE__ */ jsx18(
           CommandPrimitive.Input,
           {
             "data-slot": "command-input",
@@ -1474,7 +1583,7 @@ function CommandList({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ jsx18(
     CommandPrimitive.List,
     {
       "data-slot": "command-list",
@@ -1489,7 +1598,7 @@ function CommandList({
 function CommandEmpty({
   ...props
 }) {
-  return /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ jsx18(
     CommandPrimitive.Empty,
     {
       "data-slot": "command-empty",
@@ -1502,7 +1611,7 @@ function CommandGroup({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ jsx18(
     CommandPrimitive.Group,
     {
       "data-slot": "command-group",
@@ -1518,7 +1627,7 @@ function CommandSeparator({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ jsx18(
     CommandPrimitive.Separator,
     {
       "data-slot": "command-separator",
@@ -1531,7 +1640,7 @@ function CommandItem({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ jsx18(
     CommandPrimitive.Item,
     {
       "data-slot": "command-item",
@@ -1547,7 +1656,7 @@ function CommandShortcut({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ jsx18(
     "span",
     {
       "data-slot": "command-shortcut",
@@ -1564,36 +1673,36 @@ function CommandShortcut({
 import "react";
 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
 import { CheckIcon, ChevronRightIcon as ChevronRightIcon2, CircleIcon } from "lucide-react";
-import { jsx as jsx17, jsxs as jsxs8 } from "react/jsx-runtime";
+import { jsx as jsx19, jsxs as jsxs8 } from "react/jsx-runtime";
 function ContextMenu({
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(ContextMenuPrimitive.Root, { "data-slot": "context-menu", ...props });
+  return /* @__PURE__ */ jsx19(ContextMenuPrimitive.Root, { "data-slot": "context-menu", ...props });
 }
 function ContextMenuTrigger({
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(ContextMenuPrimitive.Trigger, { "data-slot": "context-menu-trigger", ...props });
+  return /* @__PURE__ */ jsx19(ContextMenuPrimitive.Trigger, { "data-slot": "context-menu-trigger", ...props });
 }
 function ContextMenuGroup({
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(ContextMenuPrimitive.Group, { "data-slot": "context-menu-group", ...props });
+  return /* @__PURE__ */ jsx19(ContextMenuPrimitive.Group, { "data-slot": "context-menu-group", ...props });
 }
 function ContextMenuPortal({
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(ContextMenuPrimitive.Portal, { "data-slot": "context-menu-portal", ...props });
+  return /* @__PURE__ */ jsx19(ContextMenuPrimitive.Portal, { "data-slot": "context-menu-portal", ...props });
 }
 function ContextMenuSub({
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(ContextMenuPrimitive.Sub, { "data-slot": "context-menu-sub", ...props });
+  return /* @__PURE__ */ jsx19(ContextMenuPrimitive.Sub, { "data-slot": "context-menu-sub", ...props });
 }
 function ContextMenuRadioGroup({
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsx19(
     ContextMenuPrimitive.RadioGroup,
     {
       "data-slot": "context-menu-radio-group",
@@ -1619,7 +1728,7 @@ function ContextMenuSubTrigger({
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx17(ChevronRightIcon2, { className: "ml-auto" })
+        /* @__PURE__ */ jsx19(ChevronRightIcon2, { className: "ml-auto" })
       ]
     }
   );
@@ -1628,7 +1737,7 @@ function ContextMenuSubContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsx19(
     ContextMenuPrimitive.SubContent,
     {
       "data-slot": "context-menu-sub-content",
@@ -1644,7 +1753,7 @@ function ContextMenuContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(ContextMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsx19(ContextMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx19(
     ContextMenuPrimitive.Content,
     {
       "data-slot": "context-menu-content",
@@ -1662,7 +1771,7 @@ function ContextMenuItem({
   variant = "default",
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsx19(
     ContextMenuPrimitive.Item,
     {
       "data-slot": "context-menu-item",
@@ -1693,7 +1802,7 @@ function ContextMenuCheckboxItem({
       checked,
       ...props,
       children: [
-        /* @__PURE__ */ jsx17("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx17(ContextMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx17(CheckIcon, { className: "size-4" }) }) }),
+        /* @__PURE__ */ jsx19("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx19(ContextMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx19(CheckIcon, { className: "size-4" }) }) }),
         children
       ]
     }
@@ -1714,7 +1823,7 @@ function ContextMenuRadioItem({
       ),
       ...props,
       children: [
-        /* @__PURE__ */ jsx17("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx17(ContextMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx17(CircleIcon, { className: "size-2 fill-current" }) }) }),
+        /* @__PURE__ */ jsx19("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx19(ContextMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx19(CircleIcon, { className: "size-2 fill-current" }) }) }),
         children
       ]
     }
@@ -1725,7 +1834,7 @@ function ContextMenuLabel({
   inset,
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsx19(
     ContextMenuPrimitive.Label,
     {
       "data-slot": "context-menu-label",
@@ -1742,7 +1851,7 @@ function ContextMenuSeparator({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsx19(
     ContextMenuPrimitive.Separator,
     {
       "data-slot": "context-menu-separator",
@@ -1755,7 +1864,7 @@ function ContextMenuShortcut({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsx19(
     "span",
     {
       "data-slot": "context-menu-shortcut",
@@ -1768,530 +1877,16 @@ function ContextMenuShortcut({
   );
 }
 
-// src/components/ui/drawer.tsx
-import "react";
-import { Drawer as DrawerPrimitive } from "vaul";
-import { jsx as jsx18, jsxs as jsxs9 } from "react/jsx-runtime";
-function Drawer({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx18(DrawerPrimitive.Root, { "data-slot": "drawer", ...props });
-}
-function DrawerTrigger({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx18(DrawerPrimitive.Trigger, { "data-slot": "drawer-trigger", ...props });
-}
-function DrawerPortal({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx18(DrawerPrimitive.Portal, { "data-slot": "drawer-portal", ...props });
-}
-function DrawerClose({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx18(DrawerPrimitive.Close, { "data-slot": "drawer-close", ...props });
-}
-function DrawerOverlay({
-  className,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx18(
-    DrawerPrimitive.Overlay,
-    {
-      "data-slot": "drawer-overlay",
-      className: cn(
-        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function DrawerContent({
-  className,
-  children,
-  withCloseButton = true,
-  ...props
-}) {
-  return /* @__PURE__ */ jsxs9(DrawerPortal, { "data-slot": "drawer-portal", children: [
-    /* @__PURE__ */ jsx18(DrawerOverlay, {}),
-    /* @__PURE__ */ jsxs9(
-      DrawerPrimitive.Content,
-      {
-        "data-slot": "drawer-content",
-        className: cn(
-          "group/drawer-content bg-background fixed z-50 flex h-auto flex-col",
-          "data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg data-[vaul-drawer-direction=top]:border-b",
-          "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t",
-          "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm",
-          "data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:sm:max-w-sm",
-          className
-        ),
-        ...props,
-        children: [
-          withCloseButton && /* @__PURE__ */ jsx18("div", { className: "bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block" }),
-          children
-        ]
-      }
-    )
-  ] });
-}
-function DrawerHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx18(
-    "div",
-    {
-      "data-slot": "drawer-header",
-      className: cn(
-        "flex flex-col gap-0.5 p-4 group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center md:gap-1.5 md:text-left",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function DrawerFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx18(
-    "div",
-    {
-      "data-slot": "drawer-footer",
-      className: cn("mt-auto flex flex-col gap-2 p-4", className),
-      ...props
-    }
-  );
-}
-function DrawerTitle({
-  className,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx18(
-    DrawerPrimitive.Title,
-    {
-      "data-slot": "drawer-title",
-      className: cn("text-foreground font-semibold", className),
-      ...props
-    }
-  );
-}
-function DrawerDescription({
-  className,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx18(
-    DrawerPrimitive.Description,
-    {
-      "data-slot": "drawer-description",
-      className: cn("text-muted-foreground text-sm", className),
-      ...props
-    }
-  );
-}
-
-// src/components/ui/dropdown-menu.tsx
-import "react";
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { CheckIcon as CheckIcon2, ChevronRightIcon as ChevronRightIcon3, CircleIcon as CircleIcon2 } from "lucide-react";
-import { jsx as jsx19, jsxs as jsxs10 } from "react/jsx-runtime";
-function DropdownMenu({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(DropdownMenuPrimitive.Root, { "data-slot": "dropdown-menu", ...props });
-}
-function DropdownMenuPortal({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(DropdownMenuPrimitive.Portal, { "data-slot": "dropdown-menu-portal", ...props });
-}
-function DropdownMenuTrigger({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(
-    DropdownMenuPrimitive.Trigger,
-    {
-      "data-slot": "dropdown-menu-trigger",
-      ...props
-    }
-  );
-}
-function DropdownMenuContent({
-  className,
-  sideOffset = 4,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx19(
-    DropdownMenuPrimitive.Content,
-    {
-      "data-slot": "dropdown-menu-content",
-      sideOffset,
-      className: cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md",
-        className
-      ),
-      ...props
-    }
-  ) });
-}
-function DropdownMenuGroup({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(DropdownMenuPrimitive.Group, { "data-slot": "dropdown-menu-group", ...props });
-}
-function DropdownMenuItem({
-  className,
-  inset,
-  variant = "default",
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(
-    DropdownMenuPrimitive.Item,
-    {
-      "data-slot": "dropdown-menu-item",
-      "data-inset": inset,
-      "data-variant": variant,
-      className: cn(
-        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function DropdownMenuCheckboxItem({
-  className,
-  children,
-  checked,
-  ...props
-}) {
-  return /* @__PURE__ */ jsxs10(
-    DropdownMenuPrimitive.CheckboxItem,
-    {
-      "data-slot": "dropdown-menu-checkbox-item",
-      className: cn(
-        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
-      ),
-      checked,
-      ...props,
-      children: [
-        /* @__PURE__ */ jsx19("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx19(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx19(CheckIcon2, { className: "size-4" }) }) }),
-        children
-      ]
-    }
-  );
-}
-function DropdownMenuRadioGroup({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(
-    DropdownMenuPrimitive.RadioGroup,
-    {
-      "data-slot": "dropdown-menu-radio-group",
-      ...props
-    }
-  );
-}
-function DropdownMenuRadioItem({
-  className,
-  children,
-  ...props
-}) {
-  return /* @__PURE__ */ jsxs10(
-    DropdownMenuPrimitive.RadioItem,
-    {
-      "data-slot": "dropdown-menu-radio-item",
-      className: cn(
-        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
-      ),
-      ...props,
-      children: [
-        /* @__PURE__ */ jsx19("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx19(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx19(CircleIcon2, { className: "size-2 fill-current" }) }) }),
-        children
-      ]
-    }
-  );
-}
-function DropdownMenuLabel({
-  className,
-  inset,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(
-    DropdownMenuPrimitive.Label,
-    {
-      "data-slot": "dropdown-menu-label",
-      "data-inset": inset,
-      className: cn(
-        "px-2 py-1.5 text-sm font-medium data-[inset]:pl-8",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function DropdownMenuSeparator({
-  className,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(
-    DropdownMenuPrimitive.Separator,
-    {
-      "data-slot": "dropdown-menu-separator",
-      className: cn("bg-border -mx-1 my-1 h-px", className),
-      ...props
-    }
-  );
-}
-function DropdownMenuShortcut({
-  className,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(
-    "span",
-    {
-      "data-slot": "dropdown-menu-shortcut",
-      className: cn(
-        "text-muted-foreground ml-auto text-xs tracking-widest",
-        className
-      ),
-      ...props
-    }
-  );
-}
-function DropdownMenuSub({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(DropdownMenuPrimitive.Sub, { "data-slot": "dropdown-menu-sub", ...props });
-}
-function DropdownMenuSubTrigger({
-  className,
-  inset,
-  children,
-  ...props
-}) {
-  return /* @__PURE__ */ jsxs10(
-    DropdownMenuPrimitive.SubTrigger,
-    {
-      "data-slot": "dropdown-menu-sub-trigger",
-      "data-inset": inset,
-      className: cn(
-        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8",
-        className
-      ),
-      ...props,
-      children: [
-        children,
-        /* @__PURE__ */ jsx19(ChevronRightIcon3, { className: "ml-auto size-4" })
-      ]
-    }
-  );
-}
-function DropdownMenuSubContent({
-  className,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx19(
-    DropdownMenuPrimitive.SubContent,
-    {
-      "data-slot": "dropdown-menu-sub-content",
-      className: cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
-        className
-      ),
-      ...props
-    }
-  );
-}
-
-// src/components/ui/form.tsx
-import * as React19 from "react";
-import "@radix-ui/react-label";
-import { Slot as Slot5 } from "@radix-ui/react-slot";
-import {
-  Controller,
-  FormProvider,
-  useFormContext,
-  useFormState
-} from "react-hook-form";
-
-// src/components/ui/label.tsx
-import { Slot as Slot4 } from "@radix-ui/react-slot";
-import { cva as cva4 } from "class-variance-authority";
-import "react";
-import { jsx as jsx20 } from "react/jsx-runtime";
-var labelTextVariants = cva4("font-sans font-semibold ", {
-  variants: {
-    size: {
-      lg: "text-base md:text-lg md:leading-[1.625rem] leading-[1.5rem]",
-      md: "md:text-base text-sm  md:leading-[1.5rem] leading-[1.25rem] ",
-      sm: "md:text-sm text-xs  md:leading-[1.25rem] leading-[1.125rem] ",
-      xs: "text-xs leading-[1.125rem]"
-    }
-  },
-  defaultVariants: {
-    size: "md"
-  }
-});
-function Label3({
-  className,
-  size,
-  asChild = false,
-  ...props
-}) {
-  const Comp = asChild ? Slot4 : "label";
-  return /* @__PURE__ */ jsx20(
-    Comp,
-    {
-      "data-slot": "label",
-      className: cn(labelTextVariants({ size, className })),
-      ...props
-    }
-  );
-}
-
-// src/components/ui/form.tsx
-import { jsx as jsx21 } from "react/jsx-runtime";
-var Form = FormProvider;
-var FormFieldContext = React19.createContext(
-  {}
-);
-var FormField = ({
-  ...props
-}) => {
-  return /* @__PURE__ */ jsx21(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ jsx21(Controller, { ...props }) });
-};
-var useFormField = () => {
-  const fieldContext = React19.useContext(FormFieldContext);
-  const itemContext = React19.useContext(FormItemContext);
-  const { getFieldState } = useFormContext();
-  const formState = useFormState({ name: fieldContext.name });
-  const fieldState = getFieldState(fieldContext.name, formState);
-  if (!fieldContext) {
-    throw new Error("useFormField should be used within <FormField>");
-  }
-  const { id } = itemContext;
-  return {
-    id,
-    name: fieldContext.name,
-    formItemId: `${id}-form-item`,
-    formDescriptionId: `${id}-form-item-description`,
-    formMessageId: `${id}-form-item-message`,
-    ...fieldState
-  };
-};
-var FormItemContext = React19.createContext(
-  {}
-);
-function FormItem({ className, ...props }) {
-  const id = React19.useId();
-  return /* @__PURE__ */ jsx21(FormItemContext.Provider, { value: { id }, children: /* @__PURE__ */ jsx21(
-    "div",
-    {
-      "data-slot": "form-item",
-      className: cn("grid gap-2", className),
-      ...props
-    }
-  ) });
-}
-function FormLabel({
-  className,
-  ...props
-}) {
-  const { error, formItemId } = useFormField();
-  return /* @__PURE__ */ jsx21(
-    Label3,
-    {
-      "data-slot": "form-label",
-      "data-error": !!error,
-      className: cn("data-[error=true]:text-destructive", className),
-      htmlFor: formItemId,
-      ...props
-    }
-  );
-}
-function FormControl({ ...props }) {
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
-  return /* @__PURE__ */ jsx21(
-    Slot5,
-    {
-      "data-slot": "form-control",
-      id: formItemId,
-      "aria-describedby": !error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`,
-      "aria-invalid": !!error,
-      ...props
-    }
-  );
-}
-function FormDescription({ className, ...props }) {
-  const { formDescriptionId } = useFormField();
-  return /* @__PURE__ */ jsx21(
-    "p",
-    {
-      "data-slot": "form-description",
-      id: formDescriptionId,
-      className: cn("text-muted-foreground text-sm", className),
-      ...props
-    }
-  );
-}
-function FormMessage({ className, ...props }) {
-  const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message ?? "") : props.children;
-  if (!body) {
-    return null;
-  }
-  return /* @__PURE__ */ jsx21(
-    "p",
-    {
-      "data-slot": "form-message",
-      id: formMessageId,
-      className: cn("text-destructive text-sm", className),
-      ...props,
-      children: body
-    }
-  );
-}
-
-// src/components/ui/hover-card.tsx
-import "react";
-import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
-import { jsx as jsx22 } from "react/jsx-runtime";
-function HoverCard({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx22(HoverCardPrimitive.Root, { "data-slot": "hover-card", ...props });
-}
-function HoverCardTrigger({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx22(HoverCardPrimitive.Trigger, { "data-slot": "hover-card-trigger", ...props });
-}
-function HoverCardContent({
-  className,
-  align = "center",
-  sideOffset = 4,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx22(HoverCardPrimitive.Portal, { "data-slot": "hover-card-portal", children: /* @__PURE__ */ jsx22(
-    HoverCardPrimitive.Content,
-    {
-      "data-slot": "hover-card-content",
-      align,
-      sideOffset,
-      className: cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-64 origin-(--radix-hover-card-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden",
-        className
-      ),
-      ...props
-    }
-  ) });
-}
+// src/components/ui/date-input.tsx
+import "class-variance-authority";
+import { CalendarDays } from "lucide-react";
+import * as React20 from "react";
 
 // src/components/ui/input.tsx
-import { cva as cva5 } from "class-variance-authority";
-import * as React21 from "react";
-import { jsx as jsx23, jsxs as jsxs11 } from "react/jsx-runtime";
-var inputVariants = cva5(
+import { cva as cva4 } from "class-variance-authority";
+import * as React18 from "react";
+import { jsx as jsx20, jsxs as jsxs9 } from "react/jsx-runtime";
+var inputVariants = cva4(
   [
     // Base styles
     "file:text-zinc-800 placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
@@ -2324,7 +1919,7 @@ var inputVariants = cva5(
     }
   }
 );
-var Input = React21.forwardRef(
+var Input = React18.forwardRef(
   ({
     className,
     type,
@@ -2344,8 +1939,8 @@ var Input = React21.forwardRef(
       "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
     ] : [];
     if (leftIcon || rightIcon) {
-      return /* @__PURE__ */ jsxs11("div", { className: "relative", children: [
-        /* @__PURE__ */ jsx23(
+      return /* @__PURE__ */ jsxs9("div", { className: "relative", children: [
+        /* @__PURE__ */ jsx20(
           "input",
           {
             type,
@@ -2363,7 +1958,7 @@ var Input = React21.forwardRef(
             ...props
           }
         ),
-        leftIcon && /* @__PURE__ */ jsx23(
+        leftIcon && /* @__PURE__ */ jsx20(
           "div",
           {
             className: cn(
@@ -2372,15 +1967,15 @@ var Input = React21.forwardRef(
               error ? "text-destructive peer-hover:text-destructive peer-focus:text-destructive peer-active:text-destructive" : "text-muted-foreground peer-hover:text-brand-normal peer-focus:text-blue-500 peer-active:text-brand-normal",
               leftIconClassName
             ),
-            children: React21.isValidElement(leftIcon) ? (() => {
+            children: React18.isValidElement(leftIcon) ? (() => {
               const iconEl = leftIcon;
-              return React21.cloneElement(iconEl, {
+              return React18.cloneElement(iconEl, {
                 className: cn("h-4 w-4", iconEl.props.className)
               });
             })() : leftIcon
           }
         ),
-        rightIcon && /* @__PURE__ */ jsx23(
+        rightIcon && /* @__PURE__ */ jsx20(
           Button,
           {
             onClick: rightIconOnClick,
@@ -2394,9 +1989,9 @@ var Input = React21.forwardRef(
             ),
             "aria-label": "Input action",
             ...rightIconButtonProps,
-            children: React21.isValidElement(rightIcon) ? (() => {
+            children: React18.isValidElement(rightIcon) ? (() => {
               const iconEl = rightIcon;
-              return React21.cloneElement(iconEl, {
+              return React18.cloneElement(iconEl, {
                 className: cn("h-4 w-4", iconEl.props.className)
               });
             })() : rightIcon
@@ -2404,7 +1999,7 @@ var Input = React21.forwardRef(
         )
       ] });
     }
-    return /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx20(
       "input",
       {
         type,
@@ -2419,17 +2014,760 @@ var Input = React21.forwardRef(
 );
 Input.displayName = "Input";
 
+// src/components/ui/popover.tsx
+import "react";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+import { jsx as jsx21 } from "react/jsx-runtime";
+function Popover({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx21(PopoverPrimitive.Root, { "data-slot": "popover", ...props });
+}
+function PopoverTrigger({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx21(PopoverPrimitive.Trigger, { "data-slot": "popover-trigger", ...props });
+}
+function PopoverContent({
+  className,
+  align = "center",
+  sideOffset = 4,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx21(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx21(
+    PopoverPrimitive.Content,
+    {
+      "data-slot": "popover-content",
+      align,
+      sideOffset,
+      className: cn(
+        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden",
+        className
+      ),
+      ...props
+    }
+  ) });
+}
+function PopoverAnchor({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx21(PopoverPrimitive.Anchor, { "data-slot": "popover-anchor", ...props });
+}
+
+// src/components/ui/date-input.tsx
+import { jsx as jsx22, jsxs as jsxs10 } from "react/jsx-runtime";
+function formatDate(date) {
+  if (!date) {
+    return "";
+  }
+  return date.toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
+}
+function isValidDate(date) {
+  if (!date) {
+    return false;
+  }
+  return !isNaN(date.getTime());
+}
+function DateInput({
+  date,
+  setDate,
+  maxDate,
+  minDate,
+  disableFuture = true,
+  className,
+  inputClassName,
+  calendarClassName,
+  calendarProps,
+  placeholder = "mm/dd/yyyy",
+  disabled,
+  onBlur,
+  ...props
+}) {
+  const [open, setOpen] = React20.useState(false);
+  const [month, setMonth] = React20.useState(date ?? null);
+  const [value, setValue] = React20.useState(formatDate(date ?? null));
+  const today = React20.useMemo(() => {
+    const d = /* @__PURE__ */ new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, []);
+  const effectiveMaxDate = React20.useMemo(() => {
+    if (disableFuture) {
+      if (maxDate) {
+        const max = new Date(maxDate);
+        max.setHours(0, 0, 0, 0);
+        return max < today ? max : today;
+      }
+      return today;
+    }
+    if (maxDate) {
+      const max = new Date(maxDate);
+      max.setHours(0, 0, 0, 0);
+      return max;
+    }
+    return void 0;
+  }, [maxDate, disableFuture, today]);
+  const effectiveMinDate = React20.useMemo(() => {
+    if (minDate) {
+      const min = new Date(minDate);
+      min.setHours(0, 0, 0, 0);
+      return min;
+    }
+    return null;
+  }, [minDate]);
+  React20.useEffect(() => {
+    if (date) {
+      setValue(formatDate(date));
+      setMonth(date);
+    }
+  }, [date]);
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
+    setValue(inputValue);
+    const parsedDate = new Date(inputValue);
+    if (isValidDate(parsedDate)) {
+      const selectedDate = new Date(parsedDate);
+      selectedDate.setHours(0, 0, 0, 0);
+      const isAfterMin = !effectiveMinDate || selectedDate >= effectiveMinDate;
+      const isBeforeMax = !effectiveMaxDate || selectedDate <= effectiveMaxDate;
+      if (isAfterMin && isBeforeMax) {
+        setDate(parsedDate);
+        setMonth(parsedDate);
+      }
+    } else if (inputValue === "") {
+      setDate(null);
+    }
+  };
+  const handleBlur = (e) => {
+    if (onBlur) {
+      onBlur(e);
+    }
+    if (value === "") {
+      if (date !== null) {
+        setDate(null);
+      }
+      return;
+    }
+    const parsedDate = new Date(value);
+    if (!isValidDate(parsedDate)) {
+      setValue(formatDate(date));
+    } else {
+      const selectedDate = new Date(parsedDate);
+      selectedDate.setHours(0, 0, 0, 0);
+      const isAfterMin = !effectiveMinDate || selectedDate >= effectiveMinDate;
+      const isBeforeMax = !effectiveMaxDate || selectedDate <= effectiveMaxDate;
+      if (!isAfterMin || !isBeforeMax) {
+        setValue(formatDate(date));
+      }
+    }
+  };
+  return /* @__PURE__ */ jsx22("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs10(Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsx22(PopoverTrigger, { asChild: true, disabled, children: /* @__PURE__ */ jsx22("div", { className: "w-full relative", children: /* @__PURE__ */ jsx22(
+      Input,
+      {
+        id: "date",
+        value,
+        placeholder,
+        className: cn("bg-background cursor-pointer", inputClassName),
+        onChange: handleInputChange,
+        onBlur: handleBlur,
+        disabled,
+        onKeyDown: (e) => {
+          if (e.key === "ArrowDown" && !disabled) {
+            e.preventDefault();
+            setOpen(true);
+          }
+        },
+        rightIcon: /* @__PURE__ */ jsx22(CalendarDays, { className: "h-4 w-4 text-muted-foreground" }),
+        rightIconOnClick: disabled ? void 0 : () => setOpen(!open),
+        rightIconButtonProps: { disabled },
+        ...props
+      }
+    ) }) }),
+    /* @__PURE__ */ jsx22(
+      PopoverContent,
+      {
+        className: "w-auto overflow-hidden p-0",
+        align: "end",
+        alignOffset: -8,
+        sideOffset: 10,
+        side: "top",
+        children: /* @__PURE__ */ jsx22(
+          Calendar,
+          {
+            ...calendarProps,
+            mode: "single",
+            selected: date ?? void 0,
+            captionLayout: "dropdown",
+            month: month ?? void 0,
+            onMonthChange: setMonth,
+            showOutsideDays: false,
+            className: cn(
+              "md:w-auto w-[calc(100vw-50px)] mx-auto h-[350px] overflow-y-auto md:h-auto m-2",
+              calendarClassName
+            ),
+            classNames: calendarProps?.classNames,
+            onSelect: (selectedDate) => {
+              if (selectedDate) {
+                const dateObj = new Date(selectedDate);
+                dateObj.setHours(0, 0, 0, 0);
+                const isAfterMin = !effectiveMinDate || dateObj >= effectiveMinDate;
+                const isBeforeMax = !effectiveMaxDate || dateObj <= effectiveMaxDate;
+                if (isAfterMin && isBeforeMax) {
+                  setDate(selectedDate);
+                  setValue(formatDate(selectedDate));
+                  setOpen(false);
+                }
+              }
+            },
+            disabled: (date2) => {
+              const checkDate = new Date(date2);
+              checkDate.setHours(0, 0, 0, 0);
+              const isBeforeMin = effectiveMinDate !== null && checkDate < effectiveMinDate;
+              const isAfterMax = effectiveMaxDate !== void 0 && checkDate > effectiveMaxDate;
+              return isBeforeMin || isAfterMax;
+            }
+          }
+        )
+      }
+    )
+  ] }) });
+}
+
+// src/components/ui/drawer.tsx
+import "react";
+import { Drawer as DrawerPrimitive } from "vaul";
+import { jsx as jsx23, jsxs as jsxs11 } from "react/jsx-runtime";
+function Drawer({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(DrawerPrimitive.Root, { "data-slot": "drawer", ...props, repositionInputs: false });
+}
+function DrawerTrigger({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(DrawerPrimitive.Trigger, { "data-slot": "drawer-trigger", ...props });
+}
+function DrawerPortal({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(DrawerPrimitive.Portal, { "data-slot": "drawer-portal", ...props });
+}
+function DrawerClose({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(DrawerPrimitive.Close, { "data-slot": "drawer-close", ...props });
+}
+function DrawerOverlay({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(
+    DrawerPrimitive.Overlay,
+    {
+      "data-slot": "drawer-overlay",
+      className: cn(
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DrawerContent({
+  className,
+  children,
+  withCloseButton = true,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs11(DrawerPortal, { "data-slot": "drawer-portal", children: [
+    /* @__PURE__ */ jsx23(DrawerOverlay, {}),
+    /* @__PURE__ */ jsxs11(
+      DrawerPrimitive.Content,
+      {
+        "data-slot": "drawer-content",
+        className: cn(
+          "group/drawer-content bg-background fixed z-50 flex h-auto flex-col",
+          "data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg data-[vaul-drawer-direction=top]:border-b",
+          "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t",
+          "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm",
+          "data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:sm:max-w-sm",
+          className
+        ),
+        ...props,
+        children: [
+          withCloseButton && /* @__PURE__ */ jsx23("div", { className: "bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block" }),
+          children
+        ]
+      }
+    )
+  ] });
+}
+function DrawerHeader({ className, ...props }) {
+  return /* @__PURE__ */ jsx23(
+    "div",
+    {
+      "data-slot": "drawer-header",
+      className: cn(
+        "flex flex-col gap-0.5 p-4 group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center md:gap-1.5 md:text-left",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DrawerFooter({ className, ...props }) {
+  return /* @__PURE__ */ jsx23(
+    "div",
+    {
+      "data-slot": "drawer-footer",
+      className: cn("mt-auto flex flex-col gap-2 p-4", className),
+      ...props
+    }
+  );
+}
+function DrawerTitle({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(
+    DrawerPrimitive.Title,
+    {
+      "data-slot": "drawer-title",
+      className: cn("text-foreground font-semibold", className),
+      ...props
+    }
+  );
+}
+function DrawerDescription({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx23(
+    DrawerPrimitive.Description,
+    {
+      "data-slot": "drawer-description",
+      className: cn("text-muted-foreground text-sm", className),
+      ...props
+    }
+  );
+}
+
+// src/components/ui/dropdown-menu.tsx
+import "react";
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import { CheckIcon as CheckIcon2, ChevronRightIcon as ChevronRightIcon3, CircleIcon as CircleIcon2 } from "lucide-react";
+import { jsx as jsx24, jsxs as jsxs12 } from "react/jsx-runtime";
+function DropdownMenu({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(DropdownMenuPrimitive.Root, { "data-slot": "dropdown-menu", ...props });
+}
+function DropdownMenuPortal({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(DropdownMenuPrimitive.Portal, { "data-slot": "dropdown-menu-portal", ...props });
+}
+function DropdownMenuTrigger({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(
+    DropdownMenuPrimitive.Trigger,
+    {
+      "data-slot": "dropdown-menu-trigger",
+      ...props
+    }
+  );
+}
+function DropdownMenuContent({
+  className,
+  sideOffset = 4,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx24(
+    DropdownMenuPrimitive.Content,
+    {
+      "data-slot": "dropdown-menu-content",
+      sideOffset,
+      className: cn(
+        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md",
+        className
+      ),
+      ...props
+    }
+  ) });
+}
+function DropdownMenuGroup({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(DropdownMenuPrimitive.Group, { "data-slot": "dropdown-menu-group", ...props });
+}
+function DropdownMenuItem({
+  className,
+  inset,
+  variant = "default",
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(
+    DropdownMenuPrimitive.Item,
+    {
+      "data-slot": "dropdown-menu-item",
+      "data-inset": inset,
+      "data-variant": variant,
+      className: cn(
+        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DropdownMenuCheckboxItem({
+  className,
+  children,
+  checked,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs12(
+    DropdownMenuPrimitive.CheckboxItem,
+    {
+      "data-slot": "dropdown-menu-checkbox-item",
+      className: cn(
+        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      checked,
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx24("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx24(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx24(CheckIcon2, { className: "size-4" }) }) }),
+        children
+      ]
+    }
+  );
+}
+function DropdownMenuRadioGroup({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(
+    DropdownMenuPrimitive.RadioGroup,
+    {
+      "data-slot": "dropdown-menu-radio-group",
+      ...props
+    }
+  );
+}
+function DropdownMenuRadioItem({
+  className,
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs12(
+    DropdownMenuPrimitive.RadioItem,
+    {
+      "data-slot": "dropdown-menu-radio-item",
+      className: cn(
+        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      ),
+      ...props,
+      children: [
+        /* @__PURE__ */ jsx24("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx24(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx24(CircleIcon2, { className: "size-2 fill-current" }) }) }),
+        children
+      ]
+    }
+  );
+}
+function DropdownMenuLabel({
+  className,
+  inset,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(
+    DropdownMenuPrimitive.Label,
+    {
+      "data-slot": "dropdown-menu-label",
+      "data-inset": inset,
+      className: cn(
+        "px-2 py-1.5 text-sm font-medium data-[inset]:pl-8",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DropdownMenuSeparator({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(
+    DropdownMenuPrimitive.Separator,
+    {
+      "data-slot": "dropdown-menu-separator",
+      className: cn("bg-border -mx-1 my-1 h-px", className),
+      ...props
+    }
+  );
+}
+function DropdownMenuShortcut({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(
+    "span",
+    {
+      "data-slot": "dropdown-menu-shortcut",
+      className: cn(
+        "text-muted-foreground ml-auto text-xs tracking-widest",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function DropdownMenuSub({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(DropdownMenuPrimitive.Sub, { "data-slot": "dropdown-menu-sub", ...props });
+}
+function DropdownMenuSubTrigger({
+  className,
+  inset,
+  children,
+  ...props
+}) {
+  return /* @__PURE__ */ jsxs12(
+    DropdownMenuPrimitive.SubTrigger,
+    {
+      "data-slot": "dropdown-menu-sub-trigger",
+      "data-inset": inset,
+      className: cn(
+        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8",
+        className
+      ),
+      ...props,
+      children: [
+        children,
+        /* @__PURE__ */ jsx24(ChevronRightIcon3, { className: "ml-auto size-4" })
+      ]
+    }
+  );
+}
+function DropdownMenuSubContent({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx24(
+    DropdownMenuPrimitive.SubContent,
+    {
+      "data-slot": "dropdown-menu-sub-content",
+      className: cn(
+        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
+        className
+      ),
+      ...props
+    }
+  );
+}
+
+// src/components/ui/form.tsx
+import * as React24 from "react";
+import "@radix-ui/react-label";
+import { Slot as Slot5 } from "@radix-ui/react-slot";
+import {
+  Controller,
+  FormProvider,
+  useFormContext,
+  useFormState
+} from "react-hook-form";
+
+// src/components/ui/label.tsx
+import { Slot as Slot4 } from "@radix-ui/react-slot";
+import { cva as cva5 } from "class-variance-authority";
+import "react";
+import { jsx as jsx25 } from "react/jsx-runtime";
+var labelTextVariants = cva5("font-sans font-semibold ", {
+  variants: {
+    size: {
+      lg: "text-base md:text-lg md:leading-[1.625rem] leading-[1.5rem]",
+      md: "md:text-base text-sm  md:leading-[1.5rem] leading-[1.25rem] ",
+      sm: "md:text-sm text-xs  md:leading-[1.25rem] leading-[1.125rem] ",
+      xs: "text-xs leading-[1.125rem]"
+    }
+  },
+  defaultVariants: {
+    size: "md"
+  }
+});
+function Label3({
+  className,
+  size,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot4 : "label";
+  return /* @__PURE__ */ jsx25(
+    Comp,
+    {
+      "data-slot": "label",
+      className: cn(labelTextVariants({ size, className })),
+      ...props
+    }
+  );
+}
+
+// src/components/ui/form.tsx
+import { jsx as jsx26 } from "react/jsx-runtime";
+var Form = FormProvider;
+var FormFieldContext = React24.createContext(
+  {}
+);
+var FormField = ({
+  ...props
+}) => {
+  return /* @__PURE__ */ jsx26(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ jsx26(Controller, { ...props }) });
+};
+var useFormField = () => {
+  const fieldContext = React24.useContext(FormFieldContext);
+  const itemContext = React24.useContext(FormItemContext);
+  const { getFieldState } = useFormContext();
+  const formState = useFormState({ name: fieldContext.name });
+  const fieldState = getFieldState(fieldContext.name, formState);
+  if (!fieldContext) {
+    throw new Error("useFormField should be used within <FormField>");
+  }
+  const { id } = itemContext;
+  return {
+    id,
+    name: fieldContext.name,
+    formItemId: `${id}-form-item`,
+    formDescriptionId: `${id}-form-item-description`,
+    formMessageId: `${id}-form-item-message`,
+    ...fieldState
+  };
+};
+var FormItemContext = React24.createContext(
+  {}
+);
+function FormItem({ className, ...props }) {
+  const id = React24.useId();
+  return /* @__PURE__ */ jsx26(FormItemContext.Provider, { value: { id }, children: /* @__PURE__ */ jsx26(
+    "div",
+    {
+      "data-slot": "form-item",
+      className: cn("grid gap-2", className),
+      ...props
+    }
+  ) });
+}
+function FormLabel({
+  className,
+  ...props
+}) {
+  const { error, formItemId } = useFormField();
+  return /* @__PURE__ */ jsx26(
+    Label3,
+    {
+      "data-slot": "form-label",
+      "data-error": !!error,
+      className: cn("data-[error=true]:text-destructive", className),
+      htmlFor: formItemId,
+      ...props
+    }
+  );
+}
+function FormControl({ ...props }) {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+  return /* @__PURE__ */ jsx26(
+    Slot5,
+    {
+      "data-slot": "form-control",
+      id: formItemId,
+      "aria-describedby": !error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`,
+      "aria-invalid": !!error,
+      ...props
+    }
+  );
+}
+function FormDescription({ className, ...props }) {
+  const { formDescriptionId } = useFormField();
+  return /* @__PURE__ */ jsx26(
+    "p",
+    {
+      "data-slot": "form-description",
+      id: formDescriptionId,
+      className: cn("text-muted-foreground text-sm", className),
+      ...props
+    }
+  );
+}
+function FormMessage({ className, ...props }) {
+  const { error, formMessageId } = useFormField();
+  const body = error ? String(error?.message ?? "") : props.children;
+  if (!body) {
+    return null;
+  }
+  return /* @__PURE__ */ jsx26(
+    "p",
+    {
+      "data-slot": "form-message",
+      id: formMessageId,
+      className: cn("text-destructive text-sm", className),
+      ...props,
+      children: body
+    }
+  );
+}
+
+// src/components/ui/hover-card.tsx
+import "react";
+import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
+import { jsx as jsx27 } from "react/jsx-runtime";
+function HoverCard({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx27(HoverCardPrimitive.Root, { "data-slot": "hover-card", ...props });
+}
+function HoverCardTrigger({
+  ...props
+}) {
+  return /* @__PURE__ */ jsx27(HoverCardPrimitive.Trigger, { "data-slot": "hover-card-trigger", ...props });
+}
+function HoverCardContent({
+  className,
+  align = "center",
+  sideOffset = 4,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx27(HoverCardPrimitive.Portal, { "data-slot": "hover-card-portal", children: /* @__PURE__ */ jsx27(
+    HoverCardPrimitive.Content,
+    {
+      "data-slot": "hover-card-content",
+      align,
+      sideOffset,
+      className: cn(
+        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-64 origin-(--radix-hover-card-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden",
+        className
+      ),
+      ...props
+    }
+  ) });
+}
+
 // src/components/ui/input-otp.tsx
-import * as React22 from "react";
+import * as React26 from "react";
 import { OTPInput, OTPInputContext } from "input-otp";
 import { MinusIcon } from "lucide-react";
-import { jsx as jsx24, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx28, jsxs as jsxs13 } from "react/jsx-runtime";
 function InputOTP({
   className,
   containerClassName,
   ...props
 }) {
-  return /* @__PURE__ */ jsx24(
+  return /* @__PURE__ */ jsx28(
     OTPInput,
     {
       "data-slot": "input-otp",
@@ -2443,7 +2781,7 @@ function InputOTP({
   );
 }
 function InputOTPGroup({ className, ...props }) {
-  return /* @__PURE__ */ jsx24(
+  return /* @__PURE__ */ jsx28(
     "div",
     {
       "data-slot": "input-otp-group",
@@ -2457,9 +2795,9 @@ function InputOTPSlot({
   className,
   ...props
 }) {
-  const inputOTPContext = React22.useContext(OTPInputContext);
+  const inputOTPContext = React26.useContext(OTPInputContext);
   const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
-  return /* @__PURE__ */ jsxs12(
+  return /* @__PURE__ */ jsxs13(
     "div",
     {
       "data-slot": "input-otp-slot",
@@ -2471,25 +2809,25 @@ function InputOTPSlot({
       ...props,
       children: [
         char,
-        hasFakeCaret && /* @__PURE__ */ jsx24("div", { className: "pointer-events-none absolute inset-0 flex items-center justify-center", children: /* @__PURE__ */ jsx24("div", { className: "animate-caret-blink bg-foreground h-4 w-px duration-1000" }) })
+        hasFakeCaret && /* @__PURE__ */ jsx28("div", { className: "pointer-events-none absolute inset-0 flex items-center justify-center", children: /* @__PURE__ */ jsx28("div", { className: "animate-caret-blink bg-foreground h-4 w-px duration-1000" }) })
       ]
     }
   );
 }
 function InputOTPSeparator({ ...props }) {
-  return /* @__PURE__ */ jsx24("div", { "data-slot": "input-otp-separator", role: "separator", ...props, children: /* @__PURE__ */ jsx24(MinusIcon, {}) });
+  return /* @__PURE__ */ jsx28("div", { "data-slot": "input-otp-separator", role: "separator", ...props, children: /* @__PURE__ */ jsx28(MinusIcon, {}) });
 }
 
 // src/components/ui/menubar.tsx
 import "react";
 import * as MenubarPrimitive from "@radix-ui/react-menubar";
 import { CheckIcon as CheckIcon3, ChevronRightIcon as ChevronRightIcon4, CircleIcon as CircleIcon3 } from "lucide-react";
-import { jsx as jsx25, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx29, jsxs as jsxs14 } from "react/jsx-runtime";
 function Menubar({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx29(
     MenubarPrimitive.Root,
     {
       "data-slot": "menubar",
@@ -2504,28 +2842,28 @@ function Menubar({
 function MenubarMenu({
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(MenubarPrimitive.Menu, { "data-slot": "menubar-menu", ...props });
+  return /* @__PURE__ */ jsx29(MenubarPrimitive.Menu, { "data-slot": "menubar-menu", ...props });
 }
 function MenubarGroup({
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(MenubarPrimitive.Group, { "data-slot": "menubar-group", ...props });
+  return /* @__PURE__ */ jsx29(MenubarPrimitive.Group, { "data-slot": "menubar-group", ...props });
 }
 function MenubarPortal({
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(MenubarPrimitive.Portal, { "data-slot": "menubar-portal", ...props });
+  return /* @__PURE__ */ jsx29(MenubarPrimitive.Portal, { "data-slot": "menubar-portal", ...props });
 }
 function MenubarRadioGroup({
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(MenubarPrimitive.RadioGroup, { "data-slot": "menubar-radio-group", ...props });
+  return /* @__PURE__ */ jsx29(MenubarPrimitive.RadioGroup, { "data-slot": "menubar-radio-group", ...props });
 }
 function MenubarTrigger({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx29(
     MenubarPrimitive.Trigger,
     {
       "data-slot": "menubar-trigger",
@@ -2544,7 +2882,7 @@ function MenubarContent({
   sideOffset = 8,
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(MenubarPortal, { children: /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx29(MenubarPortal, { children: /* @__PURE__ */ jsx29(
     MenubarPrimitive.Content,
     {
       "data-slot": "menubar-content",
@@ -2565,7 +2903,7 @@ function MenubarItem({
   variant = "default",
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx29(
     MenubarPrimitive.Item,
     {
       "data-slot": "menubar-item",
@@ -2585,7 +2923,7 @@ function MenubarCheckboxItem({
   checked,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs13(
+  return /* @__PURE__ */ jsxs14(
     MenubarPrimitive.CheckboxItem,
     {
       "data-slot": "menubar-checkbox-item",
@@ -2596,7 +2934,7 @@ function MenubarCheckboxItem({
       checked,
       ...props,
       children: [
-        /* @__PURE__ */ jsx25("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx25(MenubarPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx25(CheckIcon3, { className: "size-4" }) }) }),
+        /* @__PURE__ */ jsx29("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx29(MenubarPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx29(CheckIcon3, { className: "size-4" }) }) }),
         children
       ]
     }
@@ -2607,7 +2945,7 @@ function MenubarRadioItem({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs13(
+  return /* @__PURE__ */ jsxs14(
     MenubarPrimitive.RadioItem,
     {
       "data-slot": "menubar-radio-item",
@@ -2617,7 +2955,7 @@ function MenubarRadioItem({
       ),
       ...props,
       children: [
-        /* @__PURE__ */ jsx25("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx25(MenubarPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx25(CircleIcon3, { className: "size-2 fill-current" }) }) }),
+        /* @__PURE__ */ jsx29("span", { className: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx29(MenubarPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx29(CircleIcon3, { className: "size-2 fill-current" }) }) }),
         children
       ]
     }
@@ -2628,7 +2966,7 @@ function MenubarLabel({
   inset,
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx29(
     MenubarPrimitive.Label,
     {
       "data-slot": "menubar-label",
@@ -2645,7 +2983,7 @@ function MenubarSeparator({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx29(
     MenubarPrimitive.Separator,
     {
       "data-slot": "menubar-separator",
@@ -2658,7 +2996,7 @@ function MenubarShortcut({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx29(
     "span",
     {
       "data-slot": "menubar-shortcut",
@@ -2673,7 +3011,7 @@ function MenubarShortcut({
 function MenubarSub({
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(MenubarPrimitive.Sub, { "data-slot": "menubar-sub", ...props });
+  return /* @__PURE__ */ jsx29(MenubarPrimitive.Sub, { "data-slot": "menubar-sub", ...props });
 }
 function MenubarSubTrigger({
   className,
@@ -2681,7 +3019,7 @@ function MenubarSubTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs13(
+  return /* @__PURE__ */ jsxs14(
     MenubarPrimitive.SubTrigger,
     {
       "data-slot": "menubar-sub-trigger",
@@ -2693,7 +3031,7 @@ function MenubarSubTrigger({
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx25(ChevronRightIcon4, { className: "ml-auto h-4 w-4" })
+        /* @__PURE__ */ jsx29(ChevronRightIcon4, { className: "ml-auto h-4 w-4" })
       ]
     }
   );
@@ -2702,7 +3040,7 @@ function MenubarSubContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx25(
+  return /* @__PURE__ */ jsx29(
     MenubarPrimitive.SubContent,
     {
       "data-slot": "menubar-sub-content",
@@ -2720,14 +3058,14 @@ import "react";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva as cva6 } from "class-variance-authority";
 import { ChevronDownIcon as ChevronDownIcon3 } from "lucide-react";
-import { jsx as jsx26, jsxs as jsxs14 } from "react/jsx-runtime";
+import { jsx as jsx30, jsxs as jsxs15 } from "react/jsx-runtime";
 function NavigationMenu({
   className,
   children,
   viewport = true,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs14(
+  return /* @__PURE__ */ jsxs15(
     NavigationMenuPrimitive.Root,
     {
       "data-slot": "navigation-menu",
@@ -2739,7 +3077,7 @@ function NavigationMenu({
       ...props,
       children: [
         children,
-        viewport && /* @__PURE__ */ jsx26(NavigationMenuViewport, {})
+        viewport && /* @__PURE__ */ jsx30(NavigationMenuViewport, {})
       ]
     }
   );
@@ -2748,7 +3086,7 @@ function NavigationMenuList({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsx30(
     NavigationMenuPrimitive.List,
     {
       "data-slot": "navigation-menu-list",
@@ -2764,7 +3102,7 @@ function NavigationMenuItem({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsx30(
     NavigationMenuPrimitive.Item,
     {
       "data-slot": "navigation-menu-item",
@@ -2781,7 +3119,7 @@ function NavigationMenuTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs14(
+  return /* @__PURE__ */ jsxs15(
     NavigationMenuPrimitive.Trigger,
     {
       "data-slot": "navigation-menu-trigger",
@@ -2790,7 +3128,7 @@ function NavigationMenuTrigger({
       children: [
         children,
         " ",
-        /* @__PURE__ */ jsx26(
+        /* @__PURE__ */ jsx30(
           ChevronDownIcon3,
           {
             className: "relative top-[1px] ml-1 size-3 transition duration-400 group-data-[state=open]:rotate-180",
@@ -2805,7 +3143,7 @@ function NavigationMenuContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsx30(
     NavigationMenuPrimitive.Content,
     {
       "data-slot": "navigation-menu-content",
@@ -2822,13 +3160,13 @@ function NavigationMenuViewport({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsx30(
     "div",
     {
       className: cn(
         "absolute top-full left-0 isolate z-50 flex justify-center"
       ),
-      children: /* @__PURE__ */ jsx26(
+      children: /* @__PURE__ */ jsx30(
         NavigationMenuPrimitive.Viewport,
         {
           "data-slot": "navigation-menu-viewport",
@@ -2846,7 +3184,7 @@ function NavigationMenuLink({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsx30(
     NavigationMenuPrimitive.Link,
     {
       "data-slot": "navigation-menu-link",
@@ -2862,7 +3200,7 @@ function NavigationMenuIndicator({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx26(
+  return /* @__PURE__ */ jsx30(
     NavigationMenuPrimitive.Indicator,
     {
       "data-slot": "navigation-menu-indicator",
@@ -2871,7 +3209,7 @@ function NavigationMenuIndicator({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx26("div", { className: "bg-border relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm shadow-md" })
+      children: /* @__PURE__ */ jsx30("div", { className: "bg-border relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm shadow-md" })
     }
   );
 }
@@ -2883,9 +3221,9 @@ import {
   ChevronRightIcon as ChevronRightIcon5,
   MoreHorizontalIcon
 } from "lucide-react";
-import { jsx as jsx27, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx31, jsxs as jsxs16 } from "react/jsx-runtime";
 function Pagination({ className, ...props }) {
-  return /* @__PURE__ */ jsx27(
+  return /* @__PURE__ */ jsx31(
     "nav",
     {
       role: "navigation",
@@ -2900,7 +3238,7 @@ function PaginationContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx27(
+  return /* @__PURE__ */ jsx31(
     "ul",
     {
       "data-slot": "pagination-content",
@@ -2910,7 +3248,7 @@ function PaginationContent({
   );
 }
 function PaginationItem({ ...props }) {
-  return /* @__PURE__ */ jsx27("li", { "data-slot": "pagination-item", ...props });
+  return /* @__PURE__ */ jsx31("li", { "data-slot": "pagination-item", ...props });
 }
 function PaginationLink({
   className,
@@ -2918,7 +3256,7 @@ function PaginationLink({
   size = "icon",
   ...props
 }) {
-  return /* @__PURE__ */ jsx27(
+  return /* @__PURE__ */ jsx31(
     "a",
     {
       "aria-current": isActive ? "page" : void 0,
@@ -2939,7 +3277,7 @@ function PaginationPrevious({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs15(
+  return /* @__PURE__ */ jsxs16(
     PaginationLink,
     {
       "aria-label": "Go to previous page",
@@ -2947,8 +3285,8 @@ function PaginationPrevious({
       className: cn("gap-1 px-2.5 sm:pl-2.5", className),
       ...props,
       children: [
-        /* @__PURE__ */ jsx27(ChevronLeftIcon2, {}),
-        /* @__PURE__ */ jsx27("span", { className: "hidden sm:block", children: "Previous" })
+        /* @__PURE__ */ jsx31(ChevronLeftIcon2, {}),
+        /* @__PURE__ */ jsx31("span", { className: "hidden sm:block", children: "Previous" })
       ]
     }
   );
@@ -2957,7 +3295,7 @@ function PaginationNext({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs15(
+  return /* @__PURE__ */ jsxs16(
     PaginationLink,
     {
       "aria-label": "Go to next page",
@@ -2965,8 +3303,8 @@ function PaginationNext({
       className: cn("gap-1 px-2.5 sm:pr-2.5", className),
       ...props,
       children: [
-        /* @__PURE__ */ jsx27("span", { className: "hidden sm:block", children: "Next" }),
-        /* @__PURE__ */ jsx27(ChevronRightIcon5, {})
+        /* @__PURE__ */ jsx31("span", { className: "hidden sm:block", children: "Next" }),
+        /* @__PURE__ */ jsx31(ChevronRightIcon5, {})
       ]
     }
   );
@@ -2975,7 +3313,7 @@ function PaginationEllipsis({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs15(
+  return /* @__PURE__ */ jsxs16(
     "span",
     {
       "aria-hidden": true,
@@ -2983,63 +3321,23 @@ function PaginationEllipsis({
       className: cn("flex size-9 items-center justify-center", className),
       ...props,
       children: [
-        /* @__PURE__ */ jsx27(MoreHorizontalIcon, { className: "size-4" }),
-        /* @__PURE__ */ jsx27("span", { className: "sr-only", children: "More pages" })
+        /* @__PURE__ */ jsx31(MoreHorizontalIcon, { className: "size-4" }),
+        /* @__PURE__ */ jsx31("span", { className: "sr-only", children: "More pages" })
       ]
     }
   );
 }
 
-// src/components/ui/popover.tsx
-import "react";
-import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { jsx as jsx28 } from "react/jsx-runtime";
-function Popover({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx28(PopoverPrimitive.Root, { "data-slot": "popover", ...props });
-}
-function PopoverTrigger({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx28(PopoverPrimitive.Trigger, { "data-slot": "popover-trigger", ...props });
-}
-function PopoverContent({
-  className,
-  align = "center",
-  sideOffset = 4,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx28(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx28(
-    PopoverPrimitive.Content,
-    {
-      "data-slot": "popover-content",
-      align,
-      sideOffset,
-      className: cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden",
-        className
-      ),
-      ...props
-    }
-  ) });
-}
-function PopoverAnchor({
-  ...props
-}) {
-  return /* @__PURE__ */ jsx28(PopoverPrimitive.Anchor, { "data-slot": "popover-anchor", ...props });
-}
-
 // src/components/ui/progress.tsx
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import "react";
-import { jsx as jsx29 } from "react/jsx-runtime";
+import { jsx as jsx32 } from "react/jsx-runtime";
 function Progress({
   className,
   value,
   ...props
 }) {
-  return /* @__PURE__ */ jsx29(
+  return /* @__PURE__ */ jsx32(
     ProgressPrimitive.Root,
     {
       "data-slot": "progress",
@@ -3048,7 +3346,7 @@ function Progress({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx29(
+      children: /* @__PURE__ */ jsx32(
         ProgressPrimitive.Indicator,
         {
           "data-slot": "progress-indicator",
@@ -3064,12 +3362,12 @@ function Progress({
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { CircleIcon as CircleIcon4 } from "lucide-react";
 import "react";
-import { jsx as jsx30 } from "react/jsx-runtime";
+import { jsx as jsx33 } from "react/jsx-runtime";
 function RadioGroup4({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx30(
+  return /* @__PURE__ */ jsx33(
     RadioGroupPrimitive.Root,
     {
       "data-slot": "radio-group",
@@ -3082,7 +3380,7 @@ function RadioGroupItem({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx30(
+  return /* @__PURE__ */ jsx33(
     RadioGroupPrimitive.Item,
     {
       "data-slot": "radio-group-item",
@@ -3091,12 +3389,12 @@ function RadioGroupItem({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx30(
+      children: /* @__PURE__ */ jsx33(
         RadioGroupPrimitive.Indicator,
         {
           "data-slot": "radio-group-indicator",
           className: "relative flex items-center justify-center",
-          children: /* @__PURE__ */ jsx30(CircleIcon4, { className: "fill-white absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2" })
+          children: /* @__PURE__ */ jsx33(CircleIcon4, { className: "fill-white absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2" })
         }
       )
     }
@@ -3107,12 +3405,12 @@ function RadioGroupItem({
 import "react";
 import { GripVerticalIcon } from "lucide-react";
 import * as ResizablePrimitive from "react-resizable-panels";
-import { jsx as jsx31 } from "react/jsx-runtime";
+import { jsx as jsx34 } from "react/jsx-runtime";
 function ResizablePanelGroup({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx34(
     ResizablePrimitive.PanelGroup,
     {
       "data-slot": "resizable-panel-group",
@@ -3127,14 +3425,14 @@ function ResizablePanelGroup({
 function ResizablePanel({
   ...props
 }) {
-  return /* @__PURE__ */ jsx31(ResizablePrimitive.Panel, { "data-slot": "resizable-panel", ...props });
+  return /* @__PURE__ */ jsx34(ResizablePrimitive.Panel, { "data-slot": "resizable-panel", ...props });
 }
 function ResizableHandle({
   withHandle,
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx31(
+  return /* @__PURE__ */ jsx34(
     ResizablePrimitive.PanelResizeHandle,
     {
       "data-slot": "resizable-handle",
@@ -3143,7 +3441,7 @@ function ResizableHandle({
         className
       ),
       ...props,
-      children: withHandle && /* @__PURE__ */ jsx31("div", { className: "bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border", children: /* @__PURE__ */ jsx31(GripVerticalIcon, { className: "size-2.5" }) })
+      children: withHandle && /* @__PURE__ */ jsx34("div", { className: "bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border", children: /* @__PURE__ */ jsx34(GripVerticalIcon, { className: "size-2.5" }) })
     }
   );
 }
@@ -3151,20 +3449,20 @@ function ResizableHandle({
 // src/components/ui/scroll-area.tsx
 import "react";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
-import { jsx as jsx32, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx35, jsxs as jsxs17 } from "react/jsx-runtime";
 function ScrollArea({
   className,
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs16(
+  return /* @__PURE__ */ jsxs17(
     ScrollAreaPrimitive.Root,
     {
       "data-slot": "scroll-area",
       className: cn("relative", className),
       ...props,
       children: [
-        /* @__PURE__ */ jsx32(
+        /* @__PURE__ */ jsx35(
           ScrollAreaPrimitive.Viewport,
           {
             "data-slot": "scroll-area-viewport",
@@ -3172,8 +3470,8 @@ function ScrollArea({
             children
           }
         ),
-        /* @__PURE__ */ jsx32(ScrollBar, {}),
-        /* @__PURE__ */ jsx32(ScrollAreaPrimitive.Corner, {})
+        /* @__PURE__ */ jsx35(ScrollBar, {}),
+        /* @__PURE__ */ jsx35(ScrollAreaPrimitive.Corner, {})
       ]
     }
   );
@@ -3183,7 +3481,7 @@ function ScrollBar({
   orientation = "vertical",
   ...props
 }) {
-  return /* @__PURE__ */ jsx32(
+  return /* @__PURE__ */ jsx35(
     ScrollAreaPrimitive.ScrollAreaScrollbar,
     {
       "data-slot": "scroll-area-scrollbar",
@@ -3195,7 +3493,7 @@ function ScrollBar({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx32(
+      children: /* @__PURE__ */ jsx35(
         ScrollAreaPrimitive.ScrollAreaThumb,
         {
           "data-slot": "scroll-area-thumb",
@@ -3210,21 +3508,21 @@ function ScrollBar({
 import "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { CheckIcon as CheckIcon4, ChevronDownIcon as ChevronDownIcon4, ChevronUpIcon } from "lucide-react";
-import { jsx as jsx33, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx36, jsxs as jsxs18 } from "react/jsx-runtime";
 function Select({
   ...props
 }) {
-  return /* @__PURE__ */ jsx33(SelectPrimitive.Root, { "data-slot": "select", ...props });
+  return /* @__PURE__ */ jsx36(SelectPrimitive.Root, { "data-slot": "select", ...props });
 }
 function SelectGroup({
   ...props
 }) {
-  return /* @__PURE__ */ jsx33(SelectPrimitive.Group, { "data-slot": "select-group", ...props });
+  return /* @__PURE__ */ jsx36(SelectPrimitive.Group, { "data-slot": "select-group", ...props });
 }
 function SelectValue({
   ...props
 }) {
-  return /* @__PURE__ */ jsx33(SelectPrimitive.Value, { "data-slot": "select-value", ...props });
+  return /* @__PURE__ */ jsx36(SelectPrimitive.Value, { "data-slot": "select-value", ...props });
 }
 function SelectTrigger({
   className,
@@ -3232,7 +3530,7 @@ function SelectTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs17(
+  return /* @__PURE__ */ jsxs18(
     SelectPrimitive.Trigger,
     {
       "data-slot": "select-trigger",
@@ -3244,7 +3542,7 @@ function SelectTrigger({
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx33(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ jsx33(ChevronDownIcon4, { className: "size-4 opacity-50" }) })
+        /* @__PURE__ */ jsx36(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ jsx36(ChevronDownIcon4, { className: "size-4 opacity-50" }) })
       ]
     }
   );
@@ -3255,7 +3553,7 @@ function SelectContent({
   position = "popper",
   ...props
 }) {
-  return /* @__PURE__ */ jsx33(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs17(
+  return /* @__PURE__ */ jsx36(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs18(
     SelectPrimitive.Content,
     {
       "data-slot": "select-content",
@@ -3267,8 +3565,8 @@ function SelectContent({
       position,
       ...props,
       children: [
-        /* @__PURE__ */ jsx33(SelectScrollUpButton, {}),
-        /* @__PURE__ */ jsx33(
+        /* @__PURE__ */ jsx36(SelectScrollUpButton, {}),
+        /* @__PURE__ */ jsx36(
           SelectPrimitive.Viewport,
           {
             className: cn(
@@ -3278,7 +3576,7 @@ function SelectContent({
             children
           }
         ),
-        /* @__PURE__ */ jsx33(SelectScrollDownButton, {})
+        /* @__PURE__ */ jsx36(SelectScrollDownButton, {})
       ]
     }
   ) });
@@ -3287,7 +3585,7 @@ function SelectLabel({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx36(
     SelectPrimitive.Label,
     {
       "data-slot": "select-label",
@@ -3301,7 +3599,7 @@ function SelectItem({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs17(
+  return /* @__PURE__ */ jsxs18(
     SelectPrimitive.Item,
     {
       "data-slot": "select-item",
@@ -3311,8 +3609,8 @@ function SelectItem({
       ),
       ...props,
       children: [
-        /* @__PURE__ */ jsx33("span", { className: "absolute right-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx33(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx33(CheckIcon4, { className: "size-4" }) }) }),
-        /* @__PURE__ */ jsx33(SelectPrimitive.ItemText, { children })
+        /* @__PURE__ */ jsx36("span", { className: "absolute right-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx36(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx36(CheckIcon4, { className: "size-4" }) }) }),
+        /* @__PURE__ */ jsx36(SelectPrimitive.ItemText, { children })
       ]
     }
   );
@@ -3321,7 +3619,7 @@ function SelectSeparator({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx36(
     SelectPrimitive.Separator,
     {
       "data-slot": "select-separator",
@@ -3334,7 +3632,7 @@ function SelectScrollUpButton({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx36(
     SelectPrimitive.ScrollUpButton,
     {
       "data-slot": "select-scroll-up-button",
@@ -3343,7 +3641,7 @@ function SelectScrollUpButton({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx33(ChevronUpIcon, { className: "size-4" })
+      children: /* @__PURE__ */ jsx36(ChevronUpIcon, { className: "size-4" })
     }
   );
 }
@@ -3351,7 +3649,7 @@ function SelectScrollDownButton({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx33(
+  return /* @__PURE__ */ jsx36(
     SelectPrimitive.ScrollDownButton,
     {
       "data-slot": "select-scroll-down-button",
@@ -3360,7 +3658,7 @@ function SelectScrollDownButton({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx33(ChevronDownIcon4, { className: "size-4" })
+      children: /* @__PURE__ */ jsx36(ChevronDownIcon4, { className: "size-4" })
     }
   );
 }
@@ -3368,14 +3666,14 @@ function SelectScrollDownButton({
 // src/components/ui/separator.tsx
 import "react";
 import * as SeparatorPrimitive from "@radix-ui/react-separator";
-import { jsx as jsx34 } from "react/jsx-runtime";
+import { jsx as jsx37 } from "react/jsx-runtime";
 function Separator5({
   className,
   orientation = "horizontal",
   decorative = true,
   ...props
 }) {
-  return /* @__PURE__ */ jsx34(
+  return /* @__PURE__ */ jsx37(
     SeparatorPrimitive.Root,
     {
       "data-slot": "separator",
@@ -3394,30 +3692,30 @@ function Separator5({
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { XIcon as XIcon2 } from "lucide-react";
 import "react";
-import { jsx as jsx35, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx38, jsxs as jsxs19 } from "react/jsx-runtime";
 function Sheet({ ...props }) {
-  return /* @__PURE__ */ jsx35(SheetPrimitive.Root, { "data-slot": "sheet", ...props });
+  return /* @__PURE__ */ jsx38(SheetPrimitive.Root, { "data-slot": "sheet", ...props });
 }
 function SheetTrigger({
   ...props
 }) {
-  return /* @__PURE__ */ jsx35(SheetPrimitive.Trigger, { "data-slot": "sheet-trigger", ...props });
+  return /* @__PURE__ */ jsx38(SheetPrimitive.Trigger, { "data-slot": "sheet-trigger", ...props });
 }
 function SheetClose({
   ...props
 }) {
-  return /* @__PURE__ */ jsx35(SheetPrimitive.Close, { "data-slot": "sheet-close", ...props });
+  return /* @__PURE__ */ jsx38(SheetPrimitive.Close, { "data-slot": "sheet-close", ...props });
 }
 function SheetPortal({
   ...props
 }) {
-  return /* @__PURE__ */ jsx35(SheetPrimitive.Portal, { "data-slot": "sheet-portal", ...props });
+  return /* @__PURE__ */ jsx38(SheetPrimitive.Portal, { "data-slot": "sheet-portal", ...props });
 }
 function SheetOverlay({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx35(
+  return /* @__PURE__ */ jsx38(
     SheetPrimitive.Overlay,
     {
       "data-slot": "sheet-overlay",
@@ -3436,9 +3734,9 @@ function SheetContent({
   showCloseButton = true,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs18(SheetPortal, { children: [
-    /* @__PURE__ */ jsx35(SheetOverlay, {}),
-    /* @__PURE__ */ jsxs18(
+  return /* @__PURE__ */ jsxs19(SheetPortal, { children: [
+    /* @__PURE__ */ jsx38(SheetOverlay, {}),
+    /* @__PURE__ */ jsxs19(
       SheetPrimitive.Content,
       {
         "data-slot": "sheet-content",
@@ -3453,9 +3751,9 @@ function SheetContent({
         ...props,
         children: [
           children,
-          showCloseButton && /* @__PURE__ */ jsxs18(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
-            /* @__PURE__ */ jsx35(XIcon2, { className: "size-4" }),
-            /* @__PURE__ */ jsx35("span", { className: "sr-only", children: "Close" })
+          showCloseButton && /* @__PURE__ */ jsxs19(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
+            /* @__PURE__ */ jsx38(XIcon2, { className: "size-4" }),
+            /* @__PURE__ */ jsx38("span", { className: "sr-only", children: "Close" })
           ] })
         ]
       }
@@ -3463,7 +3761,7 @@ function SheetContent({
   ] });
 }
 function SheetHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx35(
+  return /* @__PURE__ */ jsx38(
     "div",
     {
       "data-slot": "sheet-header",
@@ -3473,7 +3771,7 @@ function SheetHeader({ className, ...props }) {
   );
 }
 function SheetFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx35(
+  return /* @__PURE__ */ jsx38(
     "div",
     {
       "data-slot": "sheet-footer",
@@ -3486,7 +3784,7 @@ function SheetTitle({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx35(
+  return /* @__PURE__ */ jsx38(
     SheetPrimitive.Title,
     {
       "data-slot": "sheet-title",
@@ -3499,7 +3797,7 @@ function SheetDescription({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx35(
+  return /* @__PURE__ */ jsx38(
     SheetPrimitive.Description,
     {
       "data-slot": "sheet-description",
@@ -3510,32 +3808,15 @@ function SheetDescription({
 }
 
 // src/components/ui/sidebar.tsx
-import * as React36 from "react";
 import { Slot as Slot6 } from "@radix-ui/react-slot";
 import { cva as cva7 } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
-
-// src/hooks/use-mobile.ts
-import * as React34 from "react";
-var MOBILE_BREAKPOINT = 768;
-function useIsMobile() {
-  const [isMobile, setIsMobile] = React34.useState(void 0);
-  React34.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
-    const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    };
-    mql.addEventListener("change", onChange);
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    return () => mql.removeEventListener("change", onChange);
-  }, []);
-  return !!isMobile;
-}
+import * as React39 from "react";
 
 // src/components/ui/skeleton.tsx
-import { jsx as jsx36 } from "react/jsx-runtime";
+import { jsx as jsx39 } from "react/jsx-runtime";
 function Skeleton({ className, ...props }) {
-  return /* @__PURE__ */ jsx36(
+  return /* @__PURE__ */ jsx39(
     "div",
     {
       "data-slot": "skeleton",
@@ -3548,12 +3829,12 @@ function Skeleton({ className, ...props }) {
 // src/components/ui/tooltip.tsx
 import "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { jsx as jsx37, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx40, jsxs as jsxs20 } from "react/jsx-runtime";
 function TooltipProvider({
   delayDuration = 0,
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx40(
     TooltipPrimitive.Provider,
     {
       "data-slot": "tooltip-provider",
@@ -3565,12 +3846,12 @@ function TooltipProvider({
 function Tooltip2({
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(TooltipProvider, { children: /* @__PURE__ */ jsx37(TooltipPrimitive.Root, { "data-slot": "tooltip", ...props }) });
+  return /* @__PURE__ */ jsx40(TooltipProvider, { children: /* @__PURE__ */ jsx40(TooltipPrimitive.Root, { "data-slot": "tooltip", ...props }) });
 }
 function TooltipTrigger({
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(TooltipPrimitive.Trigger, { "data-slot": "tooltip-trigger", ...props });
+  return /* @__PURE__ */ jsx40(TooltipPrimitive.Trigger, { "data-slot": "tooltip-trigger", ...props });
 }
 function TooltipContent({
   className,
@@ -3578,7 +3859,7 @@ function TooltipContent({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsx40(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs20(
     TooltipPrimitive.Content,
     {
       "data-slot": "tooltip-content",
@@ -3590,23 +3871,40 @@ function TooltipContent({
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx37(TooltipPrimitive.Arrow, { className: "bg-primary fill-primary z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" })
+        /* @__PURE__ */ jsx40(TooltipPrimitive.Arrow, { className: "bg-primary fill-primary z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" })
       ]
     }
   ) });
 }
 
+// src/hooks/use-mobile.ts
+import * as React38 from "react";
+var MOBILE_BREAKPOINT = 768;
+function useIsMobile() {
+  const [isMobile, setIsMobile] = React38.useState(void 0);
+  React38.useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+    const onChange = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    };
+    mql.addEventListener("change", onChange);
+    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+  return !!isMobile;
+}
+
 // src/components/ui/sidebar.tsx
-import { jsx as jsx38, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx41, jsxs as jsxs21 } from "react/jsx-runtime";
 var SIDEBAR_COOKIE_NAME = "sidebar_state";
 var SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-var SIDEBAR_WIDTH = "16rem";
+var SIDEBAR_WIDTH = "18rem";
 var SIDEBAR_WIDTH_MOBILE = "18rem";
 var SIDEBAR_WIDTH_ICON = "3rem";
 var SIDEBAR_KEYBOARD_SHORTCUT = "b";
-var SidebarContext = React36.createContext(null);
+var SidebarContext = React39.createContext(null);
 function useSidebar() {
-  const context = React36.useContext(SidebarContext);
+  const context = React39.useContext(SidebarContext);
   if (!context) {
     throw new Error("useSidebar must be used within a SidebarProvider.");
   }
@@ -3622,10 +3920,10 @@ function SidebarProvider({
   ...props
 }) {
   const isMobile = useIsMobile();
-  const [openMobile, setOpenMobile] = React36.useState(false);
-  const [_open, _setOpen] = React36.useState(defaultOpen);
+  const [openMobile, setOpenMobile] = React39.useState(false);
+  const [_open, _setOpen] = React39.useState(defaultOpen);
   const open = openProp ?? _open;
-  const setOpen = React36.useCallback(
+  const setOpen = React39.useCallback(
     (value) => {
       const openState = typeof value === "function" ? value(open) : value;
       if (setOpenProp) {
@@ -3637,10 +3935,10 @@ function SidebarProvider({
     },
     [setOpenProp, open]
   );
-  const toggleSidebar = React36.useCallback(() => {
+  const toggleSidebar = React39.useCallback(() => {
     return isMobile ? setOpenMobile((open2) => !open2) : setOpen((open2) => !open2);
   }, [isMobile, setOpen, setOpenMobile]);
-  React36.useEffect(() => {
+  React39.useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
         event.preventDefault();
@@ -3651,7 +3949,7 @@ function SidebarProvider({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [toggleSidebar]);
   const state = open ? "expanded" : "collapsed";
-  const contextValue = React36.useMemo(
+  const contextValue = React39.useMemo(
     () => ({
       state,
       open,
@@ -3663,7 +3961,7 @@ function SidebarProvider({
     }),
     [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
   );
-  return /* @__PURE__ */ jsx38(SidebarContext.Provider, { value: contextValue, children: /* @__PURE__ */ jsx38(TooltipProvider, { delayDuration: 0, children: /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(SidebarContext.Provider, { value: contextValue, children: /* @__PURE__ */ jsx41(TooltipProvider, { delayDuration: 0, children: /* @__PURE__ */ jsx41(
     "div",
     {
       "data-slot": "sidebar-wrapper",
@@ -3691,7 +3989,7 @@ function Sidebar({
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
   if (collapsible === "none") {
-    return /* @__PURE__ */ jsx38(
+    return /* @__PURE__ */ jsx41(
       "div",
       {
         "data-slot": "sidebar",
@@ -3705,7 +4003,7 @@ function Sidebar({
     );
   }
   if (isMobile) {
-    return /* @__PURE__ */ jsx38(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: /* @__PURE__ */ jsxs20(
+    return /* @__PURE__ */ jsx41(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: /* @__PURE__ */ jsxs21(
       SheetContent,
       {
         "data-sidebar": "sidebar",
@@ -3717,16 +4015,16 @@ function Sidebar({
         },
         side,
         children: [
-          /* @__PURE__ */ jsxs20(SheetHeader, { className: "sr-only", children: [
-            /* @__PURE__ */ jsx38(SheetTitle, { children: "Sidebar" }),
-            /* @__PURE__ */ jsx38(SheetDescription, { children: "Displays the mobile sidebar." })
+          /* @__PURE__ */ jsxs21(SheetHeader, { className: "sr-only", children: [
+            /* @__PURE__ */ jsx41(SheetTitle, { children: "Sidebar" }),
+            /* @__PURE__ */ jsx41(SheetDescription, { children: "Displays the mobile sidebar." })
           ] }),
-          /* @__PURE__ */ jsx38("div", { className: "flex h-full w-full flex-col", children })
+          /* @__PURE__ */ jsx41("div", { className: "flex h-full w-full flex-col", children })
         ]
       }
     ) });
   }
-  return /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsxs21(
     "div",
     {
       className: "group peer text-sidebar-foreground hidden md:block",
@@ -3736,7 +4034,7 @@ function Sidebar({
       "data-side": side,
       "data-slot": "sidebar",
       children: [
-        /* @__PURE__ */ jsx38(
+        /* @__PURE__ */ jsx41(
           "div",
           {
             "data-slot": "sidebar-gap",
@@ -3748,7 +4046,7 @@ function Sidebar({
             )
           }
         ),
-        /* @__PURE__ */ jsx38(
+        /* @__PURE__ */ jsx41(
           "div",
           {
             "data-slot": "sidebar-container",
@@ -3760,7 +4058,7 @@ function Sidebar({
               className
             ),
             ...props,
-            children: /* @__PURE__ */ jsx38(
+            children: /* @__PURE__ */ jsx41(
               "div",
               {
                 "data-sidebar": "sidebar",
@@ -3781,29 +4079,29 @@ function SidebarTrigger({
   ...props
 }) {
   const { toggleSidebar } = useSidebar();
-  return /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsxs21(
     Button,
     {
       "data-sidebar": "trigger",
       "data-slot": "sidebar-trigger",
       variant: "ghost",
       size: "icon",
-      className: cn("size-7", className),
+      className: cn("size-9", className),
       onClick: (event) => {
         onClick?.(event);
         toggleSidebar();
       },
       ...props,
       children: [
-        /* @__PURE__ */ jsx38(PanelLeftIcon, {}),
-        /* @__PURE__ */ jsx38("span", { className: "sr-only", children: "Toggle Sidebar" })
+        /* @__PURE__ */ jsx41(PanelLeftIcon, {}),
+        /* @__PURE__ */ jsx41("span", { className: "sr-only", children: "Toggle Sidebar" })
       ]
     }
   );
 }
 function SidebarRail({ className, ...props }) {
   const { toggleSidebar } = useSidebar();
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "button",
     {
       "data-sidebar": "rail",
@@ -3826,7 +4124,7 @@ function SidebarRail({ className, ...props }) {
   );
 }
 function SidebarInset({ className, ...props }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "main",
     {
       "data-slot": "sidebar-inset",
@@ -3843,7 +4141,7 @@ function SidebarInput({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     Input,
     {
       "data-slot": "sidebar-input",
@@ -3854,7 +4152,7 @@ function SidebarInput({
   );
 }
 function SidebarHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "div",
     {
       "data-slot": "sidebar-header",
@@ -3865,7 +4163,7 @@ function SidebarHeader({ className, ...props }) {
   );
 }
 function SidebarFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "div",
     {
       "data-slot": "sidebar-footer",
@@ -3879,7 +4177,7 @@ function SidebarSeparator({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     Separator5,
     {
       "data-slot": "sidebar-separator",
@@ -3890,7 +4188,7 @@ function SidebarSeparator({
   );
 }
 function SidebarContent({ className, ...props }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "div",
     {
       "data-slot": "sidebar-content",
@@ -3904,7 +4202,7 @@ function SidebarContent({ className, ...props }) {
   );
 }
 function SidebarGroup({ className, ...props }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "div",
     {
       "data-slot": "sidebar-group",
@@ -3920,7 +4218,7 @@ function SidebarGroupLabel({
   ...props
 }) {
   const Comp = asChild ? Slot6 : "div";
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     Comp,
     {
       "data-slot": "sidebar-group-label",
@@ -3940,7 +4238,7 @@ function SidebarGroupAction({
   ...props
 }) {
   const Comp = asChild ? Slot6 : "button";
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     Comp,
     {
       "data-slot": "sidebar-group-action",
@@ -3960,7 +4258,7 @@ function SidebarGroupContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "div",
     {
       "data-slot": "sidebar-group-content",
@@ -3971,7 +4269,7 @@ function SidebarGroupContent({
   );
 }
 function SidebarMenu({ className, ...props }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "ul",
     {
       "data-slot": "sidebar-menu",
@@ -3982,7 +4280,7 @@ function SidebarMenu({ className, ...props }) {
   );
 }
 function SidebarMenuItem({ className, ...props }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "li",
     {
       "data-slot": "sidebar-menu-item",
@@ -4023,7 +4321,7 @@ function SidebarMenuButton({
 }) {
   const Comp = asChild ? Slot6 : "button";
   const { isMobile, state } = useSidebar();
-  const button = /* @__PURE__ */ jsx38(
+  const button = /* @__PURE__ */ jsx41(
     Comp,
     {
       "data-slot": "sidebar-menu-button",
@@ -4042,9 +4340,9 @@ function SidebarMenuButton({
       children: tooltip
     };
   }
-  return /* @__PURE__ */ jsxs20(Tooltip2, { children: [
-    /* @__PURE__ */ jsx38(TooltipTrigger, { asChild: true, children: button }),
-    /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsxs21(Tooltip2, { children: [
+    /* @__PURE__ */ jsx41(TooltipTrigger, { asChild: true, children: button }),
+    /* @__PURE__ */ jsx41(
       TooltipContent,
       {
         side: "right",
@@ -4062,7 +4360,7 @@ function SidebarMenuAction({
   ...props
 }) {
   const Comp = asChild ? Slot6 : "button";
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     Comp,
     {
       "data-slot": "sidebar-menu-action",
@@ -4086,7 +4384,7 @@ function SidebarMenuBadge({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "div",
     {
       "data-slot": "sidebar-menu-badge",
@@ -4109,10 +4407,10 @@ function SidebarMenuSkeleton({
   showIcon = false,
   ...props
 }) {
-  const width = React36.useMemo(() => {
+  const width = React39.useMemo(() => {
     return `${Math.floor(Math.random() * 40) + 50}%`;
   }, []);
-  return /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsxs21(
     "div",
     {
       "data-slot": "sidebar-menu-skeleton",
@@ -4120,14 +4418,14 @@ function SidebarMenuSkeleton({
       className: cn("flex h-8 items-center gap-2 rounded-md px-2", className),
       ...props,
       children: [
-        showIcon && /* @__PURE__ */ jsx38(
+        showIcon && /* @__PURE__ */ jsx41(
           Skeleton,
           {
             className: "size-4 rounded-md",
             "data-sidebar": "menu-skeleton-icon"
           }
         ),
-        /* @__PURE__ */ jsx38(
+        /* @__PURE__ */ jsx41(
           Skeleton,
           {
             className: "h-4 max-w-(--skeleton-width) flex-1",
@@ -4142,7 +4440,7 @@ function SidebarMenuSkeleton({
   );
 }
 function SidebarMenuSub({ className, ...props }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "ul",
     {
       "data-slot": "sidebar-menu-sub",
@@ -4160,7 +4458,7 @@ function SidebarMenuSubItem({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     "li",
     {
       "data-slot": "sidebar-menu-sub-item",
@@ -4178,7 +4476,7 @@ function SidebarMenuSubButton({
   ...props
 }) {
   const Comp = asChild ? Slot6 : "a";
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx41(
     Comp,
     {
       "data-slot": "sidebar-menu-sub-button",
@@ -4199,9 +4497,9 @@ function SidebarMenuSubButton({
 }
 
 // src/components/ui/slider.tsx
-import * as React37 from "react";
+import * as React40 from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { jsx as jsx39, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx42, jsxs as jsxs22 } from "react/jsx-runtime";
 function Slider({
   className,
   defaultValue,
@@ -4210,11 +4508,11 @@ function Slider({
   max = 100,
   ...props
 }) {
-  const _values = React37.useMemo(
+  const _values = React40.useMemo(
     () => Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max],
     [value, defaultValue, min, max]
   );
-  return /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsxs22(
     SliderPrimitive.Root,
     {
       "data-slot": "slider",
@@ -4228,14 +4526,14 @@ function Slider({
       ),
       ...props,
       children: [
-        /* @__PURE__ */ jsx39(
+        /* @__PURE__ */ jsx42(
           SliderPrimitive.Track,
           {
             "data-slot": "slider-track",
             className: cn(
               "bg-muted relative grow overflow-hidden rounded-full data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5"
             ),
-            children: /* @__PURE__ */ jsx39(
+            children: /* @__PURE__ */ jsx42(
               SliderPrimitive.Range,
               {
                 "data-slot": "slider-range",
@@ -4246,7 +4544,7 @@ function Slider({
             )
           }
         ),
-        Array.from({ length: _values.length }, (_, index) => /* @__PURE__ */ jsx39(
+        Array.from({ length: _values.length }, (_, index) => /* @__PURE__ */ jsx42(
           SliderPrimitive.Thumb,
           {
             "data-slot": "slider-thumb",
@@ -4259,8 +4557,11 @@ function Slider({
   );
 }
 
+// src/components/ui/smart-dialog-drawer.tsx
+import "react";
+
 // src/components/ui/useMediaQuery.ts
-import { useEffect as useEffect5, useState as useState4 } from "react";
+import { useEffect as useEffect6, useState as useState5 } from "react";
 function useMediaQuery(query) {
   const getMatches = (query2) => {
     if (typeof window !== "undefined") {
@@ -4268,11 +4569,11 @@ function useMediaQuery(query) {
     }
     return false;
   };
-  const [matches, setMatches] = useState4(getMatches(query));
+  const [matches, setMatches] = useState5(getMatches(query));
   function handleChange() {
     setMatches(getMatches(query));
   }
-  useEffect5(() => {
+  useEffect6(() => {
     const matchMedia = window.matchMedia(query);
     handleChange();
     if (matchMedia.addListener) {
@@ -4292,26 +4593,31 @@ function useMediaQuery(query) {
 }
 
 // src/components/ui/smart-dialog-drawer.tsx
-import { Fragment as Fragment2, jsx as jsx40 } from "react/jsx-runtime";
-var SmartDialog = ({
-  children,
-  ...props
-}) => {
+import { Fragment as Fragment2, jsx as jsx43 } from "react/jsx-runtime";
+var SmartDialog = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx40(Drawer, { ...props, children }) : /* @__PURE__ */ jsx40(Dialog, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx43(Drawer, { ...props, children }) : /* @__PURE__ */ jsx43(Dialog, { ...props, children });
 };
 var SmartDialogContent = ({
   children,
   overlayClassName = "",
-  withCloseButton = true,
+  withCloseButton,
+  showCloseButton,
   ...props
 }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx40(DrawerContent, { ...props, withCloseButton, children }) : /* @__PURE__ */ jsx40(
+  return isMobile ? /* @__PURE__ */ jsx43(
+    DrawerContent,
+    {
+      ...props,
+      withCloseButton: withCloseButton ?? showCloseButton ?? true,
+      children
+    }
+  ) : /* @__PURE__ */ jsx43(
     DialogContent,
     {
       ...props,
-      showCloseButton: withCloseButton,
+      showCloseButton: showCloseButton ?? withCloseButton ?? true,
       overlayClassName,
       children
     }
@@ -4322,51 +4628,39 @@ var SmartDialogDescription = ({
   ...props
 }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx40(DrawerDescription, { ...props, children }) : /* @__PURE__ */ jsx40(DialogDescription, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx43(DrawerDescription, { ...props, children }) : /* @__PURE__ */ jsx43(DialogDescription, { ...props, children });
 };
-var SmartDialogHeader = ({
-  children,
-  ...props
-}) => {
+var SmartDialogHeader = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx40(DrawerHeader, { ...props, children }) : /* @__PURE__ */ jsx40(DialogHeader, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx43(DrawerHeader, { ...props, children }) : /* @__PURE__ */ jsx43(DialogHeader, { ...props, children });
 };
-var SmartDialogTitle = ({
-  children,
-  ...props
-}) => {
+var SmartDialogTitle = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx40(DrawerTitle, { ...props, children }) : /* @__PURE__ */ jsx40(DialogTitle, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx43(DrawerTitle, { ...props, children }) : /* @__PURE__ */ jsx43(DialogTitle, { ...props, children });
 };
 var SmartDialogTrigger = ({
   children,
   ...props
 }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx40(DrawerTrigger, { ...props, children }) : /* @__PURE__ */ jsx40(DialogTrigger, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx43(DrawerTrigger, { ...props, children }) : /* @__PURE__ */ jsx43(DialogTrigger, { ...props, children });
 };
-var SmartDialogFooter = ({
-  children,
-  ...props
-}) => {
+var SmartDialogFooter = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx40(DrawerFooter, { ...props, children }) : /* @__PURE__ */ jsx40(DialogFooter, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx43(DrawerFooter, { ...props, children }) : /* @__PURE__ */ jsx43(DialogFooter, { ...props, children });
 };
-var SmartDialogClose = ({
-  children,
-  ...props
-}) => {
+var SmartDialogClose = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx40(Fragment2, { children: /* @__PURE__ */ jsx40(DrawerClose, { ...props, children }) }) : /* @__PURE__ */ jsx40(DialogClose, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx43(Fragment2, { children: /* @__PURE__ */ jsx43(DrawerClose, { ...props, children }) }) : /* @__PURE__ */ jsx43(DialogClose, { ...props, children });
 };
 
 // src/components/ui/sonner.tsx
 import { useTheme } from "next-themes";
 import { Toaster as Sonner } from "sonner";
-import { jsx as jsx41 } from "react/jsx-runtime";
+import { jsx as jsx44 } from "react/jsx-runtime";
 var Toaster = ({ ...props }) => {
   const { theme = "system" } = useTheme();
-  return /* @__PURE__ */ jsx41(
+  return /* @__PURE__ */ jsx44(
     Sonner,
     {
       theme,
@@ -4384,12 +4678,12 @@ var Toaster = ({ ...props }) => {
 // src/components/ui/switch.tsx
 import * as SwitchPrimitive from "@radix-ui/react-switch";
 import "react";
-import { jsx as jsx42 } from "react/jsx-runtime";
+import { jsx as jsx45 } from "react/jsx-runtime";
 function Switch({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx45(
     SwitchPrimitive.Root,
     {
       "data-slot": "switch",
@@ -4398,7 +4692,7 @@ function Switch({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx42(
+      children: /* @__PURE__ */ jsx45(
         SwitchPrimitive.Thumb,
         {
           "data-slot": "switch-thumb",
@@ -4413,14 +4707,14 @@ function Switch({
 
 // src/components/ui/table.tsx
 import "react";
-import { jsx as jsx43 } from "react/jsx-runtime";
+import { jsx as jsx46 } from "react/jsx-runtime";
 function Table({ className, ...props }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx46(
     "div",
     {
       "data-slot": "table-container",
       className: "relative w-full overflow-x-auto",
-      children: /* @__PURE__ */ jsx43(
+      children: /* @__PURE__ */ jsx46(
         "table",
         {
           "data-slot": "table",
@@ -4432,7 +4726,7 @@ function Table({ className, ...props }) {
   );
 }
 function TableHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx46(
     "thead",
     {
       "data-slot": "table-header",
@@ -4442,7 +4736,7 @@ function TableHeader({ className, ...props }) {
   );
 }
 function TableBody({ className, ...props }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx46(
     "tbody",
     {
       "data-slot": "table-body",
@@ -4452,7 +4746,7 @@ function TableBody({ className, ...props }) {
   );
 }
 function TableFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx46(
     "tfoot",
     {
       "data-slot": "table-footer",
@@ -4465,7 +4759,7 @@ function TableFooter({ className, ...props }) {
   );
 }
 function TableRow({ className, ...props }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx46(
     "tr",
     {
       "data-slot": "table-row",
@@ -4478,7 +4772,7 @@ function TableRow({ className, ...props }) {
   );
 }
 function TableHead({ className, ...props }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx46(
     "th",
     {
       "data-slot": "table-head",
@@ -4491,7 +4785,7 @@ function TableHead({ className, ...props }) {
   );
 }
 function TableCell({ className, ...props }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx46(
     "td",
     {
       "data-slot": "table-cell",
@@ -4507,7 +4801,7 @@ function TableCaption({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx43(
+  return /* @__PURE__ */ jsx46(
     "caption",
     {
       "data-slot": "table-caption",
@@ -4520,12 +4814,12 @@ function TableCaption({
 // src/components/ui/tabs.tsx
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import "react";
-import { jsx as jsx44 } from "react/jsx-runtime";
+import { jsx as jsx47 } from "react/jsx-runtime";
 function Tabs({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx44(
+  return /* @__PURE__ */ jsx47(
     TabsPrimitive.Root,
     {
       "data-slot": "tabs",
@@ -4538,7 +4832,7 @@ function TabsList({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx44(
+  return /* @__PURE__ */ jsx47(
     TabsPrimitive.List,
     {
       "data-slot": "tabs-list",
@@ -4554,7 +4848,7 @@ function TabsTrigger({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx44(
+  return /* @__PURE__ */ jsx47(
     TabsPrimitive.Trigger,
     {
       "data-slot": "tabs-trigger",
@@ -4570,7 +4864,7 @@ function TabsContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx44(
+  return /* @__PURE__ */ jsx47(
     TabsPrimitive.Content,
     {
       "data-slot": "tabs-content",
@@ -4580,53 +4874,11 @@ function TabsContent({
   );
 }
 
-// src/components/ui/textarea.tsx
-import * as React41 from "react";
-import { jsx as jsx45 } from "react/jsx-runtime";
-var textareaBaseStyles = [
-  // Base styles aligned with Input
-  "placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
-  "flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-400",
-  "outline-none font-sans",
-  // Disabled
-  "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
-  // Responsive text size
-  "md:text-sm",
-  // Default state
-  "border-zinc-300 bg-background",
-  // Hover/Focus/Active states
-  "hover:border-brand-normal",
-  "focus:border-blue-500",
-  "active:border-brand-normal",
-  // Textarea specific
-  "field-sizing-content min-h-16 resize-y px-3 py-2"
-].join(" ");
-var errorStyles = [
-  "border-destructive bg-red-subtle",
-  "focus:border-destructive focus:ring-destructive/20",
-  "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-].join(" ");
-var Textarea = React41.forwardRef(
-  ({ className, error, ...props }, ref) => {
-    return /* @__PURE__ */ jsx45(
-      "textarea",
-      {
-        "data-slot": "textarea",
-        className: cn(textareaBaseStyles, error && errorStyles, className),
-        "aria-invalid": error,
-        ref,
-        ...props
-      }
-    );
-  }
-);
-Textarea.displayName = "Textarea";
-
 // src/components/ui/toggle.tsx
 import "react";
 import * as TogglePrimitive from "@radix-ui/react-toggle";
 import { cva as cva8 } from "class-variance-authority";
-import { jsx as jsx46 } from "react/jsx-runtime";
+import { jsx as jsx48 } from "react/jsx-runtime";
 var toggleVariants = cva8(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
   {
@@ -4653,7 +4905,7 @@ function Toggle({
   size,
   ...props
 }) {
-  return /* @__PURE__ */ jsx46(
+  return /* @__PURE__ */ jsx48(
     TogglePrimitive.Root,
     {
       "data-slot": "toggle",
@@ -4664,11 +4916,11 @@ function Toggle({
 }
 
 // src/components/ui/toggle-group.tsx
-import * as React43 from "react";
+import * as React46 from "react";
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
 import "class-variance-authority";
-import { jsx as jsx47 } from "react/jsx-runtime";
-var ToggleGroupContext = React43.createContext({
+import { jsx as jsx49 } from "react/jsx-runtime";
+var ToggleGroupContext = React46.createContext({
   size: "default",
   variant: "default"
 });
@@ -4679,7 +4931,7 @@ function ToggleGroup({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx49(
     ToggleGroupPrimitive.Root,
     {
       "data-slot": "toggle-group",
@@ -4690,7 +4942,7 @@ function ToggleGroup({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx47(ToggleGroupContext.Provider, { value: { variant, size }, children })
+      children: /* @__PURE__ */ jsx49(ToggleGroupContext.Provider, { value: { variant, size }, children })
     }
   );
 }
@@ -4701,8 +4953,8 @@ function ToggleGroupItem({
   size,
   ...props
 }) {
-  const context = React43.useContext(ToggleGroupContext);
-  return /* @__PURE__ */ jsx47(
+  const context = React46.useContext(ToggleGroupContext);
+  return /* @__PURE__ */ jsx49(
     ToggleGroupPrimitive.Item,
     {
       "data-slot": "toggle-group-item",
@@ -4726,7 +4978,7 @@ function ToggleGroupItem({
 import { Slot as Slot7 } from "@radix-ui/react-slot";
 import { cva as cva9 } from "class-variance-authority";
 import "react";
-import { jsx as jsx48 } from "react/jsx-runtime";
+import { jsx as jsx50 } from "react/jsx-runtime";
 var displayTextVariants = cva9(
   "tracking-normal font-normal leading-none text-brand-dark font-serif italic",
   {
@@ -4749,7 +5001,7 @@ function DisplayHeading({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h1";
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx50(
     Comp,
     {
       "data-slot": "h1",
@@ -4778,7 +5030,7 @@ function Body({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "p";
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx50(
     Comp,
     {
       "data-slot": "h1",
@@ -4793,7 +5045,7 @@ function HeadingXL({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h1";
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx50(
     Comp,
     {
       "data-slot": "h1",
@@ -4811,7 +5063,7 @@ function HeadingL({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h2";
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx50(
     Comp,
     {
       "data-slot": "h2",
@@ -4829,7 +5081,7 @@ function HeadingM({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h3";
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx50(
     Comp,
     {
       "data-slot": "h3",
@@ -4847,7 +5099,7 @@ function HeadingS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h4";
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx50(
     Comp,
     {
       "data-slot": "h4",
@@ -4865,7 +5117,7 @@ function HeadingXS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h5";
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx50(
     Comp,
     {
       "data-slot": "h5",
@@ -4883,7 +5135,7 @@ function HeadingXXS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h6";
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx50(
     Comp,
     {
       "data-slot": "h5",
@@ -4915,6 +5167,7 @@ export {
   AlertDialogTrigger,
   AlertTitle,
   AspectRatio,
+  AutoResizeTextarea,
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -4976,6 +5229,7 @@ export {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
+  DateInput,
   Dialog,
   DialogClose,
   DialogContent,

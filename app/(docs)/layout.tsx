@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/sidebar'
 import {
   AlertCircle,
+  CalendarDays,
   Layout,
   MessageSquare,
   MousePointer,
@@ -43,6 +44,12 @@ const navigationItems = [
     label: 'Inputs',
     icon: Type,
     description: 'Input fields and form controls'
+  },
+  {
+    id: 'calendars',
+    label: 'Calendars',
+    icon: CalendarDays,
+    description: 'Date pickers and calendars'
   },
   {
     id: 'textareas',
