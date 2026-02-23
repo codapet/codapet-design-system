@@ -246,18 +246,29 @@ interface InputProps extends Omit<React$1.ComponentProps<'input'>, 'size'>, Vari
 }
 declare const Input: React$1.ForwardRefExoticComponent<Omit<InputProps, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
 
-interface DateInputProps extends Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size'> {
+type NativeInputProps = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
+type FlattenedCalendarProps = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames'>;
+interface DateInputProps extends NativeInputProps, FlattenedCalendarProps {
     date: Date | null;
     setDate: (date: Date | null) => void;
     maxDate?: Date | null;
     minDate?: Date | null;
     disableFuture?: boolean;
+    inputDisabled?: boolean;
     size?: VariantProps<typeof inputVariants>['size'];
     inputClassName?: string;
     calendarClassName?: string;
-    calendarProps?: React$1.ComponentProps<typeof Calendar>;
+    mode?: React$1.ComponentProps<typeof Calendar>['mode'];
+    selected?: Date;
+    onSelect?: (selectedDate: Date | undefined) => void;
+    month?: React$1.ComponentProps<typeof Calendar>['month'];
+    onMonthChange?: React$1.ComponentProps<typeof Calendar>['onMonthChange'];
+    disabled?: React$1.ComponentProps<typeof Calendar>['disabled'];
+    captionLayout?: React$1.ComponentProps<typeof Calendar>['captionLayout'];
+    showOutsideDays?: React$1.ComponentProps<typeof Calendar>['showOutsideDays'];
+    classNames?: React$1.ComponentProps<typeof Calendar>['classNames'];
 }
-declare function DateInput({ date, setDate, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, calendarProps, placeholder, disabled, onBlur, ...props }: DateInputProps): react_jsx_runtime.JSX.Element;
+declare function DateInput({ date, setDate, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, inputDisabled, mode, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, placeholder, onBlur, ...restProps }: DateInputProps): react_jsx_runtime.JSX.Element;
 
 declare function Drawer({ ...props }: React$1.ComponentProps<typeof Drawer$1.Root>): react_jsx_runtime.JSX.Element;
 declare function DrawerTrigger({ ...props }: React$1.ComponentProps<typeof Drawer$1.Trigger>): react_jsx_runtime.JSX.Element;

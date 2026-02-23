@@ -2056,6 +2056,65 @@ function PopoverAnchor({
 
 // src/components/ui/date-input.tsx
 import { jsx as jsx22, jsxs as jsxs10 } from "react/jsx-runtime";
+var INPUT_PROP_KEYS = /* @__PURE__ */ new Set([
+  "accept",
+  "alt",
+  "autoComplete",
+  "autoFocus",
+  "capture",
+  "checked",
+  "dirName",
+  "form",
+  "formAction",
+  "formEncType",
+  "formMethod",
+  "formNoValidate",
+  "formTarget",
+  "height",
+  "list",
+  "maxLength",
+  "minLength",
+  "multiple",
+  "name",
+  "pattern",
+  "readOnly",
+  "required",
+  "size",
+  "src",
+  "step",
+  "type",
+  "width",
+  "id",
+  "inputMode",
+  "lang",
+  "tabIndex",
+  "title",
+  "role",
+  "style",
+  "onFocus",
+  "onFocusCapture",
+  "onBlurCapture",
+  "onInput",
+  "onInvalid",
+  "onKeyDownCapture",
+  "onKeyPress",
+  "onKeyPressCapture",
+  "onKeyUp",
+  "onKeyUpCapture",
+  "onPaste",
+  "onPasteCapture",
+  "onPointerDown",
+  "onPointerDownCapture",
+  "onPointerUp",
+  "onPointerUpCapture",
+  "onMouseDown",
+  "onMouseDownCapture",
+  "onMouseUp",
+  "onMouseUpCapture",
+  "onCompositionEnd",
+  "onCompositionStart",
+  "onCompositionUpdate"
+]);
 function formatDate(date) {
   if (!date) {
     return "";
@@ -2081,15 +2140,39 @@ function DateInput({
   className,
   inputClassName,
   calendarClassName,
-  calendarProps,
+  inputDisabled,
+  mode,
+  selected,
+  onSelect,
+  month,
+  onMonthChange,
+  disabled: calendarDisabled,
+  captionLayout = "dropdown",
+  showOutsideDays = false,
+  classNames,
   placeholder = "mm/dd/yyyy",
-  disabled,
   onBlur,
-  ...props
+  ...restProps
 }) {
   const [open, setOpen] = React20.useState(false);
-  const [month, setMonth] = React20.useState(date ?? null);
+  const [monthState, setMonthState] = React20.useState(date ?? null);
   const [value, setValue] = React20.useState(formatDate(date ?? null));
+  const [inputProps, calendarProps] = React20.useMemo(() => {
+    const nextInputProps = {};
+    const nextCalendarProps = {};
+    for (const [key, val] of Object.entries(restProps)) {
+      const isInputProp = INPUT_PROP_KEYS.has(key) || key.startsWith("aria-") || key.startsWith("data-");
+      if (isInputProp) {
+        nextInputProps[key] = val;
+      } else {
+        nextCalendarProps[key] = val;
+      }
+    }
+    return [
+      nextInputProps,
+      nextCalendarProps
+    ];
+  }, [restProps]);
   const today = React20.useMemo(() => {
     const d = /* @__PURE__ */ new Date();
     d.setHours(0, 0, 0, 0);
@@ -2122,9 +2205,48 @@ function DateInput({
   React20.useEffect(() => {
     if (date) {
       setValue(formatDate(date));
-      setMonth(date);
+      setMonthState(date);
     }
   }, [date]);
+  const effectiveMonth = month ?? monthState ?? void 0;
+  const effectiveSelected = selected ?? date ?? void 0;
+  const isInputDisabled = inputDisabled ?? (typeof calendarDisabled === "boolean" ? calendarDisabled : false);
+  const defaultCalendarOnSelect = (selectedDate) => {
+    if (selectedDate) {
+      const dateObj = new Date(selectedDate);
+      dateObj.setHours(0, 0, 0, 0);
+      const isAfterMin = !effectiveMinDate || dateObj >= effectiveMinDate;
+      const isBeforeMax = !effectiveMaxDate || dateObj <= effectiveMaxDate;
+      if (isAfterMin && isBeforeMax) {
+        setDate(selectedDate);
+        setValue(formatDate(selectedDate));
+        setOpen(false);
+      }
+    }
+  };
+  const defaultCalendarDisabled = (date2) => {
+    const checkDate = new Date(date2);
+    checkDate.setHours(0, 0, 0, 0);
+    const isBeforeMin = effectiveMinDate !== null && checkDate < effectiveMinDate;
+    const isAfterMax = effectiveMaxDate !== void 0 && checkDate > effectiveMaxDate;
+    return isBeforeMin || isAfterMax;
+  };
+  const resolvedCalendarProps = {
+    ...calendarProps,
+    mode: mode ?? "single",
+    selected: effectiveSelected,
+    captionLayout,
+    month: effectiveMonth,
+    onMonthChange: onMonthChange ?? setMonthState,
+    showOutsideDays,
+    className: cn(
+      "md:w-auto w-[calc(100vw-50px)] mx-auto h-[350px] overflow-y-auto md:h-auto m-2",
+      calendarClassName
+    ),
+    classNames,
+    onSelect: onSelect ?? defaultCalendarOnSelect,
+    disabled: calendarDisabled ?? defaultCalendarDisabled
+  };
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     setValue(inputValue);
@@ -2136,7 +2258,7 @@ function DateInput({
       const isBeforeMax = !effectiveMaxDate || selectedDate <= effectiveMaxDate;
       if (isAfterMin && isBeforeMax) {
         setDate(parsedDate);
-        setMonth(parsedDate);
+        setMonthState(parsedDate);
       }
     } else if (inputValue === "") {
       setDate(null);
@@ -2166,7 +2288,7 @@ function DateInput({
     }
   };
   return /* @__PURE__ */ jsx22("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs10(Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ jsx22(PopoverTrigger, { asChild: true, disabled, children: /* @__PURE__ */ jsx22("div", { className: "w-full relative", children: /* @__PURE__ */ jsx22(
+    /* @__PURE__ */ jsx22(PopoverTrigger, { asChild: true, disabled: isInputDisabled, children: /* @__PURE__ */ jsx22("div", { className: "w-full relative", children: /* @__PURE__ */ jsx22(
       Input,
       {
         id: "date",
@@ -2175,17 +2297,17 @@ function DateInput({
         className: cn("bg-background cursor-pointer", inputClassName),
         onChange: handleInputChange,
         onBlur: handleBlur,
-        disabled,
+        disabled: isInputDisabled,
         onKeyDown: (e) => {
-          if (e.key === "ArrowDown" && !disabled) {
+          if (e.key === "ArrowDown" && !isInputDisabled) {
             e.preventDefault();
             setOpen(true);
           }
         },
         rightIcon: /* @__PURE__ */ jsx22(CalendarDays, { className: "h-4 w-4 text-muted-foreground" }),
-        rightIconOnClick: disabled ? void 0 : () => setOpen(!open),
-        rightIconButtonProps: { disabled },
-        ...props
+        rightIconOnClick: isInputDisabled ? void 0 : () => setOpen(!open),
+        rightIconButtonProps: { disabled: isInputDisabled },
+        ...inputProps
       }
     ) }) }),
     /* @__PURE__ */ jsx22(
@@ -2196,43 +2318,7 @@ function DateInput({
         alignOffset: -8,
         sideOffset: 10,
         side: "top",
-        children: /* @__PURE__ */ jsx22(
-          Calendar,
-          {
-            ...calendarProps,
-            mode: "single",
-            selected: date ?? void 0,
-            captionLayout: "dropdown",
-            month: month ?? void 0,
-            onMonthChange: setMonth,
-            showOutsideDays: false,
-            className: cn(
-              "md:w-auto w-[calc(100vw-50px)] mx-auto h-[350px] overflow-y-auto md:h-auto m-2",
-              calendarClassName
-            ),
-            classNames: calendarProps?.classNames,
-            onSelect: (selectedDate) => {
-              if (selectedDate) {
-                const dateObj = new Date(selectedDate);
-                dateObj.setHours(0, 0, 0, 0);
-                const isAfterMin = !effectiveMinDate || dateObj >= effectiveMinDate;
-                const isBeforeMax = !effectiveMaxDate || dateObj <= effectiveMaxDate;
-                if (isAfterMin && isBeforeMax) {
-                  setDate(selectedDate);
-                  setValue(formatDate(selectedDate));
-                  setOpen(false);
-                }
-              }
-            },
-            disabled: (date2) => {
-              const checkDate = new Date(date2);
-              checkDate.setHours(0, 0, 0, 0);
-              const isBeforeMin = effectiveMinDate !== null && checkDate < effectiveMinDate;
-              const isAfterMax = effectiveMaxDate !== void 0 && checkDate > effectiveMaxDate;
-              return isBeforeMin || isAfterMax;
-            }
-          }
-        )
+        children: /* @__PURE__ */ jsx22(Calendar, { ...resolvedCalendarProps })
       }
     )
   ] }) });
