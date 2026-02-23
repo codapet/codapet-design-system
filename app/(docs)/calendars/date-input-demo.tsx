@@ -18,6 +18,7 @@ export function DateInputDemo() {
   const [date3, setDate3] = useState<Date | null>(null)
   const [date4, setDate4] = useState<Date | null>(null)
   const [date5, setDate5] = useState<Date | null>(null)
+  const [date6, setDate6] = useState<Date | null>(null)
 
   return (
     <Card>
@@ -86,6 +87,23 @@ export function DateInputDemo() {
               className="border-blue-500"
             />
           </div>
+
+          <div className="space-y-2">
+            <Label className="mb-2 block text-sm font-medium">
+              Consumer Controlled Calendar Props
+            </Label>
+            <DateInput
+              date={date6}
+              setDate={setDate6}
+              captionLayout="label"
+              showOutsideDays
+              numberOfMonths={2}
+              disabled={date => date.getDay() === 0}
+            />
+            <p className="text-xs text-muted-foreground">
+              Sundays are disabled using flattened Calendar props
+            </p>
+          </div>
         </div>
 
         <CodeBlock
@@ -117,10 +135,85 @@ export function DateInputDemo() {
 
       {/* Custom ClassName */}
       <DateInput date={date} setDate={setDate} className="border-blue-500" />
+
+      {/* Consumer Controlled Calendar Props */}
+      <DateInput
+        date={date}
+        setDate={setDate}
+        captionLayout="label"
+        showOutsideDays
+        numberOfMonths={2}
+        disabled={date => date.getDay() === 0}
+      />
     </>
   )
 }`}
         />
+
+        <div className="space-y-2">
+          <Label className="mb-2 block text-sm font-medium">Props API</Label>
+          <p className="text-xs text-muted-foreground">
+            DateInput accepts its own controlled/input props and flattened
+            Calendar props for consumer control.
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Precedence: design-system defaults {'<'} deprecated{' '}
+            <code>calendarProps</code> {'<'} flattened props on{' '}
+            <code>DateInput</code>.
+          </p>
+          <p className="text-xs text-muted-foreground">
+            <code>calendarProps</code> is temporarily supported for backward
+            compatibility and is deprecated.
+          </p>
+          <CodeBlock
+            code={`type NativeInputProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'
+>
+
+type FlattenedCalendarProps = Omit<
+  React.ComponentProps<typeof Calendar>,
+  | keyof React.InputHTMLAttributes<HTMLInputElement>
+  | 'className'
+  | 'mode'
+  | 'selected'
+  | 'onSelect'
+  | 'month'
+  | 'onMonthChange'
+  | 'disabled'
+  | 'captionLayout'
+  | 'showOutsideDays'
+  | 'classNames'
+>
+
+interface DateInputProps extends NativeInputProps, FlattenedCalendarProps {
+  // DateInput controlled props
+  date: Date | null
+  setDate: (date: Date | null) => void
+  minDate?: Date | null
+  maxDate?: Date | null
+  disableFuture?: boolean
+  inputDisabled?: boolean
+  inputClassName?: string
+  calendarClassName?: string
+
+  // Temporary compatibility path (deprecated)
+  /** @deprecated Use flattened Calendar props directly on DateInput */
+  calendarProps?: React.ComponentProps<typeof Calendar>
+
+  // Explicit flattened overrides commonly used
+  mode?: React.ComponentProps<typeof Calendar>['mode']
+  selected?: Date
+  onSelect?: (selectedDate: Date | undefined) => void
+  month?: React.ComponentProps<typeof Calendar>['month']
+  onMonthChange?: React.ComponentProps<typeof Calendar>['onMonthChange']
+  disabled?: React.ComponentProps<typeof Calendar>['disabled']
+  captionLayout?: React.ComponentProps<typeof Calendar>['captionLayout']
+  showOutsideDays?: React.ComponentProps<typeof Calendar>['showOutsideDays']
+  classNames?: React.ComponentProps<typeof Calendar>['classNames']
+}`}
+          />
+        </div>
       </CardContent>
     </Card>
   )
