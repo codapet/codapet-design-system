@@ -137,7 +137,7 @@ export default function SmartDialogDrawerPage() {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
     // submit to your API here
-    console.log('Scheduled visit for:', petName)
+    // console.log('Scheduled visit for:', petName)
   }
 
   return (
@@ -147,8 +147,9 @@ export default function SmartDialogDrawerPage() {
           Smart Dialog Drawer
         </h2>
         <p className="text-lg text-slate-600 dark:text-slate-400">
-          A responsive primitive that automatically switches between dialog and drawer based on
-          screen size. It is a wrapper around the Dialog and Drawer components. It is a dialog on desktop and a drawer on mobile.
+          A responsive primitive that automatically switches between dialog and
+          drawer based on screen size. It is a wrapper around the Dialog and
+          Drawer components. It is a dialog on desktop and a drawer on mobile.
         </p>
       </div>
 
@@ -160,7 +161,8 @@ export default function SmartDialogDrawerPage() {
               Basic usage
             </CardTitle>
             <CardDescription>
-              Use the smart dialog for simple confirm flows that work on any device.
+              Use the smart dialog for simple confirm flows that work on any
+              device.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -171,15 +173,17 @@ export default function SmartDialogDrawerPage() {
                 </SmartDialogTrigger>
                 <SmartDialogContent>
                   <SmartDialogHeader>
-                    <SmartDialogTitle>Smart dialog on any device</SmartDialogTitle>
+                    <SmartDialogTitle>
+                      Smart dialog on any device
+                    </SmartDialogTitle>
                     <SmartDialogDescription>
-                      On desktop this renders as a dialog, on mobile it becomes a drawer
-                      automatically.
+                      On desktop this renders as a dialog, on mobile it becomes
+                      a drawer automatically.
                     </SmartDialogDescription>
                   </SmartDialogHeader>
                   <p className="text-sm text-slate-600 dark:text-slate-400">
-                    This component wraps the dialog and drawer APIs into a single, responsive
-                    primitive.
+                    This component wraps the dialog and drawer APIs into a
+                    single, responsive primitive.
                   </p>
                   <SmartDialogFooter className="flex gap-2 justify-end">
                     <SmartDialogClose asChild>
@@ -203,7 +207,8 @@ export default function SmartDialogDrawerPage() {
               Advanced usage
             </CardTitle>
             <CardDescription>
-              Combine the smart dialog with forms for richer, responsive workflows.
+              Combine the smart dialog with forms for richer, responsive
+              workflows.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -216,7 +221,8 @@ export default function SmartDialogDrawerPage() {
                   <SmartDialogHeader>
                     <SmartDialogTitle>Schedule a visit</SmartDialogTitle>
                     <SmartDialogDescription>
-                      Collect information in a responsive dialog that becomes a drawer on mobile.
+                      Collect information in a responsive dialog that becomes a
+                      drawer on mobile.
                     </SmartDialogDescription>
                   </SmartDialogHeader>
                   <form onSubmit={handleSubmit} className="space-y-4">
