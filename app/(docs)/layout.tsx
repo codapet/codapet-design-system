@@ -20,6 +20,7 @@ import {
 import {
   AlertCircle,
   CalendarDays,
+  ChevronDown,
   Layout,
   MessageSquare,
   MousePointer,
@@ -98,6 +99,12 @@ const navigationItems = [
     label: 'Smart Dialog Drawer',
     icon: Layout,
     description: 'Responsive dialog that becomes a drawer on mobile'
+  },
+  {
+    id: 'accordion',
+    label: 'Accordion',
+    icon: ChevronDown,
+    description: 'Expandable accordion panels'
   }
 ]
 

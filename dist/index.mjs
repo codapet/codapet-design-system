@@ -13,7 +13,7 @@ function cn(...inputs) {
 }
 
 // src/components/ui/accordion.tsx
-import { jsx, jsxs } from "react/jsx-runtime";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 function Accordion({
   ...props
 }) {
@@ -35,20 +35,27 @@ function AccordionItem({
 function AccordionTrigger({
   className,
   children,
+  expandedIcon,
+  collapsedIcon,
   ...props
 }) {
+  const hasCustomIcon = expandedIcon !== void 0 || collapsedIcon !== void 0;
   return /* @__PURE__ */ jsx(AccordionPrimitive.Header, { className: "flex", children: /* @__PURE__ */ jsxs(
     AccordionPrimitive.Trigger,
     {
       "data-slot": "accordion-trigger",
       className: cn(
-        "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180",
+        "group focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50",
+        !hasCustomIcon && "[&[data-state=open]>svg]:rotate-180",
         className
       ),
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx(ChevronDownIcon, { className: "text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-400" })
+        hasCustomIcon ? /* @__PURE__ */ jsxs(Fragment, { children: [
+          collapsedIcon !== void 0 && /* @__PURE__ */ jsx("span", { className: "group-data-[state=open]:hidden pointer-events-none shrink-0 text-muted-foreground", children: collapsedIcon }),
+          expandedIcon !== void 0 && /* @__PURE__ */ jsx("span", { className: "group-data-[state=closed]:hidden pointer-events-none shrink-0 text-muted-foreground", children: expandedIcon })
+        ] }) : /* @__PURE__ */ jsx(ChevronDownIcon, { className: "text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-400" })
       ]
     }
   ) });
@@ -1086,7 +1093,7 @@ function CarouselNext({
 // src/components/ui/chart.tsx
 import * as React13 from "react";
 import * as RechartsPrimitive from "recharts";
-import { Fragment, jsx as jsx14, jsxs as jsxs5 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx14, jsxs as jsxs5 } from "react/jsx-runtime";
 var THEMES = { light: "", dark: ".dark" };
 var ChartContext = React13.createContext(null);
 function useChart() {
@@ -1212,7 +1219,7 @@ function ChartTooltipContent({
                 "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5",
                 indicator === "dot" && "items-center"
               ),
-              children: formatter && item?.value !== void 0 && item.name ? formatter(item.value, item.name, item, index, item.payload) : /* @__PURE__ */ jsxs5(Fragment, { children: [
+              children: formatter && item?.value !== void 0 && item.name ? formatter(item.value, item.name, item, index, item.payload) : /* @__PURE__ */ jsxs5(Fragment2, { children: [
                 itemConfig?.icon ? /* @__PURE__ */ jsx14(itemConfig.icon, {}) : !hideIndicator && /* @__PURE__ */ jsx14(
                   "div",
                   {
@@ -4679,7 +4686,7 @@ function useMediaQuery(query) {
 }
 
 // src/components/ui/smart-dialog-drawer.tsx
-import { Fragment as Fragment2, jsx as jsx43 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx43 } from "react/jsx-runtime";
 var SmartDialog = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
   return isMobile ? /* @__PURE__ */ jsx43(Drawer, { ...props, children }) : /* @__PURE__ */ jsx43(Dialog, { ...props, children });
@@ -4737,7 +4744,7 @@ var SmartDialogFooter = ({ children, ...props }) => {
 };
 var SmartDialogClose = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx43(Fragment2, { children: /* @__PURE__ */ jsx43(DrawerClose, { ...props, children }) }) : /* @__PURE__ */ jsx43(DialogClose, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx43(Fragment3, { children: /* @__PURE__ */ jsx43(DrawerClose, { ...props, children }) }) : /* @__PURE__ */ jsx43(DialogClose, { ...props, children });
 };
 
 // src/components/ui/sonner.tsx

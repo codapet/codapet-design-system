@@ -1,10 +1,13 @@
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { formatHex, formatHex8, parse } from 'culori'
 
 export interface ColorData {
   name: string
   lightValue: string
   darkValue?: string
+  lightHex?: string
+  darkHex?: string
   cssVar: string
 }
 
@@ -87,6 +90,39 @@ function getCategory(name: string): { title: string; description: string } {
   }
 }
 
+function resolveVar(
+  value: string,
+  lightVars: Record<string, string>,
+  darkVars: Record<string, string>,
+  mode: 'light' | 'dark',
+  depth = 0
+): string {
+  if (depth > 10) return value
+  const varMatch = value.trim().match(/^var\(--([\w-]+)\)$/)
+  if (!varMatch) return value
+  const refName = varMatch[1]
+  const resolved =
+    mode === 'dark' && darkVars[refName]
+      ? darkVars[refName]
+      : lightVars[refName]
+  if (!resolved) return value
+  return resolveVar(resolved, lightVars, darkVars, mode, depth + 1)
+}
+
+function toHex(value: string): string | undefined {
+  try {
+    const color = parse(value)
+    if (!color) return undefined
+    const alpha = 'alpha' in color ? (color.alpha ?? 1) : 1
+    if (alpha < 1) {
+      return formatHex8(color) ?? undefined
+    }
+    return formatHex(color) ?? undefined
+  } catch {
+    return undefined
+  }
+}
+
 function isColorVariable(name: string): boolean {
   // Exclude non-color variables
   const excluded = ['radius', 'font-']
@@ -141,10 +177,18 @@ export function parseColorsFromCSS(): ColorGroup[] {
       categoryMap.set(categoryKey, [])
     }
 
+    const resolvedLight = resolveVar(lightValue, lightVars, darkVars, 'light')
+    const darkValue = darkVars[name]
+    const resolvedDark = darkValue
+      ? resolveVar(darkValue, lightVars, darkVars, 'dark')
+      : undefined
+
     const colorData: ColorData = {
       name,
       lightValue,
-      darkValue: darkVars[name],
+      darkValue,
+      lightHex: toHex(resolvedLight),
+      darkHex: resolvedDark ? toHex(resolvedDark) : undefined,
       cssVar: `--${name}`
     }
 

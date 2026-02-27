@@ -42,7 +42,10 @@ import { ClassValue } from 'clsx';
 
 declare function Accordion({ ...props }: React$1.ComponentProps<typeof AccordionPrimitive.Root>): react_jsx_runtime.JSX.Element;
 declare function AccordionItem({ className, ...props }: React$1.ComponentProps<typeof AccordionPrimitive.Item>): react_jsx_runtime.JSX.Element;
-declare function AccordionTrigger({ className, children, ...props }: React$1.ComponentProps<typeof AccordionPrimitive.Trigger>): react_jsx_runtime.JSX.Element;
+declare function AccordionTrigger({ className, children, expandedIcon, collapsedIcon, ...props }: React$1.ComponentProps<typeof AccordionPrimitive.Trigger> & {
+    expandedIcon?: React$1.ReactNode;
+    collapsedIcon?: React$1.ReactNode;
+}): react_jsx_runtime.JSX.Element;
 declare function AccordionContent({ className, children, ...props }: React$1.ComponentProps<typeof AccordionPrimitive.Content>): react_jsx_runtime.JSX.Element;
 
 declare const alertVariants: (props?: ({

@@ -41,18 +41,24 @@ function ColorSwatch({ color }: { color: ColorData }) {
               <Copy className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
             )}
           </button>
-          <div className="text-xs text-muted-foreground space-y-0.5">
-            <div>
+          <div className="text-xs  space-y-0.5">
+            <div className="flex items-center gap-1.5 flex-wrap">
               <span className="font-medium">Light:</span>{' '}
               <code className="text-[10px]">{color.lightValue}</code>
+              {color.lightHex && (
+                <code className="text-[10px] ">{color.lightHex}</code>
+              )}
             </div>
             {color.darkValue ? (
-              <div>
+              <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="font-medium">Dark:</span>{' '}
                 <code className="text-[10px]">{color.darkValue}</code>
+                {color.darkHex && (
+                  <code className="text-[10px] ">{color.darkHex}</code>
+                )}
               </div>
             ) : (
-              <div className="text-muted-foreground/60">Dark: N/A</div>
+              <div className="">Dark: N/A</div>
             )}
           </div>
         </div>
@@ -73,7 +79,7 @@ function ColorGroupCard({ group }: { group: ColorGroup }) {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {group.colors.map((color) => (
+          {group.colors.map(color => (
             <ColorSwatch key={color.name} color={color} />
           ))}
         </div>
@@ -96,7 +102,7 @@ export function ColorsClient({ colorGroups }: { colorGroups: ColorGroup[] }) {
       </div>
 
       <div className="space-y-8">
-        {colorGroups.map((group) => (
+        {colorGroups.map(group => (
           <ColorGroupCard key={group.title} group={group} />
         ))}
       </div>
