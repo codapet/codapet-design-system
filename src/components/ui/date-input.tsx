@@ -1,10 +1,43 @@
 import { cn } from '@/lib/utils'
 import { type VariantProps } from 'class-variance-authority'
+import { format as dateFnsFormat, parse as dateFnsParse, isValid } from 'date-fns'
 import { CalendarDays } from 'lucide-react'
 import * as React from 'react'
 import { Calendar } from './calendar'
 import { Input, inputVariants } from './input'
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
+
+export type DateFormat =
+  | 'MM/DD/YYYY'
+  | 'DD/MM/YYYY'
+  | 'YYYY-MM-DD'
+  | 'DD-MM-YYYY'
+  | 'MM-DD-YYYY'
+  | 'DD.MM.YYYY'
+  | 'MMMM D, YYYY'
+  | 'D MMMM YYYY'
+
+const DATE_FORMAT_TOKENS: Record<DateFormat, string> = {
+  'MM/DD/YYYY': 'MM/dd/yyyy',
+  'DD/MM/YYYY': 'dd/MM/yyyy',
+  'YYYY-MM-DD': 'yyyy-MM-dd',
+  'DD-MM-YYYY': 'dd-MM-yyyy',
+  'MM-DD-YYYY': 'MM-dd-yyyy',
+  'DD.MM.YYYY': 'dd.MM.yyyy',
+  'MMMM D, YYYY': 'MMMM d, yyyy',
+  'D MMMM YYYY': 'd MMMM yyyy'
+}
+
+const DATE_FORMAT_PLACEHOLDER: Record<DateFormat, string> = {
+  'MM/DD/YYYY': 'mm/dd/yyyy',
+  'DD/MM/YYYY': 'dd/mm/yyyy',
+  'YYYY-MM-DD': 'yyyy-mm-dd',
+  'DD-MM-YYYY': 'dd-mm-yyyy',
+  'MM-DD-YYYY': 'mm-dd-yyyy',
+  'DD.MM.YYYY': 'dd.mm.yyyy',
+  'MMMM D, YYYY': 'Month d, yyyy',
+  'D MMMM YYYY': 'd Month yyyy'
+}
 
 type NativeInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -86,22 +119,17 @@ const INPUT_PROP_KEYS = new Set([
   'onCompositionUpdate'
 ])
 
-function formatDate(date: Date | null) {
-  if (!date) {
+function formatDate(date: Date | null, dateFormat: DateFormat = 'MM/DD/YYYY') {
+  if (!date || !isValid(date)) {
     return ''
   }
-  return date.toLocaleDateString('en-US', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  })
+  return dateFnsFormat(date, DATE_FORMAT_TOKENS[dateFormat])
 }
 
-function isValidDate(date: Date | null) {
-  if (!date) {
-    return false
-  }
-  return !isNaN(date.getTime())
+function parseDate(value: string, dateFormat: DateFormat = 'MM/DD/YYYY'): Date | null {
+  if (!value) return null
+  const parsed = dateFnsParse(value, DATE_FORMAT_TOKENS[dateFormat], new Date())
+  return isValid(parsed) ? parsed : null
 }
 
 export interface DateInputProps extends NativeInputProps, FlattenedCalendarProps {
@@ -114,6 +142,7 @@ export interface DateInputProps extends NativeInputProps, FlattenedCalendarProps
   size?: VariantProps<typeof inputVariants>['size']
   inputClassName?: string
   calendarClassName?: string
+  dateFormat?: DateFormat
   mode?: React.ComponentProps<typeof Calendar>['mode']
   selected?: Date
   onSelect?: (selectedDate: Date | undefined) => void
@@ -135,6 +164,7 @@ export function DateInput({
   inputClassName,
   calendarClassName,
   inputDisabled,
+  dateFormat = 'MM/DD/YYYY',
   mode,
   selected,
   onSelect,
@@ -144,13 +174,14 @@ export function DateInput({
   captionLayout = 'dropdown',
   showOutsideDays = false,
   classNames,
-  placeholder = 'mm/dd/yyyy',
+  placeholder,
   onBlur,
   ...restProps
 }: DateInputProps) {
+  const resolvedPlaceholder = placeholder ?? DATE_FORMAT_PLACEHOLDER[dateFormat]
   const [open, setOpen] = React.useState(false)
   const [monthState, setMonthState] = React.useState<Date | null>(date ?? null)
-  const [value, setValue] = React.useState(formatDate(date ?? null))
+  const [value, setValue] = React.useState(formatDate(date ?? null, dateFormat))
   const [inputProps, calendarProps] = React.useMemo(() => {
     const nextInputProps: Record<string, unknown> = {}
     const nextCalendarProps: Record<string, unknown> = {}
@@ -221,10 +252,10 @@ export function DateInput({
 
   React.useEffect(() => {
     if (date) {
-      setValue(formatDate(date))
+      setValue(formatDate(date, dateFormat))
       setMonthState(date)
     }
-  }, [date])
+  }, [date, dateFormat])
 
   const effectiveMonth = month ?? monthState ?? undefined
   const effectiveSelected = selected ?? date ?? undefined
@@ -240,7 +271,7 @@ export function DateInput({
 
       if (isAfterMin && isBeforeMax) {
         setDate(selectedDate)
-        setValue(formatDate(selectedDate))
+        setValue(formatDate(selectedDate, dateFormat))
         setOpen(false)
       }
     }
@@ -275,9 +306,9 @@ export function DateInput({
     const inputValue = e.target.value
     setValue(inputValue)
 
-    const parsedDate = new Date(inputValue)
+    const parsedDate = parseDate(inputValue, dateFormat)
 
-    if (isValidDate(parsedDate)) {
+    if (parsedDate) {
       const selectedDate = new Date(parsedDate)
       selectedDate.setHours(0, 0, 0, 0)
 
@@ -305,12 +336,10 @@ export function DateInput({
       return
     }
 
-    const parsedDate = new Date(value)
-    if (!isValidDate(parsedDate)) {
-      // Reset to last valid date
-      setValue(formatDate(date))
+    const parsedDate = parseDate(value, dateFormat)
+    if (!parsedDate) {
+      setValue(formatDate(date, dateFormat))
     } else {
-      // Check if within range
       const selectedDate = new Date(parsedDate)
       selectedDate.setHours(0, 0, 0, 0)
 
@@ -318,8 +347,7 @@ export function DateInput({
       const isBeforeMax = !effectiveMaxDate || selectedDate <= effectiveMaxDate
 
       if (!isAfterMin || !isBeforeMax) {
-        // Reset to last valid date if out of range
-        setValue(formatDate(date))
+        setValue(formatDate(date, dateFormat))
       }
     }
   }
@@ -332,7 +360,7 @@ export function DateInput({
             <Input
               id="date"
               value={value}
-              placeholder={placeholder}
+              placeholder={resolvedPlaceholder}
               className={cn('bg-background cursor-pointer', inputClassName)}
               onChange={handleInputChange}
               onBlur={handleBlur}

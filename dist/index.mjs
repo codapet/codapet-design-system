@@ -1886,6 +1886,7 @@ function ContextMenuShortcut({
 
 // src/components/ui/date-input.tsx
 import "class-variance-authority";
+import { format as dateFnsFormat, parse as dateFnsParse, isValid } from "date-fns";
 import { CalendarDays } from "lucide-react";
 import * as React20 from "react";
 
@@ -2063,6 +2064,26 @@ function PopoverAnchor({
 
 // src/components/ui/date-input.tsx
 import { jsx as jsx22, jsxs as jsxs10 } from "react/jsx-runtime";
+var DATE_FORMAT_TOKENS = {
+  "MM/DD/YYYY": "MM/dd/yyyy",
+  "DD/MM/YYYY": "dd/MM/yyyy",
+  "YYYY-MM-DD": "yyyy-MM-dd",
+  "DD-MM-YYYY": "dd-MM-yyyy",
+  "MM-DD-YYYY": "MM-dd-yyyy",
+  "DD.MM.YYYY": "dd.MM.yyyy",
+  "MMMM D, YYYY": "MMMM d, yyyy",
+  "D MMMM YYYY": "d MMMM yyyy"
+};
+var DATE_FORMAT_PLACEHOLDER = {
+  "MM/DD/YYYY": "mm/dd/yyyy",
+  "DD/MM/YYYY": "dd/mm/yyyy",
+  "YYYY-MM-DD": "yyyy-mm-dd",
+  "DD-MM-YYYY": "dd-mm-yyyy",
+  "MM-DD-YYYY": "mm-dd-yyyy",
+  "DD.MM.YYYY": "dd.mm.yyyy",
+  "MMMM D, YYYY": "Month d, yyyy",
+  "D MMMM YYYY": "d Month yyyy"
+};
 var INPUT_PROP_KEYS = /* @__PURE__ */ new Set([
   "accept",
   "alt",
@@ -2122,21 +2143,16 @@ var INPUT_PROP_KEYS = /* @__PURE__ */ new Set([
   "onCompositionStart",
   "onCompositionUpdate"
 ]);
-function formatDate(date) {
-  if (!date) {
+function formatDate(date, dateFormat = "MM/DD/YYYY") {
+  if (!date || !isValid(date)) {
     return "";
   }
-  return date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric"
-  });
+  return dateFnsFormat(date, DATE_FORMAT_TOKENS[dateFormat]);
 }
-function isValidDate(date) {
-  if (!date) {
-    return false;
-  }
-  return !isNaN(date.getTime());
+function parseDate(value, dateFormat = "MM/DD/YYYY") {
+  if (!value) return null;
+  const parsed = dateFnsParse(value, DATE_FORMAT_TOKENS[dateFormat], /* @__PURE__ */ new Date());
+  return isValid(parsed) ? parsed : null;
 }
 function DateInput({
   date,
@@ -2148,6 +2164,7 @@ function DateInput({
   inputClassName,
   calendarClassName,
   inputDisabled,
+  dateFormat = "MM/DD/YYYY",
   mode,
   selected,
   onSelect,
@@ -2157,13 +2174,14 @@ function DateInput({
   captionLayout = "dropdown",
   showOutsideDays = false,
   classNames,
-  placeholder = "mm/dd/yyyy",
+  placeholder,
   onBlur,
   ...restProps
 }) {
+  const resolvedPlaceholder = placeholder ?? DATE_FORMAT_PLACEHOLDER[dateFormat];
   const [open, setOpen] = React20.useState(false);
   const [monthState, setMonthState] = React20.useState(date ?? null);
-  const [value, setValue] = React20.useState(formatDate(date ?? null));
+  const [value, setValue] = React20.useState(formatDate(date ?? null, dateFormat));
   const [inputProps, calendarProps] = React20.useMemo(() => {
     const nextInputProps = {};
     const nextCalendarProps = {};
@@ -2211,10 +2229,10 @@ function DateInput({
   }, [minDate]);
   React20.useEffect(() => {
     if (date) {
-      setValue(formatDate(date));
+      setValue(formatDate(date, dateFormat));
       setMonthState(date);
     }
-  }, [date]);
+  }, [date, dateFormat]);
   const effectiveMonth = month ?? monthState ?? void 0;
   const effectiveSelected = selected ?? date ?? void 0;
   const isInputDisabled = inputDisabled ?? (typeof calendarDisabled === "boolean" ? calendarDisabled : false);
@@ -2226,7 +2244,7 @@ function DateInput({
       const isBeforeMax = !effectiveMaxDate || dateObj <= effectiveMaxDate;
       if (isAfterMin && isBeforeMax) {
         setDate(selectedDate);
-        setValue(formatDate(selectedDate));
+        setValue(formatDate(selectedDate, dateFormat));
         setOpen(false);
       }
     }
@@ -2257,8 +2275,8 @@ function DateInput({
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     setValue(inputValue);
-    const parsedDate = new Date(inputValue);
-    if (isValidDate(parsedDate)) {
+    const parsedDate = parseDate(inputValue, dateFormat);
+    if (parsedDate) {
       const selectedDate = new Date(parsedDate);
       selectedDate.setHours(0, 0, 0, 0);
       const isAfterMin = !effectiveMinDate || selectedDate >= effectiveMinDate;
@@ -2281,16 +2299,16 @@ function DateInput({
       }
       return;
     }
-    const parsedDate = new Date(value);
-    if (!isValidDate(parsedDate)) {
-      setValue(formatDate(date));
+    const parsedDate = parseDate(value, dateFormat);
+    if (!parsedDate) {
+      setValue(formatDate(date, dateFormat));
     } else {
       const selectedDate = new Date(parsedDate);
       selectedDate.setHours(0, 0, 0, 0);
       const isAfterMin = !effectiveMinDate || selectedDate >= effectiveMinDate;
       const isBeforeMax = !effectiveMaxDate || selectedDate <= effectiveMaxDate;
       if (!isAfterMin || !isBeforeMax) {
-        setValue(formatDate(date));
+        setValue(formatDate(date, dateFormat));
       }
     }
   };
@@ -2300,7 +2318,7 @@ function DateInput({
       {
         id: "date",
         value,
-        placeholder,
+        placeholder: resolvedPlaceholder,
         className: cn("bg-background cursor-pointer", inputClassName),
         onChange: handleInputChange,
         onBlur: handleBlur,
