@@ -1,4 +1,6 @@
 import { DateInputDemo } from './date-input-demo'
+import { DateRangeInputDemo } from './date-range-input-demo'
+import { TimeInputDemo } from './time-input-demo'
 
 export default function CalendarsPage() {
   return (
@@ -13,6 +15,8 @@ export default function CalendarsPage() {
       </div>
 
       <DateInputDemo />
+      <DateRangeInputDemo />
+      <TimeInputDemo />
     </div>
   )
 }

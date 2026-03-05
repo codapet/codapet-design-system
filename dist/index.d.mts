@@ -6,7 +6,8 @@ import { VariantProps } from 'class-variance-authority';
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 import * as AspectRatioPrimitive from '@radix-ui/react-aspect-ratio';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
-import { DayPicker, DayButton } from 'react-day-picker';
+import { DayPicker, DayButton, DateRange } from 'react-day-picker';
+export { DateRange } from 'react-day-picker';
 import useEmblaCarousel, { UseEmblaCarouselType } from 'embla-carousel-react';
 import * as RechartsPrimitive from 'recharts';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
@@ -250,9 +251,9 @@ interface InputProps extends Omit<React$1.ComponentProps<'input'>, 'size'>, Vari
 declare const Input: React$1.ForwardRefExoticComponent<Omit<InputProps, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
 
 type DateFormat = 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YYYY' | 'MM-DD-YYYY' | 'DD.MM.YYYY' | 'MMMM D, YYYY' | 'D MMMM YYYY';
-type NativeInputProps = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
-type FlattenedCalendarProps = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames'>;
-interface DateInputProps extends NativeInputProps, FlattenedCalendarProps {
+type NativeInputProps$2 = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
+type FlattenedCalendarProps$1 = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames'>;
+interface DateInputProps extends NativeInputProps$2, FlattenedCalendarProps$1 {
     date: Date | null;
     setDate: (date: Date | null) => void;
     maxDate?: Date | null;
@@ -274,6 +275,30 @@ interface DateInputProps extends NativeInputProps, FlattenedCalendarProps {
     classNames?: React$1.ComponentProps<typeof Calendar>['classNames'];
 }
 declare function DateInput({ date, setDate, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, inputDisabled, dateFormat, mode, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, placeholder, onBlur, ...restProps }: DateInputProps): react_jsx_runtime.JSX.Element;
+
+type NativeInputProps$1 = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
+type FlattenedCalendarProps = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames'>;
+interface DateRangeInputProps extends NativeInputProps$1, FlattenedCalendarProps {
+    dateRange: DateRange | undefined;
+    setDateRange: (range: DateRange | undefined) => void;
+    maxDate?: Date | null;
+    minDate?: Date | null;
+    disableFuture?: boolean;
+    inputDisabled?: boolean;
+    size?: VariantProps<typeof inputVariants>['size'];
+    inputClassName?: string;
+    calendarClassName?: string;
+    dateFormat?: DateFormat;
+    selected?: DateRange;
+    onSelect?: (range: DateRange | undefined) => void;
+    month?: React$1.ComponentProps<typeof Calendar>['month'];
+    onMonthChange?: React$1.ComponentProps<typeof Calendar>['onMonthChange'];
+    disabled?: React$1.ComponentProps<typeof Calendar>['disabled'];
+    captionLayout?: React$1.ComponentProps<typeof Calendar>['captionLayout'];
+    showOutsideDays?: React$1.ComponentProps<typeof Calendar>['showOutsideDays'];
+    classNames?: React$1.ComponentProps<typeof Calendar>['classNames'];
+}
+declare function DateRangeInput({ dateRange, setDateRange, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, inputDisabled, dateFormat, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, placeholder, onBlur, ...restProps }: DateRangeInputProps): react_jsx_runtime.JSX.Element;
 
 declare function Drawer({ ...props }: React$1.ComponentProps<typeof Drawer$1.Root>): react_jsx_runtime.JSX.Element;
 declare function DrawerTrigger({ ...props }: React$1.ComponentProps<typeof Drawer$1.Trigger>): react_jsx_runtime.JSX.Element;
@@ -551,6 +576,23 @@ declare function TabsList({ className, ...props }: React$1.ComponentProps<typeof
 declare function TabsTrigger({ className, ...props }: React$1.ComponentProps<typeof TabsPrimitive.Trigger>): react_jsx_runtime.JSX.Element;
 declare function TabsContent({ className, ...props }: React$1.ComponentProps<typeof TabsPrimitive.Content>): react_jsx_runtime.JSX.Element;
 
+type TimeFormat = '12h' | '24h';
+interface TimeValue {
+    hours: number;
+    minutes: number;
+}
+type NativeInputProps = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
+interface TimeInputProps extends NativeInputProps {
+    time: TimeValue | null;
+    setTime: (time: TimeValue | null) => void;
+    timeFormat?: TimeFormat;
+    minuteStep?: number;
+    inputDisabled?: boolean;
+    size?: VariantProps<typeof inputVariants>['size'];
+    inputClassName?: string;
+}
+declare function TimeInput({ time, setTime, timeFormat, minuteStep, inputDisabled, className, inputClassName, size, placeholder, onBlur, ...restProps }: TimeInputProps): react_jsx_runtime.JSX.Element;
+
 declare const toggleVariants: (props?: ({
     variant?: "default" | "outline" | null | undefined;
     size?: "default" | "sm" | "lg" | null | undefined;
@@ -595,4 +637,4 @@ declare function cn(...inputs: ClassValue[]): string;
 
 declare function useIsMobile(): boolean;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, AutoResizeTextarea, Avatar, AvatarFallback, AvatarImage, Badge, Body, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, type DateFormat, DateInput, type DateInputProps, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DisplayHeading, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HeadingL, HeadingM, HeadingS, HeadingXL, HeadingXS, HeadingXXS, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, ScrollArea, ScrollBar, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, SmartDialog, SmartDialogClose, SmartDialogContent, SmartDialogDescription, SmartDialogFooter, SmartDialogHeader, SmartDialogTitle, SmartDialogTrigger, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, type TextareaProps, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, bodyTextVariants, buttonVariants, cn, displayTextVariants, inputVariants, labelTextVariants, navigationMenuTriggerStyle, toggleVariants, useFormField, useIsMobile, useSidebar };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, AutoResizeTextarea, Avatar, AvatarFallback, AvatarImage, Badge, Body, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, type DateFormat, DateInput, type DateInputProps, DateRangeInput, type DateRangeInputProps, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DisplayHeading, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HeadingL, HeadingM, HeadingS, HeadingXL, HeadingXS, HeadingXXS, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, ScrollArea, ScrollBar, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, SmartDialog, SmartDialogClose, SmartDialogContent, SmartDialogDescription, SmartDialogFooter, SmartDialogHeader, SmartDialogTitle, SmartDialogTrigger, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, type TextareaProps, type TimeFormat, TimeInput, type TimeInputProps, type TimeValue, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, badgeVariants, bodyTextVariants, buttonVariants, cn, displayTextVariants, inputVariants, labelTextVariants, navigationMenuTriggerStyle, toggleVariants, useFormField, useIsMobile, useSidebar };
