@@ -5465,14 +5465,14 @@ function TimeInput({
     /* @__PURE__ */ jsx49(
       PopoverContent,
       {
-        className: "w-auto overflow-hidden p-0",
+        className: "w-auto p-0",
         align: "end",
         alignOffset: -8,
         sideOffset: 10,
         side: "top",
         onOpenAutoFocus: (e) => e.preventDefault(),
         children: /* @__PURE__ */ jsxs24("div", { className: "flex divide-x", children: [
-          /* @__PURE__ */ jsx49(ScrollArea, { className: "h-56 w-16", children: /* @__PURE__ */ jsx49("div", { ref: hoursRef, className: "flex flex-col p-1", children: hoursList.map((h) => /* @__PURE__ */ jsx49(
+          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-contain  ", children: /* @__PURE__ */ jsx49("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx49(
             Button,
             {
               variant: "ghost",
@@ -5487,7 +5487,7 @@ function TimeInput({
             },
             h
           )) }) }),
-          /* @__PURE__ */ jsx49(ScrollArea, { className: "h-56 w-16", children: /* @__PURE__ */ jsx49("div", { ref: minutesRef, className: "flex flex-col p-1", children: minutesList.map((m) => /* @__PURE__ */ jsx49(
+          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-contain", children: /* @__PURE__ */ jsx49("div", { ref: minutesRef, className: "flex flex-col p-1", children: minutesList.map((m) => /* @__PURE__ */ jsx49(
             Button,
             {
               variant: "ghost",
