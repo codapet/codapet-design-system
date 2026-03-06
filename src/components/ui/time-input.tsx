@@ -5,7 +5,6 @@ import * as React from 'react'
 import { Button } from './button'
 import { Input, inputVariants } from './input'
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
-import { ScrollArea } from './scroll-area'
 
 export type TimeFormat = '12h' | '24h'
 
@@ -42,9 +41,7 @@ function parseTime(
     return { hours, minutes }
   }
 
-  const match = value
-    .trim()
-    .match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)$/i)
+  const match = value.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)$/i)
   if (!match) return null
   let hours = parseInt(match[1], 10)
   const minutes = parseInt(match[2], 10)
@@ -218,15 +215,13 @@ export function TimeInput({
                   setOpen(true)
                 }
               }}
-              rightIcon={
-                <Clock className="h-4 w-4 text-muted-foreground" />
-              }
+              rightIcon={<Clock className="h-4 w-4 text-muted-foreground" />}
               {...restProps}
             />
           </div>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto overflow-hidden p-0"
+          className="w-auto p-0"
           align="end"
           alignOffset={-8}
           sideOffset={10}
@@ -235,8 +230,8 @@ export function TimeInput({
         >
           <div className="flex divide-x">
             {/* Hours */}
-            <ScrollArea className="h-56 w-16">
-              <div ref={hoursRef} className="flex flex-col p-1">
+            <div className="h-56 w-16 overflow-y-auto overscroll-contain  ">
+              <div ref={hoursRef} className="flex flex-col p-1 ">
                 {hoursList.map(h => (
                   <Button
                     key={h}
@@ -254,10 +249,10 @@ export function TimeInput({
                   </Button>
                 ))}
               </div>
-            </ScrollArea>
+            </div>
 
             {/* Minutes */}
-            <ScrollArea className="h-56 w-16">
+            <div className="h-56 w-16 overflow-y-auto overscroll-contain">
               <div ref={minutesRef} className="flex flex-col p-1">
                 {minutesList.map(m => (
                   <Button
@@ -276,7 +271,7 @@ export function TimeInput({
                   </Button>
                 ))}
               </div>
-            </ScrollArea>
+            </div>
 
             {/* AM/PM */}
             {timeFormat === '12h' && (
