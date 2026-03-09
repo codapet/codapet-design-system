@@ -6,11 +6,22 @@ import { Button } from './button'
 import { Input, inputVariants } from './input'
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
 
-export type TimeFormat = '12h' | '24h'
+export type TimeFormat = '12h' | '24h' | 'h:mm a' | 'h:mm A'
 
 export interface TimeValue {
   hours: number
   minutes: number
+}
+
+const TIME_FORMAT_PLACEHOLDER: Record<TimeFormat, string> = {
+  '12h': 'hh:mm AM/PM',
+  '24h': 'HH:mm',
+  'h:mm a': 'h:mm am/pm',
+  'h:mm A': 'h:mm AM/PM'
+}
+
+function is24HourFormat(tf: TimeFormat): boolean {
+  return tf === '24h'
 }
 
 function formatTime(
@@ -18,12 +29,24 @@ function formatTime(
   timeFormat: TimeFormat = '12h'
 ): string {
   if (!time) return ''
-  if (timeFormat === '24h') {
-    return `${String(time.hours).padStart(2, '0')}:${String(time.minutes).padStart(2, '0')}`
+  const { hours, minutes } = time
+  const h24 = String(hours).padStart(2, '0')
+  const m = String(minutes).padStart(2, '0')
+  const h12 = hours % 12 || 12
+  const h12p = String(h12).padStart(2, '0')
+  const period = hours >= 12 ? 'PM' : 'AM'
+
+  switch (timeFormat) {
+    case '24h':
+      return `${h24}:${m}`
+    case 'h:mm a':
+      return `${h12}:${m} ${period.toLowerCase()}`
+    case 'h:mm A':
+      return `${h12}:${m} ${period}`
+    case '12h':
+    default:
+      return `${h12p}:${m} ${period}`
   }
-  const period = time.hours >= 12 ? 'PM' : 'AM'
-  const h12 = time.hours % 12 || 12
-  return `${String(h12).padStart(2, '0')}:${String(time.minutes).padStart(2, '0')} ${period}`
 }
 
 function parseTime(
@@ -31,9 +54,10 @@ function parseTime(
   timeFormat: TimeFormat = '12h'
 ): TimeValue | null {
   if (!value.trim()) return null
+  const v = value.trim()
 
-  if (timeFormat === '24h') {
-    const match = value.trim().match(/^(\d{1,2}):(\d{2})$/)
+  if (is24HourFormat(timeFormat)) {
+    const match = v.match(/^(\d{1,2}):(\d{2})$/)
     if (!match) return null
     const hours = parseInt(match[1], 10)
     const minutes = parseInt(match[2], 10)
@@ -41,7 +65,7 @@ function parseTime(
     return { hours, minutes }
   }
 
-  const match = value.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)$/i)
+  const match = v.match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)$/i)
   if (!match) return null
   let hours = parseInt(match[1], 10)
   const minutes = parseInt(match[2], 10)
@@ -56,7 +80,7 @@ function parseTime(
 }
 
 function getDisplayHour(hours: number, timeFormat: TimeFormat): number {
-  if (timeFormat === '24h') return hours
+  if (is24HourFormat(timeFormat)) return hours
   return hours % 12 || 12
 }
 
@@ -64,12 +88,20 @@ function getPeriod(hours: number): 'AM' | 'PM' {
   return hours >= 12 ? 'PM' : 'AM'
 }
 
-type NativeInputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'
+type BaseInputProps = Omit<
+  React.ComponentProps<typeof Input>,
+  | 'value'
+  | 'onChange'
+  | 'min'
+  | 'max'
+  | 'size'
+  | 'disabled'
+  | 'onSelect'
+  | 'rightIcon'
+  | 'ref'
 >
 
-export interface TimeInputProps extends NativeInputProps {
+export interface TimeInputProps extends BaseInputProps {
   time: TimeValue | null
   setTime: (time: TimeValue | null) => void
   timeFormat?: TimeFormat
@@ -77,6 +109,8 @@ export interface TimeInputProps extends NativeInputProps {
   inputDisabled?: boolean
   size?: VariantProps<typeof inputVariants>['size']
   inputClassName?: string
+  icon?: React.ReactNode
+  formatDisplay?: (time: TimeValue) => string
 }
 
 export function TimeInput({
@@ -90,20 +124,31 @@ export function TimeInput({
   size,
   placeholder,
   onBlur,
+  icon,
+  formatDisplay,
   ...restProps
 }: TimeInputProps) {
-  const resolvedPlaceholder =
-    placeholder ?? (timeFormat === '12h' ? 'hh:mm AM/PM' : 'HH:mm')
+  const resolvedPlaceholder = placeholder ?? TIME_FORMAT_PLACEHOLDER[timeFormat]
+
+  const displayFormat = React.useCallback(
+    (t: TimeValue | null): string => {
+      if (!t) return ''
+      if (formatDisplay) return formatDisplay(t)
+      return formatTime(t, timeFormat)
+    },
+    [formatDisplay, timeFormat]
+  )
+
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState(formatTime(time, timeFormat))
+  const [value, setValue] = React.useState(displayFormat(time))
 
   const hoursRef = React.useRef<HTMLDivElement>(null)
   const minutesRef = React.useRef<HTMLDivElement>(null)
   const periodRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
-    setValue(formatTime(time, timeFormat))
-  }, [time, timeFormat])
+    setValue(displayFormat(time))
+  }, [time, displayFormat])
 
   const scrollToSelected = React.useCallback(() => {
     requestAnimationFrame(() => {
@@ -149,13 +194,13 @@ export function TimeInput({
 
     const parsed = parseTime(value, timeFormat)
     if (!parsed) {
-      setValue(formatTime(time, timeFormat))
+      setValue(displayFormat(time))
     }
   }
 
   const handleHourSelect = (hour: number) => {
     let h24: number
-    if (timeFormat === '24h') {
+    if (is24HourFormat(timeFormat)) {
       h24 = hour
     } else {
       const currentPeriod = time ? getPeriod(time.hours) : 'AM'
@@ -179,10 +224,9 @@ export function TimeInput({
     setTime({ hours: newHours, minutes: time?.minutes ?? 0 })
   }
 
-  const hoursList =
-    timeFormat === '12h'
-      ? Array.from({ length: 12 }, (_, i) => i + 1)
-      : Array.from({ length: 24 }, (_, i) => i)
+  const hoursList = is24HourFormat(timeFormat)
+    ? Array.from({ length: 24 }, (_, i) => i)
+    : Array.from({ length: 12 }, (_, i) => i + 1)
 
   const minutesList = Array.from(
     { length: Math.ceil(60 / minuteStep) },
@@ -215,17 +259,19 @@ export function TimeInput({
                   setOpen(true)
                 }
               }}
-              rightIcon={<Clock className="h-4 w-4 text-muted-foreground" />}
+              rightIcon={
+                icon !== undefined ? (
+                  icon
+                ) : (
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                )
+              }
               {...restProps}
             />
           </div>
         </PopoverTrigger>
         <PopoverContent
           className="w-auto p-0 "
-          align="end"
-          alignOffset={-8}
-          sideOffset={10}
-          side="top"
           onOpenAutoFocus={e => e.preventDefault()}
         >
           <div className="flex divide-x">
@@ -253,7 +299,7 @@ export function TimeInput({
 
             {/* Minutes */}
             <div className="h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]">
-              <div ref={minutesRef} className="flex flex-col p-1">
+              <div ref={minutesRef} className="flex flex-col p-1 ">
                 {minutesList.map(m => (
                   <Button
                     key={m}
@@ -274,7 +320,7 @@ export function TimeInput({
             </div>
 
             {/* AM/PM */}
-            {timeFormat === '12h' && (
+            {!is24HourFormat(timeFormat) && (
               <div className="flex flex-col p-1 justify-center gap-1">
                 {(['AM', 'PM'] as const).map(p => (
                   <Button

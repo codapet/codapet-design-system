@@ -251,9 +251,9 @@ interface InputProps extends Omit<React$1.ComponentProps<'input'>, 'size'>, Vari
 declare const Input: React$1.ForwardRefExoticComponent<Omit<InputProps, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
 
 type DateFormat = 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YYYY' | 'MM-DD-YYYY' | 'DD.MM.YYYY' | 'MMMM D, YYYY' | 'D MMMM YYYY';
-type NativeInputProps$2 = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
-type FlattenedCalendarProps$1 = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames'>;
-interface DateInputProps extends NativeInputProps$2, FlattenedCalendarProps$1 {
+type NativeInputProps = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
+type FlattenedCalendarProps$1 = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames' | 'components' | 'formatters' | 'buttonVariant'>;
+interface DateInputProps extends NativeInputProps, FlattenedCalendarProps$1 {
     date: Date | null;
     setDate: (date: Date | null) => void;
     maxDate?: Date | null;
@@ -273,12 +273,14 @@ interface DateInputProps extends NativeInputProps$2, FlattenedCalendarProps$1 {
     captionLayout?: React$1.ComponentProps<typeof Calendar>['captionLayout'];
     showOutsideDays?: React$1.ComponentProps<typeof Calendar>['showOutsideDays'];
     classNames?: React$1.ComponentProps<typeof Calendar>['classNames'];
+    components?: React$1.ComponentProps<typeof Calendar>['components'];
+    formatters?: React$1.ComponentProps<typeof Calendar>['formatters'];
+    buttonVariant?: React$1.ComponentProps<typeof Calendar>['buttonVariant'];
 }
-declare function DateInput({ date, setDate, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, inputDisabled, dateFormat, mode, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, placeholder, onBlur, ...restProps }: DateInputProps): react_jsx_runtime.JSX.Element;
+declare function DateInput({ date, setDate, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, inputDisabled, dateFormat, mode, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, components, formatters, buttonVariant, placeholder, onBlur, ...restProps }: DateInputProps): react_jsx_runtime.JSX.Element;
 
-type NativeInputProps$1 = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
-type FlattenedCalendarProps = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames'>;
-interface DateRangeInputProps extends NativeInputProps$1, FlattenedCalendarProps {
+type FlattenedCalendarProps = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames' | 'components' | 'formatters' | 'buttonVariant'>;
+interface DateRangeInputProps extends FlattenedCalendarProps {
     dateRange: DateRange | undefined;
     setDateRange: (range: DateRange | undefined) => void;
     maxDate?: Date | null;
@@ -286,9 +288,11 @@ interface DateRangeInputProps extends NativeInputProps$1, FlattenedCalendarProps
     disableFuture?: boolean;
     inputDisabled?: boolean;
     size?: VariantProps<typeof inputVariants>['size'];
+    className?: string;
     inputClassName?: string;
     calendarClassName?: string;
     dateFormat?: DateFormat;
+    placeholder?: string;
     selected?: DateRange;
     onSelect?: (range: DateRange | undefined) => void;
     month?: React$1.ComponentProps<typeof Calendar>['month'];
@@ -297,8 +301,11 @@ interface DateRangeInputProps extends NativeInputProps$1, FlattenedCalendarProps
     captionLayout?: React$1.ComponentProps<typeof Calendar>['captionLayout'];
     showOutsideDays?: React$1.ComponentProps<typeof Calendar>['showOutsideDays'];
     classNames?: React$1.ComponentProps<typeof Calendar>['classNames'];
+    components?: React$1.ComponentProps<typeof Calendar>['components'];
+    formatters?: React$1.ComponentProps<typeof Calendar>['formatters'];
+    buttonVariant?: React$1.ComponentProps<typeof Calendar>['buttonVariant'];
 }
-declare function DateRangeInput({ dateRange, setDateRange, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, inputDisabled, dateFormat, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, placeholder, onBlur, ...restProps }: DateRangeInputProps): react_jsx_runtime.JSX.Element;
+declare function DateRangeInput({ dateRange, setDateRange, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, inputDisabled, dateFormat, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, components, formatters, buttonVariant, placeholder, size, ...restProps }: DateRangeInputProps): react_jsx_runtime.JSX.Element;
 
 declare function Drawer({ ...props }: React$1.ComponentProps<typeof Drawer$1.Root>): react_jsx_runtime.JSX.Element;
 declare function DrawerTrigger({ ...props }: React$1.ComponentProps<typeof Drawer$1.Trigger>): react_jsx_runtime.JSX.Element;
@@ -576,13 +583,13 @@ declare function TabsList({ className, ...props }: React$1.ComponentProps<typeof
 declare function TabsTrigger({ className, ...props }: React$1.ComponentProps<typeof TabsPrimitive.Trigger>): react_jsx_runtime.JSX.Element;
 declare function TabsContent({ className, ...props }: React$1.ComponentProps<typeof TabsPrimitive.Content>): react_jsx_runtime.JSX.Element;
 
-type TimeFormat = '12h' | '24h';
+type TimeFormat = '12h' | '24h' | 'h:mm a' | 'h:mm A';
 interface TimeValue {
     hours: number;
     minutes: number;
 }
-type NativeInputProps = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
-interface TimeInputProps extends NativeInputProps {
+type BaseInputProps = Omit<React$1.ComponentProps<typeof Input>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect' | 'rightIcon' | 'ref'>;
+interface TimeInputProps extends BaseInputProps {
     time: TimeValue | null;
     setTime: (time: TimeValue | null) => void;
     timeFormat?: TimeFormat;
@@ -590,8 +597,10 @@ interface TimeInputProps extends NativeInputProps {
     inputDisabled?: boolean;
     size?: VariantProps<typeof inputVariants>['size'];
     inputClassName?: string;
+    icon?: React$1.ReactNode;
+    formatDisplay?: (time: TimeValue) => string;
 }
-declare function TimeInput({ time, setTime, timeFormat, minuteStep, inputDisabled, className, inputClassName, size, placeholder, onBlur, ...restProps }: TimeInputProps): react_jsx_runtime.JSX.Element;
+declare function TimeInput({ time, setTime, timeFormat, minuteStep, inputDisabled, className, inputClassName, size, placeholder, onBlur, icon, formatDisplay, ...restProps }: TimeInputProps): react_jsx_runtime.JSX.Element;
 
 declare const toggleVariants: (props?: ({
     variant?: "default" | "outline" | null | undefined;

@@ -8,7 +8,7 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { DateInput } from '@/index'
+import { CalendarDayButton, DateInput } from '@/index'
 import { useState } from 'react'
 import { CodeBlock } from '../buttons/CodeBlock'
 
@@ -19,6 +19,7 @@ export function DateInputDemo() {
   const [date4, setDate4] = useState<Date | null>(null)
   const [date5, setDate5] = useState<Date | null>(null)
   const [date6, setDate6] = useState<Date | null>(null)
+  const [date7, setDate7] = useState<Date | null>(null)
 
   const [dateFmt1, setDateFmt1] = useState<Date | null>(null)
   const [dateFmt2, setDateFmt2] = useState<Date | null>(null)
@@ -112,6 +113,25 @@ export function DateInputDemo() {
               />
               <p className="text-xs text-muted-foreground">
                 Sundays are disabled using flattened Calendar props
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="mb-2 block text-sm font-medium">
+                Custom Calendar Components
+              </Label>
+              <DateInput
+                date={date7}
+                setDate={setDate7}
+                disableFuture={false}
+                components={{
+                  DayButton: (props) => (
+                    <CalendarDayButton {...props} className="rounded-full" />
+                  ),
+                }}
+              />
+              <p className="text-xs text-muted-foreground">
+                Custom DayButton with rounded-full style
               </p>
             </div>
           </div>
@@ -392,6 +412,9 @@ interface DateInputProps extends NativeInputProps, FlattenedCalendarProps {
   captionLayout?: React.ComponentProps<typeof Calendar>['captionLayout']
   showOutsideDays?: React.ComponentProps<typeof Calendar>['showOutsideDays']
   classNames?: React.ComponentProps<typeof Calendar>['classNames']
+  components?: React.ComponentProps<typeof Calendar>['components']
+  formatters?: React.ComponentProps<typeof Calendar>['formatters']
+  buttonVariant?: React.ComponentProps<typeof Calendar>['buttonVariant']
 }`}
           />
         </CardContent>

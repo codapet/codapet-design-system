@@ -2174,6 +2174,9 @@ function DateInput({
   captionLayout = "dropdown",
   showOutsideDays = false,
   classNames,
+  components,
+  formatters,
+  buttonVariant,
   placeholder,
   onBlur,
   ...restProps
@@ -2269,6 +2272,9 @@ function DateInput({
       calendarClassName
     ),
     classNames,
+    components,
+    formatters,
+    buttonVariant,
     onSelect: onSelect ?? defaultCalendarOnSelect,
     disabled: calendarDisabled ?? defaultCalendarDisabled
   };
@@ -2351,11 +2357,7 @@ function DateInput({
 
 // src/components/ui/date-range-input.tsx
 import "class-variance-authority";
-import {
-  format as dateFnsFormat2,
-  parse as dateFnsParse2,
-  isValid as isValid2
-} from "date-fns";
+import { format as dateFnsFormat2, isValid as isValid2 } from "date-fns";
 import { CalendarDays as CalendarDays2 } from "lucide-react";
 import * as React21 from "react";
 import { jsx as jsx23, jsxs as jsxs11 } from "react/jsx-runtime";
@@ -2379,65 +2381,6 @@ var DATE_FORMAT_PLACEHOLDER2 = {
   "MMMM D, YYYY": "Month d, yyyy",
   "D MMMM YYYY": "d Month yyyy"
 };
-var INPUT_PROP_KEYS2 = /* @__PURE__ */ new Set([
-  "accept",
-  "alt",
-  "autoComplete",
-  "autoFocus",
-  "capture",
-  "checked",
-  "dirName",
-  "form",
-  "formAction",
-  "formEncType",
-  "formMethod",
-  "formNoValidate",
-  "formTarget",
-  "height",
-  "list",
-  "maxLength",
-  "minLength",
-  "multiple",
-  "name",
-  "pattern",
-  "readOnly",
-  "required",
-  "size",
-  "src",
-  "step",
-  "type",
-  "width",
-  "id",
-  "inputMode",
-  "lang",
-  "tabIndex",
-  "title",
-  "role",
-  "style",
-  "onFocus",
-  "onFocusCapture",
-  "onBlurCapture",
-  "onInput",
-  "onInvalid",
-  "onKeyDownCapture",
-  "onKeyPress",
-  "onKeyPressCapture",
-  "onKeyUp",
-  "onKeyUpCapture",
-  "onPaste",
-  "onPasteCapture",
-  "onPointerDown",
-  "onPointerDownCapture",
-  "onPointerUp",
-  "onPointerUpCapture",
-  "onMouseDown",
-  "onMouseDownCapture",
-  "onMouseUp",
-  "onMouseUpCapture",
-  "onCompositionEnd",
-  "onCompositionStart",
-  "onCompositionUpdate"
-]);
 function formatDate2(date, dateFormat = "MM/DD/YYYY") {
   if (!date || !isValid2(date)) {
     return "";
@@ -2451,27 +2394,6 @@ function formatRange(range, dateFormat = "MM/DD/YYYY") {
   if (from && to) return from === to ? from : `${from} \u2013 ${to}`;
   if (from) return from;
   return "";
-}
-function parseRange(value, dateFormat = "MM/DD/YYYY") {
-  if (!value) return null;
-  const parts = value.split(/\s*[\u2013\-]\s*/);
-  const fromStr = parts[0]?.trim();
-  if (!fromStr) return null;
-  const fromParsed = dateFnsParse2(
-    fromStr,
-    DATE_FORMAT_TOKENS2[dateFormat],
-    /* @__PURE__ */ new Date()
-  );
-  if (!isValid2(fromParsed)) return null;
-  const toStr = parts[1]?.trim();
-  if (!toStr) return { from: fromParsed, to: void 0 };
-  const toParsed = dateFnsParse2(
-    toStr,
-    DATE_FORMAT_TOKENS2[dateFormat],
-    /* @__PURE__ */ new Date()
-  );
-  if (!isValid2(toParsed)) return { from: fromParsed, to: void 0 };
-  return { from: fromParsed, to: toParsed };
 }
 function rangePlaceholder(dateFormat) {
   const p = DATE_FORMAT_PLACEHOLDER2[dateFormat];
@@ -2496,8 +2418,11 @@ function DateRangeInput({
   captionLayout = "dropdown",
   showOutsideDays = false,
   classNames,
+  components,
+  formatters,
+  buttonVariant,
   placeholder,
-  onBlur,
+  size,
   ...restProps
 }) {
   const resolvedPlaceholder = placeholder ?? rangePlaceholder(dateFormat);
@@ -2505,23 +2430,12 @@ function DateRangeInput({
   const [monthState, setMonthState] = React21.useState(
     dateRange?.from ?? null
   );
-  const [value, setValue] = React21.useState(formatRange(dateRange, dateFormat));
-  const [inputProps, calendarProps] = React21.useMemo(() => {
-    const nextInputProps = {};
-    const nextCalendarProps = {};
-    for (const [key, val] of Object.entries(restProps)) {
-      const isInputProp = INPUT_PROP_KEYS2.has(key) || key.startsWith("aria-") || key.startsWith("data-");
-      if (isInputProp) {
-        nextInputProps[key] = val;
-      } else {
-        nextCalendarProps[key] = val;
-      }
+  const displayValue = formatRange(dateRange, dateFormat);
+  React21.useEffect(() => {
+    if (dateRange?.from) {
+      setMonthState(dateRange.from);
     }
-    return [
-      nextInputProps,
-      nextCalendarProps
-    ];
-  }, [restProps]);
+  }, [dateRange]);
   const today = React21.useMemo(() => {
     const d = /* @__PURE__ */ new Date();
     d.setHours(0, 0, 0, 0);
@@ -2551,12 +2465,6 @@ function DateRangeInput({
     }
     return null;
   }, [minDate]);
-  React21.useEffect(() => {
-    setValue(formatRange(dateRange, dateFormat));
-    if (dateRange?.from) {
-      setMonthState(dateRange.from);
-    }
-  }, [dateRange, dateFormat]);
   const effectiveMonth = month ?? monthState ?? void 0;
   const effectiveSelected = selected ?? dateRange;
   const isInputDisabled = inputDisabled ?? (typeof calendarDisabled === "boolean" ? calendarDisabled : false);
@@ -2584,7 +2492,7 @@ function DateRangeInput({
     setOpen(false);
   };
   const resolvedCalendarProps = {
-    ...calendarProps,
+    ...restProps,
     mode: "range",
     selected: effectiveSelected,
     captionLayout,
@@ -2596,117 +2504,56 @@ function DateRangeInput({
       calendarClassName
     ),
     classNames,
+    components,
+    formatters,
+    buttonVariant,
     onSelect: handleCalendarSelect,
     disabled: calendarDisabled ?? defaultCalendarDisabled
   };
-  const handleInputChange = (e) => {
-    const inputValue = e.target.value;
-    setValue(inputValue);
-    if (inputValue === "") {
-      setDateRange(void 0);
-      return;
-    }
-    const parsed = parseRange(inputValue, dateFormat);
-    if (!parsed || !parsed.from) return;
-    const from = new Date(parsed.from);
-    from.setHours(0, 0, 0, 0);
-    if (!isWithinBounds(from)) return;
-    if (parsed.to) {
-      const to = new Date(parsed.to);
-      to.setHours(0, 0, 0, 0);
-      if (isWithinBounds(to) && from <= to) {
-        setDateRange(parsed);
-        setMonthState(from);
-      }
-    } else {
-      setDateRange({ from: parsed.from, to: void 0 });
-      setMonthState(from);
-    }
-  };
-  const handleBlur = (e) => {
-    onBlur?.(e);
-    if (value === "") {
-      if (dateRange !== void 0) {
-        setDateRange(void 0);
-      }
-      return;
-    }
-    const parsed = parseRange(value, dateFormat);
-    if (!parsed || !parsed.from) {
-      setValue(formatRange(dateRange, dateFormat));
-      return;
-    }
-    const from = new Date(parsed.from);
-    from.setHours(0, 0, 0, 0);
-    if (!isWithinBounds(from)) {
-      setValue(formatRange(dateRange, dateFormat));
-      return;
-    }
-    if (parsed.to) {
-      const to = new Date(parsed.to);
-      to.setHours(0, 0, 0, 0);
-      if (!isWithinBounds(to) || from > to) {
-        setValue(formatRange(dateRange, dateFormat));
-      }
-    }
-  };
   return /* @__PURE__ */ jsx23("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs11(Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ jsx23(PopoverTrigger, { asChild: true, disabled: isInputDisabled, children: /* @__PURE__ */ jsx23("div", { className: "w-full relative", children: /* @__PURE__ */ jsx23(
-      Input,
+    /* @__PURE__ */ jsx23(PopoverTrigger, { asChild: true, disabled: isInputDisabled, children: /* @__PURE__ */ jsxs11(
+      Button,
       {
-        value,
-        placeholder: resolvedPlaceholder,
-        className: cn("bg-background cursor-pointer", inputClassName),
-        onChange: handleInputChange,
-        onBlur: handleBlur,
+        type: "button",
+        variant: "outline",
+        className: cn(
+          inputVariants({ size }),
+          "bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal",
+          isInputDisabled && "pointer-events-none cursor-not-allowed opacity-50",
+          inputClassName
+        ),
         disabled: isInputDisabled,
-        onKeyDown: (e) => {
-          if (e.key === "ArrowDown" && !isInputDisabled) {
-            e.preventDefault();
-            setOpen(true);
-          }
-        },
-        rightIcon: /* @__PURE__ */ jsx23(CalendarDays2, { className: "h-4 w-4 text-muted-foreground" }),
-        rightIconOnClick: isInputDisabled ? void 0 : () => setOpen(!open),
-        rightIconButtonProps: { disabled: isInputDisabled },
-        ...inputProps
-      }
-    ) }) }),
-    /* @__PURE__ */ jsxs11(
-      PopoverContent,
-      {
-        className: "w-auto p-0 flex flex-col overflow-y-auto max-h-[min(90dvh,520px)]",
-        align: "end",
-        alignOffset: -8,
-        sideOffset: 10,
-        side: "top",
         children: [
-          /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps }),
-          /* @__PURE__ */ jsxs11("div", { className: "flex  flex-col gap-2 px-2 py-2", children: [
-            /* @__PURE__ */ jsx23(
-              Button,
-              {
-                variant: "ghost-secondary",
-                size: "sm",
-                onClick: handleClear,
-                type: "button",
-                children: "Clear"
-              }
-            ),
-            /* @__PURE__ */ jsx23(
-              Button,
-              {
-                variant: "primary",
-                size: "sm",
-                onClick: handleAdd,
-                type: "button",
-                children: "Add"
-              }
-            )
-          ] })
+          displayValue || resolvedPlaceholder,
+          /* @__PURE__ */ jsx23(CalendarDays2, { className: "h-4 w-4 text-muted-foreground shrink-0" })
         ]
       }
-    )
+    ) }),
+    /* @__PURE__ */ jsxs11(PopoverContent, { className: "p-0 flex flex-col overflow-y-auto max-h-[min(90dvh,520px)] md:w-[350px] w-[var(--radix-popover-trigger-width)] ", children: [
+      /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps }),
+      /* @__PURE__ */ jsxs11("div", { className: "flex  flex-col gap-2 px-2 py-2", children: [
+        /* @__PURE__ */ jsx23(
+          Button,
+          {
+            variant: "ghost-secondary",
+            size: "sm",
+            onClick: handleClear,
+            type: "button",
+            children: "Clear"
+          }
+        ),
+        /* @__PURE__ */ jsx23(
+          Button,
+          {
+            variant: "primary",
+            size: "sm",
+            onClick: handleAdd,
+            type: "button",
+            children: "Add"
+          }
+        )
+      ] })
+    ] })
   ] }) });
 }
 
@@ -5351,26 +5198,47 @@ import "class-variance-authority";
 import { Clock } from "lucide-react";
 import * as React46 from "react";
 import { jsx as jsx49, jsxs as jsxs24 } from "react/jsx-runtime";
+var TIME_FORMAT_PLACEHOLDER = {
+  "12h": "hh:mm AM/PM",
+  "24h": "HH:mm",
+  "h:mm a": "h:mm am/pm",
+  "h:mm A": "h:mm AM/PM"
+};
+function is24HourFormat(tf) {
+  return tf === "24h";
+}
 function formatTime(time, timeFormat = "12h") {
   if (!time) return "";
-  if (timeFormat === "24h") {
-    return `${String(time.hours).padStart(2, "0")}:${String(time.minutes).padStart(2, "0")}`;
+  const { hours, minutes } = time;
+  const h24 = String(hours).padStart(2, "0");
+  const m = String(minutes).padStart(2, "0");
+  const h12 = hours % 12 || 12;
+  const h12p = String(h12).padStart(2, "0");
+  const period = hours >= 12 ? "PM" : "AM";
+  switch (timeFormat) {
+    case "24h":
+      return `${h24}:${m}`;
+    case "h:mm a":
+      return `${h12}:${m} ${period.toLowerCase()}`;
+    case "h:mm A":
+      return `${h12}:${m} ${period}`;
+    case "12h":
+    default:
+      return `${h12p}:${m} ${period}`;
   }
-  const period = time.hours >= 12 ? "PM" : "AM";
-  const h12 = time.hours % 12 || 12;
-  return `${String(h12).padStart(2, "0")}:${String(time.minutes).padStart(2, "0")} ${period}`;
 }
 function parseTime(value, timeFormat = "12h") {
   if (!value.trim()) return null;
-  if (timeFormat === "24h") {
-    const match2 = value.trim().match(/^(\d{1,2}):(\d{2})$/);
+  const v = value.trim();
+  if (is24HourFormat(timeFormat)) {
+    const match2 = v.match(/^(\d{1,2}):(\d{2})$/);
     if (!match2) return null;
     const hours2 = parseInt(match2[1], 10);
     const minutes2 = parseInt(match2[2], 10);
     if (hours2 < 0 || hours2 > 23 || minutes2 < 0 || minutes2 > 59) return null;
     return { hours: hours2, minutes: minutes2 };
   }
-  const match = value.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)$/i);
+  const match = v.match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)$/i);
   if (!match) return null;
   let hours = parseInt(match[1], 10);
   const minutes = parseInt(match[2], 10);
@@ -5381,7 +5249,7 @@ function parseTime(value, timeFormat = "12h") {
   return { hours, minutes };
 }
 function getDisplayHour(hours, timeFormat) {
-  if (timeFormat === "24h") return hours;
+  if (is24HourFormat(timeFormat)) return hours;
   return hours % 12 || 12;
 }
 function getPeriod(hours) {
@@ -5398,17 +5266,27 @@ function TimeInput({
   size,
   placeholder,
   onBlur,
+  icon,
+  formatDisplay,
   ...restProps
 }) {
-  const resolvedPlaceholder = placeholder ?? (timeFormat === "12h" ? "hh:mm AM/PM" : "HH:mm");
+  const resolvedPlaceholder = placeholder ?? TIME_FORMAT_PLACEHOLDER[timeFormat];
+  const displayFormat = React46.useCallback(
+    (t) => {
+      if (!t) return "";
+      if (formatDisplay) return formatDisplay(t);
+      return formatTime(t, timeFormat);
+    },
+    [formatDisplay, timeFormat]
+  );
   const [open, setOpen] = React46.useState(false);
-  const [value, setValue] = React46.useState(formatTime(time, timeFormat));
+  const [value, setValue] = React46.useState(displayFormat(time));
   const hoursRef = React46.useRef(null);
   const minutesRef = React46.useRef(null);
   const periodRef = React46.useRef(null);
   React46.useEffect(() => {
-    setValue(formatTime(time, timeFormat));
-  }, [time, timeFormat]);
+    setValue(displayFormat(time));
+  }, [time, displayFormat]);
   const scrollToSelected = React46.useCallback(() => {
     requestAnimationFrame(() => {
       for (const ref of [hoursRef, minutesRef, periodRef]) {
@@ -5446,12 +5324,12 @@ function TimeInput({
     }
     const parsed = parseTime(value, timeFormat);
     if (!parsed) {
-      setValue(formatTime(time, timeFormat));
+      setValue(displayFormat(time));
     }
   };
   const handleHourSelect = (hour) => {
     let h24;
-    if (timeFormat === "24h") {
+    if (is24HourFormat(timeFormat)) {
       h24 = hour;
     } else {
       const currentPeriod = time ? getPeriod(time.hours) : "AM";
@@ -5472,7 +5350,7 @@ function TimeInput({
     const newHours = period === "AM" ? currentH12 : currentH12 + 12;
     setTime({ hours: newHours, minutes: time?.minutes ?? 0 });
   };
-  const hoursList = timeFormat === "12h" ? Array.from({ length: 12 }, (_, i) => i + 1) : Array.from({ length: 24 }, (_, i) => i);
+  const hoursList = is24HourFormat(timeFormat) ? Array.from({ length: 24 }, (_, i) => i) : Array.from({ length: 12 }, (_, i) => i + 1);
   const minutesList = Array.from(
     { length: Math.ceil(60 / minuteStep) },
     (_, i) => i * minuteStep
@@ -5500,7 +5378,7 @@ function TimeInput({
             setOpen(true);
           }
         },
-        rightIcon: /* @__PURE__ */ jsx49(Clock, { className: "h-4 w-4 text-muted-foreground" }),
+        rightIcon: icon !== void 0 ? icon : /* @__PURE__ */ jsx49(Clock, { className: "h-4 w-4 text-muted-foreground" }),
         ...restProps
       }
     ) }) }),
@@ -5508,10 +5386,6 @@ function TimeInput({
       PopoverContent,
       {
         className: "w-auto p-0 ",
-        align: "end",
-        alignOffset: -8,
-        sideOffset: 10,
-        side: "top",
         onOpenAutoFocus: (e) => e.preventDefault(),
         children: /* @__PURE__ */ jsxs24("div", { className: "flex divide-x", children: [
           /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx49(
@@ -5529,7 +5403,7 @@ function TimeInput({
             },
             h
           )) }) }),
-          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: minutesRef, className: "flex flex-col p-1", children: minutesList.map((m) => /* @__PURE__ */ jsx49(
+          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: minutesRef, className: "flex flex-col p-1 ", children: minutesList.map((m) => /* @__PURE__ */ jsx49(
             Button,
             {
               variant: "ghost",
@@ -5544,7 +5418,7 @@ function TimeInput({
             },
             m
           )) }) }),
-          timeFormat === "12h" && /* @__PURE__ */ jsx49("div", { className: "flex flex-col p-1 justify-center gap-1", children: ["AM", "PM"].map((p) => /* @__PURE__ */ jsx49(
+          !is24HourFormat(timeFormat) && /* @__PURE__ */ jsx49("div", { className: "flex flex-col p-1 justify-center gap-1", children: ["AM", "PM"].map((p) => /* @__PURE__ */ jsx49(
             Button,
             {
               variant: "ghost",

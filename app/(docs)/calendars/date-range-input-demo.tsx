@@ -8,7 +8,7 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { DateRangeInput } from '@/index'
+import { CalendarDayButton, DateRangeInput } from '@/index'
 import type { DateRange } from '@/index'
 import { useState } from 'react'
 import { CodeBlock } from '../buttons/CodeBlock'
@@ -17,6 +17,7 @@ export function DateRangeInputDemo() {
   const [range1, setRange1] = useState<DateRange | undefined>(undefined)
   const [range2, setRange2] = useState<DateRange | undefined>(undefined)
   const [range3, setRange3] = useState<DateRange | undefined>(undefined)
+  const [range4, setRange4] = useState<DateRange | undefined>(undefined)
 
   return (
     <>
@@ -71,6 +72,25 @@ export function DateRangeInputDemo() {
                 dateFormat="YYYY-MM-DD"
                 disableFuture={false}
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="mb-2 block text-sm font-medium">
+                Custom Calendar Components
+              </Label>
+              <DateRangeInput
+                dateRange={range4}
+                setDateRange={setRange4}
+                disableFuture={false}
+                components={{
+                  DayButton: (props) => (
+                    <CalendarDayButton {...props} className="rounded-full" />
+                  ),
+                }}
+              />
+              <p className="text-xs text-muted-foreground">
+                Custom DayButton with rounded-full style
+              </p>
             </div>
           </div>
 
@@ -166,6 +186,11 @@ interface DateRangeInputProps {
   captionLayout?: 'label' | 'dropdown'  // default: 'dropdown'
   showOutsideDays?: boolean         // default: false
   classNames?: Calendar['classNames']
+
+  // Calendar component overrides
+  components?: React.ComponentProps<typeof Calendar>['components']
+  formatters?: React.ComponentProps<typeof Calendar>['formatters']
+  buttonVariant?: React.ComponentProps<typeof Calendar>['buttonVariant']
 
   // Advanced calendar overrides
   selected?: DateRange

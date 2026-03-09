@@ -10,7 +10,8 @@ import {
 import { Label } from '@/components/ui/label'
 import { TimeInput } from '@/index'
 import type { TimeValue } from '@/index'
-import { useState } from 'react'
+import { AlarmClock } from 'lucide-react'
+import { useCallback, useState } from 'react'
 import { CodeBlock } from '../buttons/CodeBlock'
 
 export function TimeInputDemo() {
@@ -18,6 +19,15 @@ export function TimeInputDemo() {
   const [time2, setTime2] = useState<TimeValue | null>(null)
   const [time3, setTime3] = useState<TimeValue | null>(null)
   const [time4, setTime4] = useState<TimeValue | null>({ hours: 14, minutes: 30 })
+  const [time5, setTime5] = useState<TimeValue | null>(null)
+  const [time6, setTime6] = useState<TimeValue | null>(null)
+  const [time7, setTime7] = useState<TimeValue | null>({ hours: 9, minutes: 5 })
+
+  const customFormatter = useCallback((t: TimeValue) => {
+    const h = t.hours % 12 || 12
+    const period = t.hours >= 12 ? 'PM' : 'AM'
+    return `${h}:${String(t.minutes).padStart(2, '0')} ${period} (${String(t.hours).padStart(2, '0')}:${String(t.minutes).padStart(2, '0')})`
+  }, [])
 
   return (
     <>
@@ -76,14 +86,61 @@ export function TimeInputDemo() {
                 Initial value: 2:30 PM
               </p>
             </div>
+
+            <div className="space-y-2">
+              <Label className="mb-2 block text-sm font-medium">
+                Lowercase Format (h:mm a)
+              </Label>
+              <TimeInput
+                time={time5}
+                setTime={setTime5}
+                timeFormat="h:mm a"
+              />
+              <p className="text-xs text-muted-foreground">
+                No leading zero, lowercase am/pm
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="mb-2 block text-sm font-medium">
+                Custom Icon
+              </Label>
+              <TimeInput
+                time={time6}
+                setTime={setTime6}
+                icon={<AlarmClock className="h-4 w-4 text-muted-foreground" />}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="mb-2 block text-sm font-medium">
+                Custom Formatter
+              </Label>
+              <TimeInput
+                time={time7}
+                setTime={setTime7}
+                formatDisplay={customFormatter}
+                placeholder="h:mm AM (HH:mm)"
+              />
+              <p className="text-xs text-muted-foreground">
+                Shows both 12h and 24h: 9:05 AM (09:05)
+              </p>
+            </div>
           </div>
 
           <CodeBlock
             code={`import { TimeInput, type TimeValue } from '@codapet/design-system'
-import { useState } from 'react'
+import { AlarmClock } from 'lucide-react'
+import { useCallback, useState } from 'react'
 
 export function Example() {
   const [time, setTime] = useState<TimeValue | null>(null)
+
+  const customFormatter = useCallback((t: TimeValue) => {
+    const h = t.hours % 12 || 12
+    const period = t.hours >= 12 ? 'PM' : 'AM'
+    return \`\${h}:\${String(t.minutes).padStart(2, '0')} \${period}\`
+  }, [])
 
   return (
     <>
@@ -93,13 +150,24 @@ export function Example() {
       {/* 24-hour format */}
       <TimeInput time={time} setTime={setTime} timeFormat="24h" />
 
-      {/* Minute step of 15 */}
-      <TimeInput time={time} setTime={setTime} minuteStep={15} />
+      {/* Lowercase am/pm, no leading zero */}
+      <TimeInput time={time} setTime={setTime} timeFormat="h:mm a" />
 
-      {/* Pre-filled value */}
+      {/* Custom icon */}
       <TimeInput
-        time={{ hours: 14, minutes: 30 }}
+        time={time}
         setTime={setTime}
+        icon={<AlarmClock className="h-4 w-4 text-muted-foreground" />}
+      />
+
+      {/* Hide icon */}
+      <TimeInput time={time} setTime={setTime} icon={null} />
+
+      {/* Custom display formatter */}
+      <TimeInput
+        time={time}
+        setTime={setTime}
+        formatDisplay={customFormatter}
       />
     </>
   )
@@ -120,7 +188,7 @@ export function Example() {
         </CardHeader>
         <CardContent className="space-y-6">
           <CodeBlock
-            code={`type TimeFormat = '12h' | '24h'
+            code={`type TimeFormat = '12h' | '24h' | 'h:mm a' | 'h:mm A'
 
 interface TimeValue {
   hours: number   // 0-23 (always stored in 24h internally)
@@ -135,11 +203,15 @@ interface TimeInputProps {
   // Format
   timeFormat?: TimeFormat       // default: '12h'
   minuteStep?: number           // default: 1 (e.g. 5, 10, 15, 30)
+  formatDisplay?: (time: TimeValue) => string // custom display formatter
+
+  // Icon
+  icon?: React.ReactNode        // default: Clock icon, pass null to hide
 
   // Input configuration
   inputDisabled?: boolean
   size?: 'sm' | 'md' | 'lg'
-  placeholder?: string          // default: 'hh:mm AM/PM' or 'HH:mm'
+  placeholder?: string          // auto-generated per format
 
   // Styling
   className?: string            // wrapper className

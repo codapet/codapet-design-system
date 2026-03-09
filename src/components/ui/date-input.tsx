@@ -57,6 +57,9 @@ type FlattenedCalendarProps = Omit<
   | 'captionLayout'
   | 'showOutsideDays'
   | 'classNames'
+  | 'components'
+  | 'formatters'
+  | 'buttonVariant'
 >
 
 const INPUT_PROP_KEYS = new Set([
@@ -152,6 +155,9 @@ export interface DateInputProps extends NativeInputProps, FlattenedCalendarProps
   captionLayout?: React.ComponentProps<typeof Calendar>['captionLayout']
   showOutsideDays?: React.ComponentProps<typeof Calendar>['showOutsideDays']
   classNames?: React.ComponentProps<typeof Calendar>['classNames']
+  components?: React.ComponentProps<typeof Calendar>['components']
+  formatters?: React.ComponentProps<typeof Calendar>['formatters']
+  buttonVariant?: React.ComponentProps<typeof Calendar>['buttonVariant']
 }
 
 export function DateInput({
@@ -174,6 +180,9 @@ export function DateInput({
   captionLayout = 'dropdown',
   showOutsideDays = false,
   classNames,
+  components,
+  formatters,
+  buttonVariant,
   placeholder,
   onBlur,
   ...restProps
@@ -298,6 +307,9 @@ export function DateInput({
       calendarClassName
     ),
     classNames,
+    components,
+    formatters,
+    buttonVariant,
     onSelect: onSelect ?? defaultCalendarOnSelect,
     disabled: calendarDisabled ?? defaultCalendarDisabled
   } as React.ComponentProps<typeof Calendar>

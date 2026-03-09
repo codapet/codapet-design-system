@@ -1,17 +1,13 @@
 import { cn } from '@/lib/utils'
 import { type VariantProps } from 'class-variance-authority'
-import {
-  format as dateFnsFormat,
-  parse as dateFnsParse,
-  isValid
-} from 'date-fns'
+import { format as dateFnsFormat, isValid } from 'date-fns'
 import { CalendarDays } from 'lucide-react'
 import * as React from 'react'
 import type { DateRange } from 'react-day-picker'
 import { Button } from './button'
 import { Calendar } from './calendar'
 import type { DateFormat } from './date-input'
-import { Input, inputVariants } from './input'
+import { inputVariants } from './input'
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
 
 export type { DateRange }
@@ -38,11 +34,6 @@ const DATE_FORMAT_PLACEHOLDER: Record<DateFormat, string> = {
   'D MMMM YYYY': 'd Month yyyy'
 }
 
-type NativeInputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'
->
-
 type FlattenedCalendarProps = Omit<
   React.ComponentProps<typeof Calendar>,
   | keyof React.InputHTMLAttributes<HTMLInputElement>
@@ -56,67 +47,10 @@ type FlattenedCalendarProps = Omit<
   | 'captionLayout'
   | 'showOutsideDays'
   | 'classNames'
+  | 'components'
+  | 'formatters'
+  | 'buttonVariant'
 >
-
-const INPUT_PROP_KEYS = new Set([
-  'accept',
-  'alt',
-  'autoComplete',
-  'autoFocus',
-  'capture',
-  'checked',
-  'dirName',
-  'form',
-  'formAction',
-  'formEncType',
-  'formMethod',
-  'formNoValidate',
-  'formTarget',
-  'height',
-  'list',
-  'maxLength',
-  'minLength',
-  'multiple',
-  'name',
-  'pattern',
-  'readOnly',
-  'required',
-  'size',
-  'src',
-  'step',
-  'type',
-  'width',
-  'id',
-  'inputMode',
-  'lang',
-  'tabIndex',
-  'title',
-  'role',
-  'style',
-  'onFocus',
-  'onFocusCapture',
-  'onBlurCapture',
-  'onInput',
-  'onInvalid',
-  'onKeyDownCapture',
-  'onKeyPress',
-  'onKeyPressCapture',
-  'onKeyUp',
-  'onKeyUpCapture',
-  'onPaste',
-  'onPasteCapture',
-  'onPointerDown',
-  'onPointerDownCapture',
-  'onPointerUp',
-  'onPointerUpCapture',
-  'onMouseDown',
-  'onMouseDownCapture',
-  'onMouseUp',
-  'onMouseUpCapture',
-  'onCompositionEnd',
-  'onCompositionStart',
-  'onCompositionUpdate'
-])
 
 function formatDate(
   date: Date | null | undefined,
@@ -140,43 +74,12 @@ function formatRange(
   return ''
 }
 
-function parseRange(
-  value: string,
-  dateFormat: DateFormat = 'MM/DD/YYYY'
-): DateRange | null {
-  if (!value) return null
-  const parts = value.split(/\s*[\u2013\-]\s*/)
-
-  const fromStr = parts[0]?.trim()
-  if (!fromStr) return null
-
-  const fromParsed = dateFnsParse(
-    fromStr,
-    DATE_FORMAT_TOKENS[dateFormat],
-    new Date()
-  )
-  if (!isValid(fromParsed)) return null
-
-  const toStr = parts[1]?.trim()
-  if (!toStr) return { from: fromParsed, to: undefined }
-
-  const toParsed = dateFnsParse(
-    toStr,
-    DATE_FORMAT_TOKENS[dateFormat],
-    new Date()
-  )
-  if (!isValid(toParsed)) return { from: fromParsed, to: undefined }
-
-  return { from: fromParsed, to: toParsed }
-}
-
 function rangePlaceholder(dateFormat: DateFormat) {
   const p = DATE_FORMAT_PLACEHOLDER[dateFormat]
   return `${p} \u2013 ${p}`
 }
 
-export interface DateRangeInputProps
-  extends NativeInputProps, FlattenedCalendarProps {
+export interface DateRangeInputProps extends FlattenedCalendarProps {
   dateRange: DateRange | undefined
   setDateRange: (range: DateRange | undefined) => void
   maxDate?: Date | null
@@ -184,9 +87,11 @@ export interface DateRangeInputProps
   disableFuture?: boolean
   inputDisabled?: boolean
   size?: VariantProps<typeof inputVariants>['size']
+  className?: string
   inputClassName?: string
   calendarClassName?: string
   dateFormat?: DateFormat
+  placeholder?: string
   selected?: DateRange
   onSelect?: (range: DateRange | undefined) => void
   month?: React.ComponentProps<typeof Calendar>['month']
@@ -195,6 +100,9 @@ export interface DateRangeInputProps
   captionLayout?: React.ComponentProps<typeof Calendar>['captionLayout']
   showOutsideDays?: React.ComponentProps<typeof Calendar>['showOutsideDays']
   classNames?: React.ComponentProps<typeof Calendar>['classNames']
+  components?: React.ComponentProps<typeof Calendar>['components']
+  formatters?: React.ComponentProps<typeof Calendar>['formatters']
+  buttonVariant?: React.ComponentProps<typeof Calendar>['buttonVariant']
 }
 
 export function DateRangeInput({
@@ -216,8 +124,11 @@ export function DateRangeInput({
   captionLayout = 'dropdown',
   showOutsideDays = false,
   classNames,
+  components,
+  formatters,
+  buttonVariant,
   placeholder,
-  onBlur,
+  size,
   ...restProps
 }: DateRangeInputProps) {
   const resolvedPlaceholder = placeholder ?? rangePlaceholder(dateFormat)
@@ -225,41 +136,14 @@ export function DateRangeInput({
   const [monthState, setMonthState] = React.useState<Date | null>(
     dateRange?.from ?? null
   )
-  const [value, setValue] = React.useState(formatRange(dateRange, dateFormat))
 
-  const [inputProps, calendarProps] = React.useMemo(() => {
-    const nextInputProps: Record<string, unknown> = {}
-    const nextCalendarProps: Record<string, unknown> = {}
+  const displayValue = formatRange(dateRange, dateFormat)
 
-    for (const [key, val] of Object.entries(restProps)) {
-      const isInputProp =
-        INPUT_PROP_KEYS.has(key) ||
-        key.startsWith('aria-') ||
-        key.startsWith('data-')
-
-      if (isInputProp) {
-        nextInputProps[key] = val
-      } else {
-        nextCalendarProps[key] = val
-      }
+  React.useEffect(() => {
+    if (dateRange?.from) {
+      setMonthState(dateRange.from)
     }
-
-    return [
-      nextInputProps as Partial<React.ComponentProps<typeof Input>>,
-      nextCalendarProps as Omit<
-        React.ComponentProps<typeof Calendar>,
-        | 'mode'
-        | 'selected'
-        | 'onSelect'
-        | 'month'
-        | 'onMonthChange'
-        | 'disabled'
-        | 'captionLayout'
-        | 'showOutsideDays'
-        | 'classNames'
-      >
-    ]
-  }, [restProps])
+  }, [dateRange])
 
   const today = React.useMemo(() => {
     const d = new Date()
@@ -292,13 +176,6 @@ export function DateRangeInput({
     }
     return null
   }, [minDate])
-
-  React.useEffect(() => {
-    setValue(formatRange(dateRange, dateFormat))
-    if (dateRange?.from) {
-      setMonthState(dateRange.from)
-    }
-  }, [dateRange, dateFormat])
 
   const effectiveMonth = month ?? monthState ?? undefined
   const effectiveSelected = selected ?? dateRange
@@ -335,7 +212,7 @@ export function DateRangeInput({
   }
 
   const resolvedCalendarProps = {
-    ...calendarProps,
+    ...restProps,
     mode: 'range' as const,
     selected: effectiveSelected,
     captionLayout,
@@ -347,107 +224,34 @@ export function DateRangeInput({
       calendarClassName
     ),
     classNames,
+    components,
+    formatters,
+    buttonVariant,
     onSelect: handleCalendarSelect,
     disabled: calendarDisabled ?? defaultCalendarDisabled
   } as React.ComponentProps<typeof Calendar>
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value
-    setValue(inputValue)
-
-    if (inputValue === '') {
-      setDateRange(undefined)
-      return
-    }
-
-    const parsed = parseRange(inputValue, dateFormat)
-    if (!parsed || !parsed.from) return
-
-    const from = new Date(parsed.from)
-    from.setHours(0, 0, 0, 0)
-    if (!isWithinBounds(from)) return
-
-    if (parsed.to) {
-      const to = new Date(parsed.to)
-      to.setHours(0, 0, 0, 0)
-      if (isWithinBounds(to) && from <= to) {
-        setDateRange(parsed)
-        setMonthState(from)
-      }
-    } else {
-      setDateRange({ from: parsed.from, to: undefined })
-      setMonthState(from)
-    }
-  }
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    onBlur?.(e)
-
-    if (value === '') {
-      if (dateRange !== undefined) {
-        setDateRange(undefined)
-      }
-      return
-    }
-
-    const parsed = parseRange(value, dateFormat)
-    if (!parsed || !parsed.from) {
-      setValue(formatRange(dateRange, dateFormat))
-      return
-    }
-
-    const from = new Date(parsed.from)
-    from.setHours(0, 0, 0, 0)
-    if (!isWithinBounds(from)) {
-      setValue(formatRange(dateRange, dateFormat))
-      return
-    }
-
-    if (parsed.to) {
-      const to = new Date(parsed.to)
-      to.setHours(0, 0, 0, 0)
-      if (!isWithinBounds(to) || from > to) {
-        setValue(formatRange(dateRange, dateFormat))
-      }
-    }
-  }
 
   return (
     <div className={cn('relative flex gap-2', className)}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild disabled={isInputDisabled}>
-          <div className="w-full relative">
-            <Input
-              value={value}
-              placeholder={resolvedPlaceholder}
-              className={cn('bg-background cursor-pointer', inputClassName)}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-              disabled={isInputDisabled}
-              onKeyDown={e => {
-                if (e.key === 'ArrowDown' && !isInputDisabled) {
-                  e.preventDefault()
-                  setOpen(true)
-                }
-              }}
-              rightIcon={
-                <CalendarDays className="h-4 w-4 text-muted-foreground" />
-              }
-              rightIconOnClick={
-                isInputDisabled ? undefined : () => setOpen(!open)
-              }
-              rightIconButtonProps={{ disabled: isInputDisabled }}
-              {...(inputProps as Partial<React.ComponentProps<typeof Input>>)}
-            />
-          </div>
+          <Button
+            type="button"
+            variant="outline"
+            className={cn(
+              inputVariants({ size }),
+              'bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal',
+              isInputDisabled &&
+                'pointer-events-none cursor-not-allowed opacity-50',
+              inputClassName
+            )}
+            disabled={isInputDisabled}
+          >
+            {displayValue || resolvedPlaceholder}
+            <CalendarDays className="h-4 w-4 text-muted-foreground shrink-0" />
+          </Button>
         </PopoverTrigger>
-        <PopoverContent
-          className="w-auto p-0 flex flex-col overflow-y-auto max-h-[min(90dvh,520px)]"
-          align="end"
-          alignOffset={-8}
-          sideOffset={10}
-          side="top"
-        >
+        <PopoverContent className="p-0 flex flex-col overflow-y-auto max-h-[min(90dvh,520px)] md:w-[350px] w-[var(--radix-popover-trigger-width)] ">
           <Calendar {...resolvedCalendarProps} />
           <div className="flex  flex-col gap-2 px-2 py-2">
             <Button
