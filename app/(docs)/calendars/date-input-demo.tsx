@@ -42,7 +42,7 @@ export function DateInputDemo() {
             Date picker with input field and validation
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 w-screen">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label className="mb-2 block text-sm font-medium">
@@ -125,9 +125,9 @@ export function DateInputDemo() {
                 setDate={setDate7}
                 disableFuture={false}
                 components={{
-                  DayButton: (props) => (
+                  DayButton: props => (
                     <CalendarDayButton {...props} className="rounded-full" />
-                  ),
+                  )
                 }}
               />
               <p className="text-xs text-muted-foreground">

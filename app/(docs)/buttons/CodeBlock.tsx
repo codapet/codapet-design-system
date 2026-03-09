@@ -46,8 +46,8 @@ export function CodeBlock({ code, language = 'tsx' }: CodeBlockProps) {
             )}
           </button>
         </div>
-        <pre className="p-4 overflow-x-auto">
-          <code className="text-sm text-slate-100 font-mono whitespace-pre">
+        <pre className="p-3 md:p-4 overflow-x-auto">
+          <code className="text-xs md:text-sm text-slate-100 font-mono whitespace-pre">
             {code}
           </code>
         </pre>

@@ -2500,7 +2500,7 @@ function DateRangeInput({
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
     className: cn(
-      "md:w-auto w-[calc(100vw-50px)] mx-auto h-[350px] overflow-y-auto md:h-auto m-2",
+      "w-auto  mx-auto h-[350px] overflow-y-auto md:h-auto m-2",
       calendarClassName
     ),
     classNames,
@@ -2529,7 +2529,7 @@ function DateRangeInput({
         ]
       }
     ) }),
-    /* @__PURE__ */ jsxs11(PopoverContent, { className: "p-0 flex flex-col overflow-y-auto max-h-[min(90dvh,520px)] md:w-[350px] w-[var(--radix-popover-trigger-width)] ", children: [
+    /* @__PURE__ */ jsxs11(PopoverContent, { className: "p-0 flex flex-col overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ", children: [
       /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps }),
       /* @__PURE__ */ jsxs11("div", { className: "flex  flex-col gap-2 px-2 py-2", children: [
         /* @__PURE__ */ jsx23(

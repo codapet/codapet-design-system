@@ -142,11 +142,11 @@ export default function SmartDialogDrawerPage() {
 
   return (
     <div className="space-y-8">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+      <div className="text-center mb-6 md:mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-3 md:mb-4">
           Smart Dialog Drawer
         </h2>
-        <p className="text-lg text-slate-600 dark:text-slate-400">
+        <p className="text-base md:text-lg text-slate-600 dark:text-slate-400">
           A responsive primitive that automatically switches between dialog and
           drawer based on screen size. It is a wrapper around the Dialog and
           Drawer components. It is a dialog on desktop and a drawer on mobile.

@@ -220,7 +220,7 @@ export function DateRangeInput({
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
     className: cn(
-      'md:w-auto w-[calc(100vw-50px)] mx-auto h-[350px] overflow-y-auto md:h-auto m-2',
+      'w-auto  mx-auto h-[350px] overflow-y-auto md:h-auto m-2',
       calendarClassName
     ),
     classNames,
@@ -251,7 +251,7 @@ export function DateRangeInput({
             <CalendarDays className="h-4 w-4 text-muted-foreground shrink-0" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 flex flex-col overflow-y-auto max-h-[min(90dvh,520px)] md:w-[350px] w-[var(--radix-popover-trigger-width)] ">
+        <PopoverContent className="p-0 flex flex-col overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ">
           <Calendar {...resolvedCalendarProps} />
           <div className="flex  flex-col gap-2 px-2 py-2">
             <Button

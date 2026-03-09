@@ -199,33 +199,21 @@ export default function DocsLayout({
         <SidebarRail />
       </Sidebar>
       <SidebarInset>
-         <SidebarTrigger  className='absolute top-0 left-0 z-50'/>
-        {/* Header */}
-        { false && <header className="border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
-          <div className="flex h-16 items-center gap-4 px-6">
-
-            <div className="flex items-center gap-2">
-              <Image
-                src="/codapet-logo.png"
-                alt="CodaPet Logo"
-                className="w-8 h-8 object-contain"
-                width={32}
-                height={32}
-              />
-              <h1 className="text-xl font-bold bg-gradient-to-r from-brand-vibrant to-brand-normal bg-clip-text text-transparent">
-                CodaPet Design System
-              </h1>
-            </div>
-            <div className="ml-auto flex items-center space-x-4">
-              <Badge variant="secondary">v{packageJson.version}</Badge>
-            </div>
+        {/* Header with sidebar trigger */}
+        <header className="border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
+          <div className="flex h-12 items-center gap-3 px-3 md:px-4">
+            <SidebarTrigger />
+            <div className="h-5 w-px bg-border" />
+            <h1 className="text-sm font-semibold text-muted-foreground truncate">
+              CodaPet Design System
+            </h1>
           </div>
-        </header>}
+        </header>
 
         {/* Main Content Area */}
         <div className="flex-1 overflow-auto">
           <ScrollArea className="h-full">
-            <div className="p-8">{children}</div>
+            <div className="p-4 md:p-8">{children}</div>
           </ScrollArea>
         </div>
       </SidebarInset>
