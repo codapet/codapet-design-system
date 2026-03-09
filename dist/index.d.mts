@@ -482,7 +482,7 @@ declare function TooltipTrigger({ ...props }: React$1.ComponentProps<typeof Tool
 declare function TooltipContent({ className, sideOffset, children, ...props }: React$1.ComponentProps<typeof TooltipPrimitive.Content>): react_jsx_runtime.JSX.Element;
 
 type SidebarContextProps = {
-    state: "expanded" | "collapsed";
+    state: 'expanded' | 'collapsed';
     open: boolean;
     setOpen: (open: boolean) => void;
     openMobile: boolean;
@@ -491,56 +491,56 @@ type SidebarContextProps = {
     toggleSidebar: () => void;
 };
 declare function useSidebar(): SidebarContextProps;
-declare function SidebarProvider({ defaultOpen, open: openProp, onOpenChange: setOpenProp, className, style, children, ...props }: React$1.ComponentProps<"div"> & {
+declare function SidebarProvider({ defaultOpen, open: openProp, onOpenChange: setOpenProp, className, style, children, ...props }: React$1.ComponentProps<'div'> & {
     defaultOpen?: boolean;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
 }): react_jsx_runtime.JSX.Element;
-declare function Sidebar({ side, variant, collapsible, className, children, ...props }: React$1.ComponentProps<"div"> & {
-    side?: "left" | "right";
-    variant?: "sidebar" | "floating" | "inset";
-    collapsible?: "offcanvas" | "icon" | "none";
+declare function Sidebar({ side, variant, collapsible, className, children, ...props }: React$1.ComponentProps<'div'> & {
+    side?: 'left' | 'right';
+    variant?: 'sidebar' | 'floating' | 'inset';
+    collapsible?: 'offcanvas' | 'icon' | 'none';
 }): react_jsx_runtime.JSX.Element;
 declare function SidebarTrigger({ className, onClick, ...props }: React$1.ComponentProps<typeof Button>): react_jsx_runtime.JSX.Element;
-declare function SidebarRail({ className, ...props }: React$1.ComponentProps<"button">): react_jsx_runtime.JSX.Element;
-declare function SidebarInset({ className, ...props }: React$1.ComponentProps<"main">): react_jsx_runtime.JSX.Element;
+declare function SidebarRail({ className, ...props }: React$1.ComponentProps<'button'>): react_jsx_runtime.JSX.Element;
+declare function SidebarInset({ className, ...props }: React$1.ComponentProps<'main'>): react_jsx_runtime.JSX.Element;
 declare function SidebarInput({ className, ...props }: React$1.ComponentProps<typeof Input>): react_jsx_runtime.JSX.Element;
-declare function SidebarHeader({ className, ...props }: React$1.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
-declare function SidebarFooter({ className, ...props }: React$1.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
+declare function SidebarHeader({ className, ...props }: React$1.ComponentProps<'div'>): react_jsx_runtime.JSX.Element;
+declare function SidebarFooter({ className, ...props }: React$1.ComponentProps<'div'>): react_jsx_runtime.JSX.Element;
 declare function SidebarSeparator({ className, ...props }: React$1.ComponentProps<typeof Separator>): react_jsx_runtime.JSX.Element;
-declare function SidebarContent({ className, ...props }: React$1.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
-declare function SidebarGroup({ className, ...props }: React$1.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
-declare function SidebarGroupLabel({ className, asChild, ...props }: React$1.ComponentProps<"div"> & {
+declare function SidebarContent({ className, ...props }: React$1.ComponentProps<'div'>): react_jsx_runtime.JSX.Element;
+declare function SidebarGroup({ className, ...props }: React$1.ComponentProps<'div'>): react_jsx_runtime.JSX.Element;
+declare function SidebarGroupLabel({ className, asChild, ...props }: React$1.ComponentProps<'div'> & {
     asChild?: boolean;
 }): react_jsx_runtime.JSX.Element;
-declare function SidebarGroupAction({ className, asChild, ...props }: React$1.ComponentProps<"button"> & {
+declare function SidebarGroupAction({ className, asChild, ...props }: React$1.ComponentProps<'button'> & {
     asChild?: boolean;
 }): react_jsx_runtime.JSX.Element;
-declare function SidebarGroupContent({ className, ...props }: React$1.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
-declare function SidebarMenu({ className, ...props }: React$1.ComponentProps<"ul">): react_jsx_runtime.JSX.Element;
-declare function SidebarMenuItem({ className, ...props }: React$1.ComponentProps<"li">): react_jsx_runtime.JSX.Element;
+declare function SidebarGroupContent({ className, ...props }: React$1.ComponentProps<'div'>): react_jsx_runtime.JSX.Element;
+declare function SidebarMenu({ className, ...props }: React$1.ComponentProps<'ul'>): react_jsx_runtime.JSX.Element;
+declare function SidebarMenuItem({ className, ...props }: React$1.ComponentProps<'li'>): react_jsx_runtime.JSX.Element;
 declare const sidebarMenuButtonVariants: (props?: ({
     variant?: "default" | "outline" | null | undefined;
     size?: "default" | "sm" | "lg" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
-declare function SidebarMenuButton({ asChild, isActive, variant, size, tooltip, className, ...props }: React$1.ComponentProps<"button"> & {
+declare function SidebarMenuButton({ asChild, isActive, variant, size, tooltip, className, ...props }: React$1.ComponentProps<'button'> & {
     asChild?: boolean;
     isActive?: boolean;
     tooltip?: string | React$1.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>): react_jsx_runtime.JSX.Element;
-declare function SidebarMenuAction({ className, asChild, showOnHover, ...props }: React$1.ComponentProps<"button"> & {
+declare function SidebarMenuAction({ className, asChild, showOnHover, ...props }: React$1.ComponentProps<'button'> & {
     asChild?: boolean;
     showOnHover?: boolean;
 }): react_jsx_runtime.JSX.Element;
-declare function SidebarMenuBadge({ className, ...props }: React$1.ComponentProps<"div">): react_jsx_runtime.JSX.Element;
-declare function SidebarMenuSkeleton({ className, showIcon, ...props }: React$1.ComponentProps<"div"> & {
+declare function SidebarMenuBadge({ className, ...props }: React$1.ComponentProps<'div'>): react_jsx_runtime.JSX.Element;
+declare function SidebarMenuSkeleton({ className, showIcon, ...props }: React$1.ComponentProps<'div'> & {
     showIcon?: boolean;
 }): react_jsx_runtime.JSX.Element;
-declare function SidebarMenuSub({ className, ...props }: React$1.ComponentProps<"ul">): react_jsx_runtime.JSX.Element;
-declare function SidebarMenuSubItem({ className, ...props }: React$1.ComponentProps<"li">): react_jsx_runtime.JSX.Element;
-declare function SidebarMenuSubButton({ asChild, size, isActive, className, ...props }: React$1.ComponentProps<"a"> & {
+declare function SidebarMenuSub({ className, ...props }: React$1.ComponentProps<'ul'>): react_jsx_runtime.JSX.Element;
+declare function SidebarMenuSubItem({ className, ...props }: React$1.ComponentProps<'li'>): react_jsx_runtime.JSX.Element;
+declare function SidebarMenuSubButton({ asChild, size, isActive, className, ...props }: React$1.ComponentProps<'a'> & {
     asChild?: boolean;
-    size?: "sm" | "md";
+    size?: 'sm' | 'md';
     isActive?: boolean;
 }): react_jsx_runtime.JSX.Element;
 
@@ -588,19 +588,20 @@ interface TimeValue {
     hours: number;
     minutes: number;
 }
-type BaseInputProps = Omit<React$1.ComponentProps<typeof Input>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect' | 'rightIcon' | 'ref'>;
-interface TimeInputProps extends BaseInputProps {
+interface TimeInputProps {
     time: TimeValue | null;
     setTime: (time: TimeValue | null) => void;
     timeFormat?: TimeFormat;
     minuteStep?: number;
     inputDisabled?: boolean;
     size?: VariantProps<typeof inputVariants>['size'];
+    className?: string;
     inputClassName?: string;
+    placeholder?: string;
     icon?: React$1.ReactNode;
     formatDisplay?: (time: TimeValue) => string;
 }
-declare function TimeInput({ time, setTime, timeFormat, minuteStep, inputDisabled, className, inputClassName, size, placeholder, onBlur, icon, formatDisplay, ...restProps }: TimeInputProps): react_jsx_runtime.JSX.Element;
+declare function TimeInput({ time, setTime, timeFormat, minuteStep, inputDisabled, className, inputClassName, size, placeholder, icon, formatDisplay, }: TimeInputProps): react_jsx_runtime.JSX.Element;
 
 declare const toggleVariants: (props?: ({
     variant?: "default" | "outline" | null | undefined;

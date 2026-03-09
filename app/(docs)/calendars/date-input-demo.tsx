@@ -31,7 +31,7 @@ export function DateInputDemo() {
   const [dateFmt8, setDateFmt8] = useState<Date | null>(null)
 
   return (
-    <>
+    <div className="flex flex-col gap-8  ">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -42,7 +42,7 @@ export function DateInputDemo() {
             Date picker with input field and validation
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6 w-screen">
+        <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label className="mb-2 block text-sm font-medium">
@@ -419,6 +419,6 @@ interface DateInputProps extends NativeInputProps, FlattenedCalendarProps {
           />
         </CardContent>
       </Card>
-    </>
+    </div>
   )
 }

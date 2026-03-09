@@ -3,7 +3,7 @@ import { type VariantProps } from 'class-variance-authority'
 import { Clock } from 'lucide-react'
 import * as React from 'react'
 import { Button } from './button'
-import { Input, inputVariants } from './input'
+import { inputVariants } from './input'
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
 
 export type TimeFormat = '12h' | '24h' | 'h:mm a' | 'h:mm A'
@@ -49,35 +49,6 @@ function formatTime(
   }
 }
 
-function parseTime(
-  value: string,
-  timeFormat: TimeFormat = '12h'
-): TimeValue | null {
-  if (!value.trim()) return null
-  const v = value.trim()
-
-  if (is24HourFormat(timeFormat)) {
-    const match = v.match(/^(\d{1,2}):(\d{2})$/)
-    if (!match) return null
-    const hours = parseInt(match[1], 10)
-    const minutes = parseInt(match[2], 10)
-    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) return null
-    return { hours, minutes }
-  }
-
-  const match = v.match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)$/i)
-  if (!match) return null
-  let hours = parseInt(match[1], 10)
-  const minutes = parseInt(match[2], 10)
-  const period = match[3].toUpperCase()
-
-  if (hours < 1 || hours > 12 || minutes < 0 || minutes > 59) return null
-
-  if (period === 'AM' && hours === 12) hours = 0
-  else if (period === 'PM' && hours !== 12) hours += 12
-
-  return { hours, minutes }
-}
 
 function getDisplayHour(hours: number, timeFormat: TimeFormat): number {
   if (is24HourFormat(timeFormat)) return hours
@@ -88,27 +59,16 @@ function getPeriod(hours: number): 'AM' | 'PM' {
   return hours >= 12 ? 'PM' : 'AM'
 }
 
-type BaseInputProps = Omit<
-  React.ComponentProps<typeof Input>,
-  | 'value'
-  | 'onChange'
-  | 'min'
-  | 'max'
-  | 'size'
-  | 'disabled'
-  | 'onSelect'
-  | 'rightIcon'
-  | 'ref'
->
-
-export interface TimeInputProps extends BaseInputProps {
+export interface TimeInputProps {
   time: TimeValue | null
   setTime: (time: TimeValue | null) => void
   timeFormat?: TimeFormat
   minuteStep?: number
   inputDisabled?: boolean
   size?: VariantProps<typeof inputVariants>['size']
+  className?: string
   inputClassName?: string
+  placeholder?: string
   icon?: React.ReactNode
   formatDisplay?: (time: TimeValue) => string
 }
@@ -123,32 +83,22 @@ export function TimeInput({
   inputClassName,
   size,
   placeholder,
-  onBlur,
   icon,
   formatDisplay,
-  ...restProps
 }: TimeInputProps) {
   const resolvedPlaceholder = placeholder ?? TIME_FORMAT_PLACEHOLDER[timeFormat]
 
-  const displayFormat = React.useCallback(
-    (t: TimeValue | null): string => {
-      if (!t) return ''
-      if (formatDisplay) return formatDisplay(t)
-      return formatTime(t, timeFormat)
-    },
-    [formatDisplay, timeFormat]
-  )
+  const displayValue = React.useMemo(() => {
+    if (!time) return ''
+    if (formatDisplay) return formatDisplay(time)
+    return formatTime(time, timeFormat)
+  }, [time, formatDisplay, timeFormat])
 
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState(displayFormat(time))
 
   const hoursRef = React.useRef<HTMLDivElement>(null)
   const minutesRef = React.useRef<HTMLDivElement>(null)
   const periodRef = React.useRef<HTMLDivElement>(null)
-
-  React.useEffect(() => {
-    setValue(displayFormat(time))
-  }, [time, displayFormat])
 
   const scrollToSelected = React.useCallback(() => {
     requestAnimationFrame(() => {
@@ -168,35 +118,6 @@ export function TimeInput({
       scrollToSelected()
     }
   }, [open, scrollToSelected])
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value
-    setValue(inputValue)
-
-    if (inputValue === '') {
-      setTime(null)
-      return
-    }
-
-    const parsed = parseTime(inputValue, timeFormat)
-    if (parsed) {
-      setTime(parsed)
-    }
-  }
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    onBlur?.(e)
-
-    if (value === '') {
-      if (time !== null) setTime(null)
-      return
-    }
-
-    const parsed = parseTime(value, timeFormat)
-    if (!parsed) {
-      setValue(displayFormat(time))
-    }
-  }
 
   const handleHourSelect = (hour: number) => {
     let h24: number
@@ -241,34 +162,25 @@ export function TimeInput({
     <div className={cn('relative flex gap-2', className)}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild disabled={inputDisabled}>
-          <div className="w-full relative">
-            <Input
-              value={value}
-              placeholder={resolvedPlaceholder}
-              className={cn('bg-background cursor-pointer', inputClassName)}
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-              disabled={inputDisabled}
-              size={size}
-              onClick={() => {
-                if (!inputDisabled) setOpen(true)
-              }}
-              onKeyDown={e => {
-                if (e.key === 'ArrowDown' && !inputDisabled) {
-                  e.preventDefault()
-                  setOpen(true)
-                }
-              }}
-              rightIcon={
-                icon !== undefined ? (
-                  icon
-                ) : (
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                )
-              }
-              {...restProps}
-            />
-          </div>
+          <Button
+            type="button"
+            variant="outline"
+            className={cn(
+              inputVariants({ size }),
+              'bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal',
+              inputDisabled &&
+                'pointer-events-none cursor-not-allowed opacity-50',
+              inputClassName
+            )}
+            disabled={inputDisabled}
+          >
+            {displayValue || resolvedPlaceholder}
+            {icon !== undefined ? (
+              icon
+            ) : (
+              <Clock className="h-4 w-4 text-muted-foreground shrink-0" />
+            )}
+          </Button>
         </PopoverTrigger>
         <PopoverContent
           className="w-auto p-0 "

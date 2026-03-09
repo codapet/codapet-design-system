@@ -1886,7 +1886,11 @@ function ContextMenuShortcut({
 
 // src/components/ui/date-input.tsx
 import "class-variance-authority";
-import { format as dateFnsFormat, parse as dateFnsParse, isValid } from "date-fns";
+import {
+  format as dateFnsFormat,
+  parse as dateFnsParse,
+  isValid
+} from "date-fns";
 import { CalendarDays } from "lucide-react";
 import * as React20 from "react";
 
@@ -2268,7 +2272,7 @@ function DateInput({
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
     className: cn(
-      "md:w-auto w-[calc(100vw-50px)] mx-auto h-[350px] overflow-y-auto md:h-auto m-2",
+      "w-auto  mx-auto h-[350px] overflow-y-auto md:h-auto m-2",
       calendarClassName
     ),
     classNames,
@@ -2341,17 +2345,7 @@ function DateInput({
         ...inputProps
       }
     ) }) }),
-    /* @__PURE__ */ jsx22(
-      PopoverContent,
-      {
-        className: "w-auto overflow-hidden p-0",
-        align: "end",
-        alignOffset: -8,
-        sideOffset: 10,
-        side: "top",
-        children: /* @__PURE__ */ jsx22(Calendar, { ...resolvedCalendarProps })
-      }
-    )
+    /* @__PURE__ */ jsx22(PopoverContent, { className: "p-2 flex flex-col overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ", children: /* @__PURE__ */ jsx22(Calendar, { ...resolvedCalendarProps }) })
   ] }) });
 }
 
@@ -5227,27 +5221,6 @@ function formatTime(time, timeFormat = "12h") {
       return `${h12p}:${m} ${period}`;
   }
 }
-function parseTime(value, timeFormat = "12h") {
-  if (!value.trim()) return null;
-  const v = value.trim();
-  if (is24HourFormat(timeFormat)) {
-    const match2 = v.match(/^(\d{1,2}):(\d{2})$/);
-    if (!match2) return null;
-    const hours2 = parseInt(match2[1], 10);
-    const minutes2 = parseInt(match2[2], 10);
-    if (hours2 < 0 || hours2 > 23 || minutes2 < 0 || minutes2 > 59) return null;
-    return { hours: hours2, minutes: minutes2 };
-  }
-  const match = v.match(/^(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)$/i);
-  if (!match) return null;
-  let hours = parseInt(match[1], 10);
-  const minutes = parseInt(match[2], 10);
-  const period = match[3].toUpperCase();
-  if (hours < 1 || hours > 12 || minutes < 0 || minutes > 59) return null;
-  if (period === "AM" && hours === 12) hours = 0;
-  else if (period === "PM" && hours !== 12) hours += 12;
-  return { hours, minutes };
-}
 function getDisplayHour(hours, timeFormat) {
   if (is24HourFormat(timeFormat)) return hours;
   return hours % 12 || 12;
@@ -5265,28 +5238,19 @@ function TimeInput({
   inputClassName,
   size,
   placeholder,
-  onBlur,
   icon,
-  formatDisplay,
-  ...restProps
+  formatDisplay
 }) {
   const resolvedPlaceholder = placeholder ?? TIME_FORMAT_PLACEHOLDER[timeFormat];
-  const displayFormat = React46.useCallback(
-    (t) => {
-      if (!t) return "";
-      if (formatDisplay) return formatDisplay(t);
-      return formatTime(t, timeFormat);
-    },
-    [formatDisplay, timeFormat]
-  );
+  const displayValue = React46.useMemo(() => {
+    if (!time) return "";
+    if (formatDisplay) return formatDisplay(time);
+    return formatTime(time, timeFormat);
+  }, [time, formatDisplay, timeFormat]);
   const [open, setOpen] = React46.useState(false);
-  const [value, setValue] = React46.useState(displayFormat(time));
   const hoursRef = React46.useRef(null);
   const minutesRef = React46.useRef(null);
   const periodRef = React46.useRef(null);
-  React46.useEffect(() => {
-    setValue(displayFormat(time));
-  }, [time, displayFormat]);
   const scrollToSelected = React46.useCallback(() => {
     requestAnimationFrame(() => {
       for (const ref of [hoursRef, minutesRef, periodRef]) {
@@ -5304,29 +5268,6 @@ function TimeInput({
       scrollToSelected();
     }
   }, [open, scrollToSelected]);
-  const handleInputChange = (e) => {
-    const inputValue = e.target.value;
-    setValue(inputValue);
-    if (inputValue === "") {
-      setTime(null);
-      return;
-    }
-    const parsed = parseTime(inputValue, timeFormat);
-    if (parsed) {
-      setTime(parsed);
-    }
-  };
-  const handleBlur = (e) => {
-    onBlur?.(e);
-    if (value === "") {
-      if (time !== null) setTime(null);
-      return;
-    }
-    const parsed = parseTime(value, timeFormat);
-    if (!parsed) {
-      setValue(displayFormat(time));
-    }
-  };
   const handleHourSelect = (hour) => {
     let h24;
     if (is24HourFormat(timeFormat)) {
@@ -5359,29 +5300,24 @@ function TimeInput({
   const selectedMinute = time?.minutes ?? null;
   const selectedPeriod = time ? getPeriod(time.hours) : null;
   return /* @__PURE__ */ jsx49("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs24(Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ jsx49(PopoverTrigger, { asChild: true, disabled: inputDisabled, children: /* @__PURE__ */ jsx49("div", { className: "w-full relative", children: /* @__PURE__ */ jsx49(
-      Input,
+    /* @__PURE__ */ jsx49(PopoverTrigger, { asChild: true, disabled: inputDisabled, children: /* @__PURE__ */ jsxs24(
+      Button,
       {
-        value,
-        placeholder: resolvedPlaceholder,
-        className: cn("bg-background cursor-pointer", inputClassName),
-        onChange: handleInputChange,
-        onBlur: handleBlur,
+        type: "button",
+        variant: "outline",
+        className: cn(
+          inputVariants({ size }),
+          "bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal",
+          inputDisabled && "pointer-events-none cursor-not-allowed opacity-50",
+          inputClassName
+        ),
         disabled: inputDisabled,
-        size,
-        onClick: () => {
-          if (!inputDisabled) setOpen(true);
-        },
-        onKeyDown: (e) => {
-          if (e.key === "ArrowDown" && !inputDisabled) {
-            e.preventDefault();
-            setOpen(true);
-          }
-        },
-        rightIcon: icon !== void 0 ? icon : /* @__PURE__ */ jsx49(Clock, { className: "h-4 w-4 text-muted-foreground" }),
-        ...restProps
+        children: [
+          displayValue || resolvedPlaceholder,
+          icon !== void 0 ? icon : /* @__PURE__ */ jsx49(Clock, { className: "h-4 w-4 text-muted-foreground shrink-0" })
+        ]
       }
-    ) }) }),
+    ) }),
     /* @__PURE__ */ jsx49(
       PopoverContent,
       {

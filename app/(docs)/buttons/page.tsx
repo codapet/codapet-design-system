@@ -11,17 +11,17 @@ import { CodeBlock } from './CodeBlock'
 
 export default function ButtonsPage() {
   return (
-    <div className="space-y-8 ">
+    <div className="flex flex-col gap-8 w-screen md:w-full px-4 ">
       <div className="text-center mb-6 md:mb-8">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-3 md:mb-4">
           Buttons
         </h2>
-        <p className="text-base md:text-lg text-slate-600 dark:text-slate-400">
+        <p className="text-base md:text-lg text-slate-600 dark:text-slate-400 ">
           Various button styles and states for different use cases
         </p>
       </div>
 
-      <Card>
+      <Card className="">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
@@ -977,7 +977,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
               </Button>
             </div>
             <CodeBlock
-                  code={`import { Button } from '@codapet/design-system'
+              code={`import { Button } from '@codapet/design-system'
 import { ArrowLeft } from 'lucide-react'
 
 <Button disabled>

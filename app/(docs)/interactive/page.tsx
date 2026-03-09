@@ -13,7 +13,7 @@ import { CodeBlock } from '../buttons/CodeBlock'
 
 export default function InteractivePage() {
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col gap-8 w-screen md:w-full px-4 ">
       <div className="text-center mb-6 md:mb-8">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-3 md:mb-4">
           Interactive Components

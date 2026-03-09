@@ -12,7 +12,7 @@ import { CodeBlock } from '../buttons/CodeBlock'
 
 export default function InputsPage() {
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col gap-8 w-screen md:w-full px-4 ">
       <div className="text-center mb-6 md:mb-8">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-3 md:mb-4">
           Input Components
@@ -23,7 +23,7 @@ export default function InputsPage() {
         </p>
       </div>
 
-      <Card>
+      <Card className="">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
@@ -139,7 +139,7 @@ export default function InputsPage() {
             </div>
           </div>
           <CodeBlock
-              code={`import { Input, Label } from '@codapet/design-system'
+            code={`import { Input, Label } from '@codapet/design-system'
 import { CircleUser, Search, X } from 'lucide-react'
 
 {/* Default State */}

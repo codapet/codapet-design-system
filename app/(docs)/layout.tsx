@@ -15,8 +15,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-  SidebarTrigger
+  SidebarTrigger,
+  useSidebar
 } from '@/components/ui/sidebar'
+import { cn } from '@/lib/utils'
 import {
   AlertCircle,
   CalendarDays,
@@ -124,6 +126,7 @@ export default function DocsLayout({
 }) {
   const pathname = usePathname()
   const activeRoute = pathname?.split('/').pop() || 'buttons'
+  const { state } = useSidebar()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex">
@@ -145,7 +148,7 @@ export default function DocsLayout({
           </div>
         </SidebarHeader>
         <SidebarContent>
-           <SidebarGroup>
+          <SidebarGroup>
             <SidebarGroupLabel>Tokens</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -153,7 +156,11 @@ export default function DocsLayout({
                   const Icon = item.icon
                   return (
                     <SidebarMenuItem key={item.id}>
-                      <SidebarMenuButton asChild isActive={activeRoute === item.id} tooltip={item.description}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={activeRoute === item.id}
+                        tooltip={item.description}
+                      >
                         <Link href={`/${item.id}`}>
                           <Icon />
                           <span>{item.label}</span>
@@ -189,16 +196,21 @@ export default function DocsLayout({
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-
         </SidebarContent>
         <SidebarFooter>
-           <div className="ml-auto flex items-center space-x-4">
-              <Badge variant="secondary" className="text-base">v{packageJson.version}</Badge>
-            </div>
+          <div className="ml-auto flex items-center space-x-4">
+            <Badge variant="secondary" className="text-base">
+              v{packageJson.version}
+            </Badge>
+          </div>
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
-      <SidebarInset>
+      <SidebarInset
+        className={cn(
+          state === 'expanded' ? 'md:w-6xl w-full' : 'md:w-7xl w-full'
+        )}
+      >
         {/* Header with sidebar trigger */}
         <header className="border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
           <div className="flex h-12 items-center gap-3 px-3 md:px-4">
@@ -212,8 +224,8 @@ export default function DocsLayout({
 
         {/* Main Content Area */}
         <div className="flex-1 overflow-auto">
-          <ScrollArea className="h-full">
-            <div className="p-4 md:p-8">{children}</div>
+          <ScrollArea className="h-full ">
+            <div className="">{children}</div>
           </ScrollArea>
         </div>
       </SidebarInset>

@@ -1,6 +1,10 @@
 import { cn } from '@/lib/utils'
 import { type VariantProps } from 'class-variance-authority'
-import { format as dateFnsFormat, parse as dateFnsParse, isValid } from 'date-fns'
+import {
+  format as dateFnsFormat,
+  parse as dateFnsParse,
+  isValid
+} from 'date-fns'
 import { CalendarDays } from 'lucide-react'
 import * as React from 'react'
 import { Calendar } from './calendar'
@@ -129,13 +133,17 @@ function formatDate(date: Date | null, dateFormat: DateFormat = 'MM/DD/YYYY') {
   return dateFnsFormat(date, DATE_FORMAT_TOKENS[dateFormat])
 }
 
-function parseDate(value: string, dateFormat: DateFormat = 'MM/DD/YYYY'): Date | null {
+function parseDate(
+  value: string,
+  dateFormat: DateFormat = 'MM/DD/YYYY'
+): Date | null {
   if (!value) return null
   const parsed = dateFnsParse(value, DATE_FORMAT_TOKENS[dateFormat], new Date())
   return isValid(parsed) ? parsed : null
 }
 
-export interface DateInputProps extends NativeInputProps, FlattenedCalendarProps {
+export interface DateInputProps
+  extends NativeInputProps, FlattenedCalendarProps {
   date: Date | null
   setDate: (date: Date | null) => void
   maxDate?: Date | null
@@ -269,7 +277,8 @@ export function DateInput({
   const effectiveMonth = month ?? monthState ?? undefined
   const effectiveSelected = selected ?? date ?? undefined
   const isInputDisabled =
-    inputDisabled ?? (typeof calendarDisabled === 'boolean' ? calendarDisabled : false)
+    inputDisabled ??
+    (typeof calendarDisabled === 'boolean' ? calendarDisabled : false)
   const defaultCalendarOnSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       const dateObj = new Date(selectedDate)
@@ -289,8 +298,10 @@ export function DateInput({
     const checkDate = new Date(date)
     checkDate.setHours(0, 0, 0, 0)
 
-    const isBeforeMin = effectiveMinDate !== null && checkDate < effectiveMinDate
-    const isAfterMax = effectiveMaxDate !== undefined && checkDate > effectiveMaxDate
+    const isBeforeMin =
+      effectiveMinDate !== null && checkDate < effectiveMinDate
+    const isAfterMax =
+      effectiveMaxDate !== undefined && checkDate > effectiveMaxDate
 
     return isBeforeMin || isAfterMax
   }
@@ -303,7 +314,7 @@ export function DateInput({
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
     className: cn(
-      'md:w-auto w-[calc(100vw-50px)] mx-auto h-[350px] overflow-y-auto md:h-auto m-2',
+      'w-auto  mx-auto h-[350px] overflow-y-auto md:h-auto m-2',
       calendarClassName
     ),
     classNames,
@@ -386,19 +397,15 @@ export function DateInput({
               rightIcon={
                 <CalendarDays className="h-4 w-4 text-muted-foreground" />
               }
-              rightIconOnClick={isInputDisabled ? undefined : () => setOpen(!open)}
+              rightIconOnClick={
+                isInputDisabled ? undefined : () => setOpen(!open)
+              }
               rightIconButtonProps={{ disabled: isInputDisabled }}
               {...(inputProps as Partial<React.ComponentProps<typeof Input>>)}
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent
-          className="w-auto overflow-hidden p-0"
-          align="end"
-          alignOffset={-8}
-          sideOffset={10}
-          side="top"
-        >
+        <PopoverContent className="p-2 flex flex-col overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ">
           <Calendar {...resolvedCalendarProps} />
         </PopoverContent>
       </Popover>
