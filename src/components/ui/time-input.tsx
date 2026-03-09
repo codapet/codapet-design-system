@@ -221,7 +221,7 @@ export function TimeInput({
           </div>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto p-0"
+          className="w-auto p-0 "
           align="end"
           alignOffset={-8}
           sideOffset={10}
@@ -230,7 +230,7 @@ export function TimeInput({
         >
           <div className="flex divide-x">
             {/* Hours */}
-            <div className="h-56 w-16 overflow-y-auto overscroll-contain  ">
+            <div className="h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]">
               <div ref={hoursRef} className="flex flex-col p-1 ">
                 {hoursList.map(h => (
                   <Button
@@ -252,7 +252,7 @@ export function TimeInput({
             </div>
 
             {/* Minutes */}
-            <div className="h-56 w-16 overflow-y-auto overscroll-contain">
+            <div className="h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]">
               <div ref={minutesRef} className="flex flex-col p-1">
                 {minutesList.map(m => (
                   <Button

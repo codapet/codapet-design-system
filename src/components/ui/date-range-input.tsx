@@ -1,9 +1,14 @@
 import { cn } from '@/lib/utils'
 import { type VariantProps } from 'class-variance-authority'
-import { format as dateFnsFormat, parse as dateFnsParse, isValid } from 'date-fns'
+import {
+  format as dateFnsFormat,
+  parse as dateFnsParse,
+  isValid
+} from 'date-fns'
 import { CalendarDays } from 'lucide-react'
 import * as React from 'react'
 import type { DateRange } from 'react-day-picker'
+import { Button } from './button'
 import { Calendar } from './calendar'
 import type { DateFormat } from './date-input'
 import { Input, inputVariants } from './input'
@@ -113,19 +118,25 @@ const INPUT_PROP_KEYS = new Set([
   'onCompositionUpdate'
 ])
 
-function formatDate(date: Date | null | undefined, dateFormat: DateFormat = 'MM/DD/YYYY') {
+function formatDate(
+  date: Date | null | undefined,
+  dateFormat: DateFormat = 'MM/DD/YYYY'
+) {
   if (!date || !isValid(date)) {
     return ''
   }
   return dateFnsFormat(date, DATE_FORMAT_TOKENS[dateFormat])
 }
 
-function formatRange(range: DateRange | undefined, dateFormat: DateFormat = 'MM/DD/YYYY') {
+function formatRange(
+  range: DateRange | undefined,
+  dateFormat: DateFormat = 'MM/DD/YYYY'
+) {
   if (!range) return ''
   const from = formatDate(range.from, dateFormat)
   const to = formatDate(range.to, dateFormat)
-  if (from && to) return `${from} \u2013 ${to}`
-  if (from) return `${from} \u2013`
+  if (from && to) return from === to ? from : `${from} \u2013 ${to}`
+  if (from) return from
   return ''
 }
 
@@ -139,13 +150,21 @@ function parseRange(
   const fromStr = parts[0]?.trim()
   if (!fromStr) return null
 
-  const fromParsed = dateFnsParse(fromStr, DATE_FORMAT_TOKENS[dateFormat], new Date())
+  const fromParsed = dateFnsParse(
+    fromStr,
+    DATE_FORMAT_TOKENS[dateFormat],
+    new Date()
+  )
   if (!isValid(fromParsed)) return null
 
   const toStr = parts[1]?.trim()
   if (!toStr) return { from: fromParsed, to: undefined }
 
-  const toParsed = dateFnsParse(toStr, DATE_FORMAT_TOKENS[dateFormat], new Date())
+  const toParsed = dateFnsParse(
+    toStr,
+    DATE_FORMAT_TOKENS[dateFormat],
+    new Date()
+  )
   if (!isValid(toParsed)) return { from: fromParsed, to: undefined }
 
   return { from: fromParsed, to: toParsed }
@@ -156,7 +175,8 @@ function rangePlaceholder(dateFormat: DateFormat) {
   return `${p} \u2013 ${p}`
 }
 
-export interface DateRangeInputProps extends NativeInputProps, FlattenedCalendarProps {
+export interface DateRangeInputProps
+  extends NativeInputProps, FlattenedCalendarProps {
   dateRange: DateRange | undefined
   setDateRange: (range: DateRange | undefined) => void
   maxDate?: Date | null
@@ -283,7 +303,8 @@ export function DateRangeInput({
   const effectiveMonth = month ?? monthState ?? undefined
   const effectiveSelected = selected ?? dateRange
   const isInputDisabled =
-    inputDisabled ?? (typeof calendarDisabled === 'boolean' ? calendarDisabled : false)
+    inputDisabled ??
+    (typeof calendarDisabled === 'boolean' ? calendarDisabled : false)
 
   const isWithinBounds = (d: Date) => {
     const isAfterMin = !effectiveMinDate || d >= effectiveMinDate
@@ -303,6 +324,14 @@ export function DateRangeInput({
       return
     }
     setDateRange(range)
+  }
+
+  const handleClear = () => {
+    setDateRange(undefined)
+  }
+
+  const handleAdd = () => {
+    setOpen(false)
   }
 
   const resolvedCalendarProps = {
@@ -404,20 +433,40 @@ export function DateRangeInput({
               rightIcon={
                 <CalendarDays className="h-4 w-4 text-muted-foreground" />
               }
-              rightIconOnClick={isInputDisabled ? undefined : () => setOpen(!open)}
+              rightIconOnClick={
+                isInputDisabled ? undefined : () => setOpen(!open)
+              }
               rightIconButtonProps={{ disabled: isInputDisabled }}
               {...(inputProps as Partial<React.ComponentProps<typeof Input>>)}
             />
           </div>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto overflow-hidden p-0"
+          className="w-auto p-0 flex flex-col overflow-y-auto max-h-[min(90dvh,520px)]"
           align="end"
           alignOffset={-8}
           sideOffset={10}
           side="top"
         >
           <Calendar {...resolvedCalendarProps} />
+          <div className="flex  flex-col gap-2 px-2 py-2">
+            <Button
+              variant="ghost-secondary"
+              size="sm"
+              onClick={handleClear}
+              type="button"
+            >
+              Clear
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleAdd}
+              type="button"
+            >
+              Add
+            </Button>
+          </div>
         </PopoverContent>
       </Popover>
     </div>

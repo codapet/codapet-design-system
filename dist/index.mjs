@@ -2351,7 +2351,11 @@ function DateInput({
 
 // src/components/ui/date-range-input.tsx
 import "class-variance-authority";
-import { format as dateFnsFormat2, parse as dateFnsParse2, isValid as isValid2 } from "date-fns";
+import {
+  format as dateFnsFormat2,
+  parse as dateFnsParse2,
+  isValid as isValid2
+} from "date-fns";
 import { CalendarDays as CalendarDays2 } from "lucide-react";
 import * as React21 from "react";
 import { jsx as jsx23, jsxs as jsxs11 } from "react/jsx-runtime";
@@ -2444,8 +2448,8 @@ function formatRange(range, dateFormat = "MM/DD/YYYY") {
   if (!range) return "";
   const from = formatDate2(range.from, dateFormat);
   const to = formatDate2(range.to, dateFormat);
-  if (from && to) return `${from} \u2013 ${to}`;
-  if (from) return `${from} \u2013`;
+  if (from && to) return from === to ? from : `${from} \u2013 ${to}`;
+  if (from) return from;
   return "";
 }
 function parseRange(value, dateFormat = "MM/DD/YYYY") {
@@ -2453,11 +2457,19 @@ function parseRange(value, dateFormat = "MM/DD/YYYY") {
   const parts = value.split(/\s*[\u2013\-]\s*/);
   const fromStr = parts[0]?.trim();
   if (!fromStr) return null;
-  const fromParsed = dateFnsParse2(fromStr, DATE_FORMAT_TOKENS2[dateFormat], /* @__PURE__ */ new Date());
+  const fromParsed = dateFnsParse2(
+    fromStr,
+    DATE_FORMAT_TOKENS2[dateFormat],
+    /* @__PURE__ */ new Date()
+  );
   if (!isValid2(fromParsed)) return null;
   const toStr = parts[1]?.trim();
   if (!toStr) return { from: fromParsed, to: void 0 };
-  const toParsed = dateFnsParse2(toStr, DATE_FORMAT_TOKENS2[dateFormat], /* @__PURE__ */ new Date());
+  const toParsed = dateFnsParse2(
+    toStr,
+    DATE_FORMAT_TOKENS2[dateFormat],
+    /* @__PURE__ */ new Date()
+  );
   if (!isValid2(toParsed)) return { from: fromParsed, to: void 0 };
   return { from: fromParsed, to: toParsed };
 }
@@ -2565,6 +2577,12 @@ function DateRangeInput({
     }
     setDateRange(range);
   };
+  const handleClear = () => {
+    setDateRange(void 0);
+  };
+  const handleAdd = () => {
+    setOpen(false);
+  };
   const resolvedCalendarProps = {
     ...calendarProps,
     mode: "range",
@@ -2654,15 +2672,39 @@ function DateRangeInput({
         ...inputProps
       }
     ) }) }),
-    /* @__PURE__ */ jsx23(
+    /* @__PURE__ */ jsxs11(
       PopoverContent,
       {
-        className: "w-auto overflow-hidden p-0",
+        className: "w-auto p-0 flex flex-col overflow-y-auto max-h-[min(90dvh,520px)]",
         align: "end",
         alignOffset: -8,
         sideOffset: 10,
         side: "top",
-        children: /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps })
+        children: [
+          /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps }),
+          /* @__PURE__ */ jsxs11("div", { className: "flex  flex-col gap-2 px-2 py-2", children: [
+            /* @__PURE__ */ jsx23(
+              Button,
+              {
+                variant: "ghost-secondary",
+                size: "sm",
+                onClick: handleClear,
+                type: "button",
+                children: "Clear"
+              }
+            ),
+            /* @__PURE__ */ jsx23(
+              Button,
+              {
+                variant: "primary",
+                size: "sm",
+                onClick: handleAdd,
+                type: "button",
+                children: "Add"
+              }
+            )
+          ] })
+        ]
       }
     )
   ] }) });
@@ -5465,14 +5507,14 @@ function TimeInput({
     /* @__PURE__ */ jsx49(
       PopoverContent,
       {
-        className: "w-auto p-0",
+        className: "w-auto p-0 ",
         align: "end",
         alignOffset: -8,
         sideOffset: 10,
         side: "top",
         onOpenAutoFocus: (e) => e.preventDefault(),
         children: /* @__PURE__ */ jsxs24("div", { className: "flex divide-x", children: [
-          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-contain  ", children: /* @__PURE__ */ jsx49("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx49(
+          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx49(
             Button,
             {
               variant: "ghost",
@@ -5487,7 +5529,7 @@ function TimeInput({
             },
             h
           )) }) }),
-          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-contain", children: /* @__PURE__ */ jsx49("div", { ref: minutesRef, className: "flex flex-col p-1", children: minutesList.map((m) => /* @__PURE__ */ jsx49(
+          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: minutesRef, className: "flex flex-col p-1", children: minutesList.map((m) => /* @__PURE__ */ jsx49(
             Button,
             {
               variant: "ghost",
