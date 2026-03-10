@@ -379,12 +379,12 @@ export function DateInput({
     <div className={cn('relative flex gap-2', className)}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild disabled={isInputDisabled}>
-          <div className="w-full relative">
+          <div className="w-full relative group">
             <Input
               id="date"
               value={value}
               placeholder={resolvedPlaceholder}
-              className={cn('bg-background cursor-pointer', open && 'border-blue-500', inputClassName)}
+              className={cn('bg-background cursor-pointer', 'group-data-[state=open]:border-blue-500 group-data-[state=open]:hover:border-blue-500', inputClassName)}
               onChange={handleInputChange}
               onBlur={handleBlur}
               disabled={isInputDisabled}

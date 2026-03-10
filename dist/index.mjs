@@ -2323,13 +2323,13 @@ function DateInput({
     }
   };
   return /* @__PURE__ */ jsx22("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs10(Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ jsx22(PopoverTrigger, { asChild: true, disabled: isInputDisabled, children: /* @__PURE__ */ jsx22("div", { className: "w-full relative", children: /* @__PURE__ */ jsx22(
+    /* @__PURE__ */ jsx22(PopoverTrigger, { asChild: true, disabled: isInputDisabled, children: /* @__PURE__ */ jsx22("div", { className: "w-full relative group", children: /* @__PURE__ */ jsx22(
       Input,
       {
         id: "date",
         value,
         placeholder: resolvedPlaceholder,
-        className: cn("bg-background cursor-pointer", open && "border-blue-500", inputClassName),
+        className: cn("bg-background cursor-pointer", "group-data-[state=open]:border-blue-500 group-data-[state=open]:hover:border-blue-500", inputClassName),
         onChange: handleInputChange,
         onBlur: handleBlur,
         disabled: isInputDisabled,
@@ -2513,7 +2513,7 @@ function DateRangeInput({
         className: cn(
           inputVariants({ size }),
           "bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal",
-          open && "border-blue-500",
+          "data-[state=open]:border-blue-500 data-[state=open]:hover:border-blue-500",
           isInputDisabled && "pointer-events-none cursor-not-allowed opacity-50",
           inputClassName
         ),
@@ -5309,7 +5309,7 @@ function TimeInput({
         className: cn(
           inputVariants({ size }),
           "bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal",
-          open && "border-blue-500",
+          "data-[state=open]:border-blue-500 data-[state=open]:hover:border-blue-500",
           inputDisabled && "pointer-events-none cursor-not-allowed opacity-50",
           inputClassName
         ),
