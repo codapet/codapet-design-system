@@ -384,7 +384,7 @@ export function DateInput({
               id="date"
               value={value}
               placeholder={resolvedPlaceholder}
-              className={cn('bg-background cursor-pointer', inputClassName)}
+              className={cn('bg-background cursor-pointer', open && 'border-blue-500', inputClassName)}
               onChange={handleInputChange}
               onBlur={handleBlur}
               disabled={isInputDisabled}

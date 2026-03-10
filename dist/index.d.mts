@@ -601,7 +601,7 @@ interface TimeInputProps {
     icon?: React$1.ReactNode;
     formatDisplay?: (time: TimeValue) => string;
 }
-declare function TimeInput({ time, setTime, timeFormat, minuteStep, inputDisabled, className, inputClassName, size, placeholder, icon, formatDisplay, }: TimeInputProps): react_jsx_runtime.JSX.Element;
+declare function TimeInput({ time, setTime, timeFormat, minuteStep, inputDisabled, className, inputClassName, size, placeholder, icon, formatDisplay }: TimeInputProps): react_jsx_runtime.JSX.Element;
 
 declare const toggleVariants: (props?: ({
     variant?: "default" | "outline" | null | undefined;

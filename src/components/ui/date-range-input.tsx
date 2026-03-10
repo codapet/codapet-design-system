@@ -241,6 +241,7 @@ export function DateRangeInput({
             className={cn(
               inputVariants({ size }),
               'bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal',
+              open && 'border-blue-500',
               isInputDisabled &&
                 'pointer-events-none cursor-not-allowed opacity-50',
               inputClassName

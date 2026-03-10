@@ -2329,7 +2329,7 @@ function DateInput({
         id: "date",
         value,
         placeholder: resolvedPlaceholder,
-        className: cn("bg-background cursor-pointer", inputClassName),
+        className: cn("bg-background cursor-pointer", open && "border-blue-500", inputClassName),
         onChange: handleInputChange,
         onBlur: handleBlur,
         disabled: isInputDisabled,
@@ -2513,6 +2513,7 @@ function DateRangeInput({
         className: cn(
           inputVariants({ size }),
           "bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal",
+          open && "border-blue-500",
           isInputDisabled && "pointer-events-none cursor-not-allowed opacity-50",
           inputClassName
         ),
@@ -5308,6 +5309,7 @@ function TimeInput({
         className: cn(
           inputVariants({ size }),
           "bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal",
+          open && "border-blue-500",
           inputDisabled && "pointer-events-none cursor-not-allowed opacity-50",
           inputClassName
         ),
@@ -5339,7 +5341,7 @@ function TimeInput({
             },
             h
           )) }) }),
-          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: minutesRef, className: "flex flex-col p-1 ", children: minutesList.map((m) => /* @__PURE__ */ jsx49(
+          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: minutesRef, className: cn("flex flex-col p-1", minutesList.length <= 12 && "h-full justify-center"), children: minutesList.map((m) => /* @__PURE__ */ jsx49(
             Button,
             {
               variant: "ghost",

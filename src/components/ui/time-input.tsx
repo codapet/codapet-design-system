@@ -49,7 +49,6 @@ function formatTime(
   }
 }
 
-
 function getDisplayHour(hours: number, timeFormat: TimeFormat): number {
   if (is24HourFormat(timeFormat)) return hours
   return hours % 12 || 12
@@ -84,7 +83,7 @@ export function TimeInput({
   size,
   placeholder,
   icon,
-  formatDisplay,
+  formatDisplay
 }: TimeInputProps) {
   const resolvedPlaceholder = placeholder ?? TIME_FORMAT_PLACEHOLDER[timeFormat]
 
@@ -168,6 +167,7 @@ export function TimeInput({
             className={cn(
               inputVariants({ size }),
               'bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal',
+              open && 'border-blue-500',
               inputDisabled &&
                 'pointer-events-none cursor-not-allowed opacity-50',
               inputClassName
@@ -211,7 +211,7 @@ export function TimeInput({
 
             {/* Minutes */}
             <div className="h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]">
-              <div ref={minutesRef} className="flex flex-col p-1 ">
+              <div ref={minutesRef} className={cn('flex flex-col p-1', minutesList.length <= 12 && 'h-full justify-center')}>
                 {minutesList.map(m => (
                   <Button
                     key={m}
