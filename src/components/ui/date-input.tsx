@@ -384,7 +384,11 @@ export function DateInput({
               id="date"
               value={value}
               placeholder={resolvedPlaceholder}
-              className={cn('bg-background cursor-pointer', 'group-data-[state=open]:border-blue-500 group-data-[state=open]:hover:border-blue-500', inputClassName)}
+              className={cn(
+                'bg-background cursor-pointer',
+                'group-data-[state=open]:border-blue-500 group-data-[state=open]:hover:border-blue-500',
+                inputClassName
+              )}
               onChange={handleInputChange}
               onBlur={handleBlur}
               disabled={isInputDisabled}
@@ -405,8 +409,10 @@ export function DateInput({
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent className="p-2 flex flex-col overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ">
-          <Calendar {...resolvedCalendarProps} />
+        <PopoverContent className="p-0  overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ">
+          <div className="border border-blue-500 h-full w-full rounded-md">
+            <Calendar {...resolvedCalendarProps} />
+          </div>
         </PopoverContent>
       </Popover>
     </div>

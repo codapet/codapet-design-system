@@ -220,7 +220,7 @@ export function DateRangeInput({
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
     className: cn(
-      'w-auto  mx-auto h-[350px] overflow-y-auto md:h-auto m-2',
+      'w-auto mx-auto h-fit shrink-0 md:h-auto m-2',
       calendarClassName
     ),
     classNames,
@@ -252,25 +252,27 @@ export function DateRangeInput({
             <CalendarDays className="h-4 w-4 text-muted-foreground shrink-0" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 flex flex-col overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ">
-          <Calendar {...resolvedCalendarProps} />
-          <div className="flex  flex-col gap-2 px-2 py-2">
-            <Button
-              variant="ghost-secondary"
-              size="sm"
-              onClick={handleClear}
-              type="button"
-            >
-              Clear
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={handleAdd}
-              type="button"
-            >
-              Add
-            </Button>
+        <PopoverContent className="p-0 h-[400px] w-[var(--radix-popper-anchor-width)] md:h-auto md:w-[350px]">
+          <div className="border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto">
+            <Calendar {...resolvedCalendarProps} />
+            <div className="flex flex-col gap-2 px-2 py-2 shrink-0">
+              <Button
+                variant="ghost-secondary"
+                size="sm"
+                onClick={handleClear}
+                type="button"
+              >
+                Clear
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleAdd}
+                type="button"
+              >
+                Add
+              </Button>
+            </div>
           </div>
         </PopoverContent>
       </Popover>

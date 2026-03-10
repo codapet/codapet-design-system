@@ -186,7 +186,7 @@ export function TimeInput({
           className="w-auto p-0 "
           onOpenAutoFocus={e => e.preventDefault()}
         >
-          <div className="flex divide-x">
+          <div className="flex divide-x border border-blue-500 rounded-md">
             {/* Hours */}
             <div className="h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]">
               <div ref={hoursRef} className="flex flex-col p-1 ">
@@ -211,7 +211,13 @@ export function TimeInput({
 
             {/* Minutes */}
             <div className="h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]">
-              <div ref={minutesRef} className={cn('flex flex-col p-1', minutesList.length <= 12 && 'h-full justify-center')}>
+              <div
+                ref={minutesRef}
+                className={cn(
+                  'flex flex-col p-1',
+                  minutesList.length <= 12 && 'h-full justify-center'
+                )}
+              >
                 {minutesList.map(m => (
                   <Button
                     key={m}

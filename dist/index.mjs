@@ -2329,7 +2329,11 @@ function DateInput({
         id: "date",
         value,
         placeholder: resolvedPlaceholder,
-        className: cn("bg-background cursor-pointer", "group-data-[state=open]:border-blue-500 group-data-[state=open]:hover:border-blue-500", inputClassName),
+        className: cn(
+          "bg-background cursor-pointer",
+          "group-data-[state=open]:border-blue-500 group-data-[state=open]:hover:border-blue-500",
+          inputClassName
+        ),
         onChange: handleInputChange,
         onBlur: handleBlur,
         disabled: isInputDisabled,
@@ -2345,7 +2349,7 @@ function DateInput({
         ...inputProps
       }
     ) }) }),
-    /* @__PURE__ */ jsx22(PopoverContent, { className: "p-2 flex flex-col overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ", children: /* @__PURE__ */ jsx22(Calendar, { ...resolvedCalendarProps }) })
+    /* @__PURE__ */ jsx22(PopoverContent, { className: "p-0  overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ", children: /* @__PURE__ */ jsx22("div", { className: "border border-blue-500 h-full w-full rounded-md", children: /* @__PURE__ */ jsx22(Calendar, { ...resolvedCalendarProps }) }) })
   ] }) });
 }
 
@@ -2494,7 +2498,7 @@ function DateRangeInput({
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
     className: cn(
-      "w-auto  mx-auto h-[350px] overflow-y-auto md:h-auto m-2",
+      "w-auto mx-auto h-fit shrink-0 md:h-auto m-2",
       calendarClassName
     ),
     classNames,
@@ -2524,9 +2528,9 @@ function DateRangeInput({
         ]
       }
     ) }),
-    /* @__PURE__ */ jsxs11(PopoverContent, { className: "p-0 flex flex-col overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ", children: [
+    /* @__PURE__ */ jsx23(PopoverContent, { className: "p-0 h-[400px] w-[var(--radix-popper-anchor-width)] md:h-auto md:w-[350px]", children: /* @__PURE__ */ jsxs11("div", { className: "border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto", children: [
       /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps }),
-      /* @__PURE__ */ jsxs11("div", { className: "flex  flex-col gap-2 px-2 py-2", children: [
+      /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-2 px-2 py-2 shrink-0", children: [
         /* @__PURE__ */ jsx23(
           Button,
           {
@@ -2548,7 +2552,7 @@ function DateRangeInput({
           }
         )
       ] })
-    ] })
+    ] }) })
   ] }) });
 }
 
@@ -5325,7 +5329,7 @@ function TimeInput({
       {
         className: "w-auto p-0 ",
         onOpenAutoFocus: (e) => e.preventDefault(),
-        children: /* @__PURE__ */ jsxs24("div", { className: "flex divide-x", children: [
+        children: /* @__PURE__ */ jsxs24("div", { className: "flex divide-x border border-blue-500 rounded-md", children: [
           /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx49(
             Button,
             {
@@ -5341,21 +5345,31 @@ function TimeInput({
             },
             h
           )) }) }),
-          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: minutesRef, className: cn("flex flex-col p-1", minutesList.length <= 12 && "h-full justify-center"), children: minutesList.map((m) => /* @__PURE__ */ jsx49(
-            Button,
+          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49(
+            "div",
             {
-              variant: "ghost",
-              size: "sm",
-              "data-selected": selectedMinute === m,
+              ref: minutesRef,
               className: cn(
-                "w-full justify-center font-mono text-sm",
-                selectedMinute === m && "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
+                "flex flex-col p-1",
+                minutesList.length <= 12 && "h-full justify-center"
               ),
-              onClick: () => handleMinuteSelect(m),
-              children: String(m).padStart(2, "0")
-            },
-            m
-          )) }) }),
+              children: minutesList.map((m) => /* @__PURE__ */ jsx49(
+                Button,
+                {
+                  variant: "ghost",
+                  size: "sm",
+                  "data-selected": selectedMinute === m,
+                  className: cn(
+                    "w-full justify-center font-mono text-sm",
+                    selectedMinute === m && "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
+                  ),
+                  onClick: () => handleMinuteSelect(m),
+                  children: String(m).padStart(2, "0")
+                },
+                m
+              ))
+            }
+          ) }),
           !is24HourFormat(timeFormat) && /* @__PURE__ */ jsx49("div", { className: "flex flex-col p-1 justify-center gap-1", children: ["AM", "PM"].map((p) => /* @__PURE__ */ jsx49(
             Button,
             {
