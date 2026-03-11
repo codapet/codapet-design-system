@@ -8,8 +8,8 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { CalendarDayButton, DateRangeInput } from '@/index'
 import type { DateRange } from '@/index'
+import { CalendarDayButton, DateRangeInput } from '@/index'
 import { useState } from 'react'
 import { CodeBlock } from '../buttons/CodeBlock'
 
@@ -83,9 +83,9 @@ export function DateRangeInputDemo() {
                 setDateRange={setRange4}
                 disableFuture={false}
                 components={{
-                  DayButton: (props) => (
+                  DayButton: props => (
                     <CalendarDayButton {...props} className="rounded-full" />
-                  ),
+                  )
                 }}
               />
               <p className="text-xs text-muted-foreground">

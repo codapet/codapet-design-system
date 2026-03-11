@@ -2167,6 +2167,8 @@ function DateInput({
   className,
   inputClassName,
   calendarClassName,
+  popoverContentClassName,
+  popoverContentProps,
   inputDisabled,
   dateFormat = "MM/DD/YYYY",
   mode,
@@ -2349,7 +2351,17 @@ function DateInput({
         ...inputProps
       }
     ) }) }),
-    /* @__PURE__ */ jsx22(PopoverContent, { className: "p-0  overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ", children: /* @__PURE__ */ jsx22("div", { className: "border border-blue-500 h-full w-full rounded-md", children: /* @__PURE__ */ jsx22(Calendar, { ...resolvedCalendarProps }) }) })
+    /* @__PURE__ */ jsx22(
+      PopoverContent,
+      {
+        className: cn(
+          "p-0 overflow-y-auto h-[400px] md:h-auto md:w-[350px]",
+          popoverContentClassName
+        ),
+        ...popoverContentProps,
+        children: /* @__PURE__ */ jsx22("div", { className: "border border-blue-500 h-full w-full rounded-md", children: /* @__PURE__ */ jsx22(Calendar, { ...resolvedCalendarProps }) })
+      }
+    )
   ] }) });
 }
 
@@ -2406,6 +2418,8 @@ function DateRangeInput({
   className,
   inputClassName,
   calendarClassName,
+  popoverContentClassName,
+  popoverContentProps,
   inputDisabled,
   dateFormat = "MM/DD/YYYY",
   selected,
@@ -2528,31 +2542,41 @@ function DateRangeInput({
         ]
       }
     ) }),
-    /* @__PURE__ */ jsx23(PopoverContent, { className: "p-0 h-[400px] w-[var(--radix-popper-anchor-width)] md:h-auto md:w-[350px]", children: /* @__PURE__ */ jsxs11("div", { className: "border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto", children: [
-      /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps }),
-      /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-2 px-2 py-2 shrink-0", children: [
-        /* @__PURE__ */ jsx23(
-          Button,
-          {
-            variant: "ghost-secondary",
-            size: "sm",
-            onClick: handleClear,
-            type: "button",
-            children: "Clear"
-          }
+    /* @__PURE__ */ jsx23(
+      PopoverContent,
+      {
+        className: cn(
+          "p-0 h-[400px] w-[var(--radix-popper-anchor-width)] md:h-auto md:w-[350px]",
+          popoverContentClassName
         ),
-        /* @__PURE__ */ jsx23(
-          Button,
-          {
-            variant: "primary",
-            size: "sm",
-            onClick: handleAdd,
-            type: "button",
-            children: "Add"
-          }
-        )
-      ] })
-    ] }) })
+        ...popoverContentProps,
+        children: /* @__PURE__ */ jsxs11("div", { className: "border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto", children: [
+          /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps }),
+          /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-2 px-2 py-2 shrink-0", children: [
+            /* @__PURE__ */ jsx23(
+              Button,
+              {
+                variant: "ghost-secondary",
+                size: "sm",
+                onClick: handleClear,
+                type: "button",
+                children: "Clear"
+              }
+            ),
+            /* @__PURE__ */ jsx23(
+              Button,
+              {
+                variant: "primary",
+                size: "sm",
+                onClick: handleAdd,
+                type: "button",
+                children: "Add"
+              }
+            )
+          ] })
+        ] })
+      }
+    )
   ] }) });
 }
 
@@ -5241,6 +5265,8 @@ function TimeInput({
   inputDisabled,
   className,
   inputClassName,
+  popoverContentClassName,
+  popoverContentProps,
   size,
   placeholder,
   icon,
@@ -5327,8 +5353,9 @@ function TimeInput({
     /* @__PURE__ */ jsx49(
       PopoverContent,
       {
-        className: "w-auto p-0 ",
+        className: cn("w-auto p-0", popoverContentClassName),
         onOpenAutoFocus: (e) => e.preventDefault(),
+        ...popoverContentProps,
         children: /* @__PURE__ */ jsxs24("div", { className: "flex divide-x border border-blue-500 rounded-md", children: [
           /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx49(
             Button,

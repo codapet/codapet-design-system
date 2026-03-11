@@ -90,6 +90,11 @@ export interface DateRangeInputProps extends FlattenedCalendarProps {
   className?: string
   inputClassName?: string
   calendarClassName?: string
+  popoverContentClassName?: string
+  popoverContentProps?: Omit<
+    React.ComponentProps<typeof PopoverContent>,
+    'children' | 'className'
+  >
   dateFormat?: DateFormat
   placeholder?: string
   selected?: DateRange
@@ -114,6 +119,8 @@ export function DateRangeInput({
   className,
   inputClassName,
   calendarClassName,
+  popoverContentClassName,
+  popoverContentProps,
   inputDisabled,
   dateFormat = 'MM/DD/YYYY',
   selected,
@@ -252,7 +259,13 @@ export function DateRangeInput({
             <CalendarDays className="h-4 w-4 text-muted-foreground shrink-0" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 h-[400px] w-[var(--radix-popper-anchor-width)] md:h-auto md:w-[350px]">
+        <PopoverContent
+          className={cn(
+            'p-0 h-[400px] w-[var(--radix-popper-anchor-width)] md:h-auto md:w-[350px]',
+            popoverContentClassName
+          )}
+          {...popoverContentProps}
+        >
           <div className="border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto">
             <Calendar {...resolvedCalendarProps} />
             <div className="flex flex-col gap-2 px-2 py-2 shrink-0">

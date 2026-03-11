@@ -15,6 +15,7 @@ import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
 import { Command as Command$1 } from 'cmdk';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
+import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { Drawer as Drawer$1 } from 'vaul';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import * as react_hook_form from 'react-hook-form';
@@ -25,7 +26,6 @@ import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
 import { OTPInput } from 'input-otp';
 import * as MenubarPrimitive from '@radix-ui/react-menubar';
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
-import * as PopoverPrimitive from '@radix-ui/react-popover';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import * as ResizablePrimitive from 'react-resizable-panels';
@@ -250,6 +250,11 @@ interface InputProps extends Omit<React$1.ComponentProps<'input'>, 'size'>, Vari
 }
 declare const Input: React$1.ForwardRefExoticComponent<Omit<InputProps, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
 
+declare function Popover({ ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Root>): react_jsx_runtime.JSX.Element;
+declare function PopoverTrigger({ ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Trigger>): react_jsx_runtime.JSX.Element;
+declare function PopoverContent({ className, align, sideOffset, ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Content>): react_jsx_runtime.JSX.Element;
+declare function PopoverAnchor({ ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Anchor>): react_jsx_runtime.JSX.Element;
+
 type DateFormat = 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YYYY' | 'MM-DD-YYYY' | 'DD.MM.YYYY' | 'MMMM D, YYYY' | 'D MMMM YYYY';
 type NativeInputProps = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
 type FlattenedCalendarProps$1 = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames' | 'components' | 'formatters' | 'buttonVariant'>;
@@ -263,6 +268,8 @@ interface DateInputProps extends NativeInputProps, FlattenedCalendarProps$1 {
     size?: VariantProps<typeof inputVariants>['size'];
     inputClassName?: string;
     calendarClassName?: string;
+    popoverContentClassName?: string;
+    popoverContentProps?: Omit<React$1.ComponentProps<typeof PopoverContent>, 'children' | 'className'>;
     dateFormat?: DateFormat;
     mode?: React$1.ComponentProps<typeof Calendar>['mode'];
     selected?: Date;
@@ -277,7 +284,7 @@ interface DateInputProps extends NativeInputProps, FlattenedCalendarProps$1 {
     formatters?: React$1.ComponentProps<typeof Calendar>['formatters'];
     buttonVariant?: React$1.ComponentProps<typeof Calendar>['buttonVariant'];
 }
-declare function DateInput({ date, setDate, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, inputDisabled, dateFormat, mode, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, components, formatters, buttonVariant, placeholder, onBlur, ...restProps }: DateInputProps): react_jsx_runtime.JSX.Element;
+declare function DateInput({ date, setDate, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, popoverContentClassName, popoverContentProps, inputDisabled, dateFormat, mode, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, components, formatters, buttonVariant, placeholder, onBlur, ...restProps }: DateInputProps): react_jsx_runtime.JSX.Element;
 
 type FlattenedCalendarProps = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames' | 'components' | 'formatters' | 'buttonVariant'>;
 interface DateRangeInputProps extends FlattenedCalendarProps {
@@ -291,6 +298,8 @@ interface DateRangeInputProps extends FlattenedCalendarProps {
     className?: string;
     inputClassName?: string;
     calendarClassName?: string;
+    popoverContentClassName?: string;
+    popoverContentProps?: Omit<React$1.ComponentProps<typeof PopoverContent>, 'children' | 'className'>;
     dateFormat?: DateFormat;
     placeholder?: string;
     selected?: DateRange;
@@ -305,7 +314,7 @@ interface DateRangeInputProps extends FlattenedCalendarProps {
     formatters?: React$1.ComponentProps<typeof Calendar>['formatters'];
     buttonVariant?: React$1.ComponentProps<typeof Calendar>['buttonVariant'];
 }
-declare function DateRangeInput({ dateRange, setDateRange, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, inputDisabled, dateFormat, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, components, formatters, buttonVariant, placeholder, size, ...restProps }: DateRangeInputProps): react_jsx_runtime.JSX.Element;
+declare function DateRangeInput({ dateRange, setDateRange, maxDate, minDate, disableFuture, className, inputClassName, calendarClassName, popoverContentClassName, popoverContentProps, inputDisabled, dateFormat, selected, onSelect, month, onMonthChange, disabled: calendarDisabled, captionLayout, showOutsideDays, classNames, components, formatters, buttonVariant, placeholder, size, ...restProps }: DateRangeInputProps): react_jsx_runtime.JSX.Element;
 
 declare function Drawer({ ...props }: React$1.ComponentProps<typeof Drawer$1.Root>): react_jsx_runtime.JSX.Element;
 declare function DrawerTrigger({ ...props }: React$1.ComponentProps<typeof Drawer$1.Trigger>): react_jsx_runtime.JSX.Element;
@@ -429,11 +438,6 @@ declare function PaginationLink({ className, isActive, size, ...props }: Paginat
 declare function PaginationPrevious({ className, ...props }: React$1.ComponentProps<typeof PaginationLink>): react_jsx_runtime.JSX.Element;
 declare function PaginationNext({ className, ...props }: React$1.ComponentProps<typeof PaginationLink>): react_jsx_runtime.JSX.Element;
 declare function PaginationEllipsis({ className, ...props }: React$1.ComponentProps<'span'>): react_jsx_runtime.JSX.Element;
-
-declare function Popover({ ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Root>): react_jsx_runtime.JSX.Element;
-declare function PopoverTrigger({ ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Trigger>): react_jsx_runtime.JSX.Element;
-declare function PopoverContent({ className, align, sideOffset, ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Content>): react_jsx_runtime.JSX.Element;
-declare function PopoverAnchor({ ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Anchor>): react_jsx_runtime.JSX.Element;
 
 declare function Progress({ className, value, ...props }: React$1.ComponentProps<typeof ProgressPrimitive.Root>): react_jsx_runtime.JSX.Element;
 
@@ -597,11 +601,13 @@ interface TimeInputProps {
     size?: VariantProps<typeof inputVariants>['size'];
     className?: string;
     inputClassName?: string;
+    popoverContentClassName?: string;
+    popoverContentProps?: Omit<React$1.ComponentProps<typeof PopoverContent>, 'children' | 'className'>;
     placeholder?: string;
     icon?: React$1.ReactNode;
     formatDisplay?: (time: TimeValue) => string;
 }
-declare function TimeInput({ time, setTime, timeFormat, minuteStep, inputDisabled, className, inputClassName, size, placeholder, icon, formatDisplay }: TimeInputProps): react_jsx_runtime.JSX.Element;
+declare function TimeInput({ time, setTime, timeFormat, minuteStep, inputDisabled, className, inputClassName, popoverContentClassName, popoverContentProps, size, placeholder, icon, formatDisplay }: TimeInputProps): react_jsx_runtime.JSX.Element;
 
 declare const toggleVariants: (props?: ({
     variant?: "default" | "outline" | null | undefined;

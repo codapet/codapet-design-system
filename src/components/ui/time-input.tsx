@@ -67,6 +67,11 @@ export interface TimeInputProps {
   size?: VariantProps<typeof inputVariants>['size']
   className?: string
   inputClassName?: string
+  popoverContentClassName?: string
+  popoverContentProps?: Omit<
+    React.ComponentProps<typeof PopoverContent>,
+    'children' | 'className'
+  >
   placeholder?: string
   icon?: React.ReactNode
   formatDisplay?: (time: TimeValue) => string
@@ -80,6 +85,8 @@ export function TimeInput({
   inputDisabled,
   className,
   inputClassName,
+  popoverContentClassName,
+  popoverContentProps,
   size,
   placeholder,
   icon,
@@ -183,8 +190,9 @@ export function TimeInput({
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto p-0 "
+          className={cn('w-auto p-0', popoverContentClassName)}
           onOpenAutoFocus={e => e.preventDefault()}
+          {...popoverContentProps}
         >
           <div className="flex divide-x border border-blue-500 rounded-md">
             {/* Hours */}

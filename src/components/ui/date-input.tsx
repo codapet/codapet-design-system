@@ -153,6 +153,11 @@ export interface DateInputProps
   size?: VariantProps<typeof inputVariants>['size']
   inputClassName?: string
   calendarClassName?: string
+  popoverContentClassName?: string
+  popoverContentProps?: Omit<
+    React.ComponentProps<typeof PopoverContent>,
+    'children' | 'className'
+  >
   dateFormat?: DateFormat
   mode?: React.ComponentProps<typeof Calendar>['mode']
   selected?: Date
@@ -177,6 +182,8 @@ export function DateInput({
   className,
   inputClassName,
   calendarClassName,
+  popoverContentClassName,
+  popoverContentProps,
   inputDisabled,
   dateFormat = 'MM/DD/YYYY',
   mode,
@@ -409,7 +416,13 @@ export function DateInput({
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent className="p-0  overflow-y-auto h-[400px] md:h-auto md:w-[350px]  ">
+        <PopoverContent
+          className={cn(
+            'p-0 overflow-y-auto h-[400px] md:h-auto md:w-[350px]',
+            popoverContentClassName
+          )}
+          {...popoverContentProps}
+        >
           <div className="border border-blue-500 h-full w-full rounded-md">
             <Calendar {...resolvedCalendarProps} />
           </div>
