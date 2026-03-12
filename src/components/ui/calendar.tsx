@@ -88,7 +88,7 @@ function Calendar({
           classNames?.weekdays
         ),
         weekday: cn(
-          'text-muted-foreground rounded-full md:flex-1 size-6 mx-1 font-normal text-[0.8rem] select-none ',
+          'text-slate-700 font-medium rounded-full md:flex-1 size-6 mx-[6px] font-normal text-[0.8rem] select-none ',
           classNames?.weekday
         ),
         week: cn(
@@ -105,7 +105,7 @@ function Calendar({
           classNames?.week_number
         ),
         day: cn(
-          'relative flex items-center justify-center md:w-full md:h-full p-0 text-center  group/day aspect-square select-none size-7 md:mx-0 mx-1  rounded-full',
+          'relative flex items-center justify-center md:w-full md:h-full p-0 text-center  group/day aspect-square select-none size-7 md:mx-0 mx-[6px]  rounded-full',
           classNames?.day
         ),
         range_start: cn(' bg-accent', classNames?.range_start),
@@ -136,21 +136,21 @@ function Calendar({
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === 'left') {
             return (
-              <ChevronLeftIcon className={cn('size-4', className)} {...props} />
+              <ChevronLeftIcon className={cn('size-6', className)} {...props} />
             )
           }
 
           if (orientation === 'right') {
             return (
               <ChevronRightIcon
-                className={cn('size-4', className)}
+                className={cn('size-6', className)}
                 {...props}
               />
             )
           }
 
           return (
-            <ChevronDownIcon className={cn('size-4', className)} {...props} />
+            <ChevronDownIcon className={cn('size-6', className)} {...props} />
           )
         },
         DayButton: CalendarDayButton,
@@ -197,7 +197,7 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        'data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none md:font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px]  [&>span]:text-xs [&>span]:opacity-70  md:p-0 rounded-full md:text-base text-sm font-medium',
+        'data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-slate-200 data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none md:font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px]  [&>span]:text-xs [&>span]:opacity-70  md:p-0 rounded-full md:text-base text-sm font-medium text-black data-[range-middle=true]:rounded-md',
         className
       )}
       {...props}
