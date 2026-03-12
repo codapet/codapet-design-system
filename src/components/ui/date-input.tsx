@@ -199,7 +199,7 @@ export function DateInput({
   setDate,
   maxDate,
   minDate,
-  disableFuture = true,
+  disableFuture = false,
   className,
   inputClassName,
   calendarClassName,
@@ -295,6 +295,21 @@ export function DateInput({
     return null
   }, [minDate])
 
+  // Default wide range for the year dropdown when no explicit constraints are set
+  const dropdownStartMonth = React.useMemo(() => {
+    if (effectiveMinDate) return effectiveMinDate
+    const d = new Date(today)
+    d.setFullYear(d.getFullYear() - 100)
+    return d
+  }, [effectiveMinDate, today])
+
+  const dropdownEndMonth = React.useMemo(() => {
+    if (effectiveMaxDate) return effectiveMaxDate
+    const d = new Date(today)
+    d.setFullYear(d.getFullYear() + 100)
+    return d
+  }, [effectiveMaxDate, today])
+
   React.useEffect(() => {
     if (date) {
       setValue(formatDate(date, dateFormat))
@@ -341,8 +356,8 @@ export function DateInput({
     month: effectiveMonth,
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
-    ...(effectiveMinDate ? { startMonth: effectiveMinDate } : {}),
-    ...(effectiveMaxDate ? { endMonth: effectiveMaxDate } : {}),
+    startMonth: dropdownStartMonth,
+    endMonth: dropdownEndMonth,
     className: cn(
       'w-auto  mx-auto  overflow-y-auto h-auto m-2',
       calendarClassName

@@ -2174,7 +2174,7 @@ function DateInput({
   setDate,
   maxDate,
   minDate,
-  disableFuture = true,
+  disableFuture = false,
   className,
   inputClassName,
   calendarClassName,
@@ -2247,6 +2247,18 @@ function DateInput({
     }
     return null;
   }, [minDate]);
+  const dropdownStartMonth = React20.useMemo(() => {
+    if (effectiveMinDate) return effectiveMinDate;
+    const d = new Date(today);
+    d.setFullYear(d.getFullYear() - 100);
+    return d;
+  }, [effectiveMinDate, today]);
+  const dropdownEndMonth = React20.useMemo(() => {
+    if (effectiveMaxDate) return effectiveMaxDate;
+    const d = new Date(today);
+    d.setFullYear(d.getFullYear() + 100);
+    return d;
+  }, [effectiveMaxDate, today]);
   React20.useEffect(() => {
     if (date) {
       setValue(formatDate(date, dateFormat));
@@ -2284,8 +2296,8 @@ function DateInput({
     month: effectiveMonth,
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
-    ...effectiveMinDate ? { startMonth: effectiveMinDate } : {},
-    ...effectiveMaxDate ? { endMonth: effectiveMaxDate } : {},
+    startMonth: dropdownStartMonth,
+    endMonth: dropdownEndMonth,
     className: cn(
       "w-auto  mx-auto  overflow-y-auto h-auto m-2",
       calendarClassName
@@ -2441,7 +2453,7 @@ function DateRangeInput({
   setDateRange,
   maxDate,
   minDate,
-  disableFuture = true,
+  disableFuture = false,
   className,
   inputClassName,
   calendarClassName,
@@ -2504,6 +2516,18 @@ function DateRangeInput({
     }
     return null;
   }, [minDate]);
+  const dropdownStartMonth = React21.useMemo(() => {
+    if (effectiveMinDate) return effectiveMinDate;
+    const d = new Date(today);
+    d.setFullYear(d.getFullYear() - 100);
+    return d;
+  }, [effectiveMinDate, today]);
+  const dropdownEndMonth = React21.useMemo(() => {
+    if (effectiveMaxDate) return effectiveMaxDate;
+    const d = new Date(today);
+    d.setFullYear(d.getFullYear() + 100);
+    return d;
+  }, [effectiveMaxDate, today]);
   const effectiveMonth = month ?? monthState ?? void 0;
   const effectiveSelected = selected ?? dateRange;
   const isInputDisabled = inputDisabled ?? (typeof calendarDisabled === "boolean" ? calendarDisabled : false);
@@ -2538,8 +2562,8 @@ function DateRangeInput({
     month: effectiveMonth,
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
-    ...effectiveMinDate ? { startMonth: effectiveMinDate } : {},
-    ...effectiveMaxDate ? { endMonth: effectiveMaxDate } : {},
+    startMonth: dropdownStartMonth,
+    endMonth: dropdownEndMonth,
     className: cn("w-auto  shrink-0 h-auto mt-2", calendarClassName),
     classNames,
     components,

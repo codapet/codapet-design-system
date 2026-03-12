@@ -58,15 +58,14 @@ export function DateInputDemo() {
               <DateInput
                 date={date1}
                 setDate={setDate1}
-                disableFuture={false}
               />
             </div>
 
             <div className="space-y-2">
               <Label className="mb-2 block text-sm font-medium">
-                Disable Future Dates (Default)
+                Disable Future Dates
               </Label>
-              <DateInput date={date2} setDate={setDate2} disableFuture={true} />
+              <DateInput date={date2} setDate={setDate2} disableFuture />
               <p className="text-xs text-muted-foreground">
                 Cannot select future dates
               </p>
@@ -81,7 +80,6 @@ export function DateInputDemo() {
                 setDate={setDate3}
                 minDate={new Date(2023, 0, 1)}
                 maxDate={new Date(2025, 11, 31)}
-                disableFuture={false}
               />
               <p className="text-xs text-muted-foreground">
                 Min: Jan 1, 2023, Max: Dec 31, 2025
@@ -134,7 +132,6 @@ export function DateInputDemo() {
               <DateInput
                 date={date7}
                 setDate={setDate7}
-                disableFuture={false}
                 components={{
                   DayButton: props => (
                     <CalendarDayButton {...props} className="rounded-full" />
@@ -157,10 +154,10 @@ export function DateInputDemo() {
   return (
     <>
       {/* Basic Usage */}
-      <DateInput date={date} setDate={setDate} disableFuture={false} />
+      <DateInput date={date} setDate={setDate} />
 
       {/* Disable Future Dates */}
-      <DateInput date={date} setDate={setDate} disableFuture={true} />
+      <DateInput date={date} setDate={setDate} disableFuture />
 
       {/* Min & Max Date */}
       <DateInput
@@ -168,7 +165,6 @@ export function DateInputDemo() {
         setDate={setDate}
         minDate={new Date(2023, 0, 1)}
         maxDate={new Date(2025, 11, 31)}
-        disableFuture={false}
       />
 
       {/* Custom Placeholder */}
@@ -213,7 +209,7 @@ export function DateInputDemo() {
                 date={dateFmt1}
                 setDate={setDateFmt1}
                 dateFormat="MM/DD/YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">
                 Placeholder: mm/dd/yyyy
@@ -228,7 +224,7 @@ export function DateInputDemo() {
                 date={dateFmt2}
                 setDate={setDateFmt2}
                 dateFormat="DD/MM/YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">
                 Placeholder: dd/mm/yyyy
@@ -243,7 +239,7 @@ export function DateInputDemo() {
                 date={dateFmt3}
                 setDate={setDateFmt3}
                 dateFormat="YYYY-MM-DD"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">
                 Placeholder: yyyy-mm-dd
@@ -256,7 +252,7 @@ export function DateInputDemo() {
                 date={dateFmt4}
                 setDate={setDateFmt4}
                 dateFormat="DD-MM-YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">
                 Placeholder: dd-mm-yyyy
@@ -269,7 +265,7 @@ export function DateInputDemo() {
                 date={dateFmt5}
                 setDate={setDateFmt5}
                 dateFormat="MM-DD-YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">
                 Placeholder: mm-dd-yyyy
@@ -284,7 +280,7 @@ export function DateInputDemo() {
                 date={dateFmt6}
                 setDate={setDateFmt6}
                 dateFormat="DD.MM.YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">
                 Placeholder: dd.mm.yyyy
@@ -299,7 +295,7 @@ export function DateInputDemo() {
                 date={dateFmt7}
                 setDate={setDateFmt7}
                 dateFormat="MMMM D, YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">
                 e.g. January 1, 2025
@@ -314,7 +310,7 @@ export function DateInputDemo() {
                 date={dateFmt8}
                 setDate={setDateFmt8}
                 dateFormat="D MMMM YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">
                 e.g. 1 January 2025
@@ -329,7 +325,7 @@ export function DateInputDemo() {
                 date={dateFmt9}
                 setDate={setDateFmt9}
                 dateFormat="MMM D, YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">e.g. Jan 1, 2025</p>
             </div>
@@ -342,7 +338,7 @@ export function DateInputDemo() {
                 date={dateFmt10}
                 setDate={setDateFmt10}
                 dateFormat="MMM DD, YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">e.g. Jan 01, 2025</p>
             </div>
@@ -355,7 +351,7 @@ export function DateInputDemo() {
                 date={dateFmt11}
                 setDate={setDateFmt11}
                 dateFormat="D MMM YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">e.g. 1 Jan 2025</p>
             </div>
@@ -368,7 +364,7 @@ export function DateInputDemo() {
                 date={dateFmt12}
                 setDate={setDateFmt12}
                 dateFormat="DD MMM YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">e.g. 01 Jan 2025</p>
             </div>
@@ -381,7 +377,7 @@ export function DateInputDemo() {
                 date={dateFmt13}
                 setDate={setDateFmt13}
                 dateFormat="YYYY/MM/DD"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">e.g. 2025/01/01</p>
             </div>
@@ -394,7 +390,7 @@ export function DateInputDemo() {
                 date={dateFmt14}
                 setDate={setDateFmt14}
                 dateFormat="ddd, MMM D, YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">
                 e.g. Wed, Jan 1, 2025
@@ -409,7 +405,7 @@ export function DateInputDemo() {
                 date={dateFmt15}
                 setDate={setDateFmt15}
                 dateFormat="dddd, MMMM D, YYYY"
-                disableFuture={false}
+
               />
               <p className="text-xs text-muted-foreground">
                 e.g. Wednesday, January 1, 2025
@@ -516,7 +512,7 @@ interface DateInputProps extends NativeInputProps, FlattenedCalendarProps {
   // Date constraints
   maxDate?: Date | null
   minDate?: Date | null
-  disableFuture?: boolean                // default: true
+  disableFuture?: boolean                // default: false
 
   // Input configuration
   inputDisabled?: boolean

@@ -42,7 +42,6 @@ export function DateRangeInputDemo() {
               <DateRangeInput
                 dateRange={range1}
                 setDateRange={setRange1}
-                disableFuture={false}
               />
             </div>
 
@@ -55,7 +54,6 @@ export function DateRangeInputDemo() {
                 setDateRange={setRange2}
                 minDate={new Date(2024, 0, 1)}
                 maxDate={new Date(2026, 11, 31)}
-                disableFuture={false}
               />
               <p className="text-xs text-muted-foreground">
                 Min: Jan 1, 2024, Max: Dec 31, 2026
@@ -70,7 +68,6 @@ export function DateRangeInputDemo() {
                 dateRange={range3}
                 setDateRange={setRange3}
                 dateFormat="YYYY-MM-DD"
-                disableFuture={false}
               />
             </div>
 
@@ -81,7 +78,6 @@ export function DateRangeInputDemo() {
               <DateRangeInput
                 dateRange={range4}
                 setDateRange={setRange4}
-                disableFuture={false}
                 components={{
                   DayButton: props => (
                     <CalendarDayButton {...props} className="rounded-full" />
@@ -107,7 +103,6 @@ export function Example() {
       <DateRangeInput
         dateRange={range}
         setDateRange={setRange}
-        disableFuture={false}
       />
 
       {/* With Min & Max Dates */}
@@ -116,7 +111,6 @@ export function Example() {
         setDateRange={setRange}
         minDate={new Date(2024, 0, 1)}
         maxDate={new Date(2026, 11, 31)}
-        disableFuture={false}
       />
 
       {/* ISO Date Format */}
@@ -124,7 +118,6 @@ export function Example() {
         dateRange={range}
         setDateRange={setRange}
         dateFormat="YYYY-MM-DD"
-        disableFuture={false}
       />
     </>
   )
@@ -194,7 +187,7 @@ interface DateRangeInputProps extends FlattenedCalendarProps {
   // Date constraints
   maxDate?: Date | null
   minDate?: Date | null
-  disableFuture?: boolean                // default: true
+  disableFuture?: boolean                // default: false
 
   // Input configuration
   inputDisabled?: boolean
