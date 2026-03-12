@@ -158,49 +158,72 @@ type DateFormat =
   | 'DD-MM-YYYY'
   | 'MM-DD-YYYY'
   | 'DD.MM.YYYY'
+  | 'YYYY/MM/DD'
   | 'MMMM D, YYYY'
   | 'D MMMM YYYY'
+  | 'MMM D, YYYY'
+  | 'MMM DD, YYYY'
+  | 'D MMM YYYY'
+  | 'DD MMM YYYY'
+  | 'ddd, MMM D, YYYY'
+  | 'dddd, MMMM D, YYYY'
 
-interface DateRangeInputProps {
+type FlattenedCalendarProps = Omit<
+  React.ComponentProps<typeof Calendar>,
+  | keyof React.InputHTMLAttributes<HTMLInputElement>
+  | 'className'
+  | 'mode'
+  | 'selected'
+  | 'onSelect'
+  | 'month'
+  | 'onMonthChange'
+  | 'disabled'
+  | 'captionLayout'
+  | 'showOutsideDays'
+  | 'classNames'
+  | 'components'
+  | 'formatters'
+  | 'buttonVariant'
+>
+
+interface DateRangeInputProps extends FlattenedCalendarProps {
   // Core controlled state
   dateRange: DateRange | undefined
   setDateRange: (range: DateRange | undefined) => void
 
   // Date constraints
-  minDate?: Date | null
   maxDate?: Date | null
-  disableFuture?: boolean          // default: true
+  minDate?: Date | null
+  disableFuture?: boolean                // default: true
 
   // Input configuration
   inputDisabled?: boolean
   size?: 'sm' | 'md' | 'lg'
-  dateFormat?: DateFormat           // default: 'MM/DD/YYYY'
-  placeholder?: string             // default: "mm/dd/yyyy – mm/dd/yyyy"
+  dateFormat?: DateFormat                 // default: 'MM/DD/YYYY'
+  placeholder?: string                   // default: "mm/dd/yyyy – mm/dd/yyyy"
 
   // Styling
-  className?: string               // wrapper className
-  inputClassName?: string           // applied to the input
-  calendarClassName?: string        // applied to Calendar
+  className?: string                     // wrapper className
+  inputClassName?: string                // applied to the trigger button
+  calendarClassName?: string             // applied to Calendar
+  popoverContentClassName?: string       // applied to PopoverContent
+  popoverContentProps?: Omit<            // extra props for PopoverContent
+    React.ComponentProps<typeof PopoverContent>,
+    'children' | 'className'
+  >
 
-  // Calendar configuration
-  captionLayout?: 'label' | 'dropdown'  // default: 'dropdown'
-  showOutsideDays?: boolean         // default: false
-  classNames?: Calendar['classNames']
-
-  // Calendar component overrides
+  // Calendar configuration (flattened overrides)
+  selected?: DateRange
+  onSelect?: (range: DateRange | undefined) => void
+  month?: React.ComponentProps<typeof Calendar>['month']
+  onMonthChange?: React.ComponentProps<typeof Calendar>['onMonthChange']
+  disabled?: React.ComponentProps<typeof Calendar>['disabled']
+  captionLayout?: React.ComponentProps<typeof Calendar>['captionLayout']
+  showOutsideDays?: React.ComponentProps<typeof Calendar>['showOutsideDays']
+  classNames?: React.ComponentProps<typeof Calendar>['classNames']
   components?: React.ComponentProps<typeof Calendar>['components']
   formatters?: React.ComponentProps<typeof Calendar>['formatters']
   buttonVariant?: React.ComponentProps<typeof Calendar>['buttonVariant']
-
-  // Advanced calendar overrides
-  selected?: DateRange
-  onSelect?: (range: DateRange | undefined) => void
-  month?: Date
-  onMonthChange?: (month: Date) => void
-  disabled?: Matcher | Matcher[]
-
-  // Native input props (aria-*, data-*, event handlers, etc.)
-  // are forwarded to the input
 }`}
           />
         </CardContent>

@@ -55,7 +55,11 @@ export function DateInputDemo() {
               <Label className="mb-2 block text-sm font-medium">
                 Basic Date Input
               </Label>
-              <DateInput date={date1} setDate={setDate1} />
+              <DateInput
+                date={date1}
+                setDate={setDate1}
+                disableFuture={false}
+              />
             </div>
 
             <div className="space-y-2">
@@ -153,7 +157,7 @@ export function DateInputDemo() {
   return (
     <>
       {/* Basic Usage */}
-      <DateInput date={date} setDate={setDate} />
+      <DateInput date={date} setDate={setDate} disableFuture={false} />
 
       {/* Disable Future Dates */}
       <DateInput date={date} setDate={setDate} disableFuture={true} />
@@ -499,25 +503,37 @@ type FlattenedCalendarProps = Omit<
   | 'captionLayout'
   | 'showOutsideDays'
   | 'classNames'
+  | 'components'
+  | 'formatters'
+  | 'buttonVariant'
 >
 
 interface DateInputProps extends NativeInputProps, FlattenedCalendarProps {
-  // DateInput controlled props
+  // Core controlled state
   date: Date | null
   setDate: (date: Date | null) => void
-  minDate?: Date | null
+
+  // Date constraints
   maxDate?: Date | null
-  disableFuture?: boolean
+  minDate?: Date | null
+  disableFuture?: boolean                // default: true
+
+  // Input configuration
   inputDisabled?: boolean
-  inputClassName?: string
-  calendarClassName?: string
-  dateFormat?: DateFormat
+  size?: 'sm' | 'md' | 'lg'
+  dateFormat?: DateFormat                 // default: 'MM/DD/YYYY'
 
-  // Temporary compatibility path (deprecated)
-  /** @deprecated Use flattened Calendar props directly on DateInput */
-  calendarProps?: React.ComponentProps<typeof Calendar>
+  // Styling
+  className?: string                     // wrapper className
+  inputClassName?: string                // applied to the input
+  calendarClassName?: string             // applied to Calendar
+  popoverContentClassName?: string       // applied to PopoverContent
+  popoverContentProps?: Omit<            // extra props for PopoverContent
+    React.ComponentProps<typeof PopoverContent>,
+    'children' | 'className'
+  >
 
-  // Explicit flattened overrides commonly used
+  // Calendar configuration (flattened overrides)
   mode?: React.ComponentProps<typeof Calendar>['mode']
   selected?: Date
   onSelect?: (selectedDate: Date | undefined) => void

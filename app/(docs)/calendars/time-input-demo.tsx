@@ -201,24 +201,26 @@ interface TimeInputProps {
   setTime: (time: TimeValue | null) => void
 
   // Format
-  timeFormat?: TimeFormat       // default: '12h'
-  minuteStep?: number           // default: 1 (e.g. 5, 10, 15, 30)
+  timeFormat?: TimeFormat                 // default: '12h'
+  minuteStep?: number                     // default: 1 (e.g. 5, 10, 15, 30)
   formatDisplay?: (time: TimeValue) => string // custom display formatter
 
   // Icon
-  icon?: React.ReactNode        // default: Clock icon, pass null to hide
+  icon?: React.ReactNode                  // default: Clock icon, pass null to hide
 
   // Input configuration
   inputDisabled?: boolean
   size?: 'sm' | 'md' | 'lg'
-  placeholder?: string          // auto-generated per format
+  placeholder?: string                    // auto-generated per format
 
   // Styling
-  className?: string            // wrapper className
-  inputClassName?: string       // applied to the input
-
-  // Native input props (aria-*, data-*, event handlers)
-  // are forwarded to the input
+  className?: string                      // wrapper className
+  inputClassName?: string                 // applied to the trigger button
+  popoverContentClassName?: string        // applied to PopoverContent
+  popoverContentProps?: Omit<             // extra props for PopoverContent
+    React.ComponentProps<typeof PopoverContent>,
+    'children' | 'className'
+  >
 }`}
           />
         </CardContent>
