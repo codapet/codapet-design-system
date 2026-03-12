@@ -321,7 +321,7 @@ export function DateInput({
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
     className: cn(
-      'w-auto  mx-auto h-[350px] overflow-y-auto md:h-auto m-2',
+      'w-auto  mx-auto  overflow-y-auto h-auto m-2',
       calendarClassName
     ),
     classNames,
@@ -418,7 +418,7 @@ export function DateInput({
         </PopoverTrigger>
         <PopoverContent
           className={cn(
-            'p-0 overflow-y-auto h-[400px] md:h-auto md:w-[350px]',
+            'p-0  w-[var(--radix-popper-anchor-width)] h-auto md:w-[350px]',
             popoverContentClassName
           )}
           {...popoverContentProps}

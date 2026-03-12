@@ -631,13 +631,13 @@ function BreadcrumbEllipsis({
 }
 
 // src/components/ui/calendar.tsx
-import * as React10 from "react";
 import {
   ChevronDownIcon as ChevronDownIcon2,
   ChevronLeftIcon,
   ChevronRightIcon
 } from "lucide-react";
-import { DayPicker, getDefaultClassNames } from "react-day-picker";
+import * as React10 from "react";
+import { DayPicker } from "react-day-picker";
 import { jsx as jsx11 } from "react/jsx-runtime";
 function Calendar({
   className,
@@ -649,13 +649,12 @@ function Calendar({
   components,
   ...props
 }) {
-  const defaultClassNames = getDefaultClassNames();
   return /* @__PURE__ */ jsx11(
     DayPicker,
     {
       showOutsideDays,
       className: cn(
-        "bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
+        "bg-background group/calendar p-3 [--cell-size:--spacing(4)]  md:[--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
         className
@@ -666,86 +665,86 @@ function Calendar({
         ...formatters
       },
       classNames: {
-        root: cn("w-fit", defaultClassNames.root),
+        root: cn("w-fit ", classNames?.root),
         months: cn(
           "flex gap-4 flex-col md:flex-row relative",
-          defaultClassNames.months
+          classNames?.months
         ),
-        month: cn("flex flex-col w-full gap-4", defaultClassNames.month),
+        month: cn("flex flex-col w-full gap-4", classNames?.month),
         nav: cn(
           "flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between",
-          defaultClassNames.nav
+          classNames?.nav
         ),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
           "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
-          defaultClassNames.button_previous
+          classNames?.button_previous
         ),
         button_next: cn(
           buttonVariants({ variant: buttonVariant }),
           "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
-          defaultClassNames.button_next
+          classNames?.button_next
         ),
         month_caption: cn(
           "flex items-center justify-center h-(--cell-size) w-full px-(--cell-size)",
-          defaultClassNames.month_caption
+          classNames?.month_caption
         ),
         dropdowns: cn(
           "w-full flex items-center text-sm font-medium justify-center h-(--cell-size) gap-1.5",
-          defaultClassNames.dropdowns
+          classNames?.dropdowns
         ),
         dropdown_root: cn(
           "relative has-focus:border-ring border border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] rounded-md",
-          defaultClassNames.dropdown_root
+          classNames?.dropdown_root
         ),
         dropdown: cn(
           "absolute bg-popover inset-0 opacity-0",
-          defaultClassNames.dropdown
+          classNames?.dropdown
         ),
         caption_label: cn(
           "select-none font-medium",
           captionLayout === "label" ? "text-sm" : "rounded-md pl-2 pr-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-muted-foreground [&>svg]:size-3.5",
-          defaultClassNames.caption_label
+          classNames?.caption_label
         ),
-        table: "w-full border-collapse",
-        weekdays: cn("flex", defaultClassNames.weekdays),
+        table: cn("w-full border-collapse", classNames?.table),
+        weekdays: cn(
+          "flex items-center justify-center w-full gap-2",
+          classNames?.weekdays
+        ),
         weekday: cn(
-          "text-muted-foreground rounded-md flex-1 font-normal text-[0.8rem] select-none",
-          defaultClassNames.weekday
+          "text-muted-foreground rounded-full md:flex-1 size-6 mx-1 font-normal text-[0.8rem] select-none ",
+          classNames?.weekday
         ),
-        week: cn("flex w-full mt-2", defaultClassNames.week),
+        week: cn(
+          "flex w-full md:mt-2 mt-[2px]  items-center justify-center gap-1",
+          classNames?.week
+        ),
         week_number_header: cn(
-          "select-none w-(--cell-size)",
-          defaultClassNames.week_number_header
+          "select-none w-(--cell-size) ",
+          "flex items-center justify-center ",
+          classNames?.week_number_header
         ),
         week_number: cn(
           "text-[0.8rem] select-none text-muted-foreground",
-          defaultClassNames.week_number
+          classNames?.week_number
         ),
         day: cn(
-          "relative w-full h-full p-0 text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md group/day aspect-square select-none",
-          defaultClassNames.day
+          "relative flex items-center justify-center md:w-full md:h-full p-0 text-center  group/day aspect-square select-none size-7 md:mx-0 mx-1  rounded-full",
+          classNames?.day
         ),
-        range_start: cn(
-          "rounded-l-md bg-accent",
-          defaultClassNames.range_start
-        ),
-        range_middle: cn("rounded-none", defaultClassNames.range_middle),
-        range_end: cn("rounded-r-md bg-accent", defaultClassNames.range_end),
+        range_start: cn(" bg-accent", classNames?.range_start),
+        range_middle: cn("rounded-none", classNames?.range_middle),
+        range_end: cn(" bg-accent", classNames?.range_end),
         today: cn(
-          "bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none",
-          defaultClassNames.today
+          "bg-accent text-accent-foreground   rounded-full",
+          classNames?.today
         ),
         outside: cn(
           "text-muted-foreground aria-selected:text-muted-foreground",
-          defaultClassNames.outside
+          classNames?.outside
         ),
-        disabled: cn(
-          "text-muted-foreground opacity-50",
-          defaultClassNames.disabled
-        ),
-        hidden: cn("invisible", defaultClassNames.hidden),
-        ...classNames
+        disabled: cn("text-muted-foreground opacity-50", classNames?.disabled),
+        hidden: cn("invisible", classNames?.hidden)
       },
       components: {
         Root: ({ className: className2, rootRef, ...props2 }) => {
@@ -790,7 +789,6 @@ function CalendarDayButton({
   modifiers,
   ...props
 }) {
-  const defaultClassNames = getDefaultClassNames();
   const ref = React10.useRef(null);
   React10.useEffect(() => {
     if (modifiers.focused) ref.current?.focus();
@@ -807,8 +805,7 @@ function CalendarDayButton({
       "data-range-end": modifiers.range_end,
       "data-range-middle": modifiers.range_middle,
       className: cn(
-        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md [&>span]:text-xs [&>span]:opacity-70",
-        defaultClassNames.day,
+        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none md:font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px]  [&>span]:text-xs [&>span]:opacity-70  md:p-0 rounded-full md:text-base text-sm font-medium",
         className
       ),
       ...props
@@ -2274,7 +2271,7 @@ function DateInput({
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
     className: cn(
-      "w-auto  mx-auto h-[350px] overflow-y-auto md:h-auto m-2",
+      "w-auto  mx-auto  overflow-y-auto h-auto m-2",
       calendarClassName
     ),
     classNames,
@@ -2355,7 +2352,7 @@ function DateInput({
       PopoverContent,
       {
         className: cn(
-          "p-0 overflow-y-auto h-[400px] md:h-auto md:w-[350px]",
+          "p-0  w-[var(--radix-popper-anchor-width)] h-auto md:w-[350px]",
           popoverContentClassName
         ),
         ...popoverContentProps,
@@ -2511,10 +2508,7 @@ function DateRangeInput({
     month: effectiveMonth,
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
-    className: cn(
-      "w-auto mx-auto h-fit shrink-0 md:h-auto m-2",
-      calendarClassName
-    ),
+    className: cn("w-auto  shrink-0 h-auto mt-2", calendarClassName),
     classNames,
     components,
     formatters,
@@ -2550,7 +2544,7 @@ function DateRangeInput({
           popoverContentClassName
         ),
         ...popoverContentProps,
-        children: /* @__PURE__ */ jsxs11("div", { className: "border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto", children: [
+        children: /* @__PURE__ */ jsxs11("div", { className: "border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto justify-between", children: [
           /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps }),
           /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-2 px-2 py-2 shrink-0", children: [
             /* @__PURE__ */ jsx23(

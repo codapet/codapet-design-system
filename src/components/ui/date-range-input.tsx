@@ -226,10 +226,7 @@ export function DateRangeInput({
     month: effectiveMonth,
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
-    className: cn(
-      'w-auto mx-auto h-fit shrink-0 md:h-auto m-2',
-      calendarClassName
-    ),
+    className: cn('w-auto  shrink-0 h-auto mt-2', calendarClassName),
     classNames,
     components,
     formatters,
@@ -266,7 +263,7 @@ export function DateRangeInput({
           )}
           {...popoverContentProps}
         >
-          <div className="border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto">
+          <div className="border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto justify-between">
             <Calendar {...resolvedCalendarProps} />
             <div className="flex flex-col gap-2 px-2 py-2 shrink-0">
               <Button

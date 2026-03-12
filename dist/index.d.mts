@@ -112,7 +112,7 @@ declare function Button({ className, variant, size, asChild, ...props }: React$1
 }): react_jsx_runtime.JSX.Element;
 
 declare function Calendar({ className, classNames, showOutsideDays, captionLayout, buttonVariant, formatters, components, ...props }: React$1.ComponentProps<typeof DayPicker> & {
-    buttonVariant?: React$1.ComponentProps<typeof Button>["variant"];
+    buttonVariant?: React$1.ComponentProps<typeof Button>['variant'];
 }): react_jsx_runtime.JSX.Element;
 declare function CalendarDayButton({ className, day, modifiers, ...props }: React$1.ComponentProps<typeof DayButton>): react_jsx_runtime.JSX.Element;
 
