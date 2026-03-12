@@ -88,7 +88,7 @@ function Calendar({
           classNames?.weekdays
         ),
         weekday: cn(
-          'text-slate-700 font-medium rounded-full md:flex-1 size-6 mx-[6px] font-normal text-[0.8rem] select-none ',
+          'text-slate-700 font-medium rounded-full md:flex-1 size-6 mx-1 font-normal text-[0.8rem] select-none ',
           classNames?.weekday
         ),
         week: cn(
@@ -105,7 +105,7 @@ function Calendar({
           classNames?.week_number
         ),
         day: cn(
-          'relative flex items-center justify-center md:w-full md:h-full p-0 text-center  group/day aspect-square select-none size-7 md:mx-0 mx-[6px]  rounded-full',
+          'relative flex items-center justify-center md:w-full md:h-full p-0 text-center  group/day aspect-square select-none size-7 md:mx-0 mx-1  rounded-full',
           classNames?.day
         ),
         range_start: cn(' bg-accent', classNames?.range_start),
