@@ -341,6 +341,8 @@ export function DateInput({
     month: effectiveMonth,
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
+    ...(effectiveMinDate ? { startMonth: effectiveMinDate } : {}),
+    ...(effectiveMaxDate ? { endMonth: effectiveMaxDate } : {}),
     className: cn(
       'w-auto  mx-auto  overflow-y-auto h-auto m-2',
       calendarClassName

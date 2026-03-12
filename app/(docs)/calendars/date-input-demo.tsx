@@ -327,9 +327,7 @@ export function DateInputDemo() {
                 dateFormat="MMM D, YYYY"
                 disableFuture={false}
               />
-              <p className="text-xs text-muted-foreground">
-                e.g. Jan 1, 2025
-              </p>
+              <p className="text-xs text-muted-foreground">e.g. Jan 1, 2025</p>
             </div>
 
             <div className="space-y-2">
@@ -342,9 +340,7 @@ export function DateInputDemo() {
                 dateFormat="MMM DD, YYYY"
                 disableFuture={false}
               />
-              <p className="text-xs text-muted-foreground">
-                e.g. Jan 01, 2025
-              </p>
+              <p className="text-xs text-muted-foreground">e.g. Jan 01, 2025</p>
             </div>
 
             <div className="space-y-2">
@@ -357,9 +353,7 @@ export function DateInputDemo() {
                 dateFormat="D MMM YYYY"
                 disableFuture={false}
               />
-              <p className="text-xs text-muted-foreground">
-                e.g. 1 Jan 2025
-              </p>
+              <p className="text-xs text-muted-foreground">e.g. 1 Jan 2025</p>
             </div>
 
             <div className="space-y-2">
@@ -372,9 +366,7 @@ export function DateInputDemo() {
                 dateFormat="DD MMM YYYY"
                 disableFuture={false}
               />
-              <p className="text-xs text-muted-foreground">
-                e.g. 01 Jan 2025
-              </p>
+              <p className="text-xs text-muted-foreground">e.g. 01 Jan 2025</p>
             </div>
 
             <div className="space-y-2">
@@ -387,9 +379,7 @@ export function DateInputDemo() {
                 dateFormat="YYYY/MM/DD"
                 disableFuture={false}
               />
-              <p className="text-xs text-muted-foreground">
-                e.g. 2025/01/01
-              </p>
+              <p className="text-xs text-muted-foreground">e.g. 2025/01/01</p>
             </div>
 
             <div className="space-y-2">

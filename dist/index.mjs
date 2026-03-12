@@ -2284,6 +2284,8 @@ function DateInput({
     month: effectiveMonth,
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
+    ...effectiveMinDate ? { startMonth: effectiveMinDate } : {},
+    ...effectiveMaxDate ? { endMonth: effectiveMaxDate } : {},
     className: cn(
       "w-auto  mx-auto  overflow-y-auto h-auto m-2",
       calendarClassName
@@ -2536,6 +2538,8 @@ function DateRangeInput({
     month: effectiveMonth,
     onMonthChange: onMonthChange ?? setMonthState,
     showOutsideDays,
+    ...effectiveMinDate ? { startMonth: effectiveMinDate } : {},
+    ...effectiveMaxDate ? { endMonth: effectiveMaxDate } : {},
     className: cn("w-auto  shrink-0 h-auto mt-2", calendarClassName),
     classNames,
     components,
