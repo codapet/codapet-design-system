@@ -2540,13 +2540,13 @@ function DateRangeInput({
       PopoverContent,
       {
         className: cn(
-          "p-0 h-[400px] w-[var(--radix-popper-anchor-width)] md:h-auto md:w-[350px]",
+          "p-0  w-[var(--radix-popper-anchor-width)] h-auto md:w-[350px]",
           popoverContentClassName
         ),
         ...popoverContentProps,
         children: /* @__PURE__ */ jsxs11("div", { className: "border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto justify-between", children: [
           /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps }),
-          /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-2 px-2 py-2 shrink-0", children: [
+          /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-2 px-2 pb-1 shrink-0", children: [
             /* @__PURE__ */ jsx23(
               Button,
               {
