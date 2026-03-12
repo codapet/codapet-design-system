@@ -18,8 +18,15 @@ export type DateFormat =
   | 'DD-MM-YYYY'
   | 'MM-DD-YYYY'
   | 'DD.MM.YYYY'
+  | 'YYYY/MM/DD'
   | 'MMMM D, YYYY'
   | 'D MMMM YYYY'
+  | 'MMM D, YYYY'
+  | 'MMM DD, YYYY'
+  | 'D MMM YYYY'
+  | 'DD MMM YYYY'
+  | 'ddd, MMM D, YYYY'
+  | 'dddd, MMMM D, YYYY'
 
 const DATE_FORMAT_TOKENS: Record<DateFormat, string> = {
   'MM/DD/YYYY': 'MM/dd/yyyy',
@@ -28,8 +35,15 @@ const DATE_FORMAT_TOKENS: Record<DateFormat, string> = {
   'DD-MM-YYYY': 'dd-MM-yyyy',
   'MM-DD-YYYY': 'MM-dd-yyyy',
   'DD.MM.YYYY': 'dd.MM.yyyy',
+  'YYYY/MM/DD': 'yyyy/MM/dd',
   'MMMM D, YYYY': 'MMMM d, yyyy',
-  'D MMMM YYYY': 'd MMMM yyyy'
+  'D MMMM YYYY': 'd MMMM yyyy',
+  'MMM D, YYYY': 'MMM d, yyyy',
+  'MMM DD, YYYY': 'MMM dd, yyyy',
+  'D MMM YYYY': 'd MMM yyyy',
+  'DD MMM YYYY': 'dd MMM yyyy',
+  'ddd, MMM D, YYYY': 'EEE, MMM d, yyyy',
+  'dddd, MMMM D, YYYY': 'EEEE, MMMM d, yyyy'
 }
 
 const DATE_FORMAT_PLACEHOLDER: Record<DateFormat, string> = {
@@ -39,8 +53,15 @@ const DATE_FORMAT_PLACEHOLDER: Record<DateFormat, string> = {
   'DD-MM-YYYY': 'dd-mm-yyyy',
   'MM-DD-YYYY': 'mm-dd-yyyy',
   'DD.MM.YYYY': 'dd.mm.yyyy',
+  'YYYY/MM/DD': 'yyyy/mm/dd',
   'MMMM D, YYYY': 'Month d, yyyy',
-  'D MMMM YYYY': 'd Month yyyy'
+  'D MMMM YYYY': 'd Month yyyy',
+  'MMM D, YYYY': 'Mon d, yyyy',
+  'MMM DD, YYYY': 'Mon dd, yyyy',
+  'D MMM YYYY': 'd Mon yyyy',
+  'DD MMM YYYY': 'dd Mon yyyy',
+  'ddd, MMM D, YYYY': 'Day, Mon d, yyyy',
+  'dddd, MMMM D, YYYY': 'Weekday, Month d, yyyy'
 }
 
 type NativeInputProps = Omit<

@@ -255,7 +255,7 @@ declare function PopoverTrigger({ ...props }: React$1.ComponentProps<typeof Popo
 declare function PopoverContent({ className, align, sideOffset, ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Content>): react_jsx_runtime.JSX.Element;
 declare function PopoverAnchor({ ...props }: React$1.ComponentProps<typeof PopoverPrimitive.Anchor>): react_jsx_runtime.JSX.Element;
 
-type DateFormat = 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YYYY' | 'MM-DD-YYYY' | 'DD.MM.YYYY' | 'MMMM D, YYYY' | 'D MMMM YYYY';
+type DateFormat = 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YYYY' | 'MM-DD-YYYY' | 'DD.MM.YYYY' | 'YYYY/MM/DD' | 'MMMM D, YYYY' | 'D MMMM YYYY' | 'MMM D, YYYY' | 'MMM DD, YYYY' | 'D MMM YYYY' | 'DD MMM YYYY' | 'ddd, MMM D, YYYY' | 'dddd, MMMM D, YYYY';
 type NativeInputProps = Omit<React$1.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min' | 'max' | 'size' | 'disabled' | 'onSelect'>;
 type FlattenedCalendarProps$1 = Omit<React$1.ComponentProps<typeof Calendar>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | 'className' | 'mode' | 'selected' | 'onSelect' | 'month' | 'onMonthChange' | 'disabled' | 'captionLayout' | 'showOutsideDays' | 'classNames' | 'components' | 'formatters' | 'buttonVariant'>;
 interface DateInputProps extends NativeInputProps, FlattenedCalendarProps$1 {

@@ -29,6 +29,13 @@ export function DateInputDemo() {
   const [dateFmt6, setDateFmt6] = useState<Date | null>(null)
   const [dateFmt7, setDateFmt7] = useState<Date | null>(null)
   const [dateFmt8, setDateFmt8] = useState<Date | null>(null)
+  const [dateFmt9, setDateFmt9] = useState<Date | null>(null)
+  const [dateFmt10, setDateFmt10] = useState<Date | null>(null)
+  const [dateFmt11, setDateFmt11] = useState<Date | null>(null)
+  const [dateFmt12, setDateFmt12] = useState<Date | null>(null)
+  const [dateFmt13, setDateFmt13] = useState<Date | null>(null)
+  const [dateFmt14, setDateFmt14] = useState<Date | null>(null)
+  const [dateFmt15, setDateFmt15] = useState<Date | null>(null)
 
   return (
     <div className="flex flex-col gap-8  ">
@@ -309,6 +316,111 @@ export function DateInputDemo() {
                 e.g. 1 January 2025
               </p>
             </div>
+
+            <div className="space-y-2">
+              <Label className="block text-sm font-medium">
+                MMM D, YYYY — Short month
+              </Label>
+              <DateInput
+                date={dateFmt9}
+                setDate={setDateFmt9}
+                dateFormat="MMM D, YYYY"
+                disableFuture={false}
+              />
+              <p className="text-xs text-muted-foreground">
+                e.g. Jan 1, 2025
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="block text-sm font-medium">
+                MMM DD, YYYY — Short month, padded day
+              </Label>
+              <DateInput
+                date={dateFmt10}
+                setDate={setDateFmt10}
+                dateFormat="MMM DD, YYYY"
+                disableFuture={false}
+              />
+              <p className="text-xs text-muted-foreground">
+                e.g. Jan 01, 2025
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="block text-sm font-medium">
+                D MMM YYYY — Day-first short month
+              </Label>
+              <DateInput
+                date={dateFmt11}
+                setDate={setDateFmt11}
+                dateFormat="D MMM YYYY"
+                disableFuture={false}
+              />
+              <p className="text-xs text-muted-foreground">
+                e.g. 1 Jan 2025
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="block text-sm font-medium">
+                DD MMM YYYY — Padded day, short month
+              </Label>
+              <DateInput
+                date={dateFmt12}
+                setDate={setDateFmt12}
+                dateFormat="DD MMM YYYY"
+                disableFuture={false}
+              />
+              <p className="text-xs text-muted-foreground">
+                e.g. 01 Jan 2025
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="block text-sm font-medium">
+                YYYY/MM/DD — Slash-separated ISO
+              </Label>
+              <DateInput
+                date={dateFmt13}
+                setDate={setDateFmt13}
+                dateFormat="YYYY/MM/DD"
+                disableFuture={false}
+              />
+              <p className="text-xs text-muted-foreground">
+                e.g. 2025/01/01
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="block text-sm font-medium">
+                ddd, MMM D, YYYY — With weekday
+              </Label>
+              <DateInput
+                date={dateFmt14}
+                setDate={setDateFmt14}
+                dateFormat="ddd, MMM D, YYYY"
+                disableFuture={false}
+              />
+              <p className="text-xs text-muted-foreground">
+                e.g. Wed, Jan 1, 2025
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="block text-sm font-medium">
+                dddd, MMMM D, YYYY — Full weekday
+              </Label>
+              <DateInput
+                date={dateFmt15}
+                setDate={setDateFmt15}
+                dateFormat="dddd, MMMM D, YYYY"
+                disableFuture={false}
+              />
+              <p className="text-xs text-muted-foreground">
+                e.g. Wednesday, January 1, 2025
+              </p>
+            </div>
           </div>
 
           <CodeBlock
@@ -339,6 +451,19 @@ export function Example() {
       {/* Long month name */}
       <DateInput date={date} setDate={setDate} dateFormat="MMMM D, YYYY" />
       <DateInput date={date} setDate={setDate} dateFormat="D MMMM YYYY" />
+
+      {/* Short (abbreviated) month name */}
+      <DateInput date={date} setDate={setDate} dateFormat="MMM D, YYYY" />
+      <DateInput date={date} setDate={setDate} dateFormat="MMM DD, YYYY" />
+      <DateInput date={date} setDate={setDate} dateFormat="D MMM YYYY" />
+      <DateInput date={date} setDate={setDate} dateFormat="DD MMM YYYY" />
+
+      {/* Slash-separated ISO */}
+      <DateInput date={date} setDate={setDate} dateFormat="YYYY/MM/DD" />
+
+      {/* With weekday */}
+      <DateInput date={date} setDate={setDate} dateFormat="ddd, MMM D, YYYY" />
+      <DateInput date={date} setDate={setDate} dateFormat="dddd, MMMM D, YYYY" />
     </>
   )
 }`}
