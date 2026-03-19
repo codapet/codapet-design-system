@@ -24,6 +24,7 @@ import {
   CalendarDays,
   ChevronDown,
   Layout,
+  ListFilter,
   MessageSquare,
   MousePointer,
   Palette,
@@ -107,6 +108,12 @@ const navigationItems = [
     label: 'Accordion',
     icon: ChevronDown,
     description: 'Expandable accordion panels'
+  },
+  {
+    id: 'select',
+    label: 'Select',
+    icon: ListFilter,
+    description: 'Single & multi-select with search'
   }
 ]
 

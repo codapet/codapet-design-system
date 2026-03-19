@@ -3896,25 +3896,366 @@ function ScrollBar({
   );
 }
 
+// src/components/ui/searchable-select.tsx
+import * as React35 from "react";
+import { CheckIcon as CheckIcon4, ChevronsUpDown, XIcon as XIcon2 } from "lucide-react";
+import { jsx as jsx37, jsxs as jsxs19 } from "react/jsx-runtime";
+var SearchableSelectContext = React35.createContext(null);
+function useSearchableSelect() {
+  const ctx = React35.useContext(SearchableSelectContext);
+  if (!ctx) {
+    throw new Error(
+      "SearchableSelect compound components must be used within <SearchableSelect>"
+    );
+  }
+  return ctx;
+}
+function SearchableSelect({
+  mode = "single",
+  value: controlledValue,
+  defaultValue = "",
+  onValueChange,
+  values: controlledValues,
+  defaultValues = [],
+  onValuesChange,
+  searchable = true,
+  searchPlaceholder = "Search...",
+  placeholder = "Select...",
+  disabled = false,
+  maxCount = Infinity,
+  options = [],
+  open: controlledOpen,
+  onOpenChange,
+  children
+}) {
+  const [internalOpen, setInternalOpen] = React35.useState(false);
+  const [internalValue, setInternalValue] = React35.useState(defaultValue);
+  const [internalValues, setInternalValues] = React35.useState(defaultValues);
+  const open = controlledOpen ?? internalOpen;
+  const setOpen = React35.useCallback(
+    (next) => {
+      if (controlledOpen !== void 0) {
+        onOpenChange?.(next);
+      } else {
+        setInternalOpen(next);
+        onOpenChange?.(next);
+      }
+    },
+    [controlledOpen, onOpenChange]
+  );
+  const value = controlledValue ?? internalValue;
+  const setValue = React35.useCallback(
+    (next) => {
+      if (controlledValue === void 0) {
+        setInternalValue(next);
+      }
+      onValueChange?.(next);
+    },
+    [controlledValue, onValueChange]
+  );
+  const values = controlledValues ?? internalValues;
+  const setValues = React35.useCallback(
+    (next) => {
+      if (controlledValues === void 0) {
+        setInternalValues(next);
+      }
+      onValuesChange?.(next);
+    },
+    [controlledValues, onValuesChange]
+  );
+  const optionMap = React35.useMemo(() => {
+    const map = /* @__PURE__ */ new Map();
+    for (const opt of options) {
+      map.set(opt.value, opt.label);
+    }
+    return map;
+  }, [options]);
+  const ctx = React35.useMemo(
+    () => ({
+      open,
+      setOpen,
+      mode,
+      value,
+      setValue,
+      values,
+      setValues,
+      searchable,
+      searchPlaceholder,
+      placeholder,
+      disabled,
+      maxCount,
+      options,
+      optionMap
+    }),
+    [
+      open,
+      setOpen,
+      mode,
+      value,
+      setValue,
+      values,
+      setValues,
+      searchable,
+      searchPlaceholder,
+      placeholder,
+      disabled,
+      maxCount,
+      options,
+      optionMap
+    ]
+  );
+  return /* @__PURE__ */ jsx37(SearchableSelectContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx37(Popover, { open, onOpenChange: setOpen, children }) });
+}
+function SearchableSelectTrigger({
+  className,
+  size = "default",
+  children,
+  ...props
+}) {
+  const ctx = useSearchableSelect();
+  const renderContent = () => {
+    if (children) return children;
+    if (ctx.mode === "single") {
+      const label = ctx.optionMap.get(ctx.value);
+      return /* @__PURE__ */ jsx37(
+        "span",
+        {
+          "data-slot": "searchable-select-value",
+          className: cn(
+            "truncate",
+            !label && "text-muted-foreground"
+          ),
+          children: label || ctx.placeholder
+        }
+      );
+    }
+    if (ctx.values.length === 0) {
+      return /* @__PURE__ */ jsx37(
+        "span",
+        {
+          "data-slot": "searchable-select-value",
+          className: "text-muted-foreground",
+          children: ctx.placeholder
+        }
+      );
+    }
+    const visible = ctx.values.slice(0, ctx.maxCount);
+    const remaining = ctx.values.length - visible.length;
+    return /* @__PURE__ */ jsxs19(
+      "span",
+      {
+        "data-slot": "searchable-select-value",
+        className: "flex flex-wrap items-center gap-1",
+        children: [
+          visible.map((v) => /* @__PURE__ */ jsxs19(
+            Badge,
+            {
+              variant: "secondary",
+              className: "gap-1 pr-1",
+              children: [
+                /* @__PURE__ */ jsx37("span", { className: "truncate max-w-[120px]", children: ctx.optionMap.get(v) || v }),
+                /* @__PURE__ */ jsx37(
+                  "span",
+                  {
+                    role: "button",
+                    tabIndex: -1,
+                    "aria-label": `Remove ${ctx.optionMap.get(v) || v}`,
+                    className: "rounded-sm hover:bg-muted cursor-pointer",
+                    onPointerDown: (e) => e.preventDefault(),
+                    onClick: (e) => {
+                      e.stopPropagation();
+                      ctx.setValues(ctx.values.filter((val) => val !== v));
+                    },
+                    children: /* @__PURE__ */ jsx37(XIcon2, { className: "size-3" })
+                  }
+                )
+              ]
+            },
+            v
+          )),
+          remaining > 0 && /* @__PURE__ */ jsxs19(Badge, { variant: "outline", className: "text-muted-foreground", children: [
+            "+",
+            remaining,
+            " more"
+          ] })
+        ]
+      }
+    );
+  };
+  return /* @__PURE__ */ jsxs19(
+    PopoverTrigger,
+    {
+      "data-slot": "searchable-select-trigger",
+      "data-size": size,
+      disabled: ctx.disabled,
+      className: cn(
+        "border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:min-h-9 data-[size=sm]:min-h-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        ctx.mode === "multiple" && "h-auto flex-wrap whitespace-normal",
+        className
+      ),
+      ...props,
+      children: [
+        renderContent(),
+        /* @__PURE__ */ jsx37(ChevronsUpDown, { className: "size-4 shrink-0 opacity-50" })
+      ]
+    }
+  );
+}
+function SearchableSelectContent({
+  className,
+  children,
+  emptyText = "No results found.",
+  ...props
+}) {
+  const ctx = useSearchableSelect();
+  const groupedOptions = React35.useMemo(() => {
+    if (ctx.options.length === 0) return null;
+    const groups = /* @__PURE__ */ new Map();
+    for (const opt of ctx.options) {
+      const key = opt.group || "";
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(opt);
+    }
+    return groups;
+  }, [ctx.options]);
+  const renderAutoItems = () => {
+    if (!groupedOptions) return null;
+    const entries = Array.from(groupedOptions.entries());
+    if (entries.length === 1 && entries[0][0] === "") {
+      return entries[0][1].map((opt) => /* @__PURE__ */ jsx37(
+        SearchableSelectItem,
+        {
+          value: opt.value,
+          disabled: opt.disabled,
+          children: opt.label
+        },
+        opt.value
+      ));
+    }
+    return entries.map(([group, opts]) => /* @__PURE__ */ jsx37(SearchableSelectGroup, { heading: group || void 0, children: opts.map((opt) => /* @__PURE__ */ jsx37(
+      SearchableSelectItem,
+      {
+        value: opt.value,
+        disabled: opt.disabled,
+        children: opt.label
+      },
+      opt.value
+    )) }, group));
+  };
+  return /* @__PURE__ */ jsx37(
+    PopoverContent,
+    {
+      "data-slot": "searchable-select-content",
+      className: cn("w-[var(--radix-popover-trigger-width)] p-0", className),
+      align: "start",
+      ...props,
+      children: /* @__PURE__ */ jsxs19(Command, { children: [
+        ctx.searchable && /* @__PURE__ */ jsx37(CommandInput, { placeholder: ctx.searchPlaceholder }),
+        /* @__PURE__ */ jsxs19(CommandList, { children: [
+          /* @__PURE__ */ jsx37(CommandEmpty, { children: emptyText }),
+          children || renderAutoItems()
+        ] })
+      ] })
+    }
+  );
+}
+function SearchableSelectItem({
+  className,
+  value,
+  children,
+  disabled,
+  ...props
+}) {
+  const ctx = useSearchableSelect();
+  const isSelected = ctx.mode === "single" ? ctx.value === value : ctx.values.includes(value);
+  const handleSelect = () => {
+    if (disabled) return;
+    if (ctx.mode === "single") {
+      ctx.setValue(value === ctx.value ? "" : value);
+      ctx.setOpen(false);
+    } else {
+      ctx.setValues(
+        isSelected ? ctx.values.filter((v) => v !== value) : [...ctx.values, value]
+      );
+    }
+  };
+  return /* @__PURE__ */ jsxs19(
+    CommandItem,
+    {
+      "data-slot": "searchable-select-item",
+      className: cn(
+        "relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none",
+        ctx.mode === "multiple" && "pl-8",
+        className
+      ),
+      onSelect: handleSelect,
+      "data-disabled": disabled || void 0,
+      ...props,
+      children: [
+        ctx.mode === "multiple" && /* @__PURE__ */ jsx37("span", { className: "absolute left-2 flex size-4 items-center justify-center", children: /* @__PURE__ */ jsx37(
+          "span",
+          {
+            className: cn(
+              "size-4 rounded-sm border border-primary transition-colors",
+              isSelected ? "bg-primary text-primary-foreground" : "bg-transparent"
+            ),
+            children: isSelected && /* @__PURE__ */ jsx37(CheckIcon4, { className: "size-4 p-0.5" })
+          }
+        ) }),
+        /* @__PURE__ */ jsx37("span", { className: "flex-1 truncate", children }),
+        ctx.mode === "single" && isSelected && /* @__PURE__ */ jsx37("span", { className: "absolute right-2 flex size-4 items-center justify-center", children: /* @__PURE__ */ jsx37(CheckIcon4, { className: "size-4" }) })
+      ]
+    }
+  );
+}
+function SearchableSelectGroup({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx37(
+    CommandGroup,
+    {
+      "data-slot": "searchable-select-group",
+      className: cn(className),
+      ...props
+    }
+  );
+}
+function SearchableSelectEmpty({
+  className,
+  children = "No results found.",
+  ...props
+}) {
+  return /* @__PURE__ */ jsx37(
+    CommandEmpty,
+    {
+      "data-slot": "searchable-select-empty",
+      className: cn(className),
+      ...props,
+      children
+    }
+  );
+}
+
 // src/components/ui/select.tsx
 import "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
-import { CheckIcon as CheckIcon4, ChevronDownIcon as ChevronDownIcon4, ChevronUpIcon } from "lucide-react";
-import { jsx as jsx37, jsxs as jsxs19 } from "react/jsx-runtime";
+import { CheckIcon as CheckIcon5, ChevronDownIcon as ChevronDownIcon4, ChevronUpIcon } from "lucide-react";
+import { jsx as jsx38, jsxs as jsxs20 } from "react/jsx-runtime";
 function Select({
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(SelectPrimitive.Root, { "data-slot": "select", ...props });
+  return /* @__PURE__ */ jsx38(SelectPrimitive.Root, { "data-slot": "select", ...props });
 }
 function SelectGroup({
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(SelectPrimitive.Group, { "data-slot": "select-group", ...props });
+  return /* @__PURE__ */ jsx38(SelectPrimitive.Group, { "data-slot": "select-group", ...props });
 }
 function SelectValue({
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(SelectPrimitive.Value, { "data-slot": "select-value", ...props });
+  return /* @__PURE__ */ jsx38(SelectPrimitive.Value, { "data-slot": "select-value", ...props });
 }
 function SelectTrigger({
   className,
@@ -3922,7 +4263,7 @@ function SelectTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsxs20(
     SelectPrimitive.Trigger,
     {
       "data-slot": "select-trigger",
@@ -3934,7 +4275,7 @@ function SelectTrigger({
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx37(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ jsx37(ChevronDownIcon4, { className: "size-4 opacity-50" }) })
+        /* @__PURE__ */ jsx38(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ jsx38(ChevronDownIcon4, { className: "size-4 opacity-50" }) })
       ]
     }
   );
@@ -3945,7 +4286,7 @@ function SelectContent({
   position = "popper",
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsx38(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs20(
     SelectPrimitive.Content,
     {
       "data-slot": "select-content",
@@ -3957,8 +4298,8 @@ function SelectContent({
       position,
       ...props,
       children: [
-        /* @__PURE__ */ jsx37(SelectScrollUpButton, {}),
-        /* @__PURE__ */ jsx37(
+        /* @__PURE__ */ jsx38(SelectScrollUpButton, {}),
+        /* @__PURE__ */ jsx38(
           SelectPrimitive.Viewport,
           {
             className: cn(
@@ -3968,7 +4309,7 @@ function SelectContent({
             children
           }
         ),
-        /* @__PURE__ */ jsx37(SelectScrollDownButton, {})
+        /* @__PURE__ */ jsx38(SelectScrollDownButton, {})
       ]
     }
   ) });
@@ -3977,7 +4318,7 @@ function SelectLabel({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx38(
     SelectPrimitive.Label,
     {
       "data-slot": "select-label",
@@ -3991,7 +4332,7 @@ function SelectItem({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsxs20(
     SelectPrimitive.Item,
     {
       "data-slot": "select-item",
@@ -4001,8 +4342,8 @@ function SelectItem({
       ),
       ...props,
       children: [
-        /* @__PURE__ */ jsx37("span", { className: "absolute right-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx37(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx37(CheckIcon4, { className: "size-4" }) }) }),
-        /* @__PURE__ */ jsx37(SelectPrimitive.ItemText, { children })
+        /* @__PURE__ */ jsx38("span", { className: "absolute right-2 flex size-3.5 items-center justify-center", children: /* @__PURE__ */ jsx38(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx38(CheckIcon5, { className: "size-4" }) }) }),
+        /* @__PURE__ */ jsx38(SelectPrimitive.ItemText, { children })
       ]
     }
   );
@@ -4011,7 +4352,7 @@ function SelectSeparator({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx38(
     SelectPrimitive.Separator,
     {
       "data-slot": "select-separator",
@@ -4024,7 +4365,7 @@ function SelectScrollUpButton({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx38(
     SelectPrimitive.ScrollUpButton,
     {
       "data-slot": "select-scroll-up-button",
@@ -4033,7 +4374,7 @@ function SelectScrollUpButton({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx37(ChevronUpIcon, { className: "size-4" })
+      children: /* @__PURE__ */ jsx38(ChevronUpIcon, { className: "size-4" })
     }
   );
 }
@@ -4041,7 +4382,7 @@ function SelectScrollDownButton({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx37(
+  return /* @__PURE__ */ jsx38(
     SelectPrimitive.ScrollDownButton,
     {
       "data-slot": "select-scroll-down-button",
@@ -4050,7 +4391,7 @@ function SelectScrollDownButton({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx37(ChevronDownIcon4, { className: "size-4" })
+      children: /* @__PURE__ */ jsx38(ChevronDownIcon4, { className: "size-4" })
     }
   );
 }
@@ -4058,14 +4399,14 @@ function SelectScrollDownButton({
 // src/components/ui/separator.tsx
 import "react";
 import * as SeparatorPrimitive from "@radix-ui/react-separator";
-import { jsx as jsx38 } from "react/jsx-runtime";
+import { jsx as jsx39 } from "react/jsx-runtime";
 function Separator5({
   className,
   orientation = "horizontal",
   decorative = true,
   ...props
 }) {
-  return /* @__PURE__ */ jsx38(
+  return /* @__PURE__ */ jsx39(
     SeparatorPrimitive.Root,
     {
       "data-slot": "separator",
@@ -4082,32 +4423,32 @@ function Separator5({
 
 // src/components/ui/sheet.tsx
 import * as SheetPrimitive from "@radix-ui/react-dialog";
-import { XIcon as XIcon2 } from "lucide-react";
+import { XIcon as XIcon3 } from "lucide-react";
 import "react";
-import { jsx as jsx39, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx40, jsxs as jsxs21 } from "react/jsx-runtime";
 function Sheet({ ...props }) {
-  return /* @__PURE__ */ jsx39(SheetPrimitive.Root, { "data-slot": "sheet", ...props });
+  return /* @__PURE__ */ jsx40(SheetPrimitive.Root, { "data-slot": "sheet", ...props });
 }
 function SheetTrigger({
   ...props
 }) {
-  return /* @__PURE__ */ jsx39(SheetPrimitive.Trigger, { "data-slot": "sheet-trigger", ...props });
+  return /* @__PURE__ */ jsx40(SheetPrimitive.Trigger, { "data-slot": "sheet-trigger", ...props });
 }
 function SheetClose({
   ...props
 }) {
-  return /* @__PURE__ */ jsx39(SheetPrimitive.Close, { "data-slot": "sheet-close", ...props });
+  return /* @__PURE__ */ jsx40(SheetPrimitive.Close, { "data-slot": "sheet-close", ...props });
 }
 function SheetPortal({
   ...props
 }) {
-  return /* @__PURE__ */ jsx39(SheetPrimitive.Portal, { "data-slot": "sheet-portal", ...props });
+  return /* @__PURE__ */ jsx40(SheetPrimitive.Portal, { "data-slot": "sheet-portal", ...props });
 }
 function SheetOverlay({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx39(
+  return /* @__PURE__ */ jsx40(
     SheetPrimitive.Overlay,
     {
       "data-slot": "sheet-overlay",
@@ -4126,9 +4467,9 @@ function SheetContent({
   showCloseButton = true,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs20(SheetPortal, { children: [
-    /* @__PURE__ */ jsx39(SheetOverlay, {}),
-    /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsxs21(SheetPortal, { children: [
+    /* @__PURE__ */ jsx40(SheetOverlay, {}),
+    /* @__PURE__ */ jsxs21(
       SheetPrimitive.Content,
       {
         "data-slot": "sheet-content",
@@ -4143,9 +4484,9 @@ function SheetContent({
         ...props,
         children: [
           children,
-          showCloseButton && /* @__PURE__ */ jsxs20(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
-            /* @__PURE__ */ jsx39(XIcon2, { className: "size-4" }),
-            /* @__PURE__ */ jsx39("span", { className: "sr-only", children: "Close" })
+          showCloseButton && /* @__PURE__ */ jsxs21(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
+            /* @__PURE__ */ jsx40(XIcon3, { className: "size-4" }),
+            /* @__PURE__ */ jsx40("span", { className: "sr-only", children: "Close" })
           ] })
         ]
       }
@@ -4153,7 +4494,7 @@ function SheetContent({
   ] });
 }
 function SheetHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx39(
+  return /* @__PURE__ */ jsx40(
     "div",
     {
       "data-slot": "sheet-header",
@@ -4163,7 +4504,7 @@ function SheetHeader({ className, ...props }) {
   );
 }
 function SheetFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx39(
+  return /* @__PURE__ */ jsx40(
     "div",
     {
       "data-slot": "sheet-footer",
@@ -4176,7 +4517,7 @@ function SheetTitle({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx39(
+  return /* @__PURE__ */ jsx40(
     SheetPrimitive.Title,
     {
       "data-slot": "sheet-title",
@@ -4189,7 +4530,7 @@ function SheetDescription({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx39(
+  return /* @__PURE__ */ jsx40(
     SheetPrimitive.Description,
     {
       "data-slot": "sheet-description",
@@ -4203,12 +4544,12 @@ function SheetDescription({
 import { Slot as Slot6 } from "@radix-ui/react-slot";
 import { cva as cva7 } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
-import * as React40 from "react";
+import * as React41 from "react";
 
 // src/components/ui/skeleton.tsx
-import { jsx as jsx40 } from "react/jsx-runtime";
+import { jsx as jsx41 } from "react/jsx-runtime";
 function Skeleton({ className, ...props }) {
-  return /* @__PURE__ */ jsx40(
+  return /* @__PURE__ */ jsx41(
     "div",
     {
       "data-slot": "skeleton",
@@ -4221,12 +4562,12 @@ function Skeleton({ className, ...props }) {
 // src/components/ui/tooltip.tsx
 import "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { jsx as jsx41, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx42, jsxs as jsxs22 } from "react/jsx-runtime";
 function TooltipProvider({
   delayDuration = 0,
   ...props
 }) {
-  return /* @__PURE__ */ jsx41(
+  return /* @__PURE__ */ jsx42(
     TooltipPrimitive.Provider,
     {
       "data-slot": "tooltip-provider",
@@ -4238,12 +4579,12 @@ function TooltipProvider({
 function Tooltip2({
   ...props
 }) {
-  return /* @__PURE__ */ jsx41(TooltipProvider, { children: /* @__PURE__ */ jsx41(TooltipPrimitive.Root, { "data-slot": "tooltip", ...props }) });
+  return /* @__PURE__ */ jsx42(TooltipProvider, { children: /* @__PURE__ */ jsx42(TooltipPrimitive.Root, { "data-slot": "tooltip", ...props }) });
 }
 function TooltipTrigger({
   ...props
 }) {
-  return /* @__PURE__ */ jsx41(TooltipPrimitive.Trigger, { "data-slot": "tooltip-trigger", ...props });
+  return /* @__PURE__ */ jsx42(TooltipPrimitive.Trigger, { "data-slot": "tooltip-trigger", ...props });
 }
 function TooltipContent({
   className,
@@ -4251,7 +4592,7 @@ function TooltipContent({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsx41(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsx42(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs22(
     TooltipPrimitive.Content,
     {
       "data-slot": "tooltip-content",
@@ -4263,18 +4604,18 @@ function TooltipContent({
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx41(TooltipPrimitive.Arrow, { className: "bg-primary fill-primary z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" })
+        /* @__PURE__ */ jsx42(TooltipPrimitive.Arrow, { className: "bg-primary fill-primary z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" })
       ]
     }
   ) });
 }
 
 // src/hooks/use-mobile.ts
-import * as React39 from "react";
+import * as React40 from "react";
 var MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
-  const [isMobile, setIsMobile] = React39.useState(void 0);
-  React39.useEffect(() => {
+  const [isMobile, setIsMobile] = React40.useState(void 0);
+  React40.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
@@ -4287,16 +4628,16 @@ function useIsMobile() {
 }
 
 // src/components/ui/sidebar.tsx
-import { jsx as jsx42, jsxs as jsxs22 } from "react/jsx-runtime";
+import { jsx as jsx43, jsxs as jsxs23 } from "react/jsx-runtime";
 var SIDEBAR_COOKIE_NAME = "sidebar_state";
 var SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 var SIDEBAR_WIDTH = "18rem";
 var SIDEBAR_WIDTH_MOBILE = "18rem";
 var SIDEBAR_WIDTH_ICON = "3rem";
 var SIDEBAR_KEYBOARD_SHORTCUT = "b";
-var SidebarContext = React40.createContext(null);
+var SidebarContext = React41.createContext(null);
 function useSidebar() {
-  const context = React40.useContext(SidebarContext);
+  const context = React41.useContext(SidebarContext);
   if (!context) {
     throw new Error("useSidebar must be used within a SidebarProvider.");
   }
@@ -4312,10 +4653,10 @@ function SidebarProvider({
   ...props
 }) {
   const isMobile = useIsMobile();
-  const [openMobile, setOpenMobile] = React40.useState(false);
-  const [_open, _setOpen] = React40.useState(defaultOpen);
+  const [openMobile, setOpenMobile] = React41.useState(false);
+  const [_open, _setOpen] = React41.useState(defaultOpen);
   const open = openProp ?? _open;
-  const setOpen = React40.useCallback(
+  const setOpen = React41.useCallback(
     (value) => {
       const openState = typeof value === "function" ? value(open) : value;
       if (setOpenProp) {
@@ -4327,10 +4668,10 @@ function SidebarProvider({
     },
     [setOpenProp, open]
   );
-  const toggleSidebar = React40.useCallback(() => {
+  const toggleSidebar = React41.useCallback(() => {
     return isMobile ? setOpenMobile((open2) => !open2) : setOpen((open2) => !open2);
   }, [isMobile, setOpen, setOpenMobile]);
-  React40.useEffect(() => {
+  React41.useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
         event.preventDefault();
@@ -4341,7 +4682,7 @@ function SidebarProvider({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [toggleSidebar]);
   const state = open ? "expanded" : "collapsed";
-  const contextValue = React40.useMemo(
+  const contextValue = React41.useMemo(
     () => ({
       state,
       open,
@@ -4353,7 +4694,7 @@ function SidebarProvider({
     }),
     [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
   );
-  return /* @__PURE__ */ jsx42(SidebarContext.Provider, { value: contextValue, children: /* @__PURE__ */ jsx42(TooltipProvider, { delayDuration: 0, children: /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(SidebarContext.Provider, { value: contextValue, children: /* @__PURE__ */ jsx43(TooltipProvider, { delayDuration: 0, children: /* @__PURE__ */ jsx43(
     "div",
     {
       "data-slot": "sidebar-wrapper",
@@ -4381,7 +4722,7 @@ function Sidebar({
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
   if (collapsible === "none") {
-    return /* @__PURE__ */ jsx42(
+    return /* @__PURE__ */ jsx43(
       "div",
       {
         "data-slot": "sidebar",
@@ -4395,7 +4736,7 @@ function Sidebar({
     );
   }
   if (isMobile) {
-    return /* @__PURE__ */ jsx42(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: /* @__PURE__ */ jsxs22(
+    return /* @__PURE__ */ jsx43(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: /* @__PURE__ */ jsxs23(
       SheetContent,
       {
         "data-sidebar": "sidebar",
@@ -4407,16 +4748,16 @@ function Sidebar({
         },
         side,
         children: [
-          /* @__PURE__ */ jsxs22(SheetHeader, { className: "sr-only", children: [
-            /* @__PURE__ */ jsx42(SheetTitle, { children: "Sidebar" }),
-            /* @__PURE__ */ jsx42(SheetDescription, { children: "Displays the mobile sidebar." })
+          /* @__PURE__ */ jsxs23(SheetHeader, { className: "sr-only", children: [
+            /* @__PURE__ */ jsx43(SheetTitle, { children: "Sidebar" }),
+            /* @__PURE__ */ jsx43(SheetDescription, { children: "Displays the mobile sidebar." })
           ] }),
-          /* @__PURE__ */ jsx42("div", { className: "flex h-full w-full flex-col", children })
+          /* @__PURE__ */ jsx43("div", { className: "flex h-full w-full flex-col", children })
         ]
       }
     ) });
   }
-  return /* @__PURE__ */ jsxs22(
+  return /* @__PURE__ */ jsxs23(
     "div",
     {
       className: "group peer text-sidebar-foreground hidden md:block",
@@ -4426,7 +4767,7 @@ function Sidebar({
       "data-side": side,
       "data-slot": "sidebar",
       children: [
-        /* @__PURE__ */ jsx42(
+        /* @__PURE__ */ jsx43(
           "div",
           {
             "data-slot": "sidebar-gap",
@@ -4438,7 +4779,7 @@ function Sidebar({
             )
           }
         ),
-        /* @__PURE__ */ jsx42(
+        /* @__PURE__ */ jsx43(
           "div",
           {
             "data-slot": "sidebar-container",
@@ -4450,7 +4791,7 @@ function Sidebar({
               className
             ),
             ...props,
-            children: /* @__PURE__ */ jsx42(
+            children: /* @__PURE__ */ jsx43(
               "div",
               {
                 "data-sidebar": "sidebar",
@@ -4471,7 +4812,7 @@ function SidebarTrigger({
   ...props
 }) {
   const { toggleSidebar } = useSidebar();
-  return /* @__PURE__ */ jsxs22(
+  return /* @__PURE__ */ jsxs23(
     Button,
     {
       "data-sidebar": "trigger",
@@ -4485,15 +4826,15 @@ function SidebarTrigger({
       },
       ...props,
       children: [
-        /* @__PURE__ */ jsx42(PanelLeftIcon, {}),
-        /* @__PURE__ */ jsx42("span", { className: "sr-only", children: "Toggle Sidebar" })
+        /* @__PURE__ */ jsx43(PanelLeftIcon, {}),
+        /* @__PURE__ */ jsx43("span", { className: "sr-only", children: "Toggle Sidebar" })
       ]
     }
   );
 }
 function SidebarRail({ className, ...props }) {
   const { toggleSidebar } = useSidebar();
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "button",
     {
       "data-sidebar": "rail",
@@ -4516,7 +4857,7 @@ function SidebarRail({ className, ...props }) {
   );
 }
 function SidebarInset({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "main",
     {
       "data-slot": "sidebar-inset",
@@ -4533,7 +4874,7 @@ function SidebarInput({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     Input,
     {
       "data-slot": "sidebar-input",
@@ -4544,7 +4885,7 @@ function SidebarInput({
   );
 }
 function SidebarHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "div",
     {
       "data-slot": "sidebar-header",
@@ -4555,7 +4896,7 @@ function SidebarHeader({ className, ...props }) {
   );
 }
 function SidebarFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "div",
     {
       "data-slot": "sidebar-footer",
@@ -4569,7 +4910,7 @@ function SidebarSeparator({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     Separator5,
     {
       "data-slot": "sidebar-separator",
@@ -4580,7 +4921,7 @@ function SidebarSeparator({
   );
 }
 function SidebarContent({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "div",
     {
       "data-slot": "sidebar-content",
@@ -4594,7 +4935,7 @@ function SidebarContent({ className, ...props }) {
   );
 }
 function SidebarGroup({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "div",
     {
       "data-slot": "sidebar-group",
@@ -4610,7 +4951,7 @@ function SidebarGroupLabel({
   ...props
 }) {
   const Comp = asChild ? Slot6 : "div";
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     Comp,
     {
       "data-slot": "sidebar-group-label",
@@ -4630,7 +4971,7 @@ function SidebarGroupAction({
   ...props
 }) {
   const Comp = asChild ? Slot6 : "button";
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     Comp,
     {
       "data-slot": "sidebar-group-action",
@@ -4650,7 +4991,7 @@ function SidebarGroupContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "div",
     {
       "data-slot": "sidebar-group-content",
@@ -4661,7 +5002,7 @@ function SidebarGroupContent({
   );
 }
 function SidebarMenu({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "ul",
     {
       "data-slot": "sidebar-menu",
@@ -4672,7 +5013,7 @@ function SidebarMenu({ className, ...props }) {
   );
 }
 function SidebarMenuItem({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "li",
     {
       "data-slot": "sidebar-menu-item",
@@ -4713,7 +5054,7 @@ function SidebarMenuButton({
 }) {
   const Comp = asChild ? Slot6 : "button";
   const { isMobile, state } = useSidebar();
-  const button = /* @__PURE__ */ jsx42(
+  const button = /* @__PURE__ */ jsx43(
     Comp,
     {
       "data-slot": "sidebar-menu-button",
@@ -4732,9 +5073,9 @@ function SidebarMenuButton({
       children: tooltip
     };
   }
-  return /* @__PURE__ */ jsxs22(Tooltip2, { children: [
-    /* @__PURE__ */ jsx42(TooltipTrigger, { asChild: true, children: button }),
-    /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsxs23(Tooltip2, { children: [
+    /* @__PURE__ */ jsx43(TooltipTrigger, { asChild: true, children: button }),
+    /* @__PURE__ */ jsx43(
       TooltipContent,
       {
         side: "right",
@@ -4752,7 +5093,7 @@ function SidebarMenuAction({
   ...props
 }) {
   const Comp = asChild ? Slot6 : "button";
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     Comp,
     {
       "data-slot": "sidebar-menu-action",
@@ -4776,7 +5117,7 @@ function SidebarMenuBadge({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "div",
     {
       "data-slot": "sidebar-menu-badge",
@@ -4799,10 +5140,10 @@ function SidebarMenuSkeleton({
   showIcon = false,
   ...props
 }) {
-  const width = React40.useMemo(() => {
+  const width = React41.useMemo(() => {
     return `${Math.floor(Math.random() * 40) + 50}%`;
   }, []);
-  return /* @__PURE__ */ jsxs22(
+  return /* @__PURE__ */ jsxs23(
     "div",
     {
       "data-slot": "sidebar-menu-skeleton",
@@ -4810,14 +5151,14 @@ function SidebarMenuSkeleton({
       className: cn("flex h-8 items-center gap-2 rounded-md px-2", className),
       ...props,
       children: [
-        showIcon && /* @__PURE__ */ jsx42(
+        showIcon && /* @__PURE__ */ jsx43(
           Skeleton,
           {
             className: "size-4 rounded-md",
             "data-sidebar": "menu-skeleton-icon"
           }
         ),
-        /* @__PURE__ */ jsx42(
+        /* @__PURE__ */ jsx43(
           Skeleton,
           {
             className: "h-4 max-w-(--skeleton-width) flex-1",
@@ -4832,7 +5173,7 @@ function SidebarMenuSkeleton({
   );
 }
 function SidebarMenuSub({ className, ...props }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "ul",
     {
       "data-slot": "sidebar-menu-sub",
@@ -4850,7 +5191,7 @@ function SidebarMenuSubItem({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     "li",
     {
       "data-slot": "sidebar-menu-sub-item",
@@ -4868,7 +5209,7 @@ function SidebarMenuSubButton({
   ...props
 }) {
   const Comp = asChild ? Slot6 : "a";
-  return /* @__PURE__ */ jsx42(
+  return /* @__PURE__ */ jsx43(
     Comp,
     {
       "data-slot": "sidebar-menu-sub-button",
@@ -4889,9 +5230,9 @@ function SidebarMenuSubButton({
 }
 
 // src/components/ui/slider.tsx
-import * as React41 from "react";
+import * as React42 from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { jsx as jsx43, jsxs as jsxs23 } from "react/jsx-runtime";
+import { jsx as jsx44, jsxs as jsxs24 } from "react/jsx-runtime";
 function Slider({
   className,
   defaultValue,
@@ -4900,11 +5241,11 @@ function Slider({
   max = 100,
   ...props
 }) {
-  const _values = React41.useMemo(
+  const _values = React42.useMemo(
     () => Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max],
     [value, defaultValue, min, max]
   );
-  return /* @__PURE__ */ jsxs23(
+  return /* @__PURE__ */ jsxs24(
     SliderPrimitive.Root,
     {
       "data-slot": "slider",
@@ -4918,14 +5259,14 @@ function Slider({
       ),
       ...props,
       children: [
-        /* @__PURE__ */ jsx43(
+        /* @__PURE__ */ jsx44(
           SliderPrimitive.Track,
           {
             "data-slot": "slider-track",
             className: cn(
               "bg-muted relative grow overflow-hidden rounded-full data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5"
             ),
-            children: /* @__PURE__ */ jsx43(
+            children: /* @__PURE__ */ jsx44(
               SliderPrimitive.Range,
               {
                 "data-slot": "slider-range",
@@ -4936,7 +5277,7 @@ function Slider({
             )
           }
         ),
-        Array.from({ length: _values.length }, (_, index) => /* @__PURE__ */ jsx43(
+        Array.from({ length: _values.length }, (_, index) => /* @__PURE__ */ jsx44(
           SliderPrimitive.Thumb,
           {
             "data-slot": "slider-thumb",
@@ -4953,7 +5294,7 @@ function Slider({
 import "react";
 
 // src/components/ui/useMediaQuery.ts
-import { useEffect as useEffect7, useState as useState6 } from "react";
+import { useEffect as useEffect7, useState as useState7 } from "react";
 function useMediaQuery(query) {
   const getMatches = (query2) => {
     if (typeof window !== "undefined") {
@@ -4961,7 +5302,7 @@ function useMediaQuery(query) {
     }
     return false;
   };
-  const [matches, setMatches] = useState6(getMatches(query));
+  const [matches, setMatches] = useState7(getMatches(query));
   function handleChange() {
     setMatches(getMatches(query));
   }
@@ -4985,10 +5326,10 @@ function useMediaQuery(query) {
 }
 
 // src/components/ui/smart-dialog-drawer.tsx
-import { Fragment as Fragment3, jsx as jsx44 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx45 } from "react/jsx-runtime";
 var SmartDialog = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx44(Drawer, { ...props, children }) : /* @__PURE__ */ jsx44(Dialog, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx45(Drawer, { ...props, children }) : /* @__PURE__ */ jsx45(Dialog, { ...props, children });
 };
 var SmartDialogContent = ({
   children,
@@ -4998,14 +5339,14 @@ var SmartDialogContent = ({
   ...props
 }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx44(
+  return isMobile ? /* @__PURE__ */ jsx45(
     DrawerContent,
     {
       ...props,
       withCloseButton: withCloseButton ?? showCloseButton ?? true,
       children
     }
-  ) : /* @__PURE__ */ jsx44(
+  ) : /* @__PURE__ */ jsx45(
     DialogContent,
     {
       ...props,
@@ -5020,39 +5361,39 @@ var SmartDialogDescription = ({
   ...props
 }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx44(DrawerDescription, { ...props, children }) : /* @__PURE__ */ jsx44(DialogDescription, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx45(DrawerDescription, { ...props, children }) : /* @__PURE__ */ jsx45(DialogDescription, { ...props, children });
 };
 var SmartDialogHeader = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx44(DrawerHeader, { ...props, children }) : /* @__PURE__ */ jsx44(DialogHeader, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx45(DrawerHeader, { ...props, children }) : /* @__PURE__ */ jsx45(DialogHeader, { ...props, children });
 };
 var SmartDialogTitle = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx44(DrawerTitle, { ...props, children }) : /* @__PURE__ */ jsx44(DialogTitle, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx45(DrawerTitle, { ...props, children }) : /* @__PURE__ */ jsx45(DialogTitle, { ...props, children });
 };
 var SmartDialogTrigger = ({
   children,
   ...props
 }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx44(DrawerTrigger, { ...props, children }) : /* @__PURE__ */ jsx44(DialogTrigger, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx45(DrawerTrigger, { ...props, children }) : /* @__PURE__ */ jsx45(DialogTrigger, { ...props, children });
 };
 var SmartDialogFooter = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx44(DrawerFooter, { ...props, children }) : /* @__PURE__ */ jsx44(DialogFooter, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx45(DrawerFooter, { ...props, children }) : /* @__PURE__ */ jsx45(DialogFooter, { ...props, children });
 };
 var SmartDialogClose = ({ children, ...props }) => {
   const isMobile = useMediaQuery("(max-width: 600px)");
-  return isMobile ? /* @__PURE__ */ jsx44(Fragment3, { children: /* @__PURE__ */ jsx44(DrawerClose, { ...props, children }) }) : /* @__PURE__ */ jsx44(DialogClose, { ...props, children });
+  return isMobile ? /* @__PURE__ */ jsx45(Fragment3, { children: /* @__PURE__ */ jsx45(DrawerClose, { ...props, children }) }) : /* @__PURE__ */ jsx45(DialogClose, { ...props, children });
 };
 
 // src/components/ui/sonner.tsx
 import { useTheme } from "next-themes";
 import { Toaster as Sonner } from "sonner";
-import { jsx as jsx45 } from "react/jsx-runtime";
+import { jsx as jsx46 } from "react/jsx-runtime";
 var Toaster = ({ ...props }) => {
   const { theme = "system" } = useTheme();
-  return /* @__PURE__ */ jsx45(
+  return /* @__PURE__ */ jsx46(
     Sonner,
     {
       theme,
@@ -5070,12 +5411,12 @@ var Toaster = ({ ...props }) => {
 // src/components/ui/switch.tsx
 import * as SwitchPrimitive from "@radix-ui/react-switch";
 import "react";
-import { jsx as jsx46 } from "react/jsx-runtime";
+import { jsx as jsx47 } from "react/jsx-runtime";
 function Switch({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx46(
+  return /* @__PURE__ */ jsx47(
     SwitchPrimitive.Root,
     {
       "data-slot": "switch",
@@ -5084,7 +5425,7 @@ function Switch({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx46(
+      children: /* @__PURE__ */ jsx47(
         SwitchPrimitive.Thumb,
         {
           "data-slot": "switch-thumb",
@@ -5099,14 +5440,14 @@ function Switch({
 
 // src/components/ui/table.tsx
 import "react";
-import { jsx as jsx47 } from "react/jsx-runtime";
+import { jsx as jsx48 } from "react/jsx-runtime";
 function Table({ className, ...props }) {
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     "div",
     {
       "data-slot": "table-container",
       className: "relative w-full overflow-x-auto",
-      children: /* @__PURE__ */ jsx47(
+      children: /* @__PURE__ */ jsx48(
         "table",
         {
           "data-slot": "table",
@@ -5118,7 +5459,7 @@ function Table({ className, ...props }) {
   );
 }
 function TableHeader({ className, ...props }) {
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     "thead",
     {
       "data-slot": "table-header",
@@ -5128,7 +5469,7 @@ function TableHeader({ className, ...props }) {
   );
 }
 function TableBody({ className, ...props }) {
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     "tbody",
     {
       "data-slot": "table-body",
@@ -5138,7 +5479,7 @@ function TableBody({ className, ...props }) {
   );
 }
 function TableFooter({ className, ...props }) {
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     "tfoot",
     {
       "data-slot": "table-footer",
@@ -5151,7 +5492,7 @@ function TableFooter({ className, ...props }) {
   );
 }
 function TableRow({ className, ...props }) {
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     "tr",
     {
       "data-slot": "table-row",
@@ -5164,7 +5505,7 @@ function TableRow({ className, ...props }) {
   );
 }
 function TableHead({ className, ...props }) {
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     "th",
     {
       "data-slot": "table-head",
@@ -5177,7 +5518,7 @@ function TableHead({ className, ...props }) {
   );
 }
 function TableCell({ className, ...props }) {
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     "td",
     {
       "data-slot": "table-cell",
@@ -5193,7 +5534,7 @@ function TableCaption({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx47(
+  return /* @__PURE__ */ jsx48(
     "caption",
     {
       "data-slot": "table-caption",
@@ -5206,12 +5547,12 @@ function TableCaption({
 // src/components/ui/tabs.tsx
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import "react";
-import { jsx as jsx48 } from "react/jsx-runtime";
+import { jsx as jsx49 } from "react/jsx-runtime";
 function Tabs({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx49(
     TabsPrimitive.Root,
     {
       "data-slot": "tabs",
@@ -5224,7 +5565,7 @@ function TabsList({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx49(
     TabsPrimitive.List,
     {
       "data-slot": "tabs-list",
@@ -5240,7 +5581,7 @@ function TabsTrigger({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx49(
     TabsPrimitive.Trigger,
     {
       "data-slot": "tabs-trigger",
@@ -5256,7 +5597,7 @@ function TabsContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx48(
+  return /* @__PURE__ */ jsx49(
     TabsPrimitive.Content,
     {
       "data-slot": "tabs-content",
@@ -5269,8 +5610,8 @@ function TabsContent({
 // src/components/ui/time-input.tsx
 import "class-variance-authority";
 import { Clock } from "lucide-react";
-import * as React46 from "react";
-import { jsx as jsx49, jsxs as jsxs24 } from "react/jsx-runtime";
+import * as React47 from "react";
+import { jsx as jsx50, jsxs as jsxs25 } from "react/jsx-runtime";
 var TIME_FORMAT_PLACEHOLDER = {
   "12h": "hh:mm AM/PM",
   "24h": "HH:mm",
@@ -5323,16 +5664,16 @@ function TimeInput({
   formatDisplay
 }) {
   const resolvedPlaceholder = placeholder ?? TIME_FORMAT_PLACEHOLDER[timeFormat];
-  const displayValue = React46.useMemo(() => {
+  const displayValue = React47.useMemo(() => {
     if (!time) return "";
     if (formatDisplay) return formatDisplay(time);
     return formatTime(time, timeFormat);
   }, [time, formatDisplay, timeFormat]);
-  const [open, setOpen] = React46.useState(false);
-  const hoursRef = React46.useRef(null);
-  const minutesRef = React46.useRef(null);
-  const periodRef = React46.useRef(null);
-  const scrollToSelected = React46.useCallback(() => {
+  const [open, setOpen] = React47.useState(false);
+  const hoursRef = React47.useRef(null);
+  const minutesRef = React47.useRef(null);
+  const periodRef = React47.useRef(null);
+  const scrollToSelected = React47.useCallback(() => {
     requestAnimationFrame(() => {
       for (const ref of [hoursRef, minutesRef, periodRef]) {
         const container = ref.current;
@@ -5344,7 +5685,7 @@ function TimeInput({
       }
     });
   }, []);
-  React46.useEffect(() => {
+  React47.useEffect(() => {
     if (open) {
       scrollToSelected();
     }
@@ -5380,8 +5721,8 @@ function TimeInput({
   const selectedH12 = time ? getDisplayHour(time.hours, timeFormat) : null;
   const selectedMinute = time?.minutes ?? null;
   const selectedPeriod = time ? getPeriod(time.hours) : null;
-  return /* @__PURE__ */ jsx49("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs24(Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ jsx49(PopoverTrigger, { asChild: true, disabled: inputDisabled, children: /* @__PURE__ */ jsxs24(
+  return /* @__PURE__ */ jsx50("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs25(Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsx50(PopoverTrigger, { asChild: true, disabled: inputDisabled, children: /* @__PURE__ */ jsxs25(
       Button,
       {
         type: "button",
@@ -5396,18 +5737,18 @@ function TimeInput({
         disabled: inputDisabled,
         children: [
           displayValue || resolvedPlaceholder,
-          icon !== void 0 ? icon : /* @__PURE__ */ jsx49(Clock, { className: "h-4 w-4 text-muted-foreground shrink-0" })
+          icon !== void 0 ? icon : /* @__PURE__ */ jsx50(Clock, { className: "h-4 w-4 text-muted-foreground shrink-0" })
         ]
       }
     ) }),
-    /* @__PURE__ */ jsx49(
+    /* @__PURE__ */ jsx50(
       PopoverContent,
       {
         className: cn("w-auto p-0", popoverContentClassName),
         onOpenAutoFocus: (e) => e.preventDefault(),
         ...popoverContentProps,
-        children: /* @__PURE__ */ jsxs24("div", { className: "flex divide-x border border-blue-500 rounded-md", children: [
-          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx49(
+        children: /* @__PURE__ */ jsxs25("div", { className: "flex divide-x border border-blue-500 rounded-md", children: [
+          /* @__PURE__ */ jsx50("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx50("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx50(
             Button,
             {
               variant: "ghost",
@@ -5422,7 +5763,7 @@ function TimeInput({
             },
             h
           )) }) }),
-          /* @__PURE__ */ jsx49("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx49(
+          /* @__PURE__ */ jsx50("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx50(
             "div",
             {
               ref: minutesRef,
@@ -5430,7 +5771,7 @@ function TimeInput({
                 "flex flex-col p-1",
                 minutesList.length <= 12 && "h-full justify-center"
               ),
-              children: minutesList.map((m) => /* @__PURE__ */ jsx49(
+              children: minutesList.map((m) => /* @__PURE__ */ jsx50(
                 Button,
                 {
                   variant: "ghost",
@@ -5447,7 +5788,7 @@ function TimeInput({
               ))
             }
           ) }),
-          !is24HourFormat(timeFormat) && /* @__PURE__ */ jsx49("div", { className: "flex flex-col p-1 justify-center gap-1", children: ["AM", "PM"].map((p) => /* @__PURE__ */ jsx49(
+          !is24HourFormat(timeFormat) && /* @__PURE__ */ jsx50("div", { className: "flex flex-col p-1 justify-center gap-1", children: ["AM", "PM"].map((p) => /* @__PURE__ */ jsx50(
             Button,
             {
               variant: "ghost",
@@ -5472,7 +5813,7 @@ function TimeInput({
 import "react";
 import * as TogglePrimitive from "@radix-ui/react-toggle";
 import { cva as cva8 } from "class-variance-authority";
-import { jsx as jsx50 } from "react/jsx-runtime";
+import { jsx as jsx51 } from "react/jsx-runtime";
 var toggleVariants = cva8(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
   {
@@ -5499,7 +5840,7 @@ function Toggle({
   size,
   ...props
 }) {
-  return /* @__PURE__ */ jsx50(
+  return /* @__PURE__ */ jsx51(
     TogglePrimitive.Root,
     {
       "data-slot": "toggle",
@@ -5510,11 +5851,11 @@ function Toggle({
 }
 
 // src/components/ui/toggle-group.tsx
-import * as React48 from "react";
+import * as React49 from "react";
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
 import "class-variance-authority";
-import { jsx as jsx51 } from "react/jsx-runtime";
-var ToggleGroupContext = React48.createContext({
+import { jsx as jsx52 } from "react/jsx-runtime";
+var ToggleGroupContext = React49.createContext({
   size: "default",
   variant: "default"
 });
@@ -5525,7 +5866,7 @@ function ToggleGroup({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsx51(
+  return /* @__PURE__ */ jsx52(
     ToggleGroupPrimitive.Root,
     {
       "data-slot": "toggle-group",
@@ -5536,7 +5877,7 @@ function ToggleGroup({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx51(ToggleGroupContext.Provider, { value: { variant, size }, children })
+      children: /* @__PURE__ */ jsx52(ToggleGroupContext.Provider, { value: { variant, size }, children })
     }
   );
 }
@@ -5547,8 +5888,8 @@ function ToggleGroupItem({
   size,
   ...props
 }) {
-  const context = React48.useContext(ToggleGroupContext);
-  return /* @__PURE__ */ jsx51(
+  const context = React49.useContext(ToggleGroupContext);
+  return /* @__PURE__ */ jsx52(
     ToggleGroupPrimitive.Item,
     {
       "data-slot": "toggle-group-item",
@@ -5572,7 +5913,7 @@ function ToggleGroupItem({
 import { Slot as Slot7 } from "@radix-ui/react-slot";
 import { cva as cva9 } from "class-variance-authority";
 import "react";
-import { jsx as jsx52 } from "react/jsx-runtime";
+import { jsx as jsx53 } from "react/jsx-runtime";
 var displayTextVariants = cva9(
   "tracking-normal font-normal leading-none text-brand-dark font-serif italic",
   {
@@ -5595,7 +5936,7 @@ function DisplayHeading({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h1";
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     Comp,
     {
       "data-slot": "h1",
@@ -5624,7 +5965,7 @@ function Body({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "p";
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     Comp,
     {
       "data-slot": "h1",
@@ -5639,7 +5980,7 @@ function HeadingXL({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h1";
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     Comp,
     {
       "data-slot": "h1",
@@ -5657,7 +5998,7 @@ function HeadingL({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h2";
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     Comp,
     {
       "data-slot": "h2",
@@ -5675,7 +6016,7 @@ function HeadingM({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h3";
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     Comp,
     {
       "data-slot": "h3",
@@ -5693,7 +6034,7 @@ function HeadingS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h4";
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     Comp,
     {
       "data-slot": "h4",
@@ -5711,7 +6052,7 @@ function HeadingXS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h5";
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     Comp,
     {
       "data-slot": "h5",
@@ -5729,7 +6070,7 @@ function HeadingXXS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h6";
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx53(
     Comp,
     {
       "data-slot": "h5",
@@ -5926,6 +6267,12 @@ export {
   ResizablePanelGroup,
   ScrollArea,
   ScrollBar,
+  SearchableSelect,
+  SearchableSelectContent,
+  SearchableSelectEmpty,
+  SearchableSelectGroup,
+  SearchableSelectItem,
+  SearchableSelectTrigger,
   Select,
   SelectContent,
   SelectGroup,
