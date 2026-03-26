@@ -276,7 +276,7 @@ export function DateRangeInput({
             className={cn(
               inputVariants({ size }),
               'bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal',
-              'data-[state=open]:border-blue-500 data-[state=open]:hover:border-blue-500',
+              'data-[state=open]:border-focus-ring data-[state=open]:hover:border-focus-ring',
               isInputDisabled &&
                 'pointer-events-none cursor-not-allowed opacity-50',
               inputClassName
@@ -294,7 +294,7 @@ export function DateRangeInput({
           )}
           {...popoverContentProps}
         >
-          <div className="border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto justify-between">
+          <div className="border border-focus-ring h-full w-full rounded-md flex flex-col overflow-y-auto justify-between">
             <Calendar {...resolvedCalendarProps} />
             <div className="flex flex-col gap-2 px-2 pb-1 shrink-0">
               <Button

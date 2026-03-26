@@ -174,7 +174,7 @@ export function TimeInput({
             className={cn(
               inputVariants({ size }),
               'bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal',
-              'data-[state=open]:border-blue-500 data-[state=open]:hover:border-blue-500',
+              'data-[state=open]:border-focus-ring data-[state=open]:hover:border-focus-ring',
               inputDisabled &&
                 'pointer-events-none cursor-not-allowed opacity-50',
               inputClassName
@@ -194,7 +194,7 @@ export function TimeInput({
           onOpenAutoFocus={e => e.preventDefault()}
           {...popoverContentProps}
         >
-          <div className="flex divide-x border border-blue-500 rounded-md">
+          <div className="flex divide-x border border-focus-ring rounded-md">
             {/* Hours */}
             <div className="h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]">
               <div ref={hoursRef} className="flex flex-col p-1 ">

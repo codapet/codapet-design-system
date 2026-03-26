@@ -1,0 +1,72 @@
+Dark Mode Tokens Needed
+=======================
+These CSS tokens currently only have light mode values.
+Design team: please provide dark mode OKLCH values for each.
+
+Dark background reference: oklch(0.129 0.042 264.695)
+All dark values should maintain WCAG AA contrast against this background.
+
+────────────────────────────────────────────────────────
+BRAND COLORS
+────────────────────────────────────────────────────────
+--brand-subtle          Light: oklch(0.9672 0.0087 247.92)    Dark: ___
+--brand-light           Light: oklch(0.9417 0.0144 251.57)    Dark: ___
+--brand-normal          Light: oklch(0.5695 0.0859 252.57)    Dark: ___
+--brand-vibrant         Light: oklch(0.5424 0.1123 253.26)    Dark: ___
+--brand-dark            Light: oklch(0.4463 0.0577 255.4)     Dark: ___
+--brand-text-vibrant    Light: oklch(0.6187 0.2067 259.23)    Dark: ___
+
+────────────────────────────────────────────────────────
+SAND COLORS
+────────────────────────────────────────────────────────
+--sand-light            Light: oklch(0.9815 0.0046 106.48)    Dark: ___
+--sand-normal           Light: oklch(0.9557 0.0053 67.76)     Dark: ___
+--sand-dark             Light: oklch(0.8691 0.0045 56.36)     Dark: ___
+
+────────────────────────────────────────────────────────
+ROSE COLORS
+────────────────────────────────────────────────────────
+--rose-light            Light: oklch(0.9722 0.0086 0.11)      Dark: ___
+--rose-normal           Light: oklch(0.8046 0.0487 0.45)      Dark: ___
+--rose-dark             Light: oklch(0.5133 0.0289 0.34)      Dark: ___
+
+────────────────────────────────────────────────────────
+SAGE COLORS
+────────────────────────────────────────────────────────
+--sage-light            Light: oklch(0.932 0.01726 164.65)    Dark: ___
+--sage-normal           Light: oklch(0.7506 0.034 163.9)      Dark: ___
+--sage-dark             Light: oklch(0.4323 0.0246 165.25)    Dark: ___
+
+────────────────────────────────────────────────────────
+RED
+────────────────────────────────────────────────────────
+--red-subtle            Light: oklch(0.9903 0.003 17.21)      Dark: ___
+
+────────────────────────────────────────────────────────
+GRAY / NEUTRAL
+────────────────────────────────────────────────────────
+--gray-subtle           Light: oklch(0.6722 0.0119 286.08)    Dark: ___
+--gray-surface-light    Light: oklch(0.9674 0.0013 286.37)    Dark: ___
+--gray-surface-default  Light: oklch(0.8711 0.0055 286.29)    Dark: ___
+--gray-stroke-light     Light: oklch(0.9197 0.004 286.32)     Dark: ___
+--icon-disabled         Light: oklch(0.8686 0.0216 252.51)    Dark: ___
+
+────────────────────────────────────────────────────────
+PRIMARY SURFACE & STROKE
+────────────────────────────────────────────────────────
+--primary-surface-subtle   Light: oklch(0.9678 0.0086 247.91)   Dark: ___
+--primary-surface-light    Light: oklch(0.9397 0.0149 251.16)   Dark: ___
+--primary-surface-default  Light: oklch(0.5661 0.0865 252.66)   Dark: ___
+--primary-stroke-default   Light: oklch(0.5444 0.1133 253.36)   Dark: ___
+
+────────────────────────────────────────────────────────
+ERROR SURFACE & STROKE
+────────────────────────────────────────────────────────
+--error-surface-default    Light: oklch(0.7022 0.1892 22.23)    Dark: ___
+--error-surface-dark       Light: oklch(0.3967 0.1408 25.71)    Dark: ___
+--error-surface-light      Light: oklch(0.9705 0.0129 17.38)    Dark: ___
+--error-stroke-light       Light: oklch(0.8834 0.0616 18.39)    Dark: ___
+
+────────────────────────────────────────────────────────
+TOTAL: 28 tokens need dark mode values
+────────────────────────────────────────────────────────

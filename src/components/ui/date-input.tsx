@@ -431,7 +431,7 @@ export function DateInput({
               placeholder={resolvedPlaceholder}
               className={cn(
                 'bg-background cursor-pointer',
-                'group-data-[state=open]:border-blue-500 group-data-[state=open]:hover:border-blue-500',
+                'group-data-[state=open]:border-focus-ring group-data-[state=open]:hover:border-focus-ring',
                 inputClassName
               )}
               onChange={handleInputChange}
@@ -461,7 +461,7 @@ export function DateInput({
           )}
           {...popoverContentProps}
         >
-          <div className="border border-blue-500 h-full w-full rounded-md">
+          <div className="border border-focus-ring h-full w-full rounded-md">
             <Calendar {...resolvedCalendarProps} />
           </div>
         </PopoverContent>

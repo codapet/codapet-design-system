@@ -10,26 +10,26 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-primary text-primary-foreground hover:bg-brand-dark active:bg-slate-800 ',
+          'bg-primary text-primary-foreground hover:bg-brand-dark active:bg-active-primary',
         secondary:
           'bg-brand-subtle text-brand-vibrant hover:bg-primary-surface-light border border-brand-light active:bg-icon-disabled hover:border-transparent active:border-transparent',
         tertiary:
-          'bg-gray-surface-light text-zinc-700 hover:bg-gray-surface-default border border-gray-stroke-light active:bg-zinc-400',
+          'bg-gray-surface-light text-foreground-secondary hover:bg-gray-surface-default border border-gray-stroke-light active:bg-gray-surface-default',
         outline:
-          'text-zinc-800 border border-gray-surface-default bg-background hover:bg-gray-surface-light hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 active:bg-gray-surface-default',
+          'text-foreground-secondary border border-gray-surface-default bg-background hover:bg-gray-surface-light hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 active:bg-gray-surface-default',
         ghost:
-          'text-brand-vibrant hover:bg-primary-surface-subtle  dark:hover:bg-accent/50 active:bg-primary-surface-light',
+          'text-brand-vibrant hover:bg-primary-surface-subtle dark:hover:bg-accent/50 active:bg-primary-surface-light',
         'ghost-secondary':
-          'text-zinc-800 hover:bg-gray-surface-light hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-gray-surface-default',
+          'text-foreground-secondary hover:bg-gray-surface-light hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-gray-surface-default',
         'ghost-destructive':
-          'bg-transparent  text-red-400  hover:bg-red-50 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100',
-        link: 'text-zinc-800 underline-offset-4 underline hover:bg-none active:bg-none hover:text-brand-vibrant ',
+          'bg-transparent text-destructive-text hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active',
+        link: 'text-foreground-secondary underline-offset-4 underline hover:bg-none active:bg-none hover:text-brand-vibrant',
         destructive:
-          'bg-error-surface-default text-white hover:bg-red-800 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-error-surface-dark',
+          'bg-error-surface-default text-primary-foreground hover:bg-destructive-bg-deep focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-error-surface-dark',
         'destructive-secondary':
-          'bg-error-surface-light  border border-error-stroke-light text-red-400 hover:border-error-surface-default focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100',
+          'bg-error-surface-light border border-error-stroke-light text-destructive-text hover:border-error-surface-default focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active',
         'destructive-tertiary':
-          'bg-transparent border border-error-stroke-light text-red-400  hover:bg-red-50 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100'
+          'bg-transparent border border-error-stroke-light text-destructive-text hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active'
       },
       size: {
         md: 'h-10 px-4 py-2 has-[>svg]:px-3 text-lg',

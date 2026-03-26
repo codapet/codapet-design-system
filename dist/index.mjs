@@ -153,17 +153,17 @@ var buttonVariants = cva2(
   {
     variants: {
       variant: {
-        primary: "bg-primary text-primary-foreground hover:bg-brand-dark active:bg-slate-800 ",
+        primary: "bg-primary text-primary-foreground hover:bg-brand-dark active:bg-active-primary",
         secondary: "bg-brand-subtle text-brand-vibrant hover:bg-primary-surface-light border border-brand-light active:bg-icon-disabled hover:border-transparent active:border-transparent",
-        tertiary: "bg-gray-surface-light text-zinc-700 hover:bg-gray-surface-default border border-gray-stroke-light active:bg-zinc-400",
-        outline: "text-zinc-800 border border-gray-surface-default bg-background hover:bg-gray-surface-light hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 active:bg-gray-surface-default",
-        ghost: "text-brand-vibrant hover:bg-primary-surface-subtle  dark:hover:bg-accent/50 active:bg-primary-surface-light",
-        "ghost-secondary": "text-zinc-800 hover:bg-gray-surface-light hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-gray-surface-default",
-        "ghost-destructive": "bg-transparent  text-red-400  hover:bg-red-50 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100",
-        link: "text-zinc-800 underline-offset-4 underline hover:bg-none active:bg-none hover:text-brand-vibrant ",
-        destructive: "bg-error-surface-default text-white hover:bg-red-800 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-error-surface-dark",
-        "destructive-secondary": "bg-error-surface-light  border border-error-stroke-light text-red-400 hover:border-error-surface-default focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100",
-        "destructive-tertiary": "bg-transparent border border-error-stroke-light text-red-400  hover:bg-red-50 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 active:bg-red-100"
+        tertiary: "bg-gray-surface-light text-foreground-secondary hover:bg-gray-surface-default border border-gray-stroke-light active:bg-gray-surface-default",
+        outline: "text-foreground-secondary border border-gray-surface-default bg-background hover:bg-gray-surface-light hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 active:bg-gray-surface-default",
+        ghost: "text-brand-vibrant hover:bg-primary-surface-subtle dark:hover:bg-accent/50 active:bg-primary-surface-light",
+        "ghost-secondary": "text-foreground-secondary hover:bg-gray-surface-light hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-gray-surface-default",
+        "ghost-destructive": "bg-transparent text-destructive-text hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active",
+        link: "text-foreground-secondary underline-offset-4 underline hover:bg-none active:bg-none hover:text-brand-vibrant",
+        destructive: "bg-error-surface-default text-primary-foreground hover:bg-destructive-bg-deep focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-error-surface-dark",
+        "destructive-secondary": "bg-error-surface-light border border-error-stroke-light text-destructive-text hover:border-error-surface-default focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active",
+        "destructive-tertiary": "bg-transparent border border-error-stroke-light text-destructive-text hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active"
       },
       size: {
         md: "h-10 px-4 py-2 has-[>svg]:px-3 text-lg",
@@ -353,10 +353,10 @@ var textareaBaseStyles = [
   // Responsive text size
   "md:text-sm",
   // Default state
-  "border-zinc-300 bg-background",
+  "border-border-default bg-background",
   // Hover/Focus/Active states
   "hover:border-brand-normal",
-  "focus:border-blue-500",
+  "focus:border-focus-ring",
   "active:border-brand-normal",
   // Textarea specific
   "field-sizing-content min-h-16 resize-y px-3 py-2"
@@ -508,7 +508,7 @@ var badgeVariants = cva3(
       variant: {
         default: "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
         secondary: "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
-        destructive: "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        destructive: "border-transparent bg-destructive text-primary-foreground [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
         outline: "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground"
       }
     },
@@ -712,7 +712,7 @@ function Calendar({
           classNames?.weekdays
         ),
         weekday: cn(
-          "text-slate-700 font-medium rounded-full md:flex-1 size-6 mx-1 font-normal text-[0.8rem] select-none ",
+          "text-muted-foreground font-medium rounded-full md:flex-1 size-6 mx-1 font-normal text-[0.8rem] select-none",
           classNames?.weekday
         ),
         week: cn(
@@ -805,7 +805,7 @@ function CalendarDayButton({
       "data-range-end": modifiers.range_end,
       "data-range-middle": modifiers.range_middle,
       className: cn(
-        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-slate-200 data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none md:font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px]  [&>span]:text-xs [&>span]:opacity-70  md:p-0 rounded-full md:text-base text-sm font-medium text-black data-[range-middle=true]:rounded-md",
+        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-range-middle-bg data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none md:font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] [&>span]:text-xs [&>span]:opacity-70 md:p-0 rounded-full md:text-base text-sm font-medium text-foreground data-[range-middle=true]:rounded-md",
         className
       ),
       ...props
@@ -1898,7 +1898,7 @@ import { jsx as jsx20, jsxs as jsxs9 } from "react/jsx-runtime";
 var inputVariants = cva4(
   [
     // Base styles
-    "file:text-zinc-800 placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
+    "file:text-foreground-secondary placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
     "flex w-full min-w-0 rounded-md border bg-transparent text-base  transition-all duration-400",
     "outline-none font-sans",
     // File input styles
@@ -1908,11 +1908,11 @@ var inputVariants = cva4(
     // Responsive text size
     "md:text-sm",
     // Default state
-    "border-zinc-300 bg-background",
+    "border-border-default bg-background",
     // Hover state
     "hover:border-primary-stroke-default",
     // Focus state
-    "focus:border-blue-500",
+    "focus:border-focus-ring",
     "active:border-brand-normal"
   ],
   {
@@ -1973,7 +1973,7 @@ var Input = React18.forwardRef(
             className: cn(
               "pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center",
               "transition-colors stroke-[1.5px]",
-              error ? "text-destructive peer-hover:text-destructive peer-focus:text-destructive peer-active:text-destructive" : "text-muted-foreground peer-hover:text-brand-normal peer-focus:text-blue-500 peer-active:text-brand-normal",
+              error ? "text-destructive peer-hover:text-destructive peer-focus:text-destructive peer-active:text-destructive" : "text-muted-foreground peer-hover:text-brand-normal peer-focus:text-focus-ring peer-active:text-brand-normal",
               leftIconClassName
             ),
             children: React18.isValidElement(leftIcon) ? (() => {
@@ -1993,7 +1993,7 @@ var Input = React18.forwardRef(
             className: cn(
               "absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center",
               "h-6 w-6 rounded-sm transition-colors",
-              error ? "text-destructive hover:text-destructive focus:text-destructive" : "text-muted-foreground hover:text-brand-normal focus:text-blue-500",
+              error ? "text-destructive hover:text-destructive focus:text-destructive" : "text-muted-foreground hover:text-brand-normal focus:text-focus-ring",
               rightIconClassName
             ),
             "aria-label": "Input action",
@@ -2358,7 +2358,7 @@ function DateInput({
         placeholder: resolvedPlaceholder,
         className: cn(
           "bg-background cursor-pointer",
-          "group-data-[state=open]:border-blue-500 group-data-[state=open]:hover:border-blue-500",
+          "group-data-[state=open]:border-focus-ring group-data-[state=open]:hover:border-focus-ring",
           inputClassName
         ),
         onChange: handleInputChange,
@@ -2384,7 +2384,7 @@ function DateInput({
           popoverContentClassName
         ),
         ...popoverContentProps,
-        children: /* @__PURE__ */ jsx22("div", { className: "border border-blue-500 h-full w-full rounded-md", children: /* @__PURE__ */ jsx22(Calendar, { ...resolvedCalendarProps }) })
+        children: /* @__PURE__ */ jsx22("div", { className: "border border-focus-ring h-full w-full rounded-md", children: /* @__PURE__ */ jsx22(Calendar, { ...resolvedCalendarProps }) })
       }
     )
   ] }) });
@@ -2581,7 +2581,7 @@ function DateRangeInput({
         className: cn(
           inputVariants({ size }),
           "bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal",
-          "data-[state=open]:border-blue-500 data-[state=open]:hover:border-blue-500",
+          "data-[state=open]:border-focus-ring data-[state=open]:hover:border-focus-ring",
           isInputDisabled && "pointer-events-none cursor-not-allowed opacity-50",
           inputClassName
         ),
@@ -2600,7 +2600,7 @@ function DateRangeInput({
           popoverContentClassName
         ),
         ...popoverContentProps,
-        children: /* @__PURE__ */ jsxs11("div", { className: "border border-blue-500 h-full w-full rounded-md flex flex-col overflow-y-auto justify-between", children: [
+        children: /* @__PURE__ */ jsxs11("div", { className: "border border-focus-ring h-full w-full rounded-md flex flex-col overflow-y-auto justify-between", children: [
           /* @__PURE__ */ jsx23(Calendar, { ...resolvedCalendarProps }),
           /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-2 px-2 pb-1 shrink-0", children: [
             /* @__PURE__ */ jsx23(
@@ -5586,7 +5586,7 @@ function TabsTrigger({
     {
       "data-slot": "tabs-trigger",
       className: cn(
-        "cursor-pointer data-[state=active]:border-b-2 data-[state=active]:border-brand-normal border-0 border-t-0 rounded-none data-[state=active]:text-black data-[state=active]:font-semibold  data-[state=active]:bg-background dark:data-[state=active]:text-white focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30  dark:text-muted-foreground inline-flex h-[calc(100%-1px)] shrink-0 items-center justify-center gap-1.5  px-2 py-[6px]  font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50  [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 text-zinc-500 font-sans border-b-1 border-b-gray-stroke-light text-sm",
+        "cursor-pointer data-[state=active]:border-b-2 data-[state=active]:border-brand-normal border-0 border-t-0 rounded-none data-[state=active]:text-foreground data-[state=active]:font-semibold data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring inline-flex h-[calc(100%-1px)] shrink-0 items-center justify-center gap-1.5 px-2 py-[6px] font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 text-muted-foreground font-sans border-b-1 border-b-gray-stroke-light text-sm",
         className
       ),
       ...props
@@ -5607,11 +5607,63 @@ function TabsContent({
   );
 }
 
+// src/components/ui/theme-provider.tsx
+import {
+  ThemeProvider as NextThemesProvider
+} from "next-themes";
+import { jsx as jsx50 } from "react/jsx-runtime";
+function ThemeProvider({ children, ...props }) {
+  return /* @__PURE__ */ jsx50(
+    NextThemesProvider,
+    {
+      attribute: "class",
+      defaultTheme: "light",
+      enableSystem: true,
+      disableTransitionOnChange: true,
+      ...props,
+      children
+    }
+  );
+}
+
+// src/components/ui/theme-toggle.tsx
+import { Monitor, Moon, Sun } from "lucide-react";
+import { useTheme as useTheme2 } from "next-themes";
+import "react";
+import { jsx as jsx51, jsxs as jsxs25 } from "react/jsx-runtime";
+function ThemeToggle({
+  className,
+  ...props
+}) {
+  const { setTheme } = useTheme2();
+  return /* @__PURE__ */ jsxs25(DropdownMenu, { children: [
+    /* @__PURE__ */ jsx51(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs25(Button, { variant: "outline", size: "icon", className, ...props, children: [
+      /* @__PURE__ */ jsx51(Sun, { className: "size-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" }),
+      /* @__PURE__ */ jsx51(Moon, { className: "absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" }),
+      /* @__PURE__ */ jsx51("span", { className: "sr-only", children: "Toggle theme" })
+    ] }) }),
+    /* @__PURE__ */ jsxs25(DropdownMenuContent, { align: "end", children: [
+      /* @__PURE__ */ jsxs25(DropdownMenuItem, { onClick: () => setTheme("light"), children: [
+        /* @__PURE__ */ jsx51(Sun, { className: "size-4" }),
+        "Light"
+      ] }),
+      /* @__PURE__ */ jsxs25(DropdownMenuItem, { onClick: () => setTheme("dark"), children: [
+        /* @__PURE__ */ jsx51(Moon, { className: "size-4" }),
+        "Dark"
+      ] }),
+      /* @__PURE__ */ jsxs25(DropdownMenuItem, { onClick: () => setTheme("system"), children: [
+        /* @__PURE__ */ jsx51(Monitor, { className: "size-4" }),
+        "System"
+      ] })
+    ] })
+  ] });
+}
+
 // src/components/ui/time-input.tsx
 import "class-variance-authority";
 import { Clock } from "lucide-react";
-import * as React47 from "react";
-import { jsx as jsx50, jsxs as jsxs25 } from "react/jsx-runtime";
+import * as React48 from "react";
+import { jsx as jsx52, jsxs as jsxs26 } from "react/jsx-runtime";
 var TIME_FORMAT_PLACEHOLDER = {
   "12h": "hh:mm AM/PM",
   "24h": "HH:mm",
@@ -5664,16 +5716,16 @@ function TimeInput({
   formatDisplay
 }) {
   const resolvedPlaceholder = placeholder ?? TIME_FORMAT_PLACEHOLDER[timeFormat];
-  const displayValue = React47.useMemo(() => {
+  const displayValue = React48.useMemo(() => {
     if (!time) return "";
     if (formatDisplay) return formatDisplay(time);
     return formatTime(time, timeFormat);
   }, [time, formatDisplay, timeFormat]);
-  const [open, setOpen] = React47.useState(false);
-  const hoursRef = React47.useRef(null);
-  const minutesRef = React47.useRef(null);
-  const periodRef = React47.useRef(null);
-  const scrollToSelected = React47.useCallback(() => {
+  const [open, setOpen] = React48.useState(false);
+  const hoursRef = React48.useRef(null);
+  const minutesRef = React48.useRef(null);
+  const periodRef = React48.useRef(null);
+  const scrollToSelected = React48.useCallback(() => {
     requestAnimationFrame(() => {
       for (const ref of [hoursRef, minutesRef, periodRef]) {
         const container = ref.current;
@@ -5685,7 +5737,7 @@ function TimeInput({
       }
     });
   }, []);
-  React47.useEffect(() => {
+  React48.useEffect(() => {
     if (open) {
       scrollToSelected();
     }
@@ -5721,8 +5773,8 @@ function TimeInput({
   const selectedH12 = time ? getDisplayHour(time.hours, timeFormat) : null;
   const selectedMinute = time?.minutes ?? null;
   const selectedPeriod = time ? getPeriod(time.hours) : null;
-  return /* @__PURE__ */ jsx50("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs25(Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ jsx50(PopoverTrigger, { asChild: true, disabled: inputDisabled, children: /* @__PURE__ */ jsxs25(
+  return /* @__PURE__ */ jsx52("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs26(Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsx52(PopoverTrigger, { asChild: true, disabled: inputDisabled, children: /* @__PURE__ */ jsxs26(
       Button,
       {
         type: "button",
@@ -5730,25 +5782,25 @@ function TimeInput({
         className: cn(
           inputVariants({ size }),
           "bg-background cursor-pointer w-full text-left flex items-center justify-between gap-2 font-normal",
-          "data-[state=open]:border-blue-500 data-[state=open]:hover:border-blue-500",
+          "data-[state=open]:border-focus-ring data-[state=open]:hover:border-focus-ring",
           inputDisabled && "pointer-events-none cursor-not-allowed opacity-50",
           inputClassName
         ),
         disabled: inputDisabled,
         children: [
           displayValue || resolvedPlaceholder,
-          icon !== void 0 ? icon : /* @__PURE__ */ jsx50(Clock, { className: "h-4 w-4 text-muted-foreground shrink-0" })
+          icon !== void 0 ? icon : /* @__PURE__ */ jsx52(Clock, { className: "h-4 w-4 text-muted-foreground shrink-0" })
         ]
       }
     ) }),
-    /* @__PURE__ */ jsx50(
+    /* @__PURE__ */ jsx52(
       PopoverContent,
       {
         className: cn("w-auto p-0", popoverContentClassName),
         onOpenAutoFocus: (e) => e.preventDefault(),
         ...popoverContentProps,
-        children: /* @__PURE__ */ jsxs25("div", { className: "flex divide-x border border-blue-500 rounded-md", children: [
-          /* @__PURE__ */ jsx50("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx50("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx50(
+        children: /* @__PURE__ */ jsxs26("div", { className: "flex divide-x border border-focus-ring rounded-md", children: [
+          /* @__PURE__ */ jsx52("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx52("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx52(
             Button,
             {
               variant: "ghost",
@@ -5763,7 +5815,7 @@ function TimeInput({
             },
             h
           )) }) }),
-          /* @__PURE__ */ jsx50("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx50(
+          /* @__PURE__ */ jsx52("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx52(
             "div",
             {
               ref: minutesRef,
@@ -5771,7 +5823,7 @@ function TimeInput({
                 "flex flex-col p-1",
                 minutesList.length <= 12 && "h-full justify-center"
               ),
-              children: minutesList.map((m) => /* @__PURE__ */ jsx50(
+              children: minutesList.map((m) => /* @__PURE__ */ jsx52(
                 Button,
                 {
                   variant: "ghost",
@@ -5788,7 +5840,7 @@ function TimeInput({
               ))
             }
           ) }),
-          !is24HourFormat(timeFormat) && /* @__PURE__ */ jsx50("div", { className: "flex flex-col p-1 justify-center gap-1", children: ["AM", "PM"].map((p) => /* @__PURE__ */ jsx50(
+          !is24HourFormat(timeFormat) && /* @__PURE__ */ jsx52("div", { className: "flex flex-col p-1 justify-center gap-1", children: ["AM", "PM"].map((p) => /* @__PURE__ */ jsx52(
             Button,
             {
               variant: "ghost",
@@ -5813,7 +5865,7 @@ function TimeInput({
 import "react";
 import * as TogglePrimitive from "@radix-ui/react-toggle";
 import { cva as cva8 } from "class-variance-authority";
-import { jsx as jsx51 } from "react/jsx-runtime";
+import { jsx as jsx53 } from "react/jsx-runtime";
 var toggleVariants = cva8(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
   {
@@ -5840,7 +5892,7 @@ function Toggle({
   size,
   ...props
 }) {
-  return /* @__PURE__ */ jsx51(
+  return /* @__PURE__ */ jsx53(
     TogglePrimitive.Root,
     {
       "data-slot": "toggle",
@@ -5851,11 +5903,11 @@ function Toggle({
 }
 
 // src/components/ui/toggle-group.tsx
-import * as React49 from "react";
+import * as React50 from "react";
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
 import "class-variance-authority";
-import { jsx as jsx52 } from "react/jsx-runtime";
-var ToggleGroupContext = React49.createContext({
+import { jsx as jsx54 } from "react/jsx-runtime";
+var ToggleGroupContext = React50.createContext({
   size: "default",
   variant: "default"
 });
@@ -5866,7 +5918,7 @@ function ToggleGroup({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsx52(
+  return /* @__PURE__ */ jsx54(
     ToggleGroupPrimitive.Root,
     {
       "data-slot": "toggle-group",
@@ -5877,7 +5929,7 @@ function ToggleGroup({
         className
       ),
       ...props,
-      children: /* @__PURE__ */ jsx52(ToggleGroupContext.Provider, { value: { variant, size }, children })
+      children: /* @__PURE__ */ jsx54(ToggleGroupContext.Provider, { value: { variant, size }, children })
     }
   );
 }
@@ -5888,8 +5940,8 @@ function ToggleGroupItem({
   size,
   ...props
 }) {
-  const context = React49.useContext(ToggleGroupContext);
-  return /* @__PURE__ */ jsx52(
+  const context = React50.useContext(ToggleGroupContext);
+  return /* @__PURE__ */ jsx54(
     ToggleGroupPrimitive.Item,
     {
       "data-slot": "toggle-group-item",
@@ -5913,7 +5965,7 @@ function ToggleGroupItem({
 import { Slot as Slot7 } from "@radix-ui/react-slot";
 import { cva as cva9 } from "class-variance-authority";
 import "react";
-import { jsx as jsx53 } from "react/jsx-runtime";
+import { jsx as jsx55 } from "react/jsx-runtime";
 var displayTextVariants = cva9(
   "tracking-normal font-normal leading-none text-brand-dark font-serif italic",
   {
@@ -5936,7 +5988,7 @@ function DisplayHeading({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h1";
-  return /* @__PURE__ */ jsx53(
+  return /* @__PURE__ */ jsx55(
     Comp,
     {
       "data-slot": "h1",
@@ -5965,7 +6017,7 @@ function Body({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "p";
-  return /* @__PURE__ */ jsx53(
+  return /* @__PURE__ */ jsx55(
     Comp,
     {
       "data-slot": "h1",
@@ -5980,7 +6032,7 @@ function HeadingXL({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h1";
-  return /* @__PURE__ */ jsx53(
+  return /* @__PURE__ */ jsx55(
     Comp,
     {
       "data-slot": "h1",
@@ -5998,7 +6050,7 @@ function HeadingL({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h2";
-  return /* @__PURE__ */ jsx53(
+  return /* @__PURE__ */ jsx55(
     Comp,
     {
       "data-slot": "h2",
@@ -6016,7 +6068,7 @@ function HeadingM({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h3";
-  return /* @__PURE__ */ jsx53(
+  return /* @__PURE__ */ jsx55(
     Comp,
     {
       "data-slot": "h3",
@@ -6034,7 +6086,7 @@ function HeadingS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h4";
-  return /* @__PURE__ */ jsx53(
+  return /* @__PURE__ */ jsx55(
     Comp,
     {
       "data-slot": "h4",
@@ -6052,7 +6104,7 @@ function HeadingXS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h5";
-  return /* @__PURE__ */ jsx53(
+  return /* @__PURE__ */ jsx55(
     Comp,
     {
       "data-slot": "h5",
@@ -6070,7 +6122,7 @@ function HeadingXXS({
   ...props
 }) {
   const Comp = asChild ? Slot7 : "h6";
-  return /* @__PURE__ */ jsx53(
+  return /* @__PURE__ */ jsx55(
     Comp,
     {
       "data-slot": "h5",
@@ -6082,6 +6134,9 @@ function HeadingXXS({
     }
   );
 }
+
+// src/hooks/use-theme.ts
+import { useTheme as useTheme3 } from "next-themes";
 export {
   Accordion,
   AccordionContent,
@@ -6339,6 +6394,8 @@ export {
   TabsList,
   TabsTrigger,
   Textarea,
+  ThemeProvider,
+  ThemeToggle,
   TimeInput,
   Toaster,
   Toggle,
@@ -6359,6 +6416,7 @@ export {
   toggleVariants,
   useFormField,
   useIsMobile,
-  useSidebar
+  useSidebar,
+  useTheme3 as useTheme
 };
 //# sourceMappingURL=index.mjs.map

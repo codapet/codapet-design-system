@@ -13,10 +13,10 @@ const textareaBaseStyles = [
   // Responsive text size
   'md:text-sm',
   // Default state
-  'border-zinc-300 bg-background',
+  'border-border-default bg-background',
   // Hover/Focus/Active states
   'hover:border-brand-normal',
-  'focus:border-blue-500',
+  'focus:border-focus-ring',
   'active:border-brand-normal',
   // Textarea specific
   'field-sizing-content min-h-16 resize-y px-3 py-2'

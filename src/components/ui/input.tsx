@@ -7,7 +7,7 @@ import { Button } from './button'
 const inputVariants = cva(
   [
     // Base styles
-    'file:text-zinc-800 placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground',
+    'file:text-foreground-secondary placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground',
     'flex w-full min-w-0 rounded-md border bg-transparent text-base  transition-all duration-400',
     'outline-none font-sans',
     // File input styles
@@ -17,11 +17,11 @@ const inputVariants = cva(
     // Responsive text size
     'md:text-sm',
     // Default state
-    'border-zinc-300 bg-background',
+    'border-border-default bg-background',
     // Hover state
     'hover:border-primary-stroke-default',
     // Focus state
-    'focus:border-blue-500',
+    'focus:border-focus-ring',
     'active:border-brand-normal'
   ],
   {
@@ -101,7 +101,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 'transition-colors stroke-[1.5px]',
                 error
                   ? 'text-destructive peer-hover:text-destructive peer-focus:text-destructive peer-active:text-destructive'
-                  : 'text-muted-foreground peer-hover:text-brand-normal peer-focus:text-blue-500 peer-active:text-brand-normal',
+                  : 'text-muted-foreground peer-hover:text-brand-normal peer-focus:text-focus-ring peer-active:text-brand-normal',
                 leftIconClassName
               )}
             >
@@ -127,7 +127,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 'h-6 w-6 rounded-sm transition-colors',
                 error
                   ? 'text-destructive hover:text-destructive focus:text-destructive'
-                  : 'text-muted-foreground hover:text-brand-normal focus:text-blue-500',
+                  : 'text-muted-foreground hover:text-brand-normal focus:text-focus-ring',
                 rightIconClassName
               )}
               aria-label="Input action"

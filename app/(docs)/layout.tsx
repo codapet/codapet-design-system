@@ -18,6 +18,7 @@ import {
   SidebarTrigger,
   useSidebar
 } from '@/components/ui/sidebar'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { cn } from '@/lib/utils'
 import {
   AlertCircle,
@@ -26,6 +27,7 @@ import {
   Layout,
   ListFilter,
   MessageSquare,
+  Moon,
   MousePointer,
   Palette,
   ToggleLeft,
@@ -123,6 +125,12 @@ const TokensItems = [
     label: 'Colors',
     icon: Palette,
     description: 'Color tokens'
+  },
+  {
+    id: 'theme',
+    label: 'Theme',
+    icon: Moon,
+    description: 'Dark mode and theming'
   }
 ]
 
@@ -226,6 +234,9 @@ export default function DocsLayout({
             <h1 className="text-sm font-semibold text-muted-foreground truncate">
               CodaPet Design System
             </h1>
+            <div className="ml-auto">
+              <ThemeToggle />
+            </div>
           </div>
         </header>
 
