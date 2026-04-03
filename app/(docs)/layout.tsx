@@ -30,6 +30,7 @@ import {
   Moon,
   MousePointer,
   Palette,
+  Tag,
   ToggleLeft,
   Type
 } from 'lucide-react'
@@ -39,6 +40,12 @@ import { usePathname } from 'next/navigation'
 import packageJson from '../../package.json'
 
 const navigationItems = [
+  {
+    id: 'badges',
+    label: 'Badges',
+    icon: Tag,
+    description: 'Actionable, informative, and number badges'
+  },
   {
     id: 'buttons',
     label: 'Buttons',

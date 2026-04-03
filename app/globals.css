@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@source "./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./node_modules/@codapet/design-system/dist/**/*.{js,mjs,ts,tsx}";
+@source "./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}", "./node_modules/@codapet/design-system/dist/**/*.{js,mjs,ts,tsx}";
 @import '@codapet/design-system/styles';
 @import "tw-animate-css";
 
