@@ -33,6 +33,39 @@ function getCategory(name: string): { title: string; description: string } {
   if (name.startsWith('sage-')) {
     return { title: 'Sage Colors', description: 'Sage accent color palette' }
   }
+  if (name.startsWith('warning-')) {
+    return {
+      title: 'Warning Colors',
+      description: 'Warning and caution state colors'
+    }
+  }
+  if (name.startsWith('success-')) {
+    return {
+      title: 'Success Colors',
+      description: 'Success and positive state colors'
+    }
+  }
+  if (name.startsWith('alert-')) {
+    return {
+      title: 'Alert Colors',
+      description: 'Alert banner background colors'
+    }
+  }
+  if (name.startsWith('vibrant-text-')) {
+    return {
+      title: 'Text Colors',
+      description: 'Text colors for headings, body, and captions'
+    }
+  }
+  if (
+    name.startsWith('secondary-') &&
+    !name.includes('-foreground')
+  ) {
+    return {
+      title: 'Secondary Colors',
+      description: 'Secondary/sand colors for badges and actionable elements'
+    }
+  }
   if (name.includes('-surface-')) {
     return {
       title: 'Surface Colors',
@@ -225,9 +258,14 @@ export function parseColorsFromCSS(): ColorGroup[] {
     'Semantic Colors',
     'Brand Colors',
     'Sand Colors',
+    'Secondary Colors',
     'Rose Colors',
     'Red Colors',
     'Sage Colors',
+    'Warning Colors',
+    'Success Colors',
+    'Text Colors',
+    'Alert Colors',
     'Surface Colors',
     'Stroke Colors',
     'Chart Colors',

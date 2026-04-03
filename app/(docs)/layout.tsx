@@ -22,6 +22,7 @@ import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { cn } from '@/lib/utils'
 import {
   AlertCircle,
+  Bell,
   CalendarDays,
   ChevronDown,
   Layout,
@@ -40,6 +41,12 @@ import { usePathname } from 'next/navigation'
 import packageJson from '../../package.json'
 
 const navigationItems = [
+  {
+    id: 'alerts',
+    label: 'Alerts',
+    icon: Bell,
+    description: 'Informative, error, and success alert banners'
+  },
   {
     id: 'badges',
     label: 'Badges',
