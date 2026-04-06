@@ -76,6 +76,7 @@
   /* Surface */
   --color-gray-surface-light: var(--gray-surface-light);
   --color-gray-surface-default: var(--gray-surface-default);
+  --color-gray-surface-dark: var(--gray-surface-dark);
   --color-primary-surface-subtle: var(--primary-surface-subtle);
   --color-primary-surface-light: var(--primary-surface-light);
   --color-primary-surface-default: var(--primary-surface-default);
@@ -211,6 +212,7 @@
   /* gray*/
   --gray-surface-light: oklch(0.9674 0.0013 286.37);
   --gray-surface-default: oklch(0.8711 0.0055 286.29);
+  --gray-surface-dark: oklch(0.228 0.006 286.07);
   --gray-stroke-light: oklch(0.9197 0.004 286.32);
 
   /* primary surface */
@@ -314,6 +316,7 @@
   --gray-subtle: oklch(0.55 0.012 286);
   --gray-surface-light: oklch(0.22 0.005 286);
   --gray-surface-default: oklch(0.3 0.006 286);
+  --gray-surface-dark: oklch(0.228 0.006 286.07);
   --gray-stroke-light: oklch(0.3 0.005 286);
   --icon-disabled: oklch(0.35 0.02 252);
 

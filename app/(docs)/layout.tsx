@@ -27,6 +27,7 @@ import {
   ChevronDown,
   Layout,
   ListFilter,
+  MessageCircle,
   MessageSquare,
   Moon,
   MousePointer,
@@ -130,6 +131,12 @@ const navigationItems = [
     label: 'Select',
     icon: ListFilter,
     description: 'Single & multi-select with search'
+  },
+  {
+    id: 'tooltips',
+    label: 'Tooltips',
+    icon: MessageCircle,
+    description: 'Rich tooltips with icon, heading, and dismiss'
   }
 ]
 
