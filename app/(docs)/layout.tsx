@@ -133,6 +133,12 @@ const navigationItems = [
     description: 'Single & multi-select with search'
   },
   {
+    id: 'tabs',
+    label: 'Tabs',
+    icon: Layout,
+    description: 'Underline-style horizontal tab navigation'
+  },
+  {
     id: 'tooltips',
     label: 'Tooltips',
     icon: MessageCircle,

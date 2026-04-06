@@ -1,6 +1,7 @@
 'use client'
 
 import * as TabsPrimitive from '@radix-ui/react-tabs'
+import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
@@ -26,7 +27,7 @@ function TabsList({
     <TabsPrimitive.List
       data-slot="tabs-list"
       className={cn(
-        'text-muted-foreground flex h-9 items-center rounded-lg p-[3px] overflow-x-auto',
+        'text-muted-foreground flex items-center overflow-x-auto',
         className
       )}
       {...props}
@@ -34,19 +35,41 @@ function TabsList({
   )
 }
 
+const tabsTriggerVariants = cva(
+  'cursor-pointer inline-flex shrink-0 items-center justify-center font-sans font-medium whitespace-nowrap transition-[color,box-shadow] text-vibrant-text-details border-b border-b-gray-stroke-default data-[state=active]:font-semibold data-[state=active]:text-vibrant-text-heading data-[state=active]:border-b-2 data-[state=active]:border-b-primary-stroke-default disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4 pb-1 px-2',
+  {
+    variants: {
+      size: {
+        md: 'min-w-[72px] text-sm leading-5',
+        lg: 'min-w-[88px] text-base leading-6'
+      }
+    },
+    defaultVariants: {
+      size: 'md'
+    }
+  }
+)
+
+export interface TabsTriggerProps
+  extends React.ComponentProps<typeof TabsPrimitive.Trigger>,
+    VariantProps<typeof tabsTriggerVariants> {}
+
 function TabsTrigger({
   className,
+  size,
+  children,
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+}: TabsTriggerProps) {
   return (
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
-      className={cn(
-        "cursor-pointer data-[state=active]:border-b-2 data-[state=active]:border-brand-normal border-0 border-t-0 rounded-none data-[state=active]:text-foreground data-[state=active]:font-semibold data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring inline-flex h-[calc(100%-1px)] shrink-0 items-center justify-center gap-1.5 px-2 py-[6px] font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 text-muted-foreground font-sans border-b-1 border-b-gray-stroke-light text-sm",
-        className
-      )}
+      className={cn(tabsTriggerVariants({ size }), className)}
       {...props}
-    />
+    >
+      <span className="inline-flex items-center justify-center gap-1.5 rounded-[6px] px-2 py-1.5 hover:bg-gray-surface-light">
+        {children}
+      </span>
+    </TabsPrimitive.Trigger>
   )
 }
 
@@ -63,4 +86,4 @@ function TabsContent({
   )
 }
 
-export { Tabs, TabsContent, TabsList, TabsTrigger }
+export { Tabs, TabsContent, TabsList, TabsTrigger, tabsTriggerVariants }

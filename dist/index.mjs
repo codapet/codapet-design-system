@@ -5907,6 +5907,7 @@ function TableCaption({
 
 // src/components/ui/tabs.tsx
 import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { cva as cva12 } from "class-variance-authority";
 import "react";
 import { jsx as jsx53 } from "react/jsx-runtime";
 function Tabs({
@@ -5931,26 +5932,40 @@ function TabsList({
     {
       "data-slot": "tabs-list",
       className: cn(
-        "text-muted-foreground flex h-9 items-center rounded-lg p-[3px] overflow-x-auto",
+        "text-muted-foreground flex items-center overflow-x-auto",
         className
       ),
       ...props
     }
   );
 }
+var tabsTriggerVariants = cva12(
+  "cursor-pointer inline-flex shrink-0 items-center justify-center font-sans font-medium whitespace-nowrap transition-[color,box-shadow] text-vibrant-text-details border-b border-b-gray-stroke-default data-[state=active]:font-semibold data-[state=active]:text-vibrant-text-heading data-[state=active]:border-b-2 data-[state=active]:border-b-primary-stroke-default disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4 pb-1 px-2",
+  {
+    variants: {
+      size: {
+        md: "min-w-[72px] text-sm leading-5",
+        lg: "min-w-[88px] text-base leading-6"
+      }
+    },
+    defaultVariants: {
+      size: "md"
+    }
+  }
+);
 function TabsTrigger({
   className,
+  size,
+  children,
   ...props
 }) {
   return /* @__PURE__ */ jsx53(
     TabsPrimitive.Trigger,
     {
       "data-slot": "tabs-trigger",
-      className: cn(
-        "cursor-pointer data-[state=active]:border-b-2 data-[state=active]:border-brand-normal border-0 border-t-0 rounded-none data-[state=active]:text-foreground data-[state=active]:font-semibold data-[state=active]:bg-background dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring inline-flex h-[calc(100%-1px)] shrink-0 items-center justify-center gap-1.5 px-2 py-[6px] font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 text-muted-foreground font-sans border-b-1 border-b-gray-stroke-light text-sm",
-        className
-      ),
-      ...props
+      className: cn(tabsTriggerVariants({ size }), className),
+      ...props,
+      children: /* @__PURE__ */ jsx53("span", { className: "inline-flex items-center justify-center gap-1.5 rounded-[6px] px-2 py-1.5 hover:bg-gray-surface-light", children })
     }
   );
 }
@@ -6225,9 +6240,9 @@ function TimeInput({
 // src/components/ui/toggle.tsx
 import "react";
 import * as TogglePrimitive from "@radix-ui/react-toggle";
-import { cva as cva12 } from "class-variance-authority";
+import { cva as cva13 } from "class-variance-authority";
 import { jsx as jsx57 } from "react/jsx-runtime";
-var toggleVariants = cva12(
+var toggleVariants = cva13(
   "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
   {
     variants: {
@@ -6324,10 +6339,10 @@ function ToggleGroupItem({
 
 // src/components/ui/typography.tsx
 import { Slot as Slot7 } from "@radix-ui/react-slot";
-import { cva as cva13 } from "class-variance-authority";
+import { cva as cva14 } from "class-variance-authority";
 import "react";
 import { jsx as jsx59 } from "react/jsx-runtime";
-var displayTextVariants = cva13(
+var displayTextVariants = cva14(
   "tracking-normal font-normal leading-none text-brand-dark font-serif italic",
   {
     variants: {
@@ -6358,7 +6373,7 @@ function DisplayHeading({
     }
   );
 }
-var bodyTextVariants = cva13("font-sans ", {
+var bodyTextVariants = cva14("font-sans ", {
   variants: {
     size: {
       lg: "text-lg md:text-xl leading-[1.625rem] md:leading-[1.75rem]",
@@ -6785,6 +6800,7 @@ export {
   inputVariants,
   labelTextVariants,
   navigationMenuTriggerStyle,
+  tabsTriggerVariants,
   toggleVariants,
   useFormField,
   useIsMobile,
