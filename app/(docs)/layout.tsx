@@ -133,6 +133,12 @@ const navigationItems = [
     description: 'Custom dropdown select input with states'
   },
   {
+    id: 'multi-select-free-text',
+    label: 'Multi Select Free Text',
+    icon: Tag,
+    description: 'Free text multi-select with tags and suggestions'
+  },
+  {
     id: 'select',
     label: 'Select',
     icon: ListFilter,
