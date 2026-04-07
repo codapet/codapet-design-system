@@ -428,11 +428,9 @@ interface DropdownSelectLabelProps extends React$1.ComponentProps<'div'> {
     mandatory?: boolean;
 }
 declare function DropdownSelectLabel({ className, children, mandatory, ...props }: DropdownSelectLabelProps): react_jsx_runtime.JSX.Element;
-interface DropdownSelectTriggerProps extends Omit<React$1.ComponentProps<typeof PopoverPrimitive.Trigger>, 'asChild'> {
-}
+type DropdownSelectTriggerProps = Omit<React$1.ComponentProps<typeof PopoverPrimitive.Trigger>, 'asChild'>;
 declare function DropdownSelectTrigger({ className, ...props }: DropdownSelectTriggerProps): react_jsx_runtime.JSX.Element;
-interface DropdownSelectContentProps extends Omit<React$1.ComponentProps<typeof PopoverPrimitive.Content>, 'asChild'> {
-}
+type DropdownSelectContentProps = Omit<React$1.ComponentProps<typeof PopoverPrimitive.Content>, 'asChild'>;
 declare function DropdownSelectContent({ className, children, ...props }: DropdownSelectContentProps): react_jsx_runtime.JSX.Element;
 interface DropdownSelectOptionProps extends React$1.ComponentProps<'div'> {
     value: string;
@@ -558,6 +556,19 @@ declare function PaginationEllipsis({ className, ...props }: React$1.ComponentPr
 
 declare function Progress({ className, value, ...props }: React$1.ComponentProps<typeof ProgressPrimitive.Root>): react_jsx_runtime.JSX.Element;
 
+declare const progressBarVariants: (props?: ({
+    device?: "mobile" | "desktop" | null | undefined;
+} & class_variance_authority_types.ClassProp) | undefined) => string;
+interface ProgressBarProps extends React$1.ComponentProps<'div'>, VariantProps<typeof progressBarVariants> {
+    /** Current step (1-based). Must be between 1 and totalSteps. */
+    currentStep?: number;
+    /** Total number of steps. Defaults to 7. */
+    totalSteps?: number;
+    /** Direct percentage value (0-100). Overrides step-based calculation when provided. */
+    value?: number;
+}
+declare function ProgressBar({ className, device, currentStep, totalSteps, value, ...props }: ProgressBarProps): react_jsx_runtime.JSX.Element;
+
 declare function RadioGroup({ className, ...props }: React$1.ComponentProps<typeof RadioGroupPrimitive.Root>): react_jsx_runtime.JSX.Element;
 declare function RadioGroupItem({ className, ...props }: React$1.ComponentProps<typeof RadioGroupPrimitive.Item>): react_jsx_runtime.JSX.Element;
 
@@ -569,6 +580,44 @@ declare function ResizableHandle({ withHandle, className, ...props }: React$1.Co
 
 declare function ScrollArea({ className, children, ...props }: React$1.ComponentProps<typeof ScrollAreaPrimitive.Root>): react_jsx_runtime.JSX.Element;
 declare function ScrollBar({ className, orientation, ...props }: React$1.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>): react_jsx_runtime.JSX.Element;
+
+interface SearchSuggestion {
+    icon?: React$1.ReactNode;
+    label: string;
+}
+interface SearchInputProps {
+    /** 'icon' renders a 36×36 search icon button; 'button' renders a "Search" text button */
+    variant?: 'icon' | 'button';
+    /** Controlled value */
+    value?: string;
+    /** Uncontrolled default value */
+    defaultValue?: string;
+    /** Called on every input change */
+    onValueChange?: (value: string) => void;
+    /** Called on Enter key or search button click */
+    onSearch?: (value: string) => void;
+    /** Called when the clear (X) button is clicked */
+    onClear?: () => void;
+    placeholder?: string;
+    /** Label text above the input */
+    label?: string;
+    /** Helper text below the input */
+    helperText?: string;
+    /** Optional left icon */
+    icon?: React$1.ReactNode;
+    /** Error state */
+    error?: boolean;
+    /** Error helper text (overrides helperText when error=true) */
+    errorMessage?: string;
+    /** Disabled state */
+    disabled?: boolean;
+    /** Suggestion items shown in dropdown when typing */
+    suggestions?: SearchSuggestion[];
+    /** Called when a suggestion is clicked */
+    onSuggestionClick?: (label: string) => void;
+    className?: string;
+}
+declare function SearchInput({ variant, value: valueProp, defaultValue, onValueChange, onSearch, onClear, placeholder, label, helperText, icon, error, errorMessage, disabled, suggestions, onSuggestionClick, className, }: SearchInputProps): react_jsx_runtime.JSX.Element;
 
 type SearchableSelectOption = {
     value: string;
@@ -826,4 +875,4 @@ declare function cn(...inputs: ClassValue[]): string;
 
 declare function useIsMobile(): boolean;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertBanner, type AlertBannerProps, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, AutoResizeTextarea, Avatar, AvatarFallback, AvatarImage, Badge, BadgeActionable, type BadgeActionableProps, BadgeInformative, BadgeInformativeGroup, BadgeInformativeItem, type BadgeInformativeProps, BadgeNumber, type BadgeNumberProps, Body, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, type DateFormat, DateInput, type DateInputProps, DateRangeInput, type DateRangeInputProps, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DisplayHeading, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, DropdownSelect, DropdownSelectContent, type DropdownSelectContentProps, DropdownSelectLabel, type DropdownSelectLabelProps, DropdownSelectOption, type DropdownSelectOptionProps, type DropdownSelectProps, DropdownSelectTrigger, type DropdownSelectTriggerProps, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HeadingL, HeadingM, HeadingS, HeadingXL, HeadingXS, HeadingXXS, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, MultiSelectFreeText, type MultiSelectFreeTextOption, type MultiSelectFreeTextProps, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, RichTooltipContent, type RichTooltipContentProps, ScrollArea, ScrollBar, SearchableSelect, SearchableSelectContent, SearchableSelectEmpty, SearchableSelectGroup, SearchableSelectItem, type SearchableSelectOption, type SearchableSelectProps, SearchableSelectTrigger, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, SmartDialog, SmartDialogClose, SmartDialogContent, SmartDialogDescription, SmartDialogFooter, SmartDialogHeader, SmartDialogTitle, SmartDialogTrigger, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, type TabsTriggerProps, Textarea, type TextareaProps, ThemeProvider, ThemeToggle, type TimeFormat, TimeInput, type TimeInputProps, type TimeValue, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, alertBannerVariants, badgeActionableVariants, badgeInformativeVariants, badgeNumberVariants, badgeVariants, bodyTextVariants, buttonVariants, cn, displayTextVariants, inputVariants, labelTextVariants, navigationMenuTriggerStyle, tabsTriggerVariants, toggleVariants, useFormField, useIsMobile, useSidebar };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertBanner, type AlertBannerProps, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, AutoResizeTextarea, Avatar, AvatarFallback, AvatarImage, Badge, BadgeActionable, type BadgeActionableProps, BadgeInformative, BadgeInformativeGroup, BadgeInformativeItem, type BadgeInformativeProps, BadgeNumber, type BadgeNumberProps, Body, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, type DateFormat, DateInput, type DateInputProps, DateRangeInput, type DateRangeInputProps, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DisplayHeading, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, DropdownSelect, DropdownSelectContent, type DropdownSelectContentProps, DropdownSelectLabel, type DropdownSelectLabelProps, DropdownSelectOption, type DropdownSelectOptionProps, type DropdownSelectProps, DropdownSelectTrigger, type DropdownSelectTriggerProps, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HeadingL, HeadingM, HeadingS, HeadingXL, HeadingXS, HeadingXXS, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, MultiSelectFreeText, type MultiSelectFreeTextOption, type MultiSelectFreeTextProps, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, ProgressBar, type ProgressBarProps, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, RichTooltipContent, type RichTooltipContentProps, ScrollArea, ScrollBar, SearchInput, type SearchInputProps, type SearchSuggestion, SearchableSelect, SearchableSelectContent, SearchableSelectEmpty, SearchableSelectGroup, SearchableSelectItem, type SearchableSelectOption, type SearchableSelectProps, SearchableSelectTrigger, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, SmartDialog, SmartDialogClose, SmartDialogContent, SmartDialogDescription, SmartDialogFooter, SmartDialogHeader, SmartDialogTitle, SmartDialogTrigger, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, type TabsTriggerProps, Textarea, type TextareaProps, ThemeProvider, ThemeToggle, type TimeFormat, TimeInput, type TimeInputProps, type TimeValue, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, alertBannerVariants, badgeActionableVariants, badgeInformativeVariants, badgeNumberVariants, badgeVariants, bodyTextVariants, buttonVariants, cn, displayTextVariants, inputVariants, labelTextVariants, navigationMenuTriggerStyle, progressBarVariants, tabsTriggerVariants, toggleVariants, useFormField, useIsMobile, useSidebar };
