@@ -35,7 +35,7 @@ function Tag({ label, onRemove }: TagProps) {
         className="flex items-center justify-center size-[20px] text-primary-stroke-default hover:text-primary-surface-default transition-colors cursor-pointer"
         aria-label={`Remove ${label}`}
       >
-        <X className="size-[10px]" />
+        <X className="size-[16px]" />
       </button>
     </span>
   )

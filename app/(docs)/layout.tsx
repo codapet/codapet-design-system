@@ -27,11 +27,13 @@ import {
   ChevronDown,
   Layout,
   ListFilter,
+  Loader,
   MessageCircle,
   MessageSquare,
   Moon,
   MousePointer,
   Palette,
+  Search,
   Tag,
   ToggleLeft,
   Type
@@ -113,6 +115,18 @@ const navigationItems = [
     label: 'Interactive',
     icon: MousePointer,
     description: 'Sliders, progress bars, and controls'
+  },
+  {
+    id: 'progress-bar',
+    label: 'Progress Bar',
+    icon: Loader,
+    description: 'Step-based progress bar for desktop and mobile'
+  },
+  {
+    id: 'search-input',
+    label: 'Search Input',
+    icon: Search,
+    description: 'Search input with icon/button variants and suggestions'
   },
   {
     id: 'smart-dialog-drawer',
