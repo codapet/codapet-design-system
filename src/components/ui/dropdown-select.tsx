@@ -158,8 +158,8 @@ function DropdownSelectLabel({
 
 /* ─── Trigger ──────────────────────────────────────────────── */
 
-export interface DropdownSelectTriggerProps
-  extends Omit<React.ComponentProps<typeof PopoverPrimitive.Trigger>, 'asChild'> {}
+export type DropdownSelectTriggerProps =
+  Omit<React.ComponentProps<typeof PopoverPrimitive.Trigger>, 'asChild'>
 
 function DropdownSelectTrigger({ className, ...props }: DropdownSelectTriggerProps) {
   const { value, displayLabel, placeholder, icon, disabled, error, open, options, setOpen, onValueChange, highlightedIndex, setHighlightedIndex } = useDropdownSelect()
@@ -247,8 +247,8 @@ function DropdownSelectTrigger({ className, ...props }: DropdownSelectTriggerPro
 
 /* ─── Content ──────────────────────────────────────────────── */
 
-export interface DropdownSelectContentProps
-  extends Omit<React.ComponentProps<typeof PopoverPrimitive.Content>, 'asChild'> {}
+export type DropdownSelectContentProps =
+  Omit<React.ComponentProps<typeof PopoverPrimitive.Content>, 'asChild'>
 
 function DropdownSelectContent({
   className,
