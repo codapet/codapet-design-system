@@ -25,7 +25,8 @@ export default function TabsPage() {
           Tabs
         </h2>
         <p className="text-base md:text-lg text-slate-600 dark:text-slate-400">
-          Underline-style horizontal tab navigation
+          Horizontal and vertical tab navigation with animated sliding
+          indicator
         </p>
       </div>
 
@@ -354,6 +355,200 @@ import { Label } from '@codapet/design-system'
     <Input id="current" type="password" />
   </TabsContent>
   <TabsContent value="notifications" className="mt-4">
+    Notification settings here...
+  </TabsContent>
+</Tabs>`}
+          />
+        </CardContent>
+      </Card>
+
+      {/* ──── Vertical Tabs ──── */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+            Vertical Tabs
+          </CardTitle>
+          <CardDescription>
+            Vertical orientation with a sliding left-side indicator. Pass{' '}
+            <code>orientation=&quot;vertical&quot;</code> to the Tabs root.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Tabs
+            defaultValue="tab1"
+            orientation="vertical"
+            className="w-full"
+          >
+            <TabsList>
+              <TabsTrigger value="tab1">Account</TabsTrigger>
+              <TabsTrigger value="tab2">Password</TabsTrigger>
+              <TabsTrigger value="tab3">Settings</TabsTrigger>
+            </TabsList>
+            <TabsContent value="tab1">
+              <p className="text-sm text-muted-foreground">
+                Account settings content goes here.
+              </p>
+            </TabsContent>
+            <TabsContent value="tab2">
+              <p className="text-sm text-muted-foreground">
+                Password settings content goes here.
+              </p>
+            </TabsContent>
+            <TabsContent value="tab3">
+              <p className="text-sm text-muted-foreground">
+                General settings content goes here.
+              </p>
+            </TabsContent>
+          </Tabs>
+
+          <CodeBlock
+            code={`{/* Vertical orientation */}
+<Tabs defaultValue="tab1" orientation="vertical">
+  <TabsList>
+    <TabsTrigger value="tab1">Account</TabsTrigger>
+    <TabsTrigger value="tab2">Password</TabsTrigger>
+    <TabsTrigger value="tab3">Settings</TabsTrigger>
+  </TabsList>
+  <TabsContent value="tab1">Account content</TabsContent>
+  <TabsContent value="tab2">Password content</TabsContent>
+  <TabsContent value="tab3">Settings content</TabsContent>
+</Tabs>`}
+          />
+        </CardContent>
+      </Card>
+
+      {/* ──── Vertical Large ──── */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
+            Vertical — Large Size
+          </CardTitle>
+          <CardDescription>
+            Vertical tabs with the large size variant.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Tabs
+            defaultValue="tab1"
+            orientation="vertical"
+            className="w-full"
+          >
+            <TabsList>
+              <TabsTrigger value="tab1" size="lg">
+                Account
+              </TabsTrigger>
+              <TabsTrigger value="tab2" size="lg">
+                Password
+              </TabsTrigger>
+              <TabsTrigger value="tab3" size="lg">
+                Settings
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="tab1">
+              <p className="text-sm text-muted-foreground">
+                Account settings content goes here.
+              </p>
+            </TabsContent>
+            <TabsContent value="tab2">
+              <p className="text-sm text-muted-foreground">
+                Password settings content goes here.
+              </p>
+            </TabsContent>
+            <TabsContent value="tab3">
+              <p className="text-sm text-muted-foreground">
+                General settings content goes here.
+              </p>
+            </TabsContent>
+          </Tabs>
+
+          <CodeBlock
+            code={`<Tabs defaultValue="tab1" orientation="vertical">
+  <TabsList>
+    <TabsTrigger value="tab1" size="lg">Account</TabsTrigger>
+    <TabsTrigger value="tab2" size="lg">Password</TabsTrigger>
+    <TabsTrigger value="tab3" size="lg">Settings</TabsTrigger>
+  </TabsList>
+  <TabsContent value="tab1">...</TabsContent>
+</Tabs>`}
+          />
+        </CardContent>
+      </Card>
+
+      {/* ──── Vertical with Content ──── */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+            Vertical with Content Panels
+          </CardTitle>
+          <CardDescription>
+            Full working vertical example with form content panels.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Tabs
+            defaultValue="account"
+            orientation="vertical"
+            className="w-full"
+          >
+            <TabsList>
+              <TabsTrigger value="account">Account</TabsTrigger>
+              <TabsTrigger value="password">Password</TabsTrigger>
+              <TabsTrigger value="notifications">Notifications</TabsTrigger>
+              <TabsTrigger value="disabled" disabled>
+                Disabled
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="account" className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="v-name">Name</Label>
+                <Input id="v-name" placeholder="Enter your name" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="v-email">Email</Label>
+                <Input
+                  id="v-email"
+                  type="email"
+                  placeholder="Enter your email"
+                />
+              </div>
+            </TabsContent>
+            <TabsContent value="password" className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="v-current">Current password</Label>
+                <Input id="v-current" type="password" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="v-new">New password</Label>
+                <Input id="v-new" type="password" />
+              </div>
+            </TabsContent>
+            <TabsContent value="notifications">
+              <p className="text-sm text-muted-foreground">
+                Configure your notification preferences here.
+              </p>
+            </TabsContent>
+          </Tabs>
+
+          <CodeBlock
+            code={`<Tabs defaultValue="account" orientation="vertical">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+    <TabsTrigger value="notifications">Notifications</TabsTrigger>
+    <TabsTrigger value="disabled" disabled>Disabled</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account" className="space-y-4">
+    <Label>Name</Label>
+    <Input placeholder="Enter your name" />
+  </TabsContent>
+  <TabsContent value="password" className="space-y-4">
+    <Label>Current password</Label>
+    <Input type="password" />
+  </TabsContent>
+  <TabsContent value="notifications">
     Notification settings here...
   </TabsContent>
 </Tabs>`}
