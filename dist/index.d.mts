@@ -410,6 +410,37 @@ declare function DropdownMenuSubTrigger({ className, inset, children, ...props }
 }): react_jsx_runtime.JSX.Element;
 declare function DropdownMenuSubContent({ className, ...props }: React$1.ComponentProps<typeof DropdownMenuPrimitive.SubContent>): react_jsx_runtime.JSX.Element;
 
+interface DropdownSelectProps {
+    children: React$1.ReactNode;
+    value?: string;
+    defaultValue?: string;
+    onValueChange?: (value: string) => void;
+    open?: boolean;
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    disabled?: boolean;
+    error?: boolean;
+    placeholder?: string;
+    icon?: React$1.ReactNode;
+}
+declare function DropdownSelect({ children, value: valueProp, defaultValue, onValueChange, open: openProp, defaultOpen, onOpenChange, disabled, error, placeholder, icon, }: DropdownSelectProps): react_jsx_runtime.JSX.Element;
+interface DropdownSelectLabelProps extends React$1.ComponentProps<'div'> {
+    mandatory?: boolean;
+}
+declare function DropdownSelectLabel({ className, children, mandatory, ...props }: DropdownSelectLabelProps): react_jsx_runtime.JSX.Element;
+interface DropdownSelectTriggerProps extends Omit<React$1.ComponentProps<typeof PopoverPrimitive.Trigger>, 'asChild'> {
+}
+declare function DropdownSelectTrigger({ className, ...props }: DropdownSelectTriggerProps): react_jsx_runtime.JSX.Element;
+interface DropdownSelectContentProps extends Omit<React$1.ComponentProps<typeof PopoverPrimitive.Content>, 'asChild'> {
+}
+declare function DropdownSelectContent({ className, children, ...props }: DropdownSelectContentProps): react_jsx_runtime.JSX.Element;
+interface DropdownSelectOptionProps extends React$1.ComponentProps<'div'> {
+    value: string;
+    label?: string;
+    disabled?: boolean;
+}
+declare function DropdownSelectOption({ className, value: optionValue, label, disabled: optionDisabled, children, ...props }: DropdownSelectOptionProps): react_jsx_runtime.JSX.Element;
+
 declare const Form: <TFieldValues extends FieldValues, TContext = any, TTransformedValues = TFieldValues>(props: react_hook_form.FormProviderProps<TFieldValues, TContext, TTransformedValues>) => React$1.JSX.Element;
 declare const FormField: <TFieldValues extends FieldValues = FieldValues, TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>>({ ...props }: ControllerProps<TFieldValues, TName>) => react_jsx_runtime.JSX.Element;
 declare const useFormField: () => {
@@ -473,6 +504,34 @@ declare function MenubarSubTrigger({ className, inset, children, ...props }: Rea
     inset?: boolean;
 }): react_jsx_runtime.JSX.Element;
 declare function MenubarSubContent({ className, ...props }: React$1.ComponentProps<typeof MenubarPrimitive.SubContent>): react_jsx_runtime.JSX.Element;
+
+interface MultiSelectFreeTextOption {
+    value: string;
+    label: string;
+}
+interface MultiSelectFreeTextProps {
+    /** Current tag values */
+    values?: string[];
+    /** Default tag values (uncontrolled) */
+    defaultValues?: string[];
+    /** Callback when tags change */
+    onValuesChange?: (values: string[]) => void;
+    /** Suggestion options shown in dropdown */
+    options?: MultiSelectFreeTextOption[];
+    /** Placeholder when no tags and no input text */
+    placeholder?: string;
+    /** Left icon */
+    icon?: React$1.ReactNode;
+    /** Label text */
+    label?: string;
+    /** Show mandatory asterisk on label */
+    mandatory?: boolean;
+    /** Disabled state */
+    disabled?: boolean;
+    /** Additional className */
+    className?: string;
+}
+declare function MultiSelectFreeText({ values: valuesProp, defaultValues, onValuesChange, options, placeholder, icon, label, mandatory, disabled, className, }: MultiSelectFreeTextProps): react_jsx_runtime.JSX.Element;
 
 declare function NavigationMenu({ className, children, viewport, ...props }: React$1.ComponentProps<typeof NavigationMenuPrimitive.Root> & {
     viewport?: boolean;
@@ -686,10 +745,11 @@ declare function TableHead({ className, ...props }: React$1.ComponentProps<"th">
 declare function TableCell({ className, ...props }: React$1.ComponentProps<"td">): react_jsx_runtime.JSX.Element;
 declare function TableCaption({ className, ...props }: React$1.ComponentProps<"caption">): react_jsx_runtime.JSX.Element;
 
-declare function Tabs({ className, ...props }: React$1.ComponentProps<typeof TabsPrimitive.Root>): react_jsx_runtime.JSX.Element;
+declare function Tabs({ className, orientation, ...props }: React$1.ComponentProps<typeof TabsPrimitive.Root>): react_jsx_runtime.JSX.Element;
 declare function TabsList({ className, ...props }: React$1.ComponentProps<typeof TabsPrimitive.List>): react_jsx_runtime.JSX.Element;
 declare const tabsTriggerVariants: (props?: ({
     size?: "md" | "lg" | null | undefined;
+    orientation?: "horizontal" | "vertical" | null | undefined;
 } & class_variance_authority_types.ClassProp) | undefined) => string;
 interface TabsTriggerProps extends React$1.ComponentProps<typeof TabsPrimitive.Trigger>, VariantProps<typeof tabsTriggerVariants> {
 }
@@ -766,4 +826,4 @@ declare function cn(...inputs: ClassValue[]): string;
 
 declare function useIsMobile(): boolean;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertBanner, type AlertBannerProps, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, AutoResizeTextarea, Avatar, AvatarFallback, AvatarImage, Badge, BadgeActionable, type BadgeActionableProps, BadgeInformative, BadgeInformativeGroup, BadgeInformativeItem, type BadgeInformativeProps, BadgeNumber, type BadgeNumberProps, Body, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, type DateFormat, DateInput, type DateInputProps, DateRangeInput, type DateRangeInputProps, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DisplayHeading, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HeadingL, HeadingM, HeadingS, HeadingXL, HeadingXS, HeadingXXS, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, RichTooltipContent, type RichTooltipContentProps, ScrollArea, ScrollBar, SearchableSelect, SearchableSelectContent, SearchableSelectEmpty, SearchableSelectGroup, SearchableSelectItem, type SearchableSelectOption, type SearchableSelectProps, SearchableSelectTrigger, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, SmartDialog, SmartDialogClose, SmartDialogContent, SmartDialogDescription, SmartDialogFooter, SmartDialogHeader, SmartDialogTitle, SmartDialogTrigger, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, type TabsTriggerProps, Textarea, type TextareaProps, ThemeProvider, ThemeToggle, type TimeFormat, TimeInput, type TimeInputProps, type TimeValue, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, alertBannerVariants, badgeActionableVariants, badgeInformativeVariants, badgeNumberVariants, badgeVariants, bodyTextVariants, buttonVariants, cn, displayTextVariants, inputVariants, labelTextVariants, navigationMenuTriggerStyle, tabsTriggerVariants, toggleVariants, useFormField, useIsMobile, useSidebar };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertBanner, type AlertBannerProps, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, AutoResizeTextarea, Avatar, AvatarFallback, AvatarImage, Badge, BadgeActionable, type BadgeActionableProps, BadgeInformative, BadgeInformativeGroup, BadgeInformativeItem, type BadgeInformativeProps, BadgeNumber, type BadgeNumberProps, Body, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, type DateFormat, DateInput, type DateInputProps, DateRangeInput, type DateRangeInputProps, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DisplayHeading, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, DropdownSelect, DropdownSelectContent, type DropdownSelectContentProps, DropdownSelectLabel, type DropdownSelectLabelProps, DropdownSelectOption, type DropdownSelectOptionProps, type DropdownSelectProps, DropdownSelectTrigger, type DropdownSelectTriggerProps, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HeadingL, HeadingM, HeadingS, HeadingXL, HeadingXS, HeadingXXS, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, MultiSelectFreeText, type MultiSelectFreeTextOption, type MultiSelectFreeTextProps, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, RichTooltipContent, type RichTooltipContentProps, ScrollArea, ScrollBar, SearchableSelect, SearchableSelectContent, SearchableSelectEmpty, SearchableSelectGroup, SearchableSelectItem, type SearchableSelectOption, type SearchableSelectProps, SearchableSelectTrigger, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, SmartDialog, SmartDialogClose, SmartDialogContent, SmartDialogDescription, SmartDialogFooter, SmartDialogHeader, SmartDialogTitle, SmartDialogTrigger, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, type TabsTriggerProps, Textarea, type TextareaProps, ThemeProvider, ThemeToggle, type TimeFormat, TimeInput, type TimeInputProps, type TimeValue, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, alertBannerVariants, badgeActionableVariants, badgeInformativeVariants, badgeNumberVariants, badgeVariants, bodyTextVariants, buttonVariants, cn, displayTextVariants, inputVariants, labelTextVariants, navigationMenuTriggerStyle, tabsTriggerVariants, toggleVariants, useFormField, useIsMobile, useSidebar };
