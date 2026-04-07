@@ -127,6 +127,12 @@ const navigationItems = [
     description: 'Expandable accordion panels'
   },
   {
+    id: 'dropdown',
+    label: 'Dropdown',
+    icon: ChevronDown,
+    description: 'Custom dropdown select input with states'
+  },
+  {
     id: 'select',
     label: 'Select',
     icon: ListFilter,
