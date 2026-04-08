@@ -12,20 +12,20 @@ const buttonVariants = cva(
         primary:
           'bg-primary text-primary-foreground hover:bg-brand-dark active:bg-active-primary',
         secondary:
-          'bg-brand-subtle text-brand-vibrant hover:bg-primary-surface-light border border-brand-light active:bg-icon-disabled hover:border-transparent active:border-transparent',
+          'bg-brand-subtle text-primary-stroke-default hover:bg-primary-surface-light border border-brand-light active:bg-icon-disabled',
         tertiary:
-          'bg-gray-surface-light text-foreground-secondary hover:bg-gray-surface-default border border-gray-stroke-light active:bg-gray-surface-default',
+          'bg-gray-surface-light text-foreground-secondary hover:bg-gray-surface-default border border-gray-stroke-light hover:border-transparent active:border-transparent active:bg-[#9f9fa9] dark:active:bg-[#71717a]',
         outline:
           'text-foreground-secondary border border-gray-surface-default bg-background hover:bg-gray-surface-light hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 active:bg-gray-surface-default',
         ghost:
-          'text-brand-vibrant hover:bg-primary-surface-subtle dark:hover:bg-accent/50 active:bg-primary-surface-light',
+          'text-primary-stroke-default hover:bg-primary-surface-subtle dark:hover:bg-accent/50 active:bg-primary-surface-light',
         'ghost-secondary':
           'text-foreground-secondary hover:bg-gray-surface-light hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-gray-surface-default',
         'ghost-destructive':
           'bg-transparent text-destructive-text hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active',
         link: 'text-foreground-secondary underline-offset-4 underline hover:bg-none active:bg-none hover:text-brand-vibrant',
         destructive:
-          'bg-error-surface-default text-primary-foreground hover:bg-destructive-bg-deep focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-error-surface-dark',
+          'bg-error-surface-default text-primary-foreground hover:bg-red-800 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-error-surface-dark',
         'destructive-secondary':
           'bg-error-surface-light border border-error-stroke-light text-destructive-text hover:border-error-surface-default focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active',
         'destructive-tertiary':

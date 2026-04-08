@@ -252,9 +252,9 @@
   --focus-ring: oklch(0.623 0.214 259.8);
   --destructive-text: oklch(0.704 0.191 22.2);
   --destructive-hover: oklch(0.97 0.013 17.4);
-  --destructive-active: oklch(0.94 0.03 17.4);
-  --destructive-bg-deep: oklch(0.4 0.14 22);
-  --active-primary: oklch(0.28 0.03 264);
+  --destructive-active: oklch(0.9365 0.0320 17.74);
+  --destructive-bg-deep: oklch(0.4446 0.1774 26.79);
+  --active-primary: oklch(0.2799 0.0408 260.33);
   --range-middle-bg: oklch(0.93 0.005 264);
 }
 
