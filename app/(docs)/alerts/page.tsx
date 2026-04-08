@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { AlertTriangle, CheckCircle2, Info } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, CircleCheckBig, Info } from 'lucide-react'
 import { useState } from 'react'
 import { CodeBlock } from '../buttons/CodeBlock'
 
@@ -66,7 +66,7 @@ export default function AlertsPage() {
 
           <AlertBanner
             type="success"
-            icon={<CheckCircle2 />}
+            icon={<CircleCheckBig />}
             heading="Heading for the banner"
           >
             If Vet becomes available, the estimated price for this appointment
@@ -263,9 +263,9 @@ import { Info, AlertTriangle, CheckCircle2 } from 'lucide-react'
               dismissible
               onDismiss={() => handleDismiss('d-info')}
             >
-              If Vet becomes available, the estimated price for this
-              appointment will be from $412 - $314. Plus optional cremation
-              cost. Would you like to proceed with requesting this appointment?
+              If Vet becomes available, the estimated price for this appointment
+              will be from $412 - $314. Plus optional cremation cost. Would you
+              like to proceed with requesting this appointment?
             </AlertBanner>
           )}
 
@@ -277,9 +277,9 @@ import { Info, AlertTriangle, CheckCircle2 } from 'lucide-react'
               dismissible
               onDismiss={() => handleDismiss('d-error')}
             >
-              If Vet becomes available, the estimated price for this
-              appointment will be from $412 - $314. Plus optional cremation
-              cost. Would you like to proceed with requesting this appointment?
+              If Vet becomes available, the estimated price for this appointment
+              will be from $412 - $314. Plus optional cremation cost. Would you
+              like to proceed with requesting this appointment?
             </AlertBanner>
           )}
 
@@ -291,9 +291,9 @@ import { Info, AlertTriangle, CheckCircle2 } from 'lucide-react'
               dismissible
               onDismiss={() => handleDismiss('d-success')}
             >
-              If Vet becomes available, the estimated price for this
-              appointment will be from $412 - $314. Plus optional cremation
-              cost. Would you like to proceed with requesting this appointment?
+              If Vet becomes available, the estimated price for this appointment
+              will be from $412 - $314. Plus optional cremation cost. Would you
+              like to proceed with requesting this appointment?
             </AlertBanner>
           )}
 

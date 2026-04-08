@@ -51,6 +51,12 @@ function getCategory(name: string): { title: string; description: string } {
       description: 'Alert banner background colors'
     }
   }
+  if (name.startsWith('gray-icon-')) {
+    return {
+      title: 'Gray Text-Icon Colors',
+      description: 'Gray text and icon colors at various weights'
+    }
+  }
   if (name.startsWith('vibrant-text-')) {
     return {
       title: 'Text Colors',
@@ -75,10 +81,10 @@ function getCategory(name: string): { title: string; description: string } {
   if (name.includes('-stroke-')) {
     return { title: 'Stroke Colors', description: 'Border and stroke colors' }
   }
-  if (name.startsWith('chart-')) {
+  if (name.startsWith('sand-subtle') || name.startsWith('sand-stroke-disabled')) {
     return {
-      title: 'Chart Colors',
-      description: 'Colors for data visualization and charts'
+      title: 'Sand Colors',
+      description: 'Neutral sand color palette'
     }
   }
   if (name.startsWith('sidebar-')) {
@@ -264,11 +270,11 @@ export function parseColorsFromCSS(): ColorGroup[] {
     'Sage Colors',
     'Warning Colors',
     'Success Colors',
+    'Gray Text-Icon Colors',
     'Text Colors',
     'Alert Colors',
     'Surface Colors',
     'Stroke Colors',
-    'Chart Colors',
     'Sidebar Colors',
     'Utility Colors'
   ]

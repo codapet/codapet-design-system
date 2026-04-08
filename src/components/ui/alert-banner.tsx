@@ -10,11 +10,11 @@ const alertBannerVariants = cva(
     variants: {
       type: {
         informative:
-          'bg-alert-bg-informative border-gray-stroke-light',
+          'bg-alert-bg-informative border-gray-stroke-light [&_svg]:text-[#52525c] dark:[&_svg]:text-[#a1a1aa]',
         error:
-          'bg-alert-bg-error border-error-stroke-light',
+          'bg-alert-bg-error border-error-stroke-light [&_svg]:text-[#ff6467] dark:[&_svg]:text-[#ff8486]',
         success:
-          'bg-success-surface-subtle border-success-stroke-light'
+          'bg-success-surface-subtle border-success-stroke-light [&_svg]:text-[#00a63e] dark:[&_svg]:text-[#34d399]'
       }
     },
     defaultVariants: {
