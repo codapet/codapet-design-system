@@ -5,7 +5,7 @@ import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
-const labelTextVariants = cva('font-sans font-semibold ', {
+const labelTextVariants = cva('font-sans font-semibold text-vibrant-text-body', {
   variants: {
     size: {
       lg: 'text-base md:text-lg md:leading-[1.625rem] leading-[1.5rem]',

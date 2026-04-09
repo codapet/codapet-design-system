@@ -109,6 +109,7 @@
   --color-alert-bg-informative: var(--alert-bg-informative);
   --color-alert-bg-error: var(--alert-bg-error);
   --color-vibrant-text-heading: var(--vibrant-text-heading);
+  --color-vibrant-text-display: var(--vibrant-text-display);
 
   /* Text tokens */
   --color-vibrant-text-body: var(--vibrant-text-body);
@@ -214,6 +215,7 @@
   --warning-surface-light: oklch(0.9566 0.0763 97.96);
   --warning-stroke-default: oklch(0.8230 0.1479 88.67);
   --warning-stroke-dark: oklch(0.5548 0.1271 62.52);
+  --vibrant-text-display: oklch(0.4247 0.0456 250.58);
   --vibrant-text-body: oklch(0.3623 0.0131 286.07);
   --vibrant-text-heading: oklch(0.1456 0.0045 286.07);
   --vibrant-text-white-darker: oklch(0.8853 0.0000 0);
@@ -324,6 +326,7 @@
   --warning-surface-light: oklch(0.28 0.06 98);
   --warning-stroke-default: oklch(0.65 0.13 89);
   --warning-stroke-dark: oklch(0.75 0.1 62);
+  --vibrant-text-display: oklch(0.7 0.05 250);
   --vibrant-text-body: oklch(0.8 0.013 286);
   --vibrant-text-heading: oklch(0.95 0.005 286);
   --vibrant-text-white-darker: oklch(0.35 0 0);
