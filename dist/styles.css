@@ -118,6 +118,8 @@
   --color-gray-stroke-light: var(--gray-stroke-light);
   --color-gray-stroke-default: var(--gray-stroke-default);
   --color-error-stroke-light: var(--error-stroke-light);
+  --color-error-stroke-default: var(--error-stroke-default);
+  --color-error-surface-subtle: var(--error-surface-subtle);
   --color-primary-stroke-default: var(--primary-stroke-default);
 
   /* text details */
@@ -247,6 +249,8 @@
   --error-surface-dark: oklch(0.3967 0.1408 25.71);
   --error-surface-light: oklch(0.9705 0.0129 17.38);
   --error-stroke-light: oklch(0.8834 0.0616 18.39);
+  --error-stroke-default: oklch(0.6834 0.2106 19.85);
+  --error-surface-subtle: oklch(0.9903 0.003 17.21);
 
   /* Semantic tokens */
   --foreground-secondary: oklch(0.37 0.013 285.8);

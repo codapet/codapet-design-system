@@ -2209,28 +2209,19 @@ var inputVariants = cva8(
   [
     // Base styles
     "file:text-foreground-secondary placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground",
-    "flex w-full min-w-0 rounded-md border bg-transparent text-base  transition-all duration-400",
+    "flex w-full min-w-0 rounded-lg border bg-transparent text-base font-medium transition-all duration-400",
     "outline-none font-sans",
     // File input styles
     "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
     // Disabled styles
-    "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
-    // Responsive text size
-    "md:text-sm",
-    // Default state
-    "border-border-default bg-background",
-    // Hover state
-    "hover:border-primary-stroke-default",
-    // Focus state
-    "focus:border-focus-ring",
-    "active:border-brand-normal"
+    "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60"
   ],
   {
     variants: {
       size: {
-        sm: "h-9 px-3 py-1 text-base",
-        md: "h-10 px-3 py-2 text-base",
-        lg: "h-12 px-4 py-3 text-base"
+        sm: "h-10 px-3 py-2 text-base",
+        md: "h-12 px-3 py-2 text-base",
+        lg: "h-14 px-4 py-3 text-base"
       }
     },
     defaultVariants: {
@@ -2252,11 +2243,17 @@ var Input = React22.forwardRef(
     error,
     ...props
   }, ref) => {
-    const errorStyles2 = error ? [
-      "border-destructive bg-red-subtle",
-      "focus:border-destructive focus:ring-destructive/20",
-      "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
-    ] : [];
+    const stateStyles = error ? [
+      "border-error-stroke-default bg-error-surface-subtle",
+      "hover:border-error-stroke-default",
+      "focus:border-2 focus:border-error-stroke-default",
+      "active:border-error-stroke-default"
+    ] : [
+      "border-gray-stroke-default bg-background",
+      "hover:border-focus-ring",
+      "focus:border-2 focus:border-focus-ring",
+      "active:border-focus-ring"
+    ];
     if (leftIcon || rightIcon) {
       return /* @__PURE__ */ jsxs12("div", { className: "relative", children: [
         /* @__PURE__ */ jsx24(
@@ -2266,9 +2263,9 @@ var Input = React22.forwardRef(
             "data-slot": "input",
             className: cn(
               inputVariants({ size }),
-              errorStyles2,
+              stateStyles,
               "peer",
-              leftIcon && "pl-8",
+              leftIcon && "pl-10",
               rightIcon && "pr-10",
               className
             ),
@@ -2283,13 +2280,13 @@ var Input = React22.forwardRef(
             className: cn(
               "pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center",
               "transition-colors stroke-[1.5px]",
-              error ? "text-destructive peer-hover:text-destructive peer-focus:text-destructive peer-active:text-destructive" : "text-muted-foreground peer-hover:text-brand-normal peer-focus:text-focus-ring peer-active:text-brand-normal",
+              error ? "text-error-stroke-default peer-hover:text-error-stroke-default peer-focus:text-error-stroke-default peer-active:text-error-stroke-default" : "text-muted-foreground peer-hover:text-focus-ring peer-focus:text-focus-ring peer-active:text-focus-ring",
               leftIconClassName
             ),
             children: React22.isValidElement(leftIcon) ? (() => {
               const iconEl = leftIcon;
               return React22.cloneElement(iconEl, {
-                className: cn("h-4 w-4", iconEl.props.className)
+                className: cn("h-5 w-5", iconEl.props.className)
               });
             })() : leftIcon
           }
@@ -2303,7 +2300,7 @@ var Input = React22.forwardRef(
             className: cn(
               "absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center",
               "h-6 w-6 rounded-sm transition-colors",
-              error ? "text-destructive hover:text-destructive focus:text-destructive" : "text-muted-foreground hover:text-brand-normal focus:text-focus-ring",
+              error ? "text-error-stroke-default hover:text-error-stroke-default focus:text-error-stroke-default" : "text-muted-foreground hover:text-focus-ring focus:text-focus-ring",
               rightIconClassName
             ),
             "aria-label": "Input action",
@@ -2311,7 +2308,7 @@ var Input = React22.forwardRef(
             children: React22.isValidElement(rightIcon) ? (() => {
               const iconEl = rightIcon;
               return React22.cloneElement(iconEl, {
-                className: cn("h-4 w-4", iconEl.props.className)
+                className: cn("h-5 w-5", iconEl.props.className)
               });
             })() : rightIcon
           }
@@ -2323,7 +2320,7 @@ var Input = React22.forwardRef(
       {
         type,
         "data-slot": "input",
-        className: cn(inputVariants({ size }), errorStyles2, className),
+        className: cn(inputVariants({ size }), stateStyles, className),
         ref,
         "aria-invalid": error,
         ...props
@@ -3543,7 +3540,7 @@ import { Slot as Slot4 } from "@radix-ui/react-slot";
 import { cva as cva9 } from "class-variance-authority";
 import "react";
 import { jsx as jsx31 } from "react/jsx-runtime";
-var labelTextVariants = cva9("font-sans font-semibold ", {
+var labelTextVariants = cva9("font-sans font-semibold text-vibrant-text-body", {
   variants: {
     size: {
       lg: "text-base md:text-lg md:leading-[1.625rem] leading-[1.5rem]",
@@ -7224,13 +7221,13 @@ import { cva as cva15 } from "class-variance-authority";
 import "react";
 import { jsx as jsx63 } from "react/jsx-runtime";
 var displayTextVariants = cva15(
-  "tracking-normal font-normal leading-none text-brand-dark font-serif italic",
+  "tracking-normal font-normal font-serif italic text-vibrant-text-display",
   {
     variants: {
       size: {
-        md: "text-[1.75rem] md:text-4xl leading-[2.75rem] md:leading-[4rem]",
-        sm: "text-lg md:text-xl leading-[2.5rem] md:leading-[3rem]",
-        lg: "text-4xl md:text-[3.25rem] leading-[4rem] md:leading-[5rem]"
+        lg: "text-4xl md:text-[3.25rem] leading-[44px] md:leading-[64px]",
+        md: "text-[1.75rem] md:text-4xl leading-[36px] md:leading-[44px]",
+        sm: "text-lg md:text-xl leading-[26px] md:leading-[28px]"
       }
     },
     defaultVariants: {
@@ -7254,13 +7251,13 @@ function DisplayHeading({
     }
   );
 }
-var bodyTextVariants = cva15("font-sans ", {
+var bodyTextVariants = cva15("font-sans text-vibrant-text-body", {
   variants: {
     size: {
-      lg: "text-lg md:text-xl leading-[1.625rem] md:leading-[1.75rem]",
-      md: "text-base  leading-[1.5rem] ",
-      sm: "text-sm  leading-[1.25rem] ",
-      xs: "text-xs leading-[1rem]"
+      lg: "text-lg md:text-xl leading-[26px] md:leading-[28px]",
+      md: "text-base leading-[24px]",
+      sm: "text-sm leading-[20px]",
+      xs: "text-xs leading-[16px]"
     }
   },
   defaultVariants: {
@@ -7277,7 +7274,7 @@ function Body({
   return /* @__PURE__ */ jsx63(
     Comp,
     {
-      "data-slot": "h1",
+      "data-slot": "p",
       className: cn(bodyTextVariants({ size, className })),
       ...props
     }
@@ -7294,7 +7291,7 @@ function HeadingXL({
     {
       "data-slot": "h1",
       className: cn(
-        "text-2xl md:text-[2rem] md:leading-[2.5rem] leading-[2rem] font-semibold font-sans",
+        "text-2xl md:text-[2rem] leading-[32px] md:leading-[40px] font-semibold font-sans text-vibrant-text-heading",
         className
       ),
       ...props
@@ -7312,7 +7309,7 @@ function HeadingL({
     {
       "data-slot": "h2",
       className: cn(
-        "md:text-[1.5rem] text-[1.25rem] md:leading-[2rem] leading-[1.75rem] font-semibold font-sans",
+        "text-[1.25rem] md:text-[1.5rem] leading-[28px] md:leading-[32px] font-semibold font-sans text-vibrant-text-heading",
         className
       ),
       ...props
@@ -7330,7 +7327,7 @@ function HeadingM({
     {
       "data-slot": "h3",
       className: cn(
-        "text-[1.125rem] md:text-xl md:leading-[1.75rem] leading-[1.625rem] font-semibold font-sans",
+        "text-[1.125rem] md:text-xl leading-[26px] md:leading-[28px] font-semibold font-sans text-vibrant-text-heading",
         className
       ),
       ...props
@@ -7348,7 +7345,7 @@ function HeadingS({
     {
       "data-slot": "h4",
       className: cn(
-        "text-base leading-[1.5rem] font-semibold font-sans",
+        "text-base leading-[24px] font-semibold font-sans text-vibrant-text-heading",
         className
       ),
       ...props
@@ -7366,7 +7363,7 @@ function HeadingXS({
     {
       "data-slot": "h5",
       className: cn(
-        "text-sm  leading-[1.25rem] font-semibold font-sans",
+        "text-sm leading-[20px] font-semibold font-sans text-vibrant-text-heading",
         className
       ),
       ...props
@@ -7382,9 +7379,117 @@ function HeadingXXS({
   return /* @__PURE__ */ jsx63(
     Comp,
     {
+      "data-slot": "h6",
+      className: cn(
+        "text-xs leading-[16px] font-medium font-sans text-vibrant-text-heading",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingXLMedium({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h1";
+  return /* @__PURE__ */ jsx63(
+    Comp,
+    {
+      "data-slot": "h1",
+      className: cn(
+        "text-2xl md:text-[2rem] leading-[32px] md:leading-[40px] font-medium font-sans text-vibrant-text-heading",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingLMedium({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h2";
+  return /* @__PURE__ */ jsx63(
+    Comp,
+    {
+      "data-slot": "h2",
+      className: cn(
+        "text-[1.25rem] md:text-[1.5rem] leading-[28px] md:leading-[32px] font-medium font-sans text-vibrant-text-heading",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingMMedium({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h3";
+  return /* @__PURE__ */ jsx63(
+    Comp,
+    {
+      "data-slot": "h3",
+      className: cn(
+        "text-[1.125rem] md:text-xl leading-[26px] md:leading-[28px] font-medium font-sans text-vibrant-text-heading",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingSMedium({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h4";
+  return /* @__PURE__ */ jsx63(
+    Comp,
+    {
+      "data-slot": "h4",
+      className: cn(
+        "text-base leading-[24px] font-medium font-sans text-vibrant-text-heading",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingXSMedium({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h5";
+  return /* @__PURE__ */ jsx63(
+    Comp,
+    {
       "data-slot": "h5",
       className: cn(
-        "text-xs leading-[1rem]  font-semibold font-sans",
+        "text-sm leading-[20px] font-medium font-sans text-vibrant-text-heading",
+        className
+      ),
+      ...props
+    }
+  );
+}
+function HeadingXXSMedium({
+  className,
+  asChild = false,
+  ...props
+}) {
+  const Comp = asChild ? Slot7 : "h6";
+  return /* @__PURE__ */ jsx63(
+    Comp,
+    {
+      "data-slot": "h6",
+      className: cn(
+        "text-xs leading-[16px] font-medium font-sans text-vibrant-text-heading",
         className
       ),
       ...props
@@ -7533,11 +7638,17 @@ export {
   FormLabel,
   FormMessage,
   HeadingL,
+  HeadingLMedium,
   HeadingM,
+  HeadingMMedium,
   HeadingS,
+  HeadingSMedium,
   HeadingXL,
+  HeadingXLMedium,
   HeadingXS,
+  HeadingXSMedium,
   HeadingXXS,
+  HeadingXXSMedium,
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,

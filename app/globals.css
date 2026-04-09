@@ -6,6 +6,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --error-stroke-default: oklch(0.6834 0.2106 19.85);
+  --error-surface-subtle: oklch(0.9903 0.003 17.21);
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);
   --sidebar-primary: hsl(240 5.9% 10%);
@@ -28,6 +30,8 @@
 }
 
 @theme inline {
+  --color-error-stroke-default: var(--error-stroke-default);
+  --color-error-surface-subtle: var(--error-surface-subtle);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);

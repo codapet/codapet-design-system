@@ -8,28 +8,19 @@ const inputVariants = cva(
   [
     // Base styles
     'file:text-foreground-secondary placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground',
-    'flex w-full min-w-0 rounded-md border bg-transparent text-base  transition-all duration-400',
+    'flex w-full min-w-0 rounded-lg border bg-transparent text-base font-medium transition-all duration-400',
     'outline-none font-sans',
     // File input styles
     'file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium',
     // Disabled styles
-    'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
-    // Responsive text size
-    'md:text-sm',
-    // Default state
-    'border-border-default bg-background',
-    // Hover state
-    'hover:border-primary-stroke-default',
-    // Focus state
-    'focus:border-focus-ring',
-    'active:border-brand-normal'
+    'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60'
   ],
   {
     variants: {
       size: {
-        sm: 'h-9 px-3 py-1 text-base',
-        md: 'h-10 px-3 py-2 text-base',
-        lg: 'h-12 px-4 py-3 text-base'
+        sm: 'h-10 px-3 py-2 text-base',
+        md: 'h-12 px-3 py-2 text-base',
+        lg: 'h-14 px-4 py-3 text-base'
       }
     },
     defaultVariants: {
@@ -67,14 +58,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    // Error state styles applied conditionally
-    const errorStyles = error
+    // Border/bg styles applied conditionally based on error state
+    const stateStyles = error
       ? [
-          'border-destructive bg-red-subtle',
-          'focus:border-destructive focus:ring-destructive/20',
-          'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
+          'border-error-stroke-default bg-error-surface-subtle',
+          'hover:border-error-stroke-default',
+          'focus:border-2 focus:border-error-stroke-default',
+          'active:border-error-stroke-default'
         ]
-      : []
+      : [
+          'border-gray-stroke-default bg-background',
+          'hover:border-focus-ring',
+          'focus:border-2 focus:border-focus-ring',
+          'active:border-focus-ring'
+        ]
 
     if (leftIcon || rightIcon) {
       return (
@@ -84,9 +81,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             data-slot="input"
             className={cn(
               inputVariants({ size }),
-              errorStyles,
+              stateStyles,
               'peer',
-              leftIcon && 'pl-8',
+              leftIcon && 'pl-10',
               rightIcon && 'pr-10',
               className
             )}
@@ -100,8 +97,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 'pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center',
                 'transition-colors stroke-[1.5px]',
                 error
-                  ? 'text-destructive peer-hover:text-destructive peer-focus:text-destructive peer-active:text-destructive'
-                  : 'text-muted-foreground peer-hover:text-brand-normal peer-focus:text-focus-ring peer-active:text-brand-normal',
+                  ? 'text-error-stroke-default peer-hover:text-error-stroke-default peer-focus:text-error-stroke-default peer-active:text-error-stroke-default'
+                  : 'text-muted-foreground peer-hover:text-focus-ring peer-focus:text-focus-ring peer-active:text-focus-ring',
                 leftIconClassName
               )}
             >
@@ -111,7 +108,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                       className?: string
                     }>
                     return React.cloneElement(iconEl, {
-                      className: cn('h-4 w-4', iconEl.props.className)
+                      className: cn('h-5 w-5', iconEl.props.className)
                     })
                   })()
                 : leftIcon}
@@ -126,8 +123,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 'absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center',
                 'h-6 w-6 rounded-sm transition-colors',
                 error
-                  ? 'text-destructive hover:text-destructive focus:text-destructive'
-                  : 'text-muted-foreground hover:text-brand-normal focus:text-focus-ring',
+                  ? 'text-error-stroke-default hover:text-error-stroke-default focus:text-error-stroke-default'
+                  : 'text-muted-foreground hover:text-focus-ring focus:text-focus-ring',
                 rightIconClassName
               )}
               aria-label="Input action"
@@ -139,7 +136,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                       className?: string
                     }>
                     return React.cloneElement(iconEl, {
-                      className: cn('h-4 w-4', iconEl.props.className)
+                      className: cn('h-5 w-5', iconEl.props.className)
                     })
                   })()
                 : rightIcon}
@@ -153,7 +150,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         data-slot="input"
-        className={cn(inputVariants({ size }), errorStyles, className)}
+        className={cn(inputVariants({ size }), stateStyles, className)}
         ref={ref}
         aria-invalid={error}
         {...props}
