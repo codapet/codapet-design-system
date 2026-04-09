@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# code-review-graph
+.code-review-graph/
+.code-review-graphignore
+
+# IDE and AI tool configs
+.claude/
+.cursor/
+.cursorrules
+.windsurfrules
+.mcp.json
+AGENTS.md
+CLAUDE.md
+GEMINI.md
