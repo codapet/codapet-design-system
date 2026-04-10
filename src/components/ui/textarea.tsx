@@ -6,27 +6,26 @@ import { cn } from '@/lib/utils'
 const textareaBaseStyles = [
   // Base styles aligned with Input
   'placeholder:text-gray-subtle selection:bg-primary selection:text-primary-foreground',
-  'flex w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-all duration-400',
+  'flex w-full min-w-0 rounded-lg border bg-transparent text-base font-medium transition-all duration-400',
   'outline-none font-sans',
   // Disabled
-  'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
-  // Responsive text size
-  'md:text-sm',
+  'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-40',
   // Default state
-  'border-border-default bg-background',
+  'border-gray-stroke-default bg-background',
   // Hover/Focus/Active states
-  'hover:border-brand-normal',
-  'focus:border-focus-ring',
-  'active:border-brand-normal',
+  'hover:border-focus-ring',
+  'focus:border-2 focus:border-focus-ring',
+  'active:border-focus-ring',
   // Textarea specific
   'field-sizing-content min-h-16 resize-y px-3 py-2'
 ].join(' ')
 
 // Error styles as a constant to avoid recreation
 const errorStyles = [
-  'border-destructive bg-red-subtle',
-  'focus:border-destructive focus:ring-destructive/20',
-  'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
+  'border-error-stroke-default bg-white',
+  'hover:border-error-stroke-default',
+  'focus:border-2 focus:border-error-stroke-default',
+  'active:border-error-stroke-default'
 ].join(' ')
 
 export interface TextareaProps extends Omit<React.ComponentProps<'textarea'>, 'size'> {
