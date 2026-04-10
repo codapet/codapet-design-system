@@ -35,6 +35,7 @@ import * as SeparatorPrimitive from '@radix-ui/react-separator';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import * as SliderPrimitive from '@radix-ui/react-slider';
 import { ToasterProps } from 'sonner';
+export { toast } from 'sonner';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import { ThemeProviderProps } from 'next-themes';

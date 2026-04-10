@@ -70,6 +70,12 @@ const navigationItems = [
     description: 'Input fields and form controls'
   },
   {
+    id: 'labels',
+    label: 'Labels',
+    icon: Type,
+    description: 'Text labels for form controls'
+  },
+  {
     id: 'input-otp',
     label: 'Input OTP',
     icon: KeyRound,
@@ -92,6 +98,12 @@ const navigationItems = [
     label: 'Auto-resize Textarea',
     icon: MessageSquare,
     description: 'Textarea that grows with content, optional max height'
+  },
+  {
+    id: 'selection-controls',
+    label: 'Selection Controls',
+    icon: ToggleLeft,
+    description: 'Checkboxes and radio buttons'
   },
   {
     id: 'forms',

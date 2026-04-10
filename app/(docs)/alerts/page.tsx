@@ -1,6 +1,7 @@
 'use client'
 
 import { AlertBanner } from '@/components/ui/alert-banner'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -8,6 +9,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
+import { toast } from '@/components/ui/sonner'
 import { AlertTriangle, CheckCircle2, CircleCheckBig, Info } from 'lucide-react'
 import { useState } from 'react'
 import { CodeBlock } from '../buttons/CodeBlock'
@@ -31,6 +33,75 @@ export default function AlertsPage() {
           Informative, error, and success alert banners
         </p>
       </div>
+
+      {/* ──── Toast Notifications ──── */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+            Toast Notifications
+          </CardTitle>
+          <CardDescription>
+            Programmatic toast notifications using Sonner. Click the buttons to
+            trigger each variant.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex flex-wrap gap-3">
+            <Button
+              variant="tertiary"
+              size="sm"
+              onClick={() =>
+                toast.info('Info heading type', {
+                  description: 'This is an informative toast notification.'
+                })
+              }
+            >
+              Show Info Toast
+            </Button>
+            <Button
+              variant="destructive-secondary"
+              size="sm"
+              onClick={() =>
+                toast.error('Error heading type', {
+                  description: 'Something went wrong. Please try again.'
+                })
+              }
+            >
+              Show Error Toast
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() =>
+                toast.success('Success heading type', {
+                  description: 'Your action was completed successfully.'
+                })
+              }
+            >
+              Show Success Toast
+            </Button>
+          </div>
+          <CodeBlock
+            code={`import { toast } from '@codapet/design-system'
+
+// Info toast
+toast.info("Info heading type", {
+  description: "This is an informative toast notification."
+})
+
+// Error toast
+toast.error("Error heading type", {
+  description: "Something went wrong. Please try again."
+})
+
+// Success toast
+toast.success("Success heading type", {
+  description: "Your action was completed successfully."
+})`}
+          />
+        </CardContent>
+      </Card>
 
       {/* ──── With Icon + Heading ──── */}
       <Card>

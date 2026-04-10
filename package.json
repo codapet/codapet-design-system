@@ -20,14 +20,14 @@
     "dist/**"
   ],
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "npm run build:css && next dev --turbopack",
     "build": "next build --turbopack",
-    "build:lib": "tsup",
-    "build:css": "cp src/styles.css dist/styles.css",
-    "build:all": "npm run build:lib && npm run build:css && npm run build",
+    "build:lib": "tsup && npm run build:css",
+    "build:css": "mkdir -p dist && cp src/styles.css dist/styles.css",
+    "build:all": "npm run build:lib && npm run build",
     "start": "next start",
     "lint": "eslint",
-    "prepublishOnly": "npm run build:lib && npm run build:css && npm run test:lib",
+    "prepublishOnly": "npm run build:lib && npm run test:lib",
     "test:lib": "node -e \"import('./dist/index.mjs').then(m => console.log('✅ Library test passed:', Object.keys(m).length, 'exports'))\"",
     "check:deps": "npm ls --depth=0",
     "clean:deps": "rm -rf node_modules package-lock.json && npm install"

@@ -14,13 +14,9 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { Info } from 'lucide-react'
-import { useState } from 'react'
 import { CodeBlock } from '../buttons/CodeBlock'
 
 export default function TooltipsPage() {
-  const [dismissOpen1, setDismissOpen1] = useState(false)
-  const [dismissOpen2, setDismissOpen2] = useState(false)
-  const [dismissOpen3, setDismissOpen3] = useState(false)
 
   return (
     <div className="flex flex-col gap-8 w-screen md:w-full px-4">
@@ -216,7 +212,7 @@ import { Info } from 'lucide-react'
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-wrap gap-4">
-            <Tooltip open={dismissOpen1} onOpenChange={setDismissOpen1}>
+            <Tooltip persistent>
               <TooltipTrigger asChild>
                 <Button variant="outline">With Icon &amp; Heading</Button>
               </TooltipTrigger>
@@ -224,7 +220,6 @@ import { Info } from 'lucide-react'
                 icon={<Info />}
                 heading="Heading for the banner"
                 dismissible
-                onDismiss={() => setDismissOpen1(false)}
               >
                 If Vet becomes available, the estimated price for this
                 appointment will be from $412 - $314. Plus optional cremation
@@ -233,27 +228,25 @@ import { Info } from 'lucide-react'
               </RichTooltipContent>
             </Tooltip>
 
-            <Tooltip open={dismissOpen2} onOpenChange={setDismissOpen2}>
+            <Tooltip persistent>
               <TooltipTrigger asChild>
                 <Button variant="outline">Without Heading</Button>
               </TooltipTrigger>
               <RichTooltipContent
                 icon={<Info />}
                 dismissible
-                onDismiss={() => setDismissOpen2(false)}
               >
                 Dismissible tooltip without heading. Click the X to dismiss.
               </RichTooltipContent>
             </Tooltip>
 
-            <Tooltip open={dismissOpen3} onOpenChange={setDismissOpen3}>
+            <Tooltip persistent>
               <TooltipTrigger asChild>
                 <Button variant="outline">Without Icon</Button>
               </TooltipTrigger>
               <RichTooltipContent
                 heading="Heading for the banner"
                 dismissible
-                onDismiss={() => setDismissOpen3(false)}
               >
                 Dismissible tooltip without icon. Click the X to dismiss.
               </RichTooltipContent>
@@ -263,11 +256,8 @@ import { Info } from 'lucide-react'
           <CodeBlock
             code={`import { Tooltip, TooltipTrigger, RichTooltipContent } from '@codapet/design-system'
 import { Info } from 'lucide-react'
-import { useState } from 'react'
 
-const [open, setOpen] = useState(false)
-
-<Tooltip open={open} onOpenChange={setOpen}>
+<Tooltip persistent>
   <TooltipTrigger asChild>
     <Button variant="outline">Hover me</Button>
   </TooltipTrigger>
@@ -275,7 +265,6 @@ const [open, setOpen] = useState(false)
     icon={<Info />}
     heading="Heading for the banner"
     dismissible
-    onDismiss={() => setOpen(false)}
   >
     Body text goes here...
   </RichTooltipContent>

@@ -19,12 +19,46 @@ function TooltipProvider({
   )
 }
 
+const TooltipCloseContext = React.createContext<(() => void) | null>(null)
+
 function Tooltip({
+  persistent = false,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
+}: React.ComponentProps<typeof TooltipPrimitive.Root> & {
+  /** When true, tooltip stays open until dismissed via close button or click outside. */
+  persistent?: boolean
+}) {
+  const [open, setOpen] = React.useState(props.defaultOpen ?? false)
+
+  if (!persistent) {
+    return (
+      <TooltipProvider>
+        <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+      </TooltipProvider>
+    )
+  }
+
+  const close = () => {
+    setOpen(false)
+    props.onOpenChange?.(false)
+  }
+
   return (
     <TooltipProvider>
-      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+      <TooltipCloseContext.Provider value={close}>
+        <TooltipPrimitive.Root
+          data-slot="tooltip"
+          open={props.open ?? open}
+          onOpenChange={(isOpen) => {
+            if (isOpen) {
+              setOpen(true)
+              props.onOpenChange?.(true)
+            }
+            // When persistent, ignore close from hover-out
+          }}
+          {...props}
+        />
+      </TooltipCloseContext.Provider>
     </TooltipProvider>
   )
 }
@@ -78,6 +112,13 @@ function RichTooltipContent({
   children,
   ...props
 }: RichTooltipContentProps) {
+  const close = React.useContext(TooltipCloseContext)
+
+  const handleDismiss = () => {
+    close?.()
+    onDismiss?.()
+  }
+
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
@@ -87,6 +128,9 @@ function RichTooltipContent({
           "animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-tooltip-content-transform-origin)",
           className
         )}
+        {...(dismissible && {
+          onPointerDownOutside: handleDismiss,
+        })}
         {...props}
       >
         <div className="flex items-start gap-3 bg-gray-surface-dark rounded-[12px] px-3 py-4 text-sm leading-5 max-w-sm">
@@ -108,11 +152,11 @@ function RichTooltipContent({
           {dismissible && (
             <button
               type="button"
-              onClick={onDismiss}
+              onClick={handleDismiss}
               className="flex items-center justify-center shrink-0 size-5 text-white/70 hover:text-white transition-colors cursor-pointer"
               aria-label="Dismiss"
             >
-              <X className="size-2.5" />
+              <X className="size-3.5" />
             </button>
           )}
         </div>
