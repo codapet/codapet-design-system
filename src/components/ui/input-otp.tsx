@@ -6,23 +6,29 @@ import { MinusIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+const InputOTPErrorContext = React.createContext(false)
+
 function InputOTP({
   className,
   containerClassName,
+  error,
   ...props
 }: React.ComponentProps<typeof OTPInput> & {
   containerClassName?: string
+  error?: boolean
 }) {
   return (
-    <OTPInput
-      data-slot="input-otp"
-      containerClassName={cn(
-        "flex items-center gap-2 has-disabled:opacity-50",
-        containerClassName
-      )}
-      className={cn("disabled:cursor-not-allowed", className)}
-      {...props}
-    />
+    <InputOTPErrorContext.Provider value={error ?? false}>
+      <OTPInput
+        data-slot="input-otp"
+        containerClassName={cn(
+          "flex items-center gap-2 has-disabled:opacity-40",
+          containerClassName
+        )}
+        className={cn("disabled:cursor-not-allowed", className)}
+        {...props}
+      />
+    </InputOTPErrorContext.Provider>
   )
 }
 
@@ -45,13 +51,30 @@ function InputOTPSlot({
 }) {
   const inputOTPContext = React.useContext(OTPInputContext)
   const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {}
+  const isHovering = inputOTPContext?.isHovering ?? false
+  const error = React.useContext(InputOTPErrorContext)
 
   return (
     <div
       data-slot="input-otp-slot"
       data-active={isActive}
       className={cn(
-        "data-[active=true]:border-ring data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:ring-destructive/20 dark:data-[active=true]:aria-invalid:ring-destructive/40 aria-invalid:border-destructive data-[active=true]:aria-invalid:border-destructive dark:bg-input/30 border-input relative flex h-9 w-9 items-center justify-center border-y border-r text-sm shadow-xs transition-all outline-none first:rounded-l-md first:border-l last:rounded-r-md data-[active=true]:z-10 data-[active=true]:ring-[3px]",
+        // Base layout & typography
+        "relative flex size-10 items-center justify-center",
+        "border-y border-r first:border-l text-sm font-medium leading-5",
+        "transition-all outline-none",
+        "first:rounded-l-[4px] last:rounded-r-[4px]",
+        "text-foreground",
+        // Default state (no error)
+        !error && "border-gray-stroke-default bg-background",
+        // Hover: all slots turn blue (non-error, non-active)
+        !error && isHovering && !isActive && "border-focus-ring",
+        // Active slot (non-error): 2px blue border
+        !error && isActive && "z-10 border-2 border-focus-ring",
+        // Error (non-active)
+        error && !isActive && "border-error-stroke-default bg-error-surface-subtle",
+        // Error + active
+        error && isActive && "z-10 border-2 border-error-stroke-default bg-error-surface-subtle",
         className
       )}
       {...props}
@@ -59,7 +82,7 @@ function InputOTPSlot({
       {char}
       {hasFakeCaret && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="animate-caret-blink bg-foreground h-4 w-px duration-1000" />
+          <div className="animate-caret-blink bg-focus-ring h-4 w-px duration-1000" />
         </div>
       )}
     </div>

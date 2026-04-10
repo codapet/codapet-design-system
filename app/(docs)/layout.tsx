@@ -25,6 +25,7 @@ import {
   Bell,
   CalendarDays,
   ChevronDown,
+  KeyRound,
   Layout,
   ListFilter,
   Loader,
@@ -67,6 +68,12 @@ const navigationItems = [
     label: 'Inputs',
     icon: Type,
     description: 'Input fields and form controls'
+  },
+  {
+    id: 'input-otp',
+    label: 'Input OTP',
+    icon: KeyRound,
+    description: 'One-time password input fields'
   },
   {
     id: 'calendars',
