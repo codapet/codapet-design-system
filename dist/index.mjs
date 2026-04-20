@@ -2604,10 +2604,7 @@ function DateInput({
     showOutsideDays,
     startMonth: dropdownStartMonth,
     endMonth: dropdownEndMonth,
-    className: cn(
-      "w-auto  mx-auto  overflow-y-auto h-auto m-2",
-      calendarClassName
-    ),
+    className: cn("w-auto mx-auto h-auto sm:m-2", calendarClassName),
     classNames,
     components,
     formatters,
