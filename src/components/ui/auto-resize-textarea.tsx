@@ -61,6 +61,35 @@ export const AutoResizeTextarea = React.forwardRef<
       resize()
     }, [resize, value])
 
+    // Intercept programmatic writes to `el.value` (e.g. RHF reset/setValue,
+    // hydration from localStorage) so height updates without a `value` prop.
+    React.useLayoutEffect(() => {
+      const el = innerRef.current
+      if (!el) return
+
+      const descriptor = Object.getOwnPropertyDescriptor(
+        window.HTMLTextAreaElement.prototype,
+        'value'
+      )
+      if (!descriptor?.get || !descriptor?.set) return
+
+      const { get, set } = descriptor
+      Object.defineProperty(el, 'value', {
+        configurable: true,
+        get() {
+          return get.call(this)
+        },
+        set(v) {
+          set.call(this, v)
+          resize()
+        }
+      })
+
+      return () => {
+        delete (el as Partial<HTMLTextAreaElement>).value
+      }
+    }, [resize])
+
     return (
       <Textarea
         {...props}
