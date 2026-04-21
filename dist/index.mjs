@@ -477,6 +477,29 @@ var AutoResizeTextarea = React7.forwardRef(
     React7.useLayoutEffect(() => {
       resize();
     }, [resize, value]);
+    React7.useLayoutEffect(() => {
+      const el = innerRef.current;
+      if (!el) return;
+      const descriptor = Object.getOwnPropertyDescriptor(
+        window.HTMLTextAreaElement.prototype,
+        "value"
+      );
+      if (!descriptor?.get || !descriptor?.set) return;
+      const { get, set } = descriptor;
+      Object.defineProperty(el, "value", {
+        configurable: true,
+        get() {
+          return get.call(this);
+        },
+        set(v) {
+          set.call(this, v);
+          resize();
+        }
+      });
+      return () => {
+        delete el.value;
+      };
+    }, [resize]);
     return /* @__PURE__ */ jsx8(
       Textarea,
       {
