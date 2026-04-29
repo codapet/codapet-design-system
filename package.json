@@ -17,7 +17,8 @@
     "./dist/styles.css"
   ],
   "files": [
-    "dist/**"
+    "dist/**",
+    "AGENTS.md"
   ],
   "scripts": {
     "dev": "npm run build:css && next dev --turbopack",

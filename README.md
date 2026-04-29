@@ -349,6 +349,20 @@ For detailed information about how dependencies are organized and managed, see [
 - **Dependencies**: UI libraries and utilities (bundled with library)
 - **Dev Dependencies**: Build tools and development utilities (not included in package)
 
+## Using with AI coding agents
+
+This package ships an [`AGENTS.md`](./AGENTS.md) at its root — a guide for AI agents (Claude Code, Cursor, Codex, etc.) explaining how the library differs from stock shadcn/ui (button defaults, custom components, brand tokens, common gotchas). It's published with the npm tarball, so once you've installed the package, the file is at `node_modules/@codapet/design-system/AGENTS.md`.
+
+To make Claude Code automatically pull it into every session in your consumer repo, add one line to your repo's `CLAUDE.md` (or `AGENTS.md`):
+
+```
+@./node_modules/@codapet/design-system/AGENTS.md
+```
+
+The `@path` syntax inlines the file's content into the agent's context. Because it resolves at session start, the guide always matches the version of `@codapet/design-system` you have installed — bump the dep, get the updated guide, no copy-paste.
+
+For other agent tools (Cursor, Codex, etc.) the file is still readable at the same path; refer to your tool's docs for how to point it at additional context files.
+
 ## Contributing
 
 1. Fork the repository
