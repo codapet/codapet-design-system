@@ -41,7 +41,7 @@ type SmartDialogContentProps = React.ComponentProps<typeof DialogContent> &
 
 const SmartDialogContent = ({
   children,
-  overlayClassName = '',
+  overlayClassName,
   withCloseButton,
   showCloseButton,
   ...props
@@ -51,14 +51,16 @@ const SmartDialogContent = ({
   return isMobile ? (
     <DrawerContent
       {...props}
-      withCloseButton={withCloseButton ?? showCloseButton ?? true}
+      overlayClassName={overlayClassName}
+      withCloseButton={withCloseButton ?? true}
+      showCloseButton={showCloseButton ?? true}
     >
       {children}
     </DrawerContent>
   ) : (
     <DialogContent
       {...props}
-      showCloseButton={showCloseButton ?? withCloseButton ?? true}
+      showCloseButton={showCloseButton ?? true}
       overlayClassName={overlayClassName}
     >
       {children}

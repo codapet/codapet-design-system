@@ -1755,7 +1755,7 @@ function DialogOverlay({
     {
       "data-slot": "dialog-overlay",
       className: cn(
-        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/40",
         className
       ),
       ...props
@@ -1776,7 +1776,7 @@ function DialogContent({
       {
         "data-slot": "dialog-content",
         className: cn(
-          "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-400 sm:max-w-lg",
+          "bg-background border-border-default data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-3xl border p-6 shadow-lg duration-400 sm:max-w-lg",
           className
         ),
         ...props,
@@ -1786,7 +1786,7 @@ function DialogContent({
             DialogPrimitive.Close,
             {
               "data-slot": "dialog-close",
-              className: "ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+              className: "border-border-default text-muted-foreground hover:bg-muted absolute top-4 right-4 flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
               children: [
                 /* @__PURE__ */ jsx21(XIcon, {}),
                 /* @__PURE__ */ jsx21("span", { className: "sr-only", children: "Close" })
@@ -2957,6 +2957,7 @@ function DateRangeInput({
 }
 
 // src/components/ui/drawer.tsx
+import { XIcon as XIcon2 } from "lucide-react";
 import "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 import { jsx as jsx28, jsxs as jsxs15 } from "react/jsx-runtime";
@@ -2989,36 +2990,53 @@ function DrawerOverlay({
     {
       "data-slot": "drawer-overlay",
       className: cn(
-        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/40",
         className
       ),
       ...props
     }
   );
 }
+var drawerDirectionClasses = {
+  top: "inset-x-0 top-0 max-h-[80vh] rounded-b-3xl border-b border-border-default",
+  bottom: "inset-x-0 bottom-0 max-h-[80vh] rounded-t-3xl border-t border-border-default",
+  right: "inset-y-0 right-0 w-3/4 border-l border-border-default sm:max-w-sm",
+  left: "inset-y-0 left-0 w-3/4 border-r border-border-default sm:max-w-sm"
+};
 function DrawerContent({
   className,
   children,
   withCloseButton = true,
+  showCloseButton = true,
+  direction = "bottom",
+  overlayClassName,
   ...props
 }) {
   return /* @__PURE__ */ jsxs15(DrawerPortal, { "data-slot": "drawer-portal", children: [
-    /* @__PURE__ */ jsx28(DrawerOverlay, {}),
+    /* @__PURE__ */ jsx28(DrawerOverlay, { className: overlayClassName }),
     /* @__PURE__ */ jsxs15(
       DrawerPrimitive.Content,
       {
         "data-slot": "drawer-content",
         className: cn(
           "group/drawer-content bg-background fixed z-50 flex h-auto flex-col",
-          "data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg data-[vaul-drawer-direction=top]:border-b",
-          "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t",
-          "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm",
-          "data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:sm:max-w-sm",
+          drawerDirectionClasses[direction],
           className
         ),
         ...props,
         children: [
           withCloseButton && /* @__PURE__ */ jsx28("div", { className: "bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block" }),
+          showCloseButton && /* @__PURE__ */ jsxs15(
+            DrawerPrimitive.Close,
+            {
+              "data-slot": "drawer-close-button",
+              className: "border-border-default text-muted-foreground hover:bg-muted absolute top-4 right-4 z-10 flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+              children: [
+                /* @__PURE__ */ jsx28(XIcon2, {}),
+                /* @__PURE__ */ jsx28("span", { className: "sr-only", children: "Close" })
+              ]
+            }
+          ),
           children
         ]
       }
@@ -3043,7 +3061,10 @@ function DrawerFooter({ className, ...props }) {
     "div",
     {
       "data-slot": "drawer-footer",
-      className: cn("mt-auto flex flex-col gap-2 p-4", className),
+      className: cn(
+        "border-border mt-auto flex shrink-0 flex-col gap-2 border-t px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))]",
+        className
+      ),
       ...props
     }
   );
@@ -5166,7 +5187,7 @@ function SearchInput({
 
 // src/components/ui/searchable-select.tsx
 import * as React44 from "react";
-import { CheckIcon as CheckIcon4, ChevronsUpDown, XIcon as XIcon2 } from "lucide-react";
+import { CheckIcon as CheckIcon4, ChevronsUpDown, XIcon as XIcon3 } from "lucide-react";
 import { jsx as jsx46, jsxs as jsxs27 } from "react/jsx-runtime";
 var SearchableSelectContext = React44.createContext(null);
 function useSearchableSelect() {
@@ -5334,7 +5355,7 @@ function SearchableSelectTrigger({
                       e.stopPropagation();
                       ctx.setValues(ctx.values.filter((val) => val !== v));
                     },
-                    children: /* @__PURE__ */ jsx46(XIcon2, { className: "size-3" })
+                    children: /* @__PURE__ */ jsx46(XIcon3, { className: "size-3" })
                   }
                 )
               ]
@@ -5691,7 +5712,7 @@ function Separator5({
 
 // src/components/ui/sheet.tsx
 import * as SheetPrimitive from "@radix-ui/react-dialog";
-import { XIcon as XIcon3 } from "lucide-react";
+import { XIcon as XIcon4 } from "lucide-react";
 import "react";
 import { jsx as jsx49, jsxs as jsxs29 } from "react/jsx-runtime";
 function Sheet({ ...props }) {
@@ -5753,7 +5774,7 @@ function SheetContent({
         children: [
           children,
           showCloseButton && /* @__PURE__ */ jsxs29(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
-            /* @__PURE__ */ jsx49(XIcon3, { className: "size-4" }),
+            /* @__PURE__ */ jsx49(XIcon4, { className: "size-4" }),
             /* @__PURE__ */ jsx49("span", { className: "sr-only", children: "Close" })
           ] })
         ]
@@ -6683,7 +6704,7 @@ var SmartDialog = ({ children, ...props }) => {
 };
 var SmartDialogContent = ({
   children,
-  overlayClassName = "",
+  overlayClassName,
   withCloseButton,
   showCloseButton,
   ...props
@@ -6693,14 +6714,16 @@ var SmartDialogContent = ({
     DrawerContent,
     {
       ...props,
-      withCloseButton: withCloseButton ?? showCloseButton ?? true,
+      overlayClassName,
+      withCloseButton: withCloseButton ?? true,
+      showCloseButton: showCloseButton ?? true,
       children
     }
   ) : /* @__PURE__ */ jsx54(
     DialogContent,
     {
       ...props,
-      showCloseButton: showCloseButton ?? withCloseButton ?? true,
+      showCloseButton: showCloseButton ?? true,
       overlayClassName,
       children
     }

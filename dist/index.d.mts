@@ -380,8 +380,17 @@ declare function DrawerTrigger({ ...props }: React$1.ComponentProps<typeof Drawe
 declare function DrawerPortal({ ...props }: React$1.ComponentProps<typeof Drawer$1.Portal>): react_jsx_runtime.JSX.Element;
 declare function DrawerClose({ ...props }: React$1.ComponentProps<typeof Drawer$1.Close>): react_jsx_runtime.JSX.Element;
 declare function DrawerOverlay({ className, ...props }: React$1.ComponentProps<typeof Drawer$1.Overlay>): react_jsx_runtime.JSX.Element;
-declare function DrawerContent({ className, children, withCloseButton, ...props }: React$1.ComponentProps<typeof Drawer$1.Content> & {
+declare const drawerDirectionClasses: {
+    readonly top: "inset-x-0 top-0 max-h-[80vh] rounded-b-3xl border-b border-border-default";
+    readonly bottom: "inset-x-0 bottom-0 max-h-[80vh] rounded-t-3xl border-t border-border-default";
+    readonly right: "inset-y-0 right-0 w-3/4 border-l border-border-default sm:max-w-sm";
+    readonly left: "inset-y-0 left-0 w-3/4 border-r border-border-default sm:max-w-sm";
+};
+declare function DrawerContent({ className, children, withCloseButton, showCloseButton, direction, overlayClassName, ...props }: React$1.ComponentProps<typeof Drawer$1.Content> & {
     withCloseButton?: boolean;
+    showCloseButton?: boolean;
+    direction?: keyof typeof drawerDirectionClasses;
+    overlayClassName?: string;
 }): react_jsx_runtime.JSX.Element;
 declare function DrawerHeader({ className, ...props }: React$1.ComponentProps<'div'>): react_jsx_runtime.JSX.Element;
 declare function DrawerFooter({ className, ...props }: React$1.ComponentProps<'div'>): react_jsx_runtime.JSX.Element;
