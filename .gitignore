@@ -44,12 +44,13 @@ next-env.d.ts
 .code-review-graph/
 .code-review-graphignore
 
-# IDE and AI tool configs
+# IDE and AI tool configs (personal — not project artifacts)
 .claude/
 .cursor/
 .cursorrules
 .windsurfrules
 .mcp.json
-AGENTS.md
-CLAUDE.md
 GEMINI.md
+# Note: AGENTS.md and CLAUDE.md ARE tracked in this repo.
+# AGENTS.md ships in the npm tarball as the consumer-facing agent guide.
+# CLAUDE.md is the contributor dev guide.
