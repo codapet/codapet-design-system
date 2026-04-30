@@ -1,7 +1,7 @@
 "use client";
 
 // src/components/ui/accordion.tsx
-import "react";
+import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "lucide-react";
 
@@ -14,20 +14,40 @@ function cn(...inputs) {
 
 // src/components/ui/accordion.tsx
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
+var AccordionContext = React.createContext({
+  variant: "default"
+});
 function Accordion({
+  variant = "default",
+  className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx(AccordionPrimitive.Root, { "data-slot": "accordion", ...props });
+  return /* @__PURE__ */ jsx(AccordionContext.Provider, { value: { variant }, children: /* @__PURE__ */ jsx(
+    AccordionPrimitive.Root,
+    {
+      "data-slot": "accordion",
+      "data-variant": variant,
+      className: cn(
+        variant === "outlined" && "flex flex-col gap-3",
+        className
+      ),
+      ...props
+    }
+  ) });
 }
 function AccordionItem({
   className,
   ...props
 }) {
+  const { variant } = React.useContext(AccordionContext);
   return /* @__PURE__ */ jsx(
     AccordionPrimitive.Item,
     {
       "data-slot": "accordion-item",
-      className: cn("border-b last:border-b-0", className),
+      className: cn(
+        variant === "outlined" ? "rounded-lg border" : "border-b last:border-b-0",
+        className
+      ),
       ...props
     }
   );
@@ -39,20 +59,26 @@ function AccordionTrigger({
   collapsedIcon,
   ...props
 }) {
+  const { variant } = React.useContext(AccordionContext);
   const hasCustomIcon = expandedIcon !== void 0 || collapsedIcon !== void 0;
+  const animatedIconSwap = variant === "outlined" && collapsedIcon !== void 0 && expandedIcon !== void 0;
   return /* @__PURE__ */ jsx(AccordionPrimitive.Header, { className: "flex", children: /* @__PURE__ */ jsxs(
     AccordionPrimitive.Trigger,
     {
       "data-slot": "accordion-trigger",
       className: cn(
         "group focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50",
+        variant === "outlined" && "min-h-16 items-center gap-8 px-5 py-4 text-base lg:px-6 lg:text-lg lg:leading-7 hover:no-underline",
         !hasCustomIcon && "[&[data-state=open]>svg]:rotate-180",
         className
       ),
       ...props,
       children: [
         children,
-        hasCustomIcon ? /* @__PURE__ */ jsxs(Fragment, { children: [
+        hasCustomIcon ? animatedIconSwap ? /* @__PURE__ */ jsxs("span", { className: "pointer-events-none grid shrink-0 text-muted-foreground *:[grid-area:1/1] *:transition-[rotate,opacity] *:duration-300 *:ease-[cubic-bezier(0.33,1,0.68,1)]", children: [
+          /* @__PURE__ */ jsx("span", { className: "group-data-[state=open]:rotate-90 group-data-[state=open]:opacity-0", children: collapsedIcon }),
+          /* @__PURE__ */ jsx("span", { className: "-rotate-90 opacity-0 group-data-[state=open]:rotate-0 group-data-[state=open]:opacity-100", children: expandedIcon })
+        ] }) : /* @__PURE__ */ jsxs(Fragment, { children: [
           collapsedIcon !== void 0 && /* @__PURE__ */ jsx("span", { className: "group-data-[state=open]:hidden pointer-events-none shrink-0 text-muted-foreground", children: collapsedIcon }),
           expandedIcon !== void 0 && /* @__PURE__ */ jsx("span", { className: "group-data-[state=closed]:hidden pointer-events-none shrink-0 text-muted-foreground", children: expandedIcon })
         ] }) : /* @__PURE__ */ jsx(ChevronDownIcon, { className: "text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-400" })
@@ -65,13 +91,23 @@ function AccordionContent({
   children,
   ...props
 }) {
+  const { variant } = React.useContext(AccordionContext);
   return /* @__PURE__ */ jsx(
     AccordionPrimitive.Content,
     {
       "data-slot": "accordion-content",
       className: "data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm",
       ...props,
-      children: /* @__PURE__ */ jsx("div", { className: cn("pt-0 pb-4", className), children })
+      children: /* @__PURE__ */ jsx(
+        "div",
+        {
+          className: cn(
+            variant === "outlined" ? "px-5 pb-5 lg:px-6 lg:pb-6" : "pt-0 pb-4",
+            className
+          ),
+          children
+        }
+      )
     }
   );
 }

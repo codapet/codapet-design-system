@@ -191,6 +191,83 @@ import {
         </CardContent>
       </Card>
 
+      {/* Outlined variant */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-amber-500 rounded-full" />
+            Outlined Variant
+          </CardTitle>
+          <CardDescription>
+            <code className="text-xs bg-muted px-1 py-0.5 rounded">
+              variant=&quot;outlined&quot;
+            </code>{' '}
+            renders each item as a separate bordered card with a taller trigger
+            and roomier padding — well suited to FAQ sections or settings panels
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Accordion type="single" collapsible variant="outlined">
+            <AccordionItem value="item-1">
+              <AccordionTrigger
+                collapsedIcon={<PlusIcon className="size-6 stroke-[1.8]" />}
+                expandedIcon={<MinusIcon className="size-6 stroke-[1.8]" />}
+              >
+                How do I install the design system?
+              </AccordionTrigger>
+              <AccordionContent>
+                Install the package from npm and import components directly.
+                There are no copy-paste steps — everything ships in a single
+                package.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger
+                collapsedIcon={<PlusIcon className="size-6 stroke-[1.8]" />}
+                expandedIcon={<MinusIcon className="size-6 stroke-[1.8]" />}
+              >
+                Does it support dark mode out of the box?
+              </AccordionTrigger>
+              <AccordionContent>
+                Yes. Wrap your app in <code>ThemeProvider</code> and the brand
+                tokens automatically swap between light and dark schemes.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger
+                collapsedIcon={<PlusIcon className="size-6 stroke-[1.8]" />}
+                expandedIcon={<MinusIcon className="size-6 stroke-[1.8]" />}
+              >
+                Can I customise individual items?
+              </AccordionTrigger>
+              <AccordionContent>
+                Pass any <code>className</code> to{' '}
+                <code>AccordionItem</code>, <code>AccordionTrigger</code>, or{' '}
+                <code>AccordionContent</code> — caller classes win conflicts via
+                <code>tailwind-merge</code>.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+          <CodeBlock
+            code={`import { PlusIcon, MinusIcon } from 'lucide-react'
+
+<Accordion type="single" collapsible variant="outlined">
+  <AccordionItem value="item-1">
+    <AccordionTrigger
+      collapsedIcon={<PlusIcon className="size-6 stroke-[1.8]" />}
+      expandedIcon={<MinusIcon className="size-6 stroke-[1.8]" />}
+    >
+      How do I install the design system?
+    </AccordionTrigger>
+    <AccordionContent>
+      Install the package from npm and import components directly...
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`}
+          />
+        </CardContent>
+      </Card>
+
       {/* Chevron Up / Down (no rotation) */}
       <Card>
         <CardHeader>

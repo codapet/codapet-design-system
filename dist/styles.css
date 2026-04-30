@@ -2,6 +2,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+[data-slot='accordion-content'] {
+  --tw-animation-duration: 250ms;
+  --tw-ease: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

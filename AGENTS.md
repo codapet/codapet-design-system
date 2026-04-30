@@ -61,6 +61,12 @@ These are the foot-guns. Knowing them prevents most "why does my Button look wro
 
 - Standard shadcn pattern: `react-hook-form` + `zod` + `Form / FormField / FormItem / FormLabel / FormControl / FormMessage`. Same API as shadcn — no surprises here.
 
+### Accordion
+
+- Adds a `variant` prop on `<Accordion>`: `default` (shadcn-equivalent, bottom-stripe items) or `outlined` (each item is its own bordered card with taller trigger and roomier padding). Reach for `variant="outlined"` on FAQ sections, settings panels, or any "stacked cards" pattern.
+- Variant propagates to children via context — set it once on the root, not on every `AccordionItem`/`Trigger`/`Content`.
+- Plus/Minus (or any custom) icons are opt-in via `collapsedIcon`/`expandedIcon` on `AccordionTrigger`. The default remains a rotating `ChevronDown`.
+
 ### Dialog vs SmartDialog
 
 - `Dialog`/`Drawer` are the standard Radix/Vaul primitives.

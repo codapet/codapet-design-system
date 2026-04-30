@@ -44,7 +44,10 @@ import * as TogglePrimitive from '@radix-ui/react-toggle';
 import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group';
 import { ClassValue } from 'clsx';
 
-declare function Accordion({ ...props }: React$1.ComponentProps<typeof AccordionPrimitive.Root>): react_jsx_runtime.JSX.Element;
+type AccordionVariant = 'default' | 'outlined';
+declare function Accordion({ variant, className, ...props }: React$1.ComponentProps<typeof AccordionPrimitive.Root> & {
+    variant?: AccordionVariant;
+}): react_jsx_runtime.JSX.Element;
 declare function AccordionItem({ className, ...props }: React$1.ComponentProps<typeof AccordionPrimitive.Item>): react_jsx_runtime.JSX.Element;
 declare function AccordionTrigger({ className, children, expandedIcon, collapsedIcon, ...props }: React$1.ComponentProps<typeof AccordionPrimitive.Trigger> & {
     expandedIcon?: React$1.ReactNode;
