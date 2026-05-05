@@ -1,6 +1,6 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import * as React$1 from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import * as React$1 from 'react';
 import * as class_variance_authority_types from 'class-variance-authority/types';
 import { VariantProps } from 'class-variance-authority';
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';

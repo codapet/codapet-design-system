@@ -1,9 +1,9 @@
 "use client";
 
 // src/components/ui/accordion.tsx
-import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "lucide-react";
+import * as React from "react";
 
 // src/lib/utils.ts
 import { clsx } from "clsx";
@@ -45,7 +45,7 @@ function AccordionItem({
     {
       "data-slot": "accordion-item",
       className: cn(
-        variant === "outlined" ? "rounded-lg border" : "border-b last:border-b-0",
+        variant === "outlined" ? "rounded-xl border border-border-default " : "border-b last:border-b-0",
         className
       ),
       ...props
