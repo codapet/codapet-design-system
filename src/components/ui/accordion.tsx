@@ -1,8 +1,8 @@
 'use client'
 
-import * as React from 'react'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import { ChevronDownIcon } from 'lucide-react'
+import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -44,7 +44,7 @@ function AccordionItem({
       data-slot="accordion-item"
       className={cn(
         variant === 'outlined'
-          ? 'rounded-lg border'
+          ? 'rounded-xl border border-border-default '
           : 'border-b last:border-b-0',
         className
       )}
@@ -64,7 +64,8 @@ function AccordionTrigger({
   collapsedIcon?: React.ReactNode
 }) {
   const { variant } = React.useContext(AccordionContext)
-  const hasCustomIcon = expandedIcon !== undefined || collapsedIcon !== undefined
+  const hasCustomIcon =
+    expandedIcon !== undefined || collapsedIcon !== undefined
   const animatedIconSwap =
     variant === 'outlined' &&
     collapsedIcon !== undefined &&
@@ -139,4 +140,4 @@ function AccordionContent({
   )
 }
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger }

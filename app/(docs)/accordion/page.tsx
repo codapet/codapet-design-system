@@ -210,21 +210,36 @@ import {
           <Accordion type="single" collapsible variant="outlined">
             <AccordionItem value="item-1">
               <AccordionTrigger
-                collapsedIcon={<PlusIcon className="size-6 stroke-[1.8]" />}
-                expandedIcon={<MinusIcon className="size-6 stroke-[1.8]" />}
+                collapsedIcon={
+                  <PlusIcon className="size-5 stroke-[1.8] stroke-gray-icon-dark" />
+                }
+                expandedIcon={
+                  <MinusIcon className="size-5 stroke-[1.8] stroke-gray-icon-dark" />
+                }
+                className="text-zinc-900"
               >
                 How do I install the design system?
               </AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className="text-[#3F3F47]">
                 Install the package from npm and import components directly.
                 There are no copy-paste steps — everything ships in a single
-                package.
+                package.Install the package from npm and import components
+                directly. There are no copy-paste steps — everything ships in a
+                single package. Install the package from npm and import
+                components directly. There are no copy-paste steps — everything
+                ships in a single package. Install the package from npm and
+                import components directly. There are no copy-paste steps —
+                everything ships in a single package.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger
-                collapsedIcon={<PlusIcon className="size-6 stroke-[1.8]" />}
-                expandedIcon={<MinusIcon className="size-6 stroke-[1.8]" />}
+                collapsedIcon={
+                  <PlusIcon className="size-5 stroke-[1.8] stroke-gray-icon-dark " />
+                }
+                expandedIcon={
+                  <MinusIcon className="size-5 stroke-[1.8] stroke-gray-icon-dark" />
+                }
               >
                 Does it support dark mode out of the box?
               </AccordionTrigger>
@@ -235,15 +250,19 @@ import {
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger
-                collapsedIcon={<PlusIcon className="size-6 stroke-[1.8]" />}
-                expandedIcon={<MinusIcon className="size-6 stroke-[1.8]" />}
+                collapsedIcon={
+                  <PlusIcon className="size-5 stroke-[1.8]  stroke-gray-icon-dark" />
+                }
+                expandedIcon={
+                  <MinusIcon className="size-5 stroke-[1.8]  stroke-gray-icon-dark" />
+                }
               >
                 Can I customise individual items?
               </AccordionTrigger>
               <AccordionContent>
-                Pass any <code>className</code> to{' '}
-                <code>AccordionItem</code>, <code>AccordionTrigger</code>, or{' '}
-                <code>AccordionContent</code> — caller classes win conflicts via
+                Pass any <code>className</code> to <code>AccordionItem</code>,{' '}
+                <code>AccordionTrigger</code>, or <code>AccordionContent</code>{' '}
+                — caller classes win conflicts via
                 <code>tailwind-merge</code>.
               </AccordionContent>
             </AccordionItem>
