@@ -1,0 +1,12 @@
+@import 'tailwindcss' source(none);
+@source "../dist/**/*.{js,mjs}";
+@source "../src/**/*.{ts,tsx}";
+@import '../src/styles.css';
+
+@layer base {
+  :root {
+    --font-plus-jakarta-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-noto-serif: 'Noto Serif', ui-serif, Georgia, 'Times New Roman', serif;
+    --font-geist-mono: 'Geist Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  }
+}

@@ -54,3 +54,9 @@ GEMINI.md
 # Note: AGENTS.md and CLAUDE.md ARE tracked in this repo.
 # AGENTS.md ships in the npm tarball as the consumer-facing agent guide.
 # CLAUDE.md is the contributor dev guide.
+.ds-sync/
+ds-bundle/
+.design-sync/.cache/
+.design-sync/learnings/
+.design-sync/node_modules
+.design-sync/group-docs/
