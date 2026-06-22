@@ -63,13 +63,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       ? [
           'border-error-stroke-default bg-error-surface-subtle',
           'hover:border-error-stroke-default',
-          'focus:border-2 focus:border-error-stroke-default',
+          'focus:border-error-stroke-default focus:ring-[1px] focus:ring-error-stroke-default',
           'active:border-error-stroke-default'
         ]
       : [
           'border-gray-stroke-default bg-background',
           'hover:border-focus-ring',
-          'focus:border-2 focus:border-focus-ring',
+          'focus:border-focus-ring focus:ring-[1px] focus:ring-focus-ring',
           'active:border-focus-ring'
         ]
 
