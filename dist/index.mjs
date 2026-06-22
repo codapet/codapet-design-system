@@ -448,7 +448,7 @@ var textareaBaseStyles = [
   "border-gray-stroke-default bg-background",
   // Hover/Focus/Active states
   "hover:border-focus-ring",
-  "focus:border-2 focus:border-focus-ring",
+  "focus:border-focus-ring focus:ring-[1px] focus:ring-focus-ring",
   "active:border-focus-ring",
   // Textarea specific
   "field-sizing-content min-h-16 resize-y px-3 py-2"
@@ -456,7 +456,7 @@ var textareaBaseStyles = [
 var errorStyles = [
   "border-error-stroke-default bg-white",
   "hover:border-error-stroke-default",
-  "focus:border-2 focus:border-error-stroke-default",
+  "focus:border-error-stroke-default focus:ring-[1px] focus:ring-error-stroke-default",
   "active:border-error-stroke-default"
 ].join(" ");
 var Textarea = React6.forwardRef(
@@ -1704,7 +1704,7 @@ function Checkbox({
     {
       "data-slot": "checkbox",
       className: cn(
-        "group peer border-gray-stroke-default dark:bg-input/30 transition-colors duration-400 data-[state=checked]:bg-primary-stroke-default data-[state=checked]:text-white dark:data-[state=checked]:bg-primary-stroke-default data-[state=checked]:border-primary-stroke-default focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-5 shrink-0 rounded-[4px] border-2 outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:before:absolute focus-visible:before:-inset-[3px] focus:ring-offset-1 focus:ring-offset-brand-text-vibrant",
+        "group peer cursor-pointer border-gray-stroke-default dark:bg-input/30 transition-colors duration-400 data-[state=checked]:bg-primary-stroke-default data-[state=checked]:text-white dark:data-[state=checked]:bg-primary-stroke-default data-[state=checked]:border-primary-stroke-default focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-5 shrink-0 rounded-[4px] border-2 outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:before:absolute focus-visible:before:-inset-[3px] focus:ring-offset-1 focus:ring-offset-brand-text-vibrant",
         className
       ),
       ...props,
@@ -2304,12 +2304,12 @@ var Input = React22.forwardRef(
     const stateStyles = error ? [
       "border-error-stroke-default bg-error-surface-subtle",
       "hover:border-error-stroke-default",
-      "focus:border-2 focus:border-error-stroke-default",
+      "focus:border-error-stroke-default focus:ring-[1px] focus:ring-error-stroke-default",
       "active:border-error-stroke-default"
     ] : [
       "border-gray-stroke-default bg-background",
       "hover:border-focus-ring",
-      "focus:border-2 focus:border-focus-ring",
+      "focus:border-focus-ring focus:ring-[1px] focus:ring-focus-ring",
       "active:border-focus-ring"
     ];
     if (leftIcon || rightIcon) {
@@ -4881,7 +4881,7 @@ function RadioGroupItem({
     {
       "data-slot": "radio-group-item",
       className: cn(
-        "border-gray-stroke-default text-primary-stroke-default focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-5 shrink-0 rounded-full border-2 transition-all duration-400 outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-40 data-[state=checked]:bg-primary-stroke-default data-[state=checked]:border-primary-stroke-default",
+        "cursor-pointer border-gray-stroke-default text-primary-stroke-default focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-5 shrink-0 rounded-full border-2 transition-all duration-400 outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-40 data-[state=checked]:bg-primary-stroke-default data-[state=checked]:border-primary-stroke-default",
         className
       ),
       ...props,
@@ -6846,7 +6846,7 @@ function Switch({
     {
       "data-slot": "switch",
       className: cn(
-        "peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-brand-text-vibrant dark:data-[state=unchecked]:bg-input/80 inline-flex h-[24px] w-[40px] shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-offset-1 ",
+        "peer cursor-pointer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-brand-text-vibrant dark:data-[state=unchecked]:bg-input/80 inline-flex h-[24px] w-[40px] shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-offset-1 ",
         className
       ),
       ...props,
@@ -7416,7 +7416,7 @@ import * as TogglePrimitive from "@radix-ui/react-toggle";
 import { cva as cva15 } from "class-variance-authority";
 import { jsx as jsx62 } from "react/jsx-runtime";
 var toggleVariants = cva15(
-  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
+  "cursor-pointer inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
   {
     variants: {
       variant: {

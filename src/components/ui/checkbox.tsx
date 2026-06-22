@@ -14,7 +14,7 @@ function Checkbox({
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        'group peer border-gray-stroke-default dark:bg-input/30 transition-colors duration-400 data-[state=checked]:bg-primary-stroke-default data-[state=checked]:text-white dark:data-[state=checked]:bg-primary-stroke-default data-[state=checked]:border-primary-stroke-default focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-5 shrink-0 rounded-[4px] border-2 outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:before:absolute focus-visible:before:-inset-[3px] focus:ring-offset-1 focus:ring-offset-brand-text-vibrant',
+        'group peer cursor-pointer border-gray-stroke-default dark:bg-input/30 transition-colors duration-400 data-[state=checked]:bg-primary-stroke-default data-[state=checked]:text-white dark:data-[state=checked]:bg-primary-stroke-default data-[state=checked]:border-primary-stroke-default focus-visible:border-ring focus-visible:ring-brand-text-vibrant aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-5 shrink-0 rounded-[4px] border-2 outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:before:absolute focus-visible:before:-inset-[3px] focus:ring-offset-1 focus:ring-offset-brand-text-vibrant',
         className
       )}
       {...props}
