@@ -53,7 +53,7 @@ Configured in `tsup.config.ts`:
 
 ## Releasing
 
-Tags `v*.*.*` trigger `.github/workflows/release.yml`, which runs `build:lib`, `build:css`, `test:lib`, then `npm publish --access public` (requires `NPM_TOKEN`). `prepublishOnly` runs the same checks locally.
+Tags `v*.*.*` trigger `.github/workflows/release.yml`, which runs `build:lib`, `build:css`, `test:lib`, then `npm publish` via npm trusted publishing (OIDC — no `NPM_TOKEN` secret). Requires a trusted publisher configured on npmjs.com for `codapet/codapet-design-system` + workflow `release.yml`. `prepublishOnly` runs the same checks locally.
 
 ```bash
 # bump version in package.json

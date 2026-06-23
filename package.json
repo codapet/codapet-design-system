@@ -33,6 +33,10 @@
     "check:deps": "npm ls --depth=0",
     "clean:deps": "rm -rf node_modules package-lock.json && npm install"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codapet/codapet-design-system.git"
+  },
   "publishConfig": {
     "access": "public"
   },

@@ -272,8 +272,12 @@ This will generate:
 
 Releases are automated via GitHub Actions on semver tags.
 
-Setup once:
-- In GitHub → Settings → Secrets and variables → Actions, add `NPM_TOKEN` with publish access to the `@codapet` org.
+Setup once (npm trusted publishing):
+- On [npmjs.com](https://www.npmjs.com/package/@codapet/design-system) → **Settings** → **Trusted publishing** → **GitHub Actions**
+- Repository: `codapet/codapet-design-system`
+- Workflow filename: `release.yml` (must match exactly, including extension)
+- Allowed actions: **npm publish**
+- Optionally restrict token-based publishing under **Settings → Publishing access** after verifying OIDC works
 
 Release steps:
 ```bash
