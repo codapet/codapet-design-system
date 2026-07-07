@@ -1076,15 +1076,15 @@ function Calendar({
         ),
         table: cn("w-full border-collapse", classNames?.table),
         weekdays: cn(
-          "flex items-center justify-start w-full gap-2",
+          "flex items-center justify-start w-full gap-2 ",
           classNames?.weekdays
         ),
         weekday: cn(
-          "text-muted-foreground font-medium rounded-full md:flex-1 size-6 mx-1 font-normal text-[0.8rem] select-none",
+          "text-muted-foreground  font-medium rounded-full md:flex-1 size-7 md:mx-1 font-normal text-[0.8rem] select-none",
           classNames?.weekday
         ),
         week: cn(
-          "flex w-full md:mt-2 mt-[2px]  items-center justify-start gap-1",
+          "flex w-full md:mt-2 mt-[2px]  items-center justify-start gap-2 ",
           classNames?.week
         ),
         week_number_header: cn(
@@ -1097,7 +1097,7 @@ function Calendar({
           classNames?.week_number
         ),
         day: cn(
-          "relative flex items-center justify-center md:w-full md:h-full p-0 text-center  group/day aspect-square select-none size-7 md:mx-0 mx-1  rounded-full",
+          "relative flex items-center justify-center   p-0 text-center  group/day aspect-square select-none size-7  md:mx-1 rounded-full",
           classNames?.day
         ),
         range_start: cn(" bg-accent", classNames?.range_start),
