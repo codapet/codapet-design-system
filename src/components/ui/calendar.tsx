@@ -44,7 +44,7 @@ function Calendar({
           'flex gap-4 flex-col md:flex-row relative',
           classNames?.months
         ),
-        month: cn('flex flex-col w-full gap-4', classNames?.month),
+        month: cn('flex flex-col w-full gap-4 items-center', classNames?.month),
         nav: cn(
           'flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between',
           classNames?.nav
@@ -84,7 +84,7 @@ function Calendar({
         ),
         table: cn('w-full border-collapse', classNames?.table),
         weekdays: cn(
-          'flex items-center justify-center w-full gap-2',
+          'flex items-center justify-start w-full gap-2',
           classNames?.weekdays
         ),
         weekday: cn(
@@ -92,7 +92,7 @@ function Calendar({
           classNames?.weekday
         ),
         week: cn(
-          'flex w-full md:mt-2 mt-[2px]  items-center justify-center gap-1',
+          'flex w-full md:mt-2 mt-[2px]  items-center justify-start gap-1',
           classNames?.week
         ),
         week_number_header: cn(

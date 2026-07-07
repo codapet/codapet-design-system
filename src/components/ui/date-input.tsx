@@ -453,12 +453,12 @@ export function DateInput({
         </PopoverTrigger>
         <PopoverContent
           className={cn(
-            'p-0  w-[var(--radix-popper-anchor-width)] h-auto md:w-[350px]',
+            'p-0  w-[var(--radix-popper-anchor-width)] h-auto md:w-[350px] ',
             popoverContentClassName
           )}
           {...popoverContentProps}
         >
-          <div className="border border-focus-ring h-full w-full rounded-md">
+          <div className="border border-focus-ring h-full w-full rounded-md py-2 md:py-0">
             <Calendar {...resolvedCalendarProps} />
           </div>
         </PopoverContent>
