@@ -117,7 +117,6 @@ export function DateInputDemo() {
                 setDate={setDate6}
                 captionLayout="label"
                 showOutsideDays
-                numberOfMonths={2}
                 disabled={date => date.getDay() === 0}
               />
               <p className="text-xs text-muted-foreground">
@@ -179,7 +178,6 @@ export function DateInputDemo() {
         setDate={setDate}
         captionLayout="label"
         showOutsideDays
-        numberOfMonths={2}
         disabled={date => date.getDay() === 0}
       />
     </>
