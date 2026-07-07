@@ -22,7 +22,7 @@ const textareaBaseStyles = [
 
 // Error styles as a constant to avoid recreation
 const errorStyles = [
-  'border-error-stroke-default bg-white',
+  'border-error-stroke-default bg-background',
   'hover:border-error-stroke-default',
   'focus:border-error-stroke-default focus:ring-[1px] focus:ring-error-stroke-default',
   'active:border-error-stroke-default'

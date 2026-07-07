@@ -454,7 +454,7 @@ var textareaBaseStyles = [
   "field-sizing-content min-h-16 resize-y px-3 py-2"
 ].join(" ");
 var errorStyles = [
-  "border-error-stroke-default bg-white",
+  "border-error-stroke-default bg-background",
   "hover:border-error-stroke-default",
   "focus:border-error-stroke-default focus:ring-[1px] focus:ring-error-stroke-default",
   "active:border-error-stroke-default"
@@ -2302,7 +2302,7 @@ var Input = React22.forwardRef(
     ...props
   }, ref) => {
     const stateStyles = error ? [
-      "border-error-stroke-default bg-error-surface-subtle",
+      "border-error-stroke-default bg-background",
       "hover:border-error-stroke-default",
       "focus:border-error-stroke-default focus:ring-[1px] focus:ring-error-stroke-default",
       "active:border-error-stroke-default"

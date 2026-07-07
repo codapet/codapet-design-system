@@ -61,7 +61,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     // Border/bg styles applied conditionally based on error state
     const stateStyles = error
       ? [
-          'border-error-stroke-default bg-error-surface-subtle',
+          'border-error-stroke-default bg-background',
           'hover:border-error-stroke-default',
           'focus:border-error-stroke-default focus:ring-[1px] focus:ring-error-stroke-default',
           'active:border-error-stroke-default'
