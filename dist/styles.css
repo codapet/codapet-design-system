@@ -206,7 +206,7 @@
 
   /* Sage accent */
   --sage-light: oklch(0.9306 0.0176 164.64);
-  --sage-normal: oklch(0.7528 0.0340 163.90);
+  --sage-normal: oklch(0.7528 0.034 163.9);
   --sage-dark: oklch(0.4361 0.0249 165.05);
 
   --gray-subtle: oklch(0.6727 0.0131 286.04);
@@ -220,12 +220,12 @@
   --sand-stroke-disabled: oklch(0.9848 0.0013 106.42);
   --warning-surface-subtle: oklch(0.9788 0.0408 98.07);
   --warning-surface-light: oklch(0.9566 0.0763 97.96);
-  --warning-stroke-default: oklch(0.8230 0.1479 88.67);
+  --warning-stroke-default: oklch(0.823 0.1479 88.67);
   --warning-stroke-dark: oklch(0.5548 0.1271 62.52);
   --vibrant-text-display: oklch(0.4247 0.0456 250.58);
   --vibrant-text-body: oklch(0.3623 0.0131 286.07);
   --vibrant-text-heading: oklch(0.1456 0.0045 286.07);
-  --vibrant-text-white-darker: oklch(0.8853 0.0000 0);
+  --vibrant-text-white-darker: oklch(0.8853 0 0);
   --gray-icon-subtle: oklch(0.6727 0.0131 286.04);
   --gray-icon-light: oklch(0.7057 0.0144 286.02);
   --gray-icon-default: oklch(0.4422 0.0162 285.72);
@@ -233,8 +233,8 @@
   --alert-bg-informative: oklch(0.9804 0 0);
   --alert-bg-error: oklch(0.9919 0.0032 17.38);
   --success-surface-subtle: oklch(0.9819 0.0181 155.83);
-  --success-stroke-light: oklch(0.9510 0.0338 154.85);
-  --success-surface-default: oklch(0.6320 0.1860 147.37);
+  --success-stroke-light: oklch(0.951 0.0338 154.85);
+  --success-surface-default: oklch(0.632 0.186 147.37);
   --success-text-dark: oklch(0.3935 0.0957 152.28);
   /* gray*/
   --gray-surface-light: oklch(0.9674 0.0013 286.37);
@@ -263,10 +263,10 @@
   --focus-ring: oklch(0.623 0.214 259.8);
   --destructive-text: oklch(0.704 0.191 22.2);
   --destructive-hover: oklch(0.97 0.013 17.4);
-  --destructive-active: oklch(0.9365 0.0320 17.74);
+  --destructive-active: oklch(0.9365 0.032 17.74);
   --destructive-bg-deep: oklch(0.4446 0.1774 26.79);
   --active-primary: oklch(0.2799 0.0408 260.33);
-  --range-middle-bg: oklch(0.93 0.005 264);
+  --range-middle-bg: oklch(94% 0.015 251.2);
 }
 
 .dark {
@@ -381,7 +381,7 @@
   --destructive-active: oklch(0.28 0.05 17.4);
   --destructive-bg-deep: oklch(0.35 0.14 22);
   --active-primary: oklch(0.8 0.02 264);
-  --range-middle-bg: oklch(0.28 0.02 264);
+  --range-middle-bg: oklch(94% 0.015 251.2);
 }
 
 @layer base {
