@@ -295,18 +295,18 @@ export function DateInput({
     return null
   }, [minDate])
 
-  // Default wide range for the year dropdown when no explicit constraints are set
+  // Default range for the year dropdown when no explicit constraints are set
   const dropdownStartMonth = React.useMemo(() => {
     if (effectiveMinDate) return effectiveMinDate
     const d = new Date(today)
-    d.setFullYear(d.getFullYear() - 100)
+    d.setFullYear(d.getFullYear() - 15)
     return d
   }, [effectiveMinDate, today])
 
   const dropdownEndMonth = React.useMemo(() => {
     if (effectiveMaxDate) return effectiveMaxDate
     const d = new Date(today)
-    d.setFullYear(d.getFullYear() + 100)
+    d.setFullYear(d.getFullYear() + 10)
     return d
   }, [effectiveMaxDate, today])
 
