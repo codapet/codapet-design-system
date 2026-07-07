@@ -1038,7 +1038,7 @@ function Calendar({
           "flex gap-4 flex-col md:flex-row relative",
           classNames?.months
         ),
-        month: cn("flex flex-col w-full gap-4", classNames?.month),
+        month: cn("flex flex-col w-full gap-4 items-center", classNames?.month),
         nav: cn(
           "flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-between",
           classNames?.nav
@@ -1076,7 +1076,7 @@ function Calendar({
         ),
         table: cn("w-full border-collapse", classNames?.table),
         weekdays: cn(
-          "flex items-center justify-center w-full gap-2",
+          "flex items-center justify-start w-full gap-2",
           classNames?.weekdays
         ),
         weekday: cn(
@@ -1084,7 +1084,7 @@ function Calendar({
           classNames?.weekday
         ),
         week: cn(
-          "flex w-full md:mt-2 mt-[2px]  items-center justify-center gap-1",
+          "flex w-full md:mt-2 mt-[2px]  items-center justify-start gap-1",
           classNames?.week
         ),
         week_number_header: cn(
@@ -1173,7 +1173,7 @@ function CalendarDayButton({
       "data-range-end": modifiers.range_end,
       "data-range-middle": modifiers.range_middle,
       className: cn(
-        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-range-middle-bg data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none md:font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] [&>span]:text-xs [&>span]:opacity-70 md:p-0 rounded-full md:text-base text-sm font-medium text-foreground data-[range-middle=true]:rounded-md",
+        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-range-middle-bg data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none md:font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] [&>span]:text-xs [&>span]:opacity-70 md:p-0 rounded-full md:text-base text-sm font-medium text-foreground data-[range-start=true]:rounded-md data-[range-middle=true]:rounded-md data-[range-end=true]:rounded-md",
         className
       ),
       ...props
@@ -2615,13 +2615,13 @@ function DateInput({
   const dropdownStartMonth = React24.useMemo(() => {
     if (effectiveMinDate) return effectiveMinDate;
     const d = new Date(today);
-    d.setFullYear(d.getFullYear() - 100);
+    d.setFullYear(d.getFullYear() - 15);
     return d;
   }, [effectiveMinDate, today]);
   const dropdownEndMonth = React24.useMemo(() => {
     if (effectiveMaxDate) return effectiveMaxDate;
     const d = new Date(today);
-    d.setFullYear(d.getFullYear() + 100);
+    d.setFullYear(d.getFullYear() + 10);
     return d;
   }, [effectiveMaxDate, today]);
   React24.useEffect(() => {
@@ -2742,11 +2742,11 @@ function DateInput({
       PopoverContent,
       {
         className: cn(
-          "p-0  w-[var(--radix-popper-anchor-width)] h-auto md:w-[350px]",
+          "p-0  w-[var(--radix-popper-anchor-width)] h-auto md:w-[350px] ",
           popoverContentClassName
         ),
         ...popoverContentProps,
-        children: /* @__PURE__ */ jsx26("div", { className: "border border-focus-ring h-full w-full rounded-md", children: /* @__PURE__ */ jsx26(Calendar, { ...resolvedCalendarProps }) })
+        children: /* @__PURE__ */ jsx26("div", { className: "border border-focus-ring h-full w-full rounded-md py-2 md:py-0", children: /* @__PURE__ */ jsx26(Calendar, { ...resolvedCalendarProps }) })
       }
     )
   ] }) });
