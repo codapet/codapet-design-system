@@ -449,7 +449,7 @@ var textareaBaseStyles = [
   // Hover/Focus/Active states
   "hover:border-focus-ring",
   "focus:border-focus-ring",
-  "focus-visible:border-2",
+  "focus-visible:border",
   "active:border-focus-ring",
   // Textarea specific
   "field-sizing-content min-h-16 resize-y px-3 py-2"
@@ -458,7 +458,7 @@ var errorStyles = [
   "border-error-stroke-default bg-background",
   "hover:border-error-stroke-default",
   "focus:border-error-stroke-default",
-  "focus-visible:border-2",
+  "focus-visible:border",
   "active:border-error-stroke-default"
 ].join(" ");
 var Textarea = React6.forwardRef(
@@ -2307,13 +2307,13 @@ var Input = React22.forwardRef(
       "border-error-stroke-default bg-background",
       "hover:border-error-stroke-default",
       "focus:border-error-stroke-default",
-      "focus-visible:border-2",
+      "focus-visible:border",
       "active:border-error-stroke-default"
     ] : [
       "border-gray-stroke-default bg-background",
       "hover:border-focus-ring",
       "focus:border-focus-ring",
-      "focus-visible:border-2",
+      "focus-visible:border",
       "active:border-focus-ring"
     ];
     if (leftIcon || rightIcon) {
