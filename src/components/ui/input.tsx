@@ -13,7 +13,7 @@ const inputVariants = cva(
     // File input styles
     'file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium',
     // Disabled styles
-    'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60'
+    'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60 disabled:text-gray-icon-subtle'
   ],
   {
     variants: {
@@ -30,7 +30,8 @@ const inputVariants = cva(
 )
 
 interface InputProps
-  extends Omit<React.ComponentProps<'input'>, 'size'>,
+  extends
+    Omit<React.ComponentProps<'input'>, 'size'>,
     VariantProps<typeof inputVariants> {
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
