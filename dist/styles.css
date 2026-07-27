@@ -133,6 +133,7 @@
   --color-error-surface-dark: var(--error-surface-dark);
   --color-error-surface-light: var(--error-surface-light);
   --color-error-surface-default: var(--error-surface-default);
+  --color-error-destructive: var(--error-destructive);
 
   /* Semantic tokens for dark mode compatibility */
   --color-foreground-secondary: var(--foreground-secondary);
@@ -256,6 +257,7 @@
   --error-stroke-light: oklch(0.8834 0.0616 18.39);
   --error-stroke-default: oklch(0.6834 0.2106 19.85);
   --error-surface-subtle: oklch(0.9903 0.003 17.21);
+  --error-destructive: oklch(0.578272 0.198353 25.169);
 
   /* Semantic tokens */
   --foreground-secondary: oklch(0.37 0.013 285.8);

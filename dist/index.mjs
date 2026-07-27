@@ -255,7 +255,7 @@ var buttonVariants = cva3(
         "ghost-secondary": "text-foreground-secondary hover:bg-gray-surface-light hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-gray-surface-default",
         "ghost-destructive": "bg-transparent text-destructive-text hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active",
         link: "text-foreground-secondary underline-offset-4 underline hover:bg-none active:bg-none hover:text-brand-vibrant",
-        destructive: "bg-error-surface-default text-primary-foreground hover:bg-red-800 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-error-surface-dark",
+        destructive: "bg-error-destructive text-primary-foreground hover:bg-red-800 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-error-surface-dark",
         "destructive-secondary": "bg-error-surface-light border border-error-stroke-light text-destructive-text hover:border-error-surface-default focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active",
         "destructive-tertiary": "bg-transparent border border-error-stroke-light text-destructive-text hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active"
       },
@@ -2272,7 +2272,7 @@ var inputVariants = cva8(
     // File input styles
     "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
     // Disabled styles
-    "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60"
+    "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60 disabled:text-gray-icon-subtle"
   ],
   {
     variants: {

@@ -100,7 +100,7 @@ These don't exist in shadcn — reach for them instead of building your own:
 The brand palette lives in CSS variables exposed as Tailwind colors. Use these, not `bg-blue-600`, `text-gray-500`, `border-red-300`, etc. — raw colors won't dark-mode correctly.
 
 - **Brand**: `brand-{subtle,light,normal,vibrant,dark}`, `brand-text-vibrant`. `primary` aliases `brand-normal`.
-- **Surfaces** (backgrounds): `gray-surface-{light,default,dark}`, `primary-surface-{subtle,light,default}`, `secondary-surface-default`, `sand-{subtle,light,normal,dark}`, `sage-{light,normal,dark}`, `rose-{light,normal,dark}`, `error-surface-{subtle,light,default,dark}`, `success-surface-{subtle,default}`, `warning-surface-{subtle,light}`.
+- **Surfaces** (backgrounds): `gray-surface-{light,default,dark}`, `primary-surface-{subtle,light,default}`, `secondary-surface-default`, `sand-{subtle,light,normal,dark}`, `sage-{light,normal,dark}`, `rose-{light,normal,dark}`, `error-surface-{subtle,light,default,dark}`, `error-destructive` (filled destructive buttons only), `success-surface-{subtle,default}`, `warning-surface-{subtle,light}`.
 - **Strokes** (borders): `gray-stroke-{light,default}`, `primary-stroke-default`, `secondary-stroke-{light,default}`, `error-stroke-{light,default}`, `success-stroke-light`, `warning-stroke-{default,dark}`, `sand-stroke-disabled`.
 - **Text**: `vibrant-text-{display,heading,body,details,white-darker}`, `secondary-text-dark`, `gray-subtle`, `foreground-secondary`, `destructive-text`.
 - **Icons**: `gray-icon-{subtle,light,default,dark}`, `icon-disabled`.
