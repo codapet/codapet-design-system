@@ -142,7 +142,7 @@ npm run build:lib && npm run test:lib
 
 ### Node.js Version Support
 - **Minimum**: Node.js 18.0.0
-- **Recommended**: Node.js 20.0.0 or later
+- **Recommended**: Node.js 24.0.0 or later
 
 ## Publishing Considerations
 

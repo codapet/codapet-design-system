@@ -20,6 +20,9 @@
     "dist/**",
     "AGENTS.md"
   ],
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "dev": "npm run build:css && next dev --turbopack",
     "build": "next build --turbopack",
