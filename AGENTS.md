@@ -72,6 +72,26 @@ These are the foot-guns. Knowing them prevents most "why does my Button look wro
 - `Dialog`/`Drawer` are the standard Radix/Vaul primitives.
 - **`SmartDialog*`** is a CodaPet addition: same API surface, but renders `Drawer` on `≤600px` and `Dialog` above. Prefer it for any modal that should bottom-sheet on mobile. Replace every `Dialog` token with `SmartDialog` (`SmartDialogTrigger`, `SmartDialogContent`, etc.).
 
+### Tooltip / RichTooltip
+
+- `TooltipContent` (the plain text tooltip) defaults to brand blue (`bg-primary`), including its arrow. The arrow used to be hardcoded — it now honors two extra props so a restyled body and its arrow stay in sync:
+  - `arrowClassName?: string` — merged (via `cn`) onto the arrow. Recolor it to match a custom surface.
+  - `hideArrow?: boolean` — omit the arrow entirely.
+  - White-tooltip example (recolor body **and** arrow together, otherwise the arrow stays blue). If the body has a shadow, add a matching **`drop-shadow`** to the arrow — a plain `shadow-*` won't follow the diamond shape and a white arrow is invisible without it:
+    ```tsx
+    <TooltipContent
+      className="bg-white text-foreground shadow-md"
+      arrowClassName="bg-white fill-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.12)]"
+    />
+    ```
+- `RichTooltipContent` (icon + heading + body, optionally `dismissible`) is dark by default. Its surface, text and arrow are no longer hardcoded:
+  - `variant?: "dark" | "light"` — `"dark"` (default) is the original dark surface + white text; `"light"` is a white surface + dark text, and **ships a soft `shadow-md` on the surface plus a matching `drop-shadow` on the arrow** so it's visible on light backgrounds out of the box. Both look correct in either app theme. Pick a variant instead of hand-rolling colors.
+  - `surfaceClassName?: string` — merged onto the inner surface `div`. Overrides the background (and text, since text color lives on the same element): `surfaceClassName="bg-white text-foreground"`.
+  - `arrowClassName?: string` — merged onto the arrow so it matches a custom surface (e.g. `arrowClassName="fill-white"`). When you give the surface a shadow via `surfaceClassName`, pair it with a `drop-shadow` here (e.g. `arrowClassName="fill-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.12)]"`).
+  - `hideArrow?: boolean` — omit the arrow.
+  - `className` still lands on the **outer** (transparent) positioning wrapper, not the visible surface — that's why `className="bg-white"` alone never worked. Use `surfaceClassName`/`variant` for appearance.
+- Exported types: `TooltipContentProps`, `RichTooltipContentProps`, `RichTooltipVariant`. All new props are optional and defaults are unchanged, so existing usages render identically.
+
 ## Components added on top of shadcn
 
 These don't exist in shadcn — reach for them instead of building your own:

@@ -5889,9 +5889,9 @@ function Skeleton({ className, ...props }) {
 }
 
 // src/components/ui/tooltip.tsx
-import * as React48 from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { X as X4 } from "lucide-react";
+import * as React48 from "react";
 import { jsx as jsx51, jsxs as jsxs30 } from "react/jsx-runtime";
 function TooltipProvider({
   delayDuration = 0,
@@ -5942,6 +5942,8 @@ function TooltipTrigger({
 function TooltipContent({
   className,
   sideOffset = 0,
+  hideArrow = false,
+  arrowClassName,
   children,
   ...props
 }) {
@@ -5951,17 +5953,39 @@ function TooltipContent({
       "data-slot": "tooltip-content",
       sideOffset,
       className: cn(
-        "bg-primary text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance",
+        "bg-primary text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance ",
         className
       ),
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx51(TooltipPrimitive.Arrow, { className: "bg-primary fill-primary z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" })
+        !hideArrow && /* @__PURE__ */ jsx51(
+          TooltipPrimitive.Arrow,
+          {
+            className: cn(
+              "bg-primary fill-primary z-10 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]",
+              arrowClassName
+            )
+          }
+        )
       ]
     }
   ) });
 }
+var richTooltipVariants = {
+  dark: {
+    surface: "bg-gray-surface-dark",
+    text: "text-white",
+    mutedText: "text-white/70 hover:text-white",
+    arrow: "fill-gray-surface-dark"
+  },
+  light: {
+    surface: "bg-white shadow-md",
+    text: "text-gray-surface-dark",
+    mutedText: "text-gray-surface-dark/70 hover:text-gray-surface-dark",
+    arrow: "fill-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.12)]"
+  }
+};
 function RichTooltipContent({
   className,
   sideOffset = 4,
@@ -5970,6 +5994,10 @@ function RichTooltipContent({
   dismissible = false,
   onDismiss,
   children,
+  variant = "dark",
+  surfaceClassName,
+  arrowClassName,
+  hideArrow = false,
   ...props
 }) {
   const close = React48.useContext(TooltipCloseContext);
@@ -5977,6 +6005,7 @@ function RichTooltipContent({
     close?.();
     onDismiss?.();
   };
+  const styles = richTooltipVariants[variant] ?? richTooltipVariants.dark;
   return /* @__PURE__ */ jsx51(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs30(
     TooltipPrimitive.Content,
     {
@@ -5991,29 +6020,43 @@ function RichTooltipContent({
       },
       ...props,
       children: [
-        /* @__PURE__ */ jsxs30("div", { className: "flex items-start gap-3 bg-gray-surface-dark rounded-[12px] px-3 py-4 text-sm leading-5 max-w-sm", children: [
-          icon && /* @__PURE__ */ jsx51("span", { className: "flex items-center justify-center shrink-0 size-5 text-white [&_svg]:size-5", children: icon }),
-          /* @__PURE__ */ jsxs30("div", { className: "flex flex-1 flex-col gap-2 min-w-0", children: [
-            heading && /* @__PURE__ */ jsx51("p", { className: "font-semibold text-sm leading-5 text-white", children: heading }),
-            /* @__PURE__ */ jsx51("div", { className: "font-normal text-sm leading-5 text-white", children })
-          ] }),
-          dismissible && /* @__PURE__ */ jsx51(
-            "button",
-            {
-              type: "button",
-              onClick: handleDismiss,
-              className: "flex items-center justify-center shrink-0 size-5 text-white/70 hover:text-white transition-colors cursor-pointer",
-              "aria-label": "Dismiss",
-              children: /* @__PURE__ */ jsx51(X4, { className: "size-3.5" })
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsx51(
+        /* @__PURE__ */ jsxs30(
+          "div",
+          {
+            className: cn(
+              "flex items-start gap-3 rounded-[12px] px-3 py-4 text-sm leading-5 max-w-sm",
+              styles.surface,
+              styles.text,
+              surfaceClassName
+            ),
+            children: [
+              icon && /* @__PURE__ */ jsx51("span", { className: "flex items-center justify-center shrink-0 size-5 [&_svg]:size-5", children: icon }),
+              /* @__PURE__ */ jsxs30("div", { className: "flex flex-1 flex-col gap-2 min-w-0", children: [
+                heading && /* @__PURE__ */ jsx51("p", { className: "font-semibold text-sm leading-5", children: heading }),
+                /* @__PURE__ */ jsx51("div", { className: "font-normal text-sm leading-5", children })
+              ] }),
+              dismissible && /* @__PURE__ */ jsx51(
+                "button",
+                {
+                  type: "button",
+                  onClick: handleDismiss,
+                  className: cn(
+                    "flex items-center justify-center shrink-0 size-5 transition-colors cursor-pointer",
+                    styles.mutedText
+                  ),
+                  "aria-label": "Dismiss",
+                  children: /* @__PURE__ */ jsx51(X4, { className: "size-3.5" })
+                }
+              )
+            ]
+          }
+        ),
+        !hideArrow && /* @__PURE__ */ jsx51(
           TooltipPrimitive.Arrow,
           {
             width: 16,
             height: 12,
-            className: "fill-gray-surface-dark"
+            className: cn(styles.arrow, arrowClassName)
           }
         )
       ]

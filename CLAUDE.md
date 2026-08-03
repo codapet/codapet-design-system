@@ -53,6 +53,8 @@ Configured in `tsup.config.ts`:
 
 ## Releasing
 
+> **Do not bump the package version or write changelog entries as part of feature/bugfix work.** Releases (version bump in `package.json`/`package-lock.json`, changelog, tag) are handled separately by the maintainer. Only touch the version when the user *explicitly* asks for a release/version bump in that same request — never proactively, even if the change is user-facing.
+
 Tags `v*.*.*` trigger `.github/workflows/release.yml`, which runs `build:lib`, `build:css`, `test:lib`, then `npm publish` via npm trusted publishing (OIDC — no `NPM_TOKEN` secret). Requires a trusted publisher configured on npmjs.com for `codapet/codapet-design-system` + workflow `release.yml`. `prepublishOnly` runs the same checks locally.
 
 ```bash
