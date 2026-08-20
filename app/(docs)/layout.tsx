@@ -322,7 +322,7 @@ export default function DocsLayout({
         {/* Main Content Area */}
         <div className="flex-1 overflow-auto">
           <ScrollArea className="h-full ">
-            <div className="">{children}</div>
+            <div className="pt-8 pb-12 md:pt-12 md:pb-16">{children}</div>
           </ScrollArea>
         </div>
       </SidebarInset>

@@ -10,7 +10,7 @@ import { ThemeDemo } from './theme-demo'
 
 export default function ThemePage() {
   return (
-    <div className="flex flex-col gap-8 w-screen md:w-full px-4 py-6">
+    <div className="flex flex-col gap-8 w-screen md:w-full px-4">
       <div className="text-center mb-6 md:mb-8">
         <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 md:mb-4">
           Theme / Dark Mode
