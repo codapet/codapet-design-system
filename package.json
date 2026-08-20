@@ -31,10 +31,11 @@
     "build:all": "npm run build:lib && npm run build",
     "start": "next start",
     "lint": "eslint",
-    "prepublishOnly": "npm run build:lib && npm run test:lib",
+    "prepublishOnly": "npm run build:lib && npm run test:lib && npm run check:docs",
     "test:lib": "node -e \"import('./dist/index.mjs').then(m => console.log('✅ Library test passed:', Object.keys(m).length, 'exports'))\"",
     "check:deps": "npm ls --depth=0",
-    "clean:deps": "rm -rf node_modules package-lock.json && npm install"
+    "clean:deps": "rm -rf node_modules package-lock.json && npm install",
+    "check:docs": "node scripts/check-agents-docs.mjs"
   },
   "repository": {
     "type": "git",

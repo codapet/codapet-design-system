@@ -7287,35 +7287,26 @@ function Slider({
 import "react";
 
 // src/components/ui/useMediaQuery.ts
-import { useEffect as useEffect9, useState as useState12 } from "react";
+import * as React53 from "react";
 function useMediaQuery(query) {
-  const getMatches = (query2) => {
-    if (typeof window !== "undefined") {
-      return window.matchMedia(query2).matches;
-    }
-    return false;
-  };
-  const [matches, setMatches] = useState12(getMatches(query));
-  function handleChange() {
-    setMatches(getMatches(query));
-  }
-  useEffect9(() => {
-    const matchMedia = window.matchMedia(query);
-    handleChange();
-    if (matchMedia.addListener) {
-      matchMedia.addListener(handleChange);
-    } else {
-      matchMedia.addEventListener("change", handleChange);
-    }
-    return () => {
-      if (matchMedia.removeListener) {
-        matchMedia.removeListener(handleChange);
-      } else {
-        matchMedia.removeEventListener("change", handleChange);
+  const subscribe = React53.useCallback(
+    (onStoreChange) => {
+      const list = window.matchMedia(query);
+      if (list.addEventListener) {
+        list.addEventListener("change", onStoreChange);
+        return () => list.removeEventListener("change", onStoreChange);
       }
-    };
-  }, [query]);
-  return matches;
+      list.addListener(onStoreChange);
+      return () => list.removeListener(onStoreChange);
+    },
+    [query]
+  );
+  const getSnapshot = React53.useCallback(
+    () => window.matchMedia(query).matches,
+    [query]
+  );
+  const getServerSnapshot = React53.useCallback(() => false, []);
+  return React53.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
 // src/components/ui/smart-dialog-drawer.tsx
@@ -7558,18 +7549,18 @@ function TableCaption({
 // src/components/ui/tabs.tsx
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { cva as cva14 } from "class-variance-authority";
-import * as React56 from "react";
+import * as React57 from "react";
 import { jsx as jsx59, jsxs as jsxs34 } from "react/jsx-runtime";
-var TabsContext = React56.createContext({
+var TabsContext = React57.createContext({
   orientation: "horizontal"
 });
 function useTabIndicator(listRef, orientation) {
-  const [style, setStyle] = React56.useState({
+  const [style, setStyle] = React57.useState({
     position: "absolute",
     opacity: 0
   });
-  const isFirstMeasurement = React56.useRef(true);
-  const measure = React56.useCallback(() => {
+  const isFirstMeasurement = React57.useRef(true);
+  const measure = React57.useCallback(() => {
     const list = listRef.current;
     if (!list) return;
     requestAnimationFrame(() => {
@@ -7610,7 +7601,7 @@ function useTabIndicator(listRef, orientation) {
       }
     });
   }, [listRef, orientation]);
-  React56.useEffect(() => {
+  React57.useEffect(() => {
     const list = listRef.current;
     if (!list) return;
     measure();
@@ -7639,7 +7630,7 @@ function Tabs({
   orientation = "horizontal",
   ...props
 }) {
-  const ctx = React56.useMemo(
+  const ctx = React57.useMemo(
     () => ({ orientation: orientation ?? "horizontal" }),
     [orientation]
   );
@@ -7660,8 +7651,8 @@ function TabsList({
   className,
   ...props
 }) {
-  const listRef = React56.useRef(null);
-  const { orientation } = React56.useContext(TabsContext);
+  const listRef = React57.useRef(null);
+  const { orientation } = React57.useContext(TabsContext);
   const { style: indicatorStyle } = useTabIndicator(listRef, orientation);
   return /* @__PURE__ */ jsxs34(
     TabsPrimitive.List,
@@ -7712,7 +7703,7 @@ function TabsTrigger({
   children,
   ...props
 }) {
-  const { orientation } = React56.useContext(TabsContext);
+  const { orientation } = React57.useContext(TabsContext);
   return /* @__PURE__ */ jsx59(
     TabsPrimitive.Trigger,
     {
@@ -7801,7 +7792,7 @@ function ThemeToggle({
 // src/components/ui/time-input.tsx
 import "class-variance-authority";
 import { Clock } from "lucide-react";
-import * as React58 from "react";
+import * as React59 from "react";
 import { jsx as jsx62, jsxs as jsxs36 } from "react/jsx-runtime";
 var TIME_FORMAT_PLACEHOLDER = {
   "12h": "hh:mm AM/PM",
@@ -7855,16 +7846,16 @@ function TimeInput({
   formatDisplay
 }) {
   const resolvedPlaceholder = placeholder ?? TIME_FORMAT_PLACEHOLDER[timeFormat];
-  const displayValue = React58.useMemo(() => {
+  const displayValue = React59.useMemo(() => {
     if (!time) return "";
     if (formatDisplay) return formatDisplay(time);
     return formatTime(time, timeFormat);
   }, [time, formatDisplay, timeFormat]);
-  const [open, setOpen] = React58.useState(false);
-  const hoursRef = React58.useRef(null);
-  const minutesRef = React58.useRef(null);
-  const periodRef = React58.useRef(null);
-  const scrollToSelected = React58.useCallback(() => {
+  const [open, setOpen] = React59.useState(false);
+  const hoursRef = React59.useRef(null);
+  const minutesRef = React59.useRef(null);
+  const periodRef = React59.useRef(null);
+  const scrollToSelected = React59.useCallback(() => {
     requestAnimationFrame(() => {
       for (const ref of [hoursRef, minutesRef, periodRef]) {
         const container = ref.current;
@@ -7876,7 +7867,7 @@ function TimeInput({
       }
     });
   }, []);
-  React58.useEffect(() => {
+  React59.useEffect(() => {
     if (open) {
       scrollToSelected();
     }
@@ -8042,11 +8033,11 @@ function Toggle({
 }
 
 // src/components/ui/toggle-group.tsx
-import * as React60 from "react";
+import * as React61 from "react";
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
 import "class-variance-authority";
 import { jsx as jsx64 } from "react/jsx-runtime";
-var ToggleGroupContext = React60.createContext({
+var ToggleGroupContext = React61.createContext({
   size: "default",
   variant: "default"
 });
@@ -8079,7 +8070,7 @@ function ToggleGroupItem({
   size,
   ...props
 }) {
-  const context = React60.useContext(ToggleGroupContext);
+  const context = React61.useContext(ToggleGroupContext);
   return /* @__PURE__ */ jsx64(
     ToggleGroupPrimitive.Item,
     {

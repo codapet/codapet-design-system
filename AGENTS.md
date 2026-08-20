@@ -15,6 +15,45 @@ This is a **shadcn/ui-style** library (Radix primitives + cva variants + Tailwin
 - ESM-only. If a consumer uses Jest, add the package to `transformIgnorePatterns` (or use Vitest, which handles it).
 - Single entry: `from '@codapet/design-system'`. There are **no subpath component imports** — only `'@codapet/design-system'` and `'@codapet/design-system/styles'` exist.
 
+## Finding exact props: read the shipped types
+
+`dist/index.d.mts` is the authoritative API reference, and it ships inside the
+package with every JSDoc comment intact. When you need a component's exact
+props, defaults, or union values, **read it instead of guessing**:
+
+```
+node_modules/@codapet/design-system/dist/index.d.mts
+```
+
+Grep it for the type you want — `interface SearchInputProps`,
+`interface AsyncAutocompleteProps` — and you get every prop with its
+documentation. It is regenerated from source on every release, so it cannot go
+stale.
+
+**One trap when reading the types.** Many components take props that never
+appear in their interface body, because they come from a cva:
+
+```ts
+interface BadgeNumberProps
+  extends React.ComponentProps<'span'>,
+    VariantProps<typeof badgeNumberVariants> { value: number }
+```
+
+Grepping `interface BadgeNumberProps` suggests `value` is the only prop, but
+`state` (`'active' | 'disabled' | 'resting'`, default `'active'`) is real — it
+lives in `badgeNumberVariants`. Whenever an interface extends
+`VariantProps<typeof xVariants>`, read the `declare const xVariants` entry just
+above it for the remaining props. `variant`, `size`, `state` and `colorScheme`
+almost always arrive this way.
+
+Division of labour: **this guide covers what is surprising** (defaults that
+differ from shadcn, which component to reach for, gotchas). **The `.d.mts`
+covers what is exhaustive.** Read this file first to pick the right component,
+then the types to get its props right.
+
+The docs app in this repo also has a live example page per component, and the
+richer ones (`SmartDialog*`, `AsyncAutocomplete`) carry a full props table.
+
 ## Required setup in a consumer (Tailwind v4)
 
 In the app's global CSS:
@@ -116,6 +155,138 @@ These don't exist in shadcn — reach for them instead of building your own:
 | `Typography`: `DisplayHeading`, `HeadingXL` … `HeadingXXS` (+ `*Medium` variants), `Body` | Use these instead of raw `<h1>`/`<p>` to inherit the right tokens (`font-serif italic` for display, `text-vibrant-text-heading` for headings, `text-vibrant-text-body` for body). Sizes are responsive (md: breakpoint baked in). |
 | `ThemeToggle` | Drop-in light/dark toggle. |
 
+## Choosing the right component
+
+The most common agent mistake here is not a wrong prop, it is reaching for the
+wrong component. Work from the task:
+
+| The task | Use | Not |
+|---|---|---|
+| Type-ahead whose results come from an API | `AsyncAutocomplete` | `SearchInput`, whose suggestions are a static prop and whose dropdown pushes page content down |
+| Pick one/many from a **static** list, with search | `SearchableSelect` | `AsyncAutocomplete`, which never filters — it renders `options` verbatim |
+| Pick one from a short static list, no search | `DropdownSelect` | `Select` (heavier; still fine when you need native-select semantics) |
+| Free-text entry **plus** suggestions, many values | `MultiSelectFreeText` | a hand-rolled `Input` + chips |
+| A search field with a visible Search button | `SearchInput` | `Input` + a magnifier icon |
+| Command palette / fuzzy launcher | `Command*` | `SearchableSelect` |
+| Modal that should bottom-sheet on phones | `SmartDialog*` | `Dialog*` |
+| Modal that is a dialog at every size | `Dialog*` | `SmartDialog*` |
+| Panel sliding from a screen edge | `Sheet*` | `Drawer*` |
+| Bottom sheet with drag-to-dismiss at every size | `Drawer*` | `Sheet*` |
+| Destructive confirm | `AlertDialog*` | `Dialog*` |
+| Inline, page-level notice | `AlertBanner` | `Alert` (the shadcn-equivalent, quieter) |
+| Transient notification | `toast` + `Toaster` | `AlertBanner` |
+| Date, or date range | `DateInput` / `DateRangeInput` | a bare `Calendar` |
+| Time of day | `TimeInput` (value is `{ hours, minutes }`, not a `Date`) | `Input type="time"` |
+| Any heading or body copy | `DisplayHeading` / `Heading*` / `Body` | raw `<h1>`/`<p>`, which miss the tokens |
+| Textarea that grows with content | `AutoResizeTextarea` | `Textarea` + manual resize |
+| Selectable card with a radio/checkbox | `OptionCard` | `Card` + a `Checkbox` |
+| Step or count pill | `BadgeNumber` | `Badge` |
+| Clickable filter chip | `BadgeActionable` | `Button variant="outline"` |
+| Read-only metadata pill | `BadgeInformative` | `Badge` |
+
+## Dialogs, drawers and sheets — read this before writing one
+
+Four families, and they are the most common source of broken code here. Each
+has its own React context, so **parts are never interchangeable**: a
+`DialogContent` inside a `SmartDialog` throws on mobile, because the root
+rendered a vaul `Drawer` and the child asked for a Radix Dialog context that
+does not exist. Pick a family and use only its parts.
+
+| Family | Parts | Renders as |
+|---|---|---|
+| `Dialog*` | Root, Trigger, Content, Header, Footer, Title, Description, Close, Overlay, Portal | Centred modal at every size |
+| `SmartDialog*` | Root, Trigger, Content, Header, Footer, Title, Description, Close — **8 parts, no Overlay/Portal/Body** | `Dialog` above 600px, `Drawer` at/below |
+| `Drawer*` | Root, Trigger, Content, Header, Footer, Title, Description, Close, Overlay, Portal | vaul sheet, draggable, `max-h-[80vh]` |
+| `Sheet*` | Root, Trigger, Content, Header, Footer, Title, Description, Close | Edge panel, `w-3/4 sm:max-w-sm` |
+
+### Never wrap `*Content` in a Portal or Overlay
+
+`DialogContent`, `DrawerContent` and `SheetContent` **already render their own
+Portal and Overlay internally.** Stock shadcn composes them by hand, so a copied
+example produces two stacked backdrops (visibly double-dimmed) and two portals:
+
+```tsx
+// ❌ copied from shadcn — double overlay
+<Dialog>
+  <DialogPortal>
+    <DialogOverlay />
+    <DialogContent>…</DialogContent>
+  </DialogPortal>
+</Dialog>
+
+// ✅ here
+<Dialog>
+  <DialogTrigger asChild><Button>Open</Button></DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Confirm</DialogTitle>
+      <DialogDescription>This cannot be undone.</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose asChild><Button variant="ghost">Cancel</Button></DialogClose>
+      <Button variant="destructive">Delete</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+`DialogPortal` / `DialogOverlay` / `DrawerPortal` / `DrawerOverlay` are exported
+only because shadcn exports them. **You almost never need them.** To restyle the
+backdrop, pass `overlayClassName` to `DialogContent` / `DrawerContent` /
+`SmartDialogContent` — `SheetContent` and `AlertDialogContent` do not accept it.
+
+### `withCloseButton` is the drag handle, not the close button
+
+On `DrawerContent` and `SmartDialogContent`:
+
+- `showCloseButton` (default `true`) — the round **X** in the top-right.
+- `withCloseButton` (default `true`) — the small grey **drag pill**, and only for
+  `direction="bottom"`. The name is misleading; it has nothing to do with the X.
+
+So `withCloseButton={false}` still leaves the X. To remove the X, pass
+`showCloseButton={false}`. `SmartDialogContent` forwards `showCloseButton` to
+both variants, so the X stays consistent across the breakpoint.
+
+### `direction` goes on both the root and the content
+
+vaul needs it on the root for gesture handling; the content needs it for its own
+edge/rounding classes. Setting only one gives a drawer that animates from one
+edge and is styled for another:
+
+```tsx
+<Drawer direction="right">
+  <DrawerContent direction="right">…</DrawerContent>
+</Drawer>
+```
+
+`Sheet` uses `side` instead (`'top' | 'right' | 'bottom' | 'left'`, default
+`'right'`), on `SheetContent` only.
+
+### `SmartDialog` specifics
+
+- The breakpoint is **600px**, not the 768px `useIsMobile` uses. That is
+  deliberate — see the note further down.
+- **The first client render is always the Dialog variant**, then it settles to
+  the real one. The server has no viewport, so `useMediaQuery` returns the server
+  snapshot during hydration; rendering the true value there would be a hydration
+  mismatch. Do not measure the DOM or branch on the variant during first paint.
+- Props are a union of Dialog's and Drawer's, so drawer-only props
+  (`direction`, `dismissible`) are accepted and silently ignored above 600px.
+- `Drawer` hardcodes `repositionInputs={false}`, which `SmartDialog` inherits —
+  relevant if you put a focused input inside on iOS.
+
+### Always give it a title
+
+All four families are Radix-Dialog-based and warn without a `Title`. If the
+design has no visible heading, keep the element and hide it:
+
+```tsx
+<DialogTitle className="sr-only">Edit profile</DialogTitle>
+```
+
+Pass `aria-describedby={undefined}` on the content when there is genuinely no
+`Description`, rather than leaving the warning in the console.
+
 ## Color tokens (don't reach for raw Tailwind colors)
 
 The brand palette lives in CSS variables exposed as Tailwind colors. Use these, not `bg-blue-600`, `text-gray-500`, `border-red-300`, etc. — raw colors won't dark-mode correctly.
@@ -141,6 +312,56 @@ Source of truth: `src/styles.css` in this package. If a token is missing, propos
 - `useIsMobile()` — boolean, 768px breakpoint, SSR-safe (returns `false` on first render).
 - `useTheme()` — re-exported from `next-themes`.
 - `buttonVariants`, `badgeVariants`, etc. — exported `cva` instances. Use them when you need the same look on a non-button element (e.g. an `<a>` styled like a button) instead of reimplementing the styles.
+
+## Complete export index
+
+Everything below is imported from the single entry `'@codapet/design-system'`.
+A `Foo*` glob means the whole compound family — `Dialog*` is `Dialog`,
+`DialogTrigger`, `DialogContent`, `DialogHeader`, `DialogFooter`, `DialogTitle`,
+`DialogDescription`, `DialogClose`, `DialogOverlay`, `DialogPortal`. Families
+follow the standard shadcn part names; when unsure, grep the `.d.mts`.
+
+**If a name is not in this list, it does not exist — do not import it.**
+
+| Area | Exports |
+|---|---|
+| Layout & structure | `AspectRatio`, `Card*`, `Separator`, `ScrollArea`, `ScrollBar`, `Resizable*`, `Sidebar*`, `useSidebar`, `Table*`, `Skeleton` |
+| Typography | `DisplayHeading`, `HeadingXL`, `HeadingL`, `HeadingM`, `HeadingS`, `HeadingXS`, `HeadingXXS` (each with a `*Medium` twin, e.g. `HeadingLMedium`), `Body` |
+| Buttons & badges | `Button`, `Badge`, `BadgeActionable`, `BadgeInformative`, `BadgeInformativeGroup`, `BadgeInformativeItem`, `BadgeNumber`, `Toggle`, `ToggleGroup`, `ToggleGroupItem` |
+| Form fields | `Input`, `Textarea`, `AutoResizeTextarea`, `Label`, `Checkbox`, `RadioGroup`, `RadioGroupItem`, `Switch`, `Slider`, `InputOTP*`, `Form*`, `useFormField`, `OptionCard` |
+| Selection & search | `AsyncAutocomplete*`, `SearchableSelect*`, `SearchInput`, `MultiSelectFreeText`, `DropdownSelect*`, `Select*`, `Command*` |
+| Date & time | `Calendar`, `CalendarDayButton`, `DateInput`, `DateRangeInput`, `TimeInput` |
+| Overlays & menus | `Dialog*`, `AlertDialog*`, `Drawer*`, `Sheet*`, `SmartDialog*`, `Popover*`, `HoverCard*`, `Tooltip*`, `RichTooltip*`, `DropdownMenu*`, `ContextMenu*`, `Menubar*` |
+| Feedback | `Alert`, `AlertTitle`, `AlertDescription`, `AlertBanner`, `Toaster`, `toast`, `Progress`, `ProgressBar` |
+| Navigation | `Tabs*`, `Breadcrumb*`, `Pagination*`, `NavigationMenu*` |
+| Content & data | `Accordion*`, `Collapsible*`, `Avatar*`, `Carousel*`, `Chart*` |
+| Theming & utilities | `ThemeProvider*`, `ThemeToggle`, `cn`, `useIsMobile` |
+
+**cva style objects** — use these to give a non-button element a button's look
+rather than reimplementing the classes: `buttonVariants`, `badgeVariants`,
+`badgeActionableVariants`, `badgeInformativeVariants`, `badgeNumberVariants`,
+`alertBannerVariants`, `inputVariants`, `labelTextVariants`, `optionCardVariants`,
+`progressBarVariants`, `tabsTriggerVariants`, `toggleVariants`,
+`bodyTextVariants`, `displayTextVariants`, `navigationMenuTriggerStyle`.
+
+**Exported types** — import with `import type`: `InputProps`, `TextareaProps`,
+`SearchInputProps`, `SearchSuggestion`, `AlertBannerProps`,
+`BadgeActionableProps`, `BadgeInformativeProps`, `BadgeNumberProps`,
+`OptionCardProps`, `ProgressBarProps`, `TabsTriggerProps`, `TooltipContentProps`,
+`RichTooltipContentProps`, `RichTooltipVariant`, `DateFormat`, `DateInputProps`,
+`DateRangeInputProps`, `DateRange` (re-exported from `react-day-picker`:
+`{ from?: Date; to?: Date }` — the value type for `DateRangeInput`),
+`TimeFormat`, `TimeValue`, `TimeInputProps`,
+`SearchableSelectOption`, `SearchableSelectProps`, `MultiSelectFreeTextOption`,
+`MultiSelectFreeTextProps`, `DropdownSelectProps`, `DropdownSelectLabelProps`,
+`DropdownSelectTriggerProps`, `DropdownSelectContentProps`,
+`DropdownSelectOptionProps`, `AsyncAutocompleteProps`,
+`AsyncAutocompleteOption`, `AsyncAutocompleteOptionState`,
+`AsyncAutocompleteClassNames`, `AsyncAutocompleteInputProps`, `CarouselApi`,
+`ChartConfig`, `ThemeProviderProps`.
+
+There are no other public exports, and no subpath imports: only
+`'@codapet/design-system'` and `'@codapet/design-system/styles'` resolve.
 
 ## Common gotchas
 

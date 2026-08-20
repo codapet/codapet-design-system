@@ -23,7 +23,16 @@ npm run build:lib    # tsup → dist/index.mjs + dist/index.d.mts, then copies s
 npm run build:all    # lib + demo
 npm run lint         # eslint
 npm run test:lib     # smoke test: imports dist/index.mjs and counts exports
+npm run check:docs   # fails if AGENTS.md and the public API have drifted
 ```
+
+**Never run `npm run build` while a dev server is up on this project.** Both
+write the same `.next`, and the mismatch desyncs the running server's turbopack
+module graph. The symptom is misleading: only the routes you edited most
+recently return HTTP 500 while every previously-compiled route still serves 200,
+which reads exactly like "the component I just wrote is broken". Recovery needs
+`rm -rf .next` *and* a dev-server restart. `build:lib` is always safe — it only
+writes `dist/`.
 
 **Vitest is configured but there is no `test` script.** Run unit tests directly:
 
@@ -49,7 +58,12 @@ Configured in `tsup.config.ts`:
 3. New third-party dep? Add to `dependencies` *and* `external` in `tsup.config.ts`.
 4. Add a demo route under `app/(docs)/<id>/page.tsx` and a nav entry in `app/(docs)/layout.tsx`.
 5. Run `npm run build:lib` to confirm `tsconfig.lib.json` passes.
-6. **If the new component changes consumer-facing API or defaults, update [AGENTS.md](./AGENTS.md).**
+6. **Update [AGENTS.md](./AGENTS.md)** — every public export must be reachable
+   from its export index, and consumer-facing defaults belong in the
+   differences/gotchas sections. `npm run check:docs` enforces this and runs in
+   `prepublishOnly`, so a missing entry fails the release, not review.
+7. Export the props interface (`export interface FooProps`). Consumers and their
+   agents type against it; an unexported interface forces them to re-declare it.
 
 ## Releasing
 
