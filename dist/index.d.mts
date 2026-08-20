@@ -87,6 +87,201 @@ declare function AlertDialogCancel({ className, ...props }: React$1.ComponentPro
 
 declare function AspectRatio({ ...props }: React.ComponentProps<typeof AspectRatioPrimitive.Root>): react_jsx_runtime.JSX.Element;
 
+interface AsyncAutocompleteOption<TData = unknown> {
+    /** Stable unique key. Doubles as the DOM id suffix — a `place_id`, slug, … */
+    id: string;
+    /** Primary line. */
+    label: string;
+    /** Secondary line, rendered dimmed after the label. */
+    description?: string;
+    /** Leading icon/avatar for this row. Falls back to `optionIcon`. */
+    icon?: React$1.ReactNode;
+    /** Rendered dimmed, and skipped by keyboard navigation and clicks. */
+    disabled?: boolean;
+    /**
+     * Merged onto this row only, after `classNames.option` — so a single row can
+     * be styled differently from its siblings (a "use my location" entry, a
+     * promoted result).
+     */
+    className?: string;
+    /**
+     * Arbitrary consumer payload handed straight back by `onSelect` — a raw
+     * Google `AutocompletePrediction`, a REST row, a whole domain object. The
+     * design system never inspects it.
+     */
+    data?: TData;
+}
+/** Row state passed to `renderOption`. */
+interface AsyncAutocompleteOptionState {
+    /** Position in `options`. Matches the `-suggestion-N` DOM id. */
+    index: number;
+    /** True when keyboard- or hover-highlighted (`aria-activedescendant`). */
+    highlighted: boolean;
+    /** Current input text, for match highlighting. */
+    query: string;
+}
+/**
+ * Long-tail `<input>` props forwarded to the text field. The props
+ * `AsyncAutocomplete` owns are excluded; `onFocus`, `onKeyDown` and
+ * `onPointerDown` are chained after the component's own handlers rather than
+ * replacing them.
+ */
+type AsyncAutocompleteInputProps = Omit<React$1.ComponentPropsWithoutRef<'input'>, 'value' | 'defaultValue' | 'onChange' | 'size' | 'disabled' | 'placeholder' | 'id' | 'type' | 'role' | 'readOnly'>;
+/**
+ * Per-slot class overrides. Every entry is merged with `cn`, so
+ * tailwind-merge lets a caller class replace a conflicting default rather than
+ * fight it — `{ content: 'max-h-[420px]' }` really does replace the built-in
+ * max-height.
+ *
+ * `DateInput`/`TimeInput` expose two or three flat `*ClassName` props;
+ * `AsyncAutocomplete` has twenty-odd stylable slots, so they live in one
+ * object here instead of twenty top-level props burying `onSearch`/`onSelect`.
+ */
+interface AsyncAutocompleteClassNames {
+    /** Wrapper around the input — also the popover's anchor. */
+    field?: string;
+    /** The text input itself. */
+    input?: string;
+    /** Left icon wrapper inside the input. */
+    leftIcon?: string;
+    /** The clear ("X") button. */
+    clearButton?: string;
+    /** The popover surface holding the results. */
+    content?: string;
+    /** The `role="listbox"` container, in both popover and sheet. */
+    listbox?: string;
+    /** Every option row. */
+    option?: string;
+    /** Added to the highlighted row, on top of `option`. */
+    optionHighlighted?: string;
+    /** Added to a disabled row, on top of `option`. */
+    optionDisabled?: string;
+    /** Icon wrapper inside a default row. Not applied when `renderOption` is used. */
+    optionIcon?: string;
+    /** Primary text span in a default row. Not applied when `renderOption` is used. */
+    optionLabel?: string;
+    /** Secondary text span in a default row. Not applied when `renderOption` is used. */
+    optionDescription?: string;
+    /** The loading row. */
+    loading?: string;
+    /** The spinner inside the loading row. */
+    loadingSpinner?: string;
+    /** The empty ("no results") row. Not applied when `emptyState` is used. */
+    empty?: string;
+    /** The sheet's backdrop. */
+    sheetOverlay?: string;
+    /** The sheet panel. */
+    sheetContent?: string;
+    /** The sheet's pinned header row. */
+    sheetHeader?: string;
+    /** The sheet's close/back button. */
+    sheetCloseButton?: string;
+    /** The sheet's own text input. */
+    sheetInput?: string;
+    /** The sheet's scrollable results area. */
+    sheetList?: string;
+}
+interface AsyncAutocompleteProps<TData = unknown> {
+    /**
+     * Current result set, rendered **verbatim**. `AsyncAutocomplete` never
+     * filters, sorts or caches — map your API response to options yourself.
+     */
+    options: AsyncAutocompleteOption<TData>[];
+    /**
+     * Fired on every keystroke with the raw input text, plus `''` when the
+     * clear button is pressed. **Not debounced** — debounce in your fetch layer
+     * (`usePlacesService({ debounce: 300 })`, a `setTimeout` hook, …) so
+     * request cancellation and out-of-order responses stay with the code that
+     * owns them.
+     */
+    onSearch: (query: string) => void;
+    /**
+     * Fired when an option is committed by click, tap or Enter. Closes the
+     * panel. Deliberately does **not** write the label into the input: call
+     * sites resolve their own display text (a `getDetails` lookup, a
+     * `formatted_address`) or clear the field. Drive `value` yourself.
+     */
+    onSelect: (option: AsyncAutocompleteOption<TData>) => void;
+    /** In-flight request. Replaces the rows with a spinner. */
+    loading?: boolean;
+    /** Controlled input text. */
+    value?: string;
+    /** Initial input text when uncontrolled. */
+    defaultValue?: string;
+    /** Fired on every input change and on clear. */
+    onValueChange?: (value: string) => void;
+    /**
+     * Fired only when the clear (X) button is pressed, after
+     * `onValueChange('')` and `onSearch('')`. Use it to drop the selected
+     * entity. Focus is returned to the input automatically.
+     */
+    onClear?: () => void;
+    placeholder?: string;
+    /** Decorative leading icon — `<MapPin />`, `<Stethoscope />`, … */
+    leftIcon?: React$1.ReactNode;
+    /** Fixed height: `sm` 40px · `md` 48px (default) · `lg` 56px. */
+    size?: 'sm' | 'md' | 'lg';
+    /** Error color scheme on the input. Also sets `aria-invalid`. */
+    error?: boolean;
+    disabled?: boolean;
+    /** Forwarded to the underlying `<input>` for imperative focus. */
+    inputRef?: React$1.Ref<HTMLInputElement>;
+    /** Escape hatch for `name`, `enterKeyHint`, `inputMode`, `autoFocus`, … */
+    inputProps?: AsyncAutocompleteInputProps;
+    /**
+     * `'popover'` (default) always anchors a portaled popover under the field
+     * and dismisses it as soon as the user scrolls. `'sheet'` keeps that
+     * behavior above 768px but turns the search into a full-screen takeover on
+     * phones, where the page behind is scroll-locked.
+     */
+    mobileVariant?: 'popover' | 'sheet';
+    /**
+     * Replace a whole row. The default renders `label` plus a dimmed
+     * `, description` on one truncated line with a leading icon. Reach for this
+     * for stacked two-line rows, avatars, or bold match highlighting — the
+     * wrapper, `role="option"`, ids, highlight background and click/keyboard
+     * wiring stay with the component.
+     */
+    renderOption?: (option: AsyncAutocompleteOption<TData>, state: AsyncAutocompleteOptionState) => React$1.ReactNode;
+    /** Default leading icon for rows without their own `option.icon`. */
+    optionIcon?: React$1.ReactNode;
+    /** "No results" copy. Ignored when `emptyState` is provided. */
+    emptyMessage?: string;
+    /** Full replacement for the empty row — an illustration, a CTA, … */
+    emptyState?: React$1.ReactNode;
+    /** Copy beside the loading spinner. */
+    loadingMessage?: string;
+    /** Replaces the clear button's `X` glyph. */
+    clearIcon?: React$1.ReactNode;
+    /** Accessible name for the clear button. */
+    clearLabel?: string;
+    /** Accessible name for the `mobileVariant="sheet"` takeover. */
+    sheetTitle?: string;
+    /** Replaces the sheet's back-arrow glyph. */
+    sheetCloseIcon?: React$1.ReactNode;
+    /** Accessible name for the sheet's close button. */
+    sheetCloseLabel?: string;
+    /** Controlled open state. Prefer `defaultOpen` unless you truly need this. */
+    open?: boolean;
+    /** Start open — for fields mounted lazily on focus. */
+    defaultOpen?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    /**
+     * Prefix for stable DOM ids, so analytics autocapture keeps working:
+     * `{idPrefix}-input`, `{idPrefix}-clear`, `{idPrefix}-listbox`,
+     * `{idPrefix}-suggestion-{index}`, and in sheet mode also
+     * `{idPrefix}-sheet-input` and `{idPrefix}-sheet-clear`. Falls back to a
+     * `useId()` value, which is fine for ARIA wiring but not usable as a CSS
+     * selector.
+     */
+    idPrefix?: string;
+    /** Merged onto the root wrapper. */
+    className?: string;
+    /** Per-slot class overrides. See `AsyncAutocompleteClassNames`. */
+    classNames?: AsyncAutocompleteClassNames;
+}
+declare function AsyncAutocomplete<TData = unknown>({ options, onSearch, onSelect, loading, value: valueProp, defaultValue, onValueChange, onClear, placeholder, leftIcon, size, error, disabled, inputRef, inputProps, mobileVariant, renderOption, optionIcon, emptyMessage, emptyState, loadingMessage, clearIcon, clearLabel, sheetTitle, sheetCloseIcon, sheetCloseLabel, open: openProp, defaultOpen, onOpenChange, idPrefix, className, classNames }: AsyncAutocompleteProps<TData>): react_jsx_runtime.JSX.Element;
+
 interface TextareaProps extends Omit<React$1.ComponentProps<'textarea'>, 'size'> {
     error?: boolean;
 }
@@ -959,4 +1154,4 @@ declare function cn(...inputs: ClassValue[]): string;
 
 declare function useIsMobile(): boolean;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertBanner, type AlertBannerProps, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, AutoResizeTextarea, Avatar, AvatarFallback, AvatarImage, Badge, BadgeActionable, type BadgeActionableProps, BadgeInformative, BadgeInformativeGroup, BadgeInformativeItem, type BadgeInformativeProps, BadgeNumber, type BadgeNumberProps, Body, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, type DateFormat, DateInput, type DateInputProps, DateRangeInput, type DateRangeInputProps, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DisplayHeading, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, DropdownSelect, DropdownSelectContent, type DropdownSelectContentProps, DropdownSelectLabel, type DropdownSelectLabelProps, DropdownSelectOption, type DropdownSelectOptionProps, type DropdownSelectProps, DropdownSelectTrigger, type DropdownSelectTriggerProps, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HeadingL, HeadingLMedium, HeadingM, HeadingMMedium, HeadingS, HeadingSMedium, HeadingXL, HeadingXLMedium, HeadingXS, HeadingXSMedium, HeadingXXS, HeadingXXSMedium, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, MultiSelectFreeText, type MultiSelectFreeTextOption, type MultiSelectFreeTextProps, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, OptionCard, type OptionCardProps, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, ProgressBar, type ProgressBarProps, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, RichTooltipContent, type RichTooltipContentProps, type RichTooltipVariant, ScrollArea, ScrollBar, SearchInput, type SearchInputProps, type SearchSuggestion, SearchableSelect, SearchableSelectContent, SearchableSelectEmpty, SearchableSelectGroup, SearchableSelectItem, type SearchableSelectOption, type SearchableSelectProps, SearchableSelectTrigger, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, SmartDialog, SmartDialogClose, SmartDialogContent, SmartDialogDescription, SmartDialogFooter, SmartDialogHeader, SmartDialogTitle, SmartDialogTrigger, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, type TabsTriggerProps, Textarea, type TextareaProps, ThemeProvider, ThemeToggle, type TimeFormat, TimeInput, type TimeInputProps, type TimeValue, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, type TooltipContentProps, TooltipProvider, TooltipTrigger, alertBannerVariants, badgeActionableVariants, badgeInformativeVariants, badgeNumberVariants, badgeVariants, bodyTextVariants, buttonVariants, cn, displayTextVariants, inputVariants, labelTextVariants, navigationMenuTriggerStyle, optionCardVariants, progressBarVariants, tabsTriggerVariants, toggleVariants, useFormField, useIsMobile, useSidebar };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertBanner, type AlertBannerProps, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, AsyncAutocomplete, type AsyncAutocompleteClassNames, type AsyncAutocompleteInputProps, type AsyncAutocompleteOption, type AsyncAutocompleteOptionState, type AsyncAutocompleteProps, AutoResizeTextarea, Avatar, AvatarFallback, AvatarImage, Badge, BadgeActionable, type BadgeActionableProps, BadgeInformative, BadgeInformativeGroup, BadgeInformativeItem, type BadgeInformativeProps, BadgeNumber, type BadgeNumberProps, Body, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, type DateFormat, DateInput, type DateInputProps, DateRangeInput, type DateRangeInputProps, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DisplayHeading, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, DropdownSelect, DropdownSelectContent, type DropdownSelectContentProps, DropdownSelectLabel, type DropdownSelectLabelProps, DropdownSelectOption, type DropdownSelectOptionProps, type DropdownSelectProps, DropdownSelectTrigger, type DropdownSelectTriggerProps, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, HeadingL, HeadingLMedium, HeadingM, HeadingMMedium, HeadingS, HeadingSMedium, HeadingXL, HeadingXLMedium, HeadingXS, HeadingXSMedium, HeadingXXS, HeadingXXSMedium, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, Label, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, MultiSelectFreeText, type MultiSelectFreeTextOption, type MultiSelectFreeTextProps, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, OptionCard, type OptionCardProps, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, ProgressBar, type ProgressBarProps, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, RichTooltipContent, type RichTooltipContentProps, type RichTooltipVariant, ScrollArea, ScrollBar, SearchInput, type SearchInputProps, type SearchSuggestion, SearchableSelect, SearchableSelectContent, SearchableSelectEmpty, SearchableSelectGroup, SearchableSelectItem, type SearchableSelectOption, type SearchableSelectProps, SearchableSelectTrigger, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, SmartDialog, SmartDialogClose, SmartDialogContent, SmartDialogDescription, SmartDialogFooter, SmartDialogHeader, SmartDialogTitle, SmartDialogTrigger, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, type TabsTriggerProps, Textarea, type TextareaProps, ThemeProvider, ThemeToggle, type TimeFormat, TimeInput, type TimeInputProps, type TimeValue, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, type TooltipContentProps, TooltipProvider, TooltipTrigger, alertBannerVariants, badgeActionableVariants, badgeInformativeVariants, badgeNumberVariants, badgeVariants, bodyTextVariants, buttonVariants, cn, displayTextVariants, inputVariants, labelTextVariants, navigationMenuTriggerStyle, optionCardVariants, progressBarVariants, tabsTriggerVariants, toggleVariants, useFormField, useIsMobile, useSidebar };

@@ -23,6 +23,7 @@ import { cn } from '@/lib/utils'
 import {
   AlertCircle,
   Bell,
+  Binoculars,
   CalendarDays,
   ChevronDown,
   KeyRound,
@@ -146,6 +147,12 @@ const navigationItems = [
     label: 'Search Input',
     icon: Search,
     description: 'Search input with icon/button variants and suggestions'
+  },
+  {
+    id: 'async-autocomplete',
+    label: 'Async Autocomplete',
+    icon: Binoculars,
+    description: 'Type-ahead over an async source, dismissed on scroll'
   },
   {
     id: 'smart-dialog-drawer',
