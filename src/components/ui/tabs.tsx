@@ -45,6 +45,7 @@ function useTabIndicator(
           position: 'absolute',
           bottom: 0,
           left: 0,
+          zIndex: 1,
           height: '2px',
           width: activeEl.offsetWidth,
           transform: `translateX(${activeEl.offsetLeft}px)`,
@@ -59,6 +60,7 @@ function useTabIndicator(
           position: 'absolute',
           left: 0,
           top: 0,
+          zIndex: 1,
           width: '2px',
           height: activeEl.offsetHeight,
           transform: `translateY(${activeEl.offsetTop}px)`,
@@ -152,9 +154,11 @@ function TabsList({
       data-slot="tabs-list"
       className={cn(
         'text-muted-foreground relative',
+        // The gray track is an inset shadow rather than a border so it lives
+        // inside the padding box, letting the active indicator paint over it.
         orientation === 'vertical'
-          ? 'flex flex-col border-l border-l-gray-stroke-default'
-          : 'flex w-fit items-center overflow-x-auto border-b border-b-gray-stroke-default',
+          ? 'flex flex-col shadow-[inset_1px_0_0_0_var(--gray-stroke-default)]'
+          : 'flex w-fit items-center overflow-x-auto shadow-[inset_0_-1px_0_0_var(--gray-stroke-default)]',
         className
       )}
       {...props}
