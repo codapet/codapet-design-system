@@ -204,6 +204,8 @@ export type AsyncAutocompleteInputProps = Omit<
 export interface AsyncAutocompleteClassNames {
   /** Wrapper around the input — also the popover's anchor. */
   field?: string
+  /** The visible label element. */
+  label?: string
   /** The text input itself. */
   input?: string
   /** Left icon wrapper inside the input. */
@@ -269,7 +271,14 @@ export interface AsyncAutocompleteProps<TData = unknown> {
    * `formatted_address`) or clear the field. Drive `value` yourself.
    */
   onSelect: (option: AsyncAutocompleteOption<TData>) => void
-  /** In-flight request. Replaces the rows with a spinner. */
+  /**
+   * A request is in flight.
+   *
+   * The spinner row only replaces the list when there is nothing else to show.
+   * If results are already on screen they stay put and the listbox is marked
+   * `aria-busy` / `data-busy` instead — so typing another character does not
+   * flash the panel back to "Searching…".
+   */
   loading?: boolean
 
   /* ── Input text (controlled / uncontrolled) ── */
@@ -290,6 +299,17 @@ export interface AsyncAutocompleteProps<TData = unknown> {
   /* ── Input chrome ── */
 
   placeholder?: string
+  /**
+   * Visible label, rendered above the field and wired to it with `htmlFor`.
+   *
+   * A combobox **must** have an accessible name — the ARIA practices are
+   * explicit that a placeholder is not one. Provide either this, or an
+   * `aria-label`/`aria-labelledby` through `inputProps`. In development the
+   * component warns when neither is present.
+   */
+  label?: string
+  /** Appends a red asterisk to `label`. */
+  mandatory?: boolean
   /** Decorative leading icon — `<MapPin />`, `<Stethoscope />`, … */
   leftIcon?: React.ReactNode
   /** Fixed height: `sm` 40px · `md` 48px (default) · `lg` 56px. */
@@ -317,6 +337,10 @@ export interface AsyncAutocompleteProps<TData = unknown> {
    * for stacked two-line rows, avatars, or bold match highlighting — the
    * wrapper, `role="option"`, ids, highlight background and click/keyboard
    * wiring stay with the component.
+   *
+   * Keep the content non-interactive: it renders inside `role="option"`, and a
+   * nested button or link there is both invalid and unreachable by keyboard,
+   * since the row is driven by `aria-activedescendant` rather than focus.
    */
   renderOption?: (
     option: AsyncAutocompleteOption<TData>,
@@ -387,6 +411,8 @@ function AsyncAutocomplete<TData = unknown>({
   onValueChange,
   onClear,
   placeholder,
+  label,
+  mandatory = false,
   leftIcon,
   size = 'md',
   error = false,
@@ -431,6 +457,20 @@ function AsyncAutocomplete<TData = unknown>({
   const optionRefs = React.useRef<(HTMLDivElement | null)[]>([])
 
   const isMobile = useIsMobile()
+
+  // A combobox with no accessible name is an accessibility defect, and the
+  // failure is silent — so say so at the moment of misuse rather than leaving
+  // it to an audit.
+  const hasAccessibleName =
+    !!label || !!inputProps?.['aria-label'] || !!inputProps?.['aria-labelledby']
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === 'production' || hasAccessibleName) return
+    console.warn(
+      '[AsyncAutocomplete] No accessible name. Pass `label`, or an ' +
+        '`aria-label`/`aria-labelledby` via `inputProps`. A `placeholder` ' +
+        'does not name a combobox.'
+    )
+  }, [hasAccessibleName])
 
   const isControlledValue = valueProp !== undefined
   const isControlledOpen = openProp !== undefined
@@ -554,14 +594,18 @@ function AsyncAutocomplete<TData = unknown>({
     optionRefs.current[highlightedIndex]?.scrollIntoView({ block: 'nearest' })
   }, [highlightedIndex])
 
-  const showEmpty = !loading && options.length === 0 && query.trim() !== ''
-  const hasBody = loading || options.length > 0 || showEmpty
+  const hasOptions = options.length > 0
+  // The spinner only takes over the panel when there is nothing else to show.
+  // Once results are visible, a follow-up keystroke must not throw them away —
+  // that made the list flash back to "Searching…" on every character.
+  const showLoadingRow = loading && !hasOptions
+  const showEmpty = !loading && !hasOptions && query.trim() !== ''
+  // Results on screen while the next request is in flight.
+  const isRefreshing = loading && hasOptions
+  const hasBody = showLoadingRow || hasOptions || showEmpty
   const popoverOpen = isOpen && !useSheet && hasBody
 
-  const dismissIgnoreRefs = React.useMemo(
-    () => [contentRef, fieldRef],
-    []
-  )
+  const dismissIgnoreRefs = React.useMemo(() => [contentRef, fieldRef], [])
   useDismissOnScroll(popoverOpen, closePanel, dismissIgnoreRefs)
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -676,7 +720,12 @@ function AsyncAutocomplete<TData = unknown>({
             >
               {option.label}
               {option.description && (
-                <span className={cn('text-gray-subtle', classNames?.optionDescription)}>
+                <span
+                  className={cn(
+                    'text-gray-subtle',
+                    classNames?.optionDescription
+                  )}
+                >
                   {`, ${option.description}`}
                 </span>
               )}
@@ -691,10 +740,23 @@ function AsyncAutocomplete<TData = unknown>({
     <div
       role="listbox"
       id={listboxId}
+      // `aria-busy` tells assistive tech the list is updating; `data-busy` is
+      // only set while stale results are still shown, so callers can style the
+      // refresh (e.g. `classNames.listbox="data-[busy=true]:opacity-60"`).
+      aria-busy={loading || undefined}
+      data-busy={isRefreshing || undefined}
       className={cn('flex flex-col', classNames?.listbox)}
     >
-      {loading ? (
-        <div className={cn(messageClassName, classNames?.loading)}>
+      {showLoadingRow ? (
+        // `role="listbox"` may only own `option` and `group` children, so the
+        // status rows are disabled options: still announced, never selectable,
+        // and skipped by keyboard nav since they are not in `options`.
+        <div
+          role="option"
+          aria-disabled="true"
+          aria-selected="false"
+          className={cn(messageClassName, classNames?.loading)}
+        >
           <Loader2
             className={cn(
               'size-[16px] animate-spin text-gray-icon-light',
@@ -704,11 +766,14 @@ function AsyncAutocomplete<TData = unknown>({
           {loadingMessage}
         </div>
       ) : showEmpty ? (
-        (emptyState ?? (
-          <div className={cn(messageClassName, classNames?.empty)}>
-            {emptyMessage}
-          </div>
-        ))
+        <div
+          role="option"
+          aria-disabled="true"
+          aria-selected="false"
+          className={cn(!emptyState && messageClassName, classNames?.empty)}
+        >
+          {emptyState ?? emptyMessage}
+        </div>
       ) : (
         options.map(renderRow)
       )}
@@ -717,6 +782,29 @@ function AsyncAutocomplete<TData = unknown>({
 
   const activeDescendant =
     highlightedIndex >= 0 ? optionDomId(highlightedIndex) : undefined
+
+  const labelNode = label ? (
+    <label
+      htmlFor={`${prefix}-input`}
+      data-slot="async-autocomplete-label"
+      className={cn(
+        'flex items-center font-sans font-medium text-[14px] leading-[20px] text-vibrant-text-details',
+        classNames?.label
+      )}
+    >
+      {label}
+      {mandatory && (
+        // Decorative: the requirement is conveyed by aria-required on the
+        // input, so screen readers say "City, required" rather than "City star".
+        <span
+          aria-hidden="true"
+          className="ml-0.5 text-[14px] leading-[20px] text-error-surface-default"
+        >
+          *
+        </span>
+      )}
+    </label>
+  ) : null
 
   const field = (
     <div ref={fieldRef} className={cn('relative w-full', classNames?.field)}>
@@ -731,6 +819,7 @@ function AsyncAutocomplete<TData = unknown>({
         aria-expanded={useSheet ? sheetIsOpen : popoverOpen}
         aria-controls={popoverOpen ? listboxId : undefined}
         aria-autocomplete={useSheet ? undefined : 'list'}
+        aria-required={mandatory || undefined}
         aria-activedescendant={popoverOpen ? activeDescendant : undefined}
         size={size}
         error={error}
@@ -774,8 +863,13 @@ function AsyncAutocomplete<TData = unknown>({
     >
       <div
         data-slot="async-autocomplete"
-        className={cn('w-full', className)}
+        className={cn(
+          'flex w-full flex-col',
+          labelNode && 'gap-[8px]',
+          className
+        )}
       >
+        {labelNode}
         <PopoverPrimitive.Anchor asChild>{field}</PopoverPrimitive.Anchor>
 
         <PopoverPrimitive.Portal>
@@ -896,7 +990,7 @@ function AsyncAutocomplete<TData = unknown>({
                     aria-controls={listboxId}
                     aria-autocomplete="list"
                     aria-activedescendant={activeDescendant}
-                    aria-label={sheetTitle}
+                    aria-label={label ?? sheetTitle}
                     size={size}
                     placeholder={placeholder}
                     leftIcon={leftIcon}

@@ -15,7 +15,9 @@ const OPTIONS: AsyncAutocompleteOption<{ tag: string }>[] = [
   { id: 'c', label: 'Charlie', data: { tag: 'c' } }
 ]
 
-function setup(props: Partial<React.ComponentProps<typeof AsyncAutocomplete>> = {}) {
+function setup(
+  props: Partial<React.ComponentProps<typeof AsyncAutocomplete>> = {}
+) {
   const onSearch = vi.fn()
   const onSelect = vi.fn()
   const onOpenChange = vi.fn()
@@ -60,10 +62,35 @@ describe('AsyncAutocomplete', () => {
     expect(screen.getAllByRole('option')).toHaveLength(3)
   })
 
-  it('shows the loading row instead of options while loading', () => {
-    setup({ loading: true, loadingMessage: 'Looking…' })
+  it('shows the loading row instead of selectable options while loading', () => {
+    // No options yet — otherwise the spinner correctly stays out of the way.
+    setup({ options: [], loading: true, loadingMessage: 'Looking…' })
     expect(screen.getByText('Looking…')).toBeInTheDocument()
-    expect(screen.queryAllByRole('option')).toHaveLength(0)
+    // The status row is a disabled option so the listbox owns only valid
+    // children; nothing selectable is offered.
+    const selectable = screen
+      .queryAllByRole('option')
+      .filter(o => o.getAttribute('aria-disabled') !== 'true')
+    expect(selectable).toHaveLength(0)
+  })
+
+  it('keeps every listbox child a valid option role', () => {
+    // `role="listbox"` may only own `option`/`group`. Bare status divs inside
+    // it are invalid, so loading and empty rows carry a disabled option role.
+    const cases: Partial<React.ComponentProps<typeof AsyncAutocomplete>>[] = [
+      { loading: true },
+      { options: [], value: 'nothing' }
+    ]
+    for (const props of cases) {
+      const { unmount } = setup(props)
+      const listbox = screen.getByRole('listbox')
+      const children = [...listbox.children]
+      expect(children.length).toBeGreaterThan(0)
+      children.forEach(child =>
+        expect(['option', 'group']).toContain(child.getAttribute('role'))
+      )
+      unmount()
+    }
   })
 
   it('shows the empty message only once a query has been typed', () => {
@@ -81,6 +108,99 @@ describe('AsyncAutocomplete', () => {
       />
     )
     expect(screen.getByText('No results found')).toBeInTheDocument()
+  })
+
+  /* ─── Loading vs. visible results ────────────────────────── */
+
+  describe('refreshing without discarding results', () => {
+    /**
+     * The reported bug: typing "san", waiting for results, then continuing to
+     * type ("san francisco") made the whole panel revert to the loading row,
+     * because `loading ? spinner : options` discarded results already on
+     * screen. Fetch layers set `loading` on every keystroke, so the component
+     * has to tolerate that.
+     */
+    it('keeps the previous options rendered while the next request runs', () => {
+      const { rerender } = render(
+        <AsyncAutocomplete
+          idPrefix="ac"
+          label="City"
+          options={OPTIONS}
+          value="san"
+          onSearch={vi.fn()}
+          onSelect={vi.fn()}
+          defaultOpen
+        />
+      )
+      expect(screen.getAllByRole('option')).toHaveLength(3)
+
+      // Another character typed: loading true, results not yet replaced.
+      rerender(
+        <AsyncAutocomplete
+          idPrefix="ac"
+          label="City"
+          options={OPTIONS}
+          value="san francisco"
+          loading
+          onSearch={vi.fn()}
+          onSelect={vi.fn()}
+          defaultOpen
+        />
+      )
+
+      expect(screen.getAllByRole('option')).toHaveLength(3)
+      expect(screen.getByText('Alpha')).toBeInTheDocument()
+      expect(screen.queryByText('Searching…')).not.toBeInTheDocument()
+
+      const listbox = screen.getByRole('listbox')
+      expect(listbox).toHaveAttribute('aria-busy', 'true')
+      expect(listbox).toHaveAttribute('data-busy', 'true')
+    })
+
+    it('shows the spinner only when there is nothing else to show', () => {
+      setup({ options: [], loading: true })
+      expect(screen.getByText('Searching…')).toBeInTheDocument()
+      const listbox = screen.getByRole('listbox')
+      expect(listbox).toHaveAttribute('aria-busy', 'true')
+      // Not a refresh — there are no stale results underneath.
+      expect(listbox).not.toHaveAttribute('data-busy')
+    })
+
+    it('drops the busy flags once the request settles', () => {
+      setup({ loading: false })
+      const listbox = screen.getByRole('listbox')
+      expect(listbox).not.toHaveAttribute('aria-busy')
+      expect(listbox).not.toHaveAttribute('data-busy')
+    })
+
+    it('still swaps in new results when they arrive', () => {
+      const { rerender } = render(
+        <AsyncAutocomplete
+          idPrefix="ac"
+          label="City"
+          options={OPTIONS}
+          value="san francisco"
+          loading
+          onSearch={vi.fn()}
+          onSelect={vi.fn()}
+          defaultOpen
+        />
+      )
+      rerender(
+        <AsyncAutocomplete
+          idPrefix="ac"
+          label="City"
+          options={[{ id: 'sf', label: 'San Francisco', description: 'CA' }]}
+          value="san francisco"
+          onSearch={vi.fn()}
+          onSelect={vi.fn()}
+          defaultOpen
+        />
+      )
+      expect(screen.getAllByRole('option')).toHaveLength(1)
+      expect(screen.getByText('San Francisco')).toBeInTheDocument()
+      expect(screen.getByRole('listbox')).not.toHaveAttribute('data-busy')
+    })
   })
 
   /* ─── Keyboard ───────────────────────────────────────────── */
@@ -108,10 +228,9 @@ describe('AsyncAutocomplete', () => {
   it('marks the highlighted option as aria-selected', () => {
     setup()
     fireEvent.keyDown(combobox(), { key: 'ArrowDown' })
-    expect(screen.getByText('Alpha').closest('[role="option"]')).toHaveAttribute(
-      'aria-selected',
-      'true'
-    )
+    expect(
+      screen.getByText('Alpha').closest('[role="option"]')
+    ).toHaveAttribute('aria-selected', 'true')
   })
 
   it('selects the highlighted option on Enter, with its payload', () => {
@@ -217,6 +336,49 @@ describe('AsyncAutocomplete', () => {
     )
   })
 
+  /* ─── Accessible name ────────────────────────────────────── */
+
+  describe('accessible name', () => {
+    it('associates a visible label with the combobox', () => {
+      setup({ label: 'Search a city' })
+      // getByLabelText only resolves through a real htmlFor/id association.
+      const input = screen.getByLabelText('Search a city')
+      expect(input).toBe(combobox())
+      expect(input).toHaveAccessibleName('Search a city')
+    })
+
+    it('conveys mandatory via aria-required, not a spoken asterisk', () => {
+      setup({ label: 'City', mandatory: true })
+      // The asterisk is decorative, so the name stays clean.
+      expect(combobox()).toHaveAccessibleName('City')
+      expect(combobox()).toHaveAttribute('aria-required', 'true')
+      expect(screen.getByText('*')).toHaveAttribute('aria-hidden', 'true')
+    })
+
+    it('accepts aria-label through inputProps instead', () => {
+      setup({ inputProps: { 'aria-label': 'Where do you live?' } })
+      expect(combobox()).toHaveAccessibleName('Where do you live?')
+    })
+
+    it('warns in development when nothing names the combobox', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      setup({ placeholder: 'Search a city' })
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining('No accessible name')
+      )
+      warn.mockRestore()
+    })
+
+    it('does not warn once a label is supplied', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      setup({ label: 'City' })
+      expect(warn).not.toHaveBeenCalledWith(
+        expect.stringContaining('No accessible name')
+      )
+      warn.mockRestore()
+    })
+  })
+
   /* ─── Styling hooks ──────────────────────────────────────── */
 
   describe('customisation', () => {
@@ -243,7 +405,9 @@ describe('AsyncAutocomplete', () => {
         'slot-clear'
       )
       expect(screen.getByRole('listbox')).toHaveClass('slot-listbox')
-      expect(screen.getByRole('listbox').closest('.slot-content')).not.toBeNull()
+      expect(
+        screen.getByRole('listbox').closest('.slot-content')
+      ).not.toBeNull()
 
       const rows = screen.getAllByRole('option')
       rows.forEach(row => expect(row).toHaveClass('slot-option'))
@@ -283,6 +447,7 @@ describe('AsyncAutocomplete', () => {
 
     it('styles the loading and empty rows', () => {
       const { unmount } = setup({
+        options: [],
         loading: true,
         classNames: { loading: 'slot-loading', loadingSpinner: 'slot-spinner' }
       })
@@ -292,7 +457,11 @@ describe('AsyncAutocomplete', () => {
       ).not.toBeNull()
       unmount()
 
-      setup({ options: [], value: 'nothing', classNames: { empty: 'slot-empty' } })
+      setup({
+        options: [],
+        value: 'nothing',
+        classNames: { empty: 'slot-empty' }
+      })
       expect(screen.getByText('No results found')).toHaveClass('slot-empty')
     })
 

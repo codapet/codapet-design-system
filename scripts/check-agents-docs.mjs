@@ -17,7 +17,10 @@
 import { readFileSync } from 'node:fs'
 
 const docs = readFileSync(new URL('../AGENTS.md', import.meta.url), 'utf8')
-const dts = readFileSync(new URL('../dist/index.d.mts', import.meta.url), 'utf8')
+const dts = readFileSync(
+  new URL('../dist/index.d.mts', import.meta.url),
+  'utf8'
+)
 const runtime = Object.keys(await import('../dist/index.mjs'))
 
 /**
@@ -26,7 +29,9 @@ const runtime = Object.keys(await import('../dist/index.mjs'))
  * `ThemeProviderProps` reaches consumers.
  */
 const types = new Set()
-for (const m of dts.slice(dts.lastIndexOf('export {')).matchAll(/type (\w+)/g)) {
+for (const m of dts
+  .slice(dts.lastIndexOf('export {'))
+  .matchAll(/type (\w+)/g)) {
   types.add(m[1])
 }
 for (const m of dts.matchAll(/^export \{([^}]*)\} from '[^']+'/gm)) {
@@ -38,7 +43,9 @@ for (const m of dts.matchAll(/^export \{([^}]*)\} from '[^']+'/gm)) {
 }
 
 const families = [...docs.matchAll(/`([A-Z]\w+)\*`/g)].map(m => m[1])
-const named = new Set([...docs.matchAll(/\b([A-Za-z_$][\w$]*)\b/g)].map(m => m[1]))
+const named = new Set(
+  [...docs.matchAll(/\b([A-Za-z_$][\w$]*)\b/g)].map(m => m[1])
+)
 
 const covered = name =>
   named.has(name) || families.some(f => name.startsWith(f))
@@ -47,9 +54,7 @@ const real = new Set([...runtime, ...types])
 const missing = [...real].filter(n => !covered(n)).sort()
 
 // Reverse direction: every name the "Exported types" paragraph claims must exist.
-const typeSection = docs.match(
-  /\*\*Exported types\*\*[^]*?\n\n/
-)?.[0] ?? ''
+const typeSection = docs.match(/\*\*Exported types\*\*[^]*?\n\n/)?.[0] ?? ''
 const claimed = [...typeSection.matchAll(/`(\w+)`/g)].map(m => m[1])
 const phantom = [...new Set(claimed.filter(n => !real.has(n)))].sort()
 
@@ -58,19 +63,27 @@ let failed = false
 
 if (missing.length) {
   failed = true
-  console.error(`❌ ${missing.length} of ${total} public exports are not discoverable from AGENTS.md:\n`)
+  console.error(
+    `❌ ${missing.length} of ${total} public exports are not discoverable from AGENTS.md:\n`
+  )
   for (let i = 0; i < missing.length; i += 6) {
     console.error('   ' + missing.slice(i, i + 6).join(', '))
   }
-  console.error('\nName each in AGENTS.md, or cover it with a family glob such as `Dialog*`.\n')
+  console.error(
+    '\nName each in AGENTS.md, or cover it with a family glob such as `Dialog*`.\n'
+  )
 }
 
 if (phantom.length) {
   failed = true
-  console.error(`❌ AGENTS.md lists ${phantom.length} exported type(s) that do not exist:\n`)
+  console.error(
+    `❌ AGENTS.md lists ${phantom.length} exported type(s) that do not exist:\n`
+  )
   console.error('   ' + phantom.join(', '))
-  console.error('\nRemove them, or export them for real. A name in this guide that\n' +
-    'does not resolve sends consuming agents straight into a build error.\n')
+  console.error(
+    '\nRemove them, or export them for real. A name in this guide that\n' +
+      'does not resolve sends consuming agents straight into a build error.\n'
+  )
 }
 
 if (failed) process.exit(1)

@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react'
-import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
@@ -162,6 +161,8 @@ describe('dialog-family composition (documented traps)', () => {
       </Drawer>
     )
     const content = document.querySelector('[data-slot="drawer-content"]')!
-    expect(content.querySelector('[data-slot="drawer-close-button"]')).toBeNull()
+    expect(
+      content.querySelector('[data-slot="drawer-close-button"]')
+    ).toBeNull()
   })
 })

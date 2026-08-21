@@ -140,6 +140,8 @@ type AsyncAutocompleteInputProps = Omit<React$1.ComponentPropsWithoutRef<'input'
 interface AsyncAutocompleteClassNames {
     /** Wrapper around the input — also the popover's anchor. */
     field?: string;
+    /** The visible label element. */
+    label?: string;
     /** The text input itself. */
     input?: string;
     /** Left icon wrapper inside the input. */
@@ -202,7 +204,14 @@ interface AsyncAutocompleteProps<TData = unknown> {
      * `formatted_address`) or clear the field. Drive `value` yourself.
      */
     onSelect: (option: AsyncAutocompleteOption<TData>) => void;
-    /** In-flight request. Replaces the rows with a spinner. */
+    /**
+     * A request is in flight.
+     *
+     * The spinner row only replaces the list when there is nothing else to show.
+     * If results are already on screen they stay put and the listbox is marked
+     * `aria-busy` / `data-busy` instead — so typing another character does not
+     * flash the panel back to "Searching…".
+     */
     loading?: boolean;
     /** Controlled input text. */
     value?: string;
@@ -217,6 +226,17 @@ interface AsyncAutocompleteProps<TData = unknown> {
      */
     onClear?: () => void;
     placeholder?: string;
+    /**
+     * Visible label, rendered above the field and wired to it with `htmlFor`.
+     *
+     * A combobox **must** have an accessible name — the ARIA practices are
+     * explicit that a placeholder is not one. Provide either this, or an
+     * `aria-label`/`aria-labelledby` through `inputProps`. In development the
+     * component warns when neither is present.
+     */
+    label?: string;
+    /** Appends a red asterisk to `label`. */
+    mandatory?: boolean;
     /** Decorative leading icon — `<MapPin />`, `<Stethoscope />`, … */
     leftIcon?: React$1.ReactNode;
     /** Fixed height: `sm` 40px · `md` 48px (default) · `lg` 56px. */
@@ -241,6 +261,10 @@ interface AsyncAutocompleteProps<TData = unknown> {
      * for stacked two-line rows, avatars, or bold match highlighting — the
      * wrapper, `role="option"`, ids, highlight background and click/keyboard
      * wiring stay with the component.
+     *
+     * Keep the content non-interactive: it renders inside `role="option"`, and a
+     * nested button or link there is both invalid and unreachable by keyboard,
+     * since the row is driven by `aria-activedescendant` rather than focus.
      */
     renderOption?: (option: AsyncAutocompleteOption<TData>, state: AsyncAutocompleteOptionState) => React$1.ReactNode;
     /** Default leading icon for rows without their own `option.icon`. */
@@ -280,7 +304,7 @@ interface AsyncAutocompleteProps<TData = unknown> {
     /** Per-slot class overrides. See `AsyncAutocompleteClassNames`. */
     classNames?: AsyncAutocompleteClassNames;
 }
-declare function AsyncAutocomplete<TData = unknown>({ options, onSearch, onSelect, loading, value: valueProp, defaultValue, onValueChange, onClear, placeholder, leftIcon, size, error, disabled, inputRef, inputProps, mobileVariant, renderOption, optionIcon, emptyMessage, emptyState, loadingMessage, clearIcon, clearLabel, sheetTitle, sheetCloseIcon, sheetCloseLabel, open: openProp, defaultOpen, onOpenChange, idPrefix, className, classNames }: AsyncAutocompleteProps<TData>): react_jsx_runtime.JSX.Element;
+declare function AsyncAutocomplete<TData = unknown>({ options, onSearch, onSelect, loading, value: valueProp, defaultValue, onValueChange, onClear, placeholder, label, mandatory, leftIcon, size, error, disabled, inputRef, inputProps, mobileVariant, renderOption, optionIcon, emptyMessage, emptyState, loadingMessage, clearIcon, clearLabel, sheetTitle, sheetCloseIcon, sheetCloseLabel, open: openProp, defaultOpen, onOpenChange, idPrefix, className, classNames }: AsyncAutocompleteProps<TData>): react_jsx_runtime.JSX.Element;
 
 interface TextareaProps extends Omit<React$1.ComponentProps<'textarea'>, 'size'> {
     error?: boolean;

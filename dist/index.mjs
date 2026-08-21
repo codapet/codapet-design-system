@@ -664,6 +664,8 @@ function AsyncAutocomplete({
   onValueChange,
   onClear,
   placeholder,
+  label,
+  mandatory = false,
   leftIcon,
   size = "md",
   error = false,
@@ -702,6 +704,13 @@ function AsyncAutocomplete({
   const sheetInputRef = React8.useRef(null);
   const optionRefs = React8.useRef([]);
   const isMobile = useIsMobile();
+  const hasAccessibleName = !!label || !!inputProps?.["aria-label"] || !!inputProps?.["aria-labelledby"];
+  React8.useEffect(() => {
+    if (process.env.NODE_ENV === "production" || hasAccessibleName) return;
+    console.warn(
+      "[AsyncAutocomplete] No accessible name. Pass `label`, or an `aria-label`/`aria-labelledby` via `inputProps`. A `placeholder` does not name a combobox."
+    );
+  }, [hasAccessibleName]);
   const isControlledValue = valueProp !== void 0;
   const isControlledOpen = openProp !== void 0;
   const query = isControlledValue ? valueProp : internalValue;
@@ -796,13 +805,13 @@ function AsyncAutocomplete({
     if (highlightedIndex < 0) return;
     optionRefs.current[highlightedIndex]?.scrollIntoView({ block: "nearest" });
   }, [highlightedIndex]);
-  const showEmpty = !loading && options.length === 0 && query.trim() !== "";
-  const hasBody = loading || options.length > 0 || showEmpty;
+  const hasOptions = options.length > 0;
+  const showLoadingRow = loading && !hasOptions;
+  const showEmpty = !loading && !hasOptions && query.trim() !== "";
+  const isRefreshing = loading && hasOptions;
+  const hasBody = showLoadingRow || hasOptions || showEmpty;
   const popoverOpen = isOpen && !useSheet && hasBody;
-  const dismissIgnoreRefs = React8.useMemo(
-    () => [contentRef, fieldRef],
-    []
-  );
+  const dismissIgnoreRefs = React8.useMemo(() => [contentRef, fieldRef], []);
   useDismissOnScroll(popoverOpen, closePanel, dismissIgnoreRefs);
   const handleKeyDown = (event) => {
     if (useSheet && !isOpen && (event.key === "Enter" || event.key === " " || event.key === "ArrowDown")) {
@@ -890,7 +899,16 @@ function AsyncAutocomplete({
               ),
               children: [
                 option.label,
-                option.description && /* @__PURE__ */ jsx8("span", { className: cn("text-gray-subtle", classNames?.optionDescription), children: `, ${option.description}` })
+                option.description && /* @__PURE__ */ jsx8(
+                  "span",
+                  {
+                    className: cn(
+                      "text-gray-subtle",
+                      classNames?.optionDescription
+                    ),
+                    children: `, ${option.description}`
+                  }
+                )
               ]
             }
           )
@@ -904,22 +922,71 @@ function AsyncAutocomplete({
     {
       role: "listbox",
       id: listboxId,
+      "aria-busy": loading || void 0,
+      "data-busy": isRefreshing || void 0,
       className: cn("flex flex-col", classNames?.listbox),
-      children: loading ? /* @__PURE__ */ jsxs5("div", { className: cn(messageClassName, classNames?.loading), children: [
-        /* @__PURE__ */ jsx8(
-          Loader2,
+      children: showLoadingRow ? (
+        // `role="listbox"` may only own `option` and `group` children, so the
+        // status rows are disabled options: still announced, never selectable,
+        // and skipped by keyboard nav since they are not in `options`.
+        /* @__PURE__ */ jsxs5(
+          "div",
           {
-            className: cn(
-              "size-[16px] animate-spin text-gray-icon-light",
-              classNames?.loadingSpinner
-            )
+            role: "option",
+            "aria-disabled": "true",
+            "aria-selected": "false",
+            className: cn(messageClassName, classNames?.loading),
+            children: [
+              /* @__PURE__ */ jsx8(
+                Loader2,
+                {
+                  className: cn(
+                    "size-[16px] animate-spin text-gray-icon-light",
+                    classNames?.loadingSpinner
+                  )
+                }
+              ),
+              loadingMessage
+            ]
           }
-        ),
-        loadingMessage
-      ] }) : showEmpty ? emptyState ?? /* @__PURE__ */ jsx8("div", { className: cn(messageClassName, classNames?.empty), children: emptyMessage }) : options.map(renderRow)
+        )
+      ) : showEmpty ? /* @__PURE__ */ jsx8(
+        "div",
+        {
+          role: "option",
+          "aria-disabled": "true",
+          "aria-selected": "false",
+          className: cn(!emptyState && messageClassName, classNames?.empty),
+          children: emptyState ?? emptyMessage
+        }
+      ) : options.map(renderRow)
     }
   );
   const activeDescendant = highlightedIndex >= 0 ? optionDomId(highlightedIndex) : void 0;
+  const labelNode = label ? /* @__PURE__ */ jsxs5(
+    "label",
+    {
+      htmlFor: `${prefix}-input`,
+      "data-slot": "async-autocomplete-label",
+      className: cn(
+        "flex items-center font-sans font-medium text-[14px] leading-[20px] text-vibrant-text-details",
+        classNames?.label
+      ),
+      children: [
+        label,
+        mandatory && // Decorative: the requirement is conveyed by aria-required on the
+        // input, so screen readers say "City, required" rather than "City star".
+        /* @__PURE__ */ jsx8(
+          "span",
+          {
+            "aria-hidden": "true",
+            className: "ml-0.5 text-[14px] leading-[20px] text-error-surface-default",
+            children: "*"
+          }
+        )
+      ]
+    }
+  ) : null;
   const field = /* @__PURE__ */ jsx8("div", { ref: fieldRef, className: cn("relative w-full", classNames?.field), children: /* @__PURE__ */ jsx8(
     Input,
     {
@@ -933,6 +1000,7 @@ function AsyncAutocomplete({
       "aria-expanded": useSheet ? sheetIsOpen : popoverOpen,
       "aria-controls": popoverOpen ? listboxId : void 0,
       "aria-autocomplete": useSheet ? void 0 : "list",
+      "aria-required": mandatory || void 0,
       "aria-activedescendant": popoverOpen ? activeDescendant : void 0,
       size,
       error,
@@ -971,8 +1039,13 @@ function AsyncAutocomplete({
           "div",
           {
             "data-slot": "async-autocomplete",
-            className: cn("w-full", className),
+            className: cn(
+              "flex w-full flex-col",
+              labelNode && "gap-[8px]",
+              className
+            ),
             children: [
+              labelNode,
               /* @__PURE__ */ jsx8(PopoverPrimitive.Anchor, { asChild: true, children: field }),
               /* @__PURE__ */ jsx8(PopoverPrimitive.Portal, { children: /* @__PURE__ */ jsx8(
                 PopoverPrimitive.Content,
@@ -1076,7 +1149,7 @@ function AsyncAutocomplete({
                               "aria-controls": listboxId,
                               "aria-autocomplete": "list",
                               "aria-activedescendant": activeDescendant,
-                              "aria-label": sheetTitle,
+                              "aria-label": label ?? sheetTitle,
                               size,
                               placeholder,
                               leftIcon,

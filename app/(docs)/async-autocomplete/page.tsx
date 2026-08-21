@@ -152,6 +152,7 @@ export default function AsyncAutocompletePage() {
           <div className="max-w-sm space-y-3">
             <AsyncAutocomplete
               idPrefix="demo-city"
+              label="Search a city"
               options={basic.options}
               loading={basic.loading}
               value={basicValue}
@@ -182,6 +183,7 @@ import { MapPin } from 'lucide-react'
 const { options, loading, search } = useCitySearch()
 
 <AsyncAutocomplete
+  label="Search a city"
   options={options}
   loading={loading}
   value={value}
@@ -216,6 +218,7 @@ const { options, loading, search } = useCitySearch()
           <div className="max-w-sm">
             <AsyncAutocomplete
               idPrefix="demo-stacked"
+              label="Search a city"
               options={stacked.options}
               loading={stacked.loading}
               value={stackedValue}
@@ -277,16 +280,18 @@ const { options, loading, search } = useCitySearch()
           <CardDescription>
             The field below sits in a short{' '}
             <span className="font-mono font-semibold">overflow-hidden</span>{' '}
-            box. Because the panel is portaled, the results still render in
-            full instead of being cut off — which is why several call sites
-            hand-rolled <span className="font-mono font-semibold">createPortal</span>{' '}
-            before this component existed.
+            box. Because the panel is portaled, the results still render in full
+            instead of being cut off — which is why several call sites
+            hand-rolled{' '}
+            <span className="font-mono font-semibold">createPortal</span> before
+            this component existed.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="h-[104px] max-w-sm overflow-hidden rounded-xl border border-dashed border-slate-300 p-4 dark:border-slate-700">
             <AsyncAutocomplete
               idPrefix="demo-clipped"
+              label="Search a city"
               options={clipped.options}
               loading={clipped.loading}
               value={clippedValue}
@@ -328,6 +333,7 @@ const { options, loading, search } = useCitySearch()
           <div className="max-w-sm">
             <AsyncAutocomplete
               idPrefix="demo-themed"
+              label="Search a city"
               options={themed.options}
               loading={themed.loading}
               value={themedValue}
@@ -403,6 +409,7 @@ const options = [
           <div className="max-w-sm space-y-3">
             <AsyncAutocomplete
               idPrefix="demo-sheet"
+              label="Search a city"
               mobileVariant="sheet"
               sheetTitle="Search cities"
               options={sheet.options}
@@ -465,8 +472,9 @@ const options = [
               <code className="font-mono text-xs">onSearch</code> per keystroke,
               because cancellation and out-of-order responses belong to your
               fetch layer. And it <strong>never filters</strong>:{' '}
-              <code className="font-mono text-xs">options</code> render verbatim,
-              because the server already narrowed them. For a static list use{' '}
+              <code className="font-mono text-xs">options</code> render
+              verbatim, because the server already narrowed them. For a static
+              list use{' '}
               <code className="font-mono text-xs">SearchableSelect</code>{' '}
               instead.
             </span>
@@ -499,7 +507,7 @@ const options = [
                 'loading',
                 'boolean',
                 'false',
-                'Replaces the rows with a spinner row while a request is in flight.'
+                'A request is in flight. The spinner row only replaces the list when there is nothing else to show — results already on screen stay put and the listbox is marked aria-busy / data-busy, so typing another character does not flash the panel back to "Searching…".'
               ]
             ]}
           />
@@ -534,6 +542,18 @@ const options = [
             name="<AsyncAutocomplete> — input chrome"
             description="The text field itself. Rendered with the design system's Input, so it inherits its sizes and error styling."
             rows={[
+              [
+                'label',
+                'string',
+                '-',
+                'Visible label, wired to the input with htmlFor. A combobox must have an accessible name and a placeholder is not one — pass this, or an aria-label via inputProps. Warns in development when neither is present.'
+              ],
+              [
+                'mandatory',
+                'boolean',
+                'false',
+                'Appends a decorative asterisk to the label and sets aria-required on the input, so screen readers announce "City, required" rather than "City star".'
+              ],
               ['placeholder', 'string', '-', 'Input placeholder.'],
               [
                 'leftIcon',
@@ -553,7 +573,12 @@ const options = [
                 'false',
                 'Error colour scheme. Also sets aria-invalid.'
               ],
-              ['disabled', 'boolean', 'false', 'Disables the field and the panel.'],
+              [
+                'disabled',
+                'boolean',
+                'false',
+                'Disables the field and the panel.'
+              ],
               [
                 'inputRef',
                 'Ref<HTMLInputElement>',
@@ -589,7 +614,7 @@ const options = [
                 'renderOption',
                 '(option, state) => ReactNode',
                 '-',
-                "Replaces a row's contents. The wrapper, role=\"option\", ids, highlight and click/keyboard wiring stay with the component."
+                'Replaces a row\'s contents. The wrapper, role="option", ids, highlight and click/keyboard wiring stay with the component.'
               ],
               [
                 'optionIcon',
@@ -632,7 +657,7 @@ const options = [
                 'sheetTitle',
                 'string',
                 '"Search"',
-                "Accessible name for the sheet (rendered sr-only)."
+                'Accessible name for the sheet (rendered sr-only).'
               ],
               [
                 'sheetCloseIcon',
@@ -664,7 +689,12 @@ const options = [
                 'false',
                 'Start open — for a field mounted lazily on focus.'
               ],
-              ['onOpenChange', '(open: boolean) => void', '-', 'Open-state changes.'],
+              [
+                'onOpenChange',
+                '(open: boolean) => void',
+                '-',
+                'Open-state changes.'
+              ],
               [
                 'idPrefix',
                 'string',
@@ -729,11 +759,27 @@ const options = [
             name="AsyncAutocompleteClassNames"
             description="Every slot is merged with cn, so a caller class replaces a conflicting default rather than stacking — { content: 'max-h-[420px]' } really does replace the built-in max-height."
             rows={[
-              ['field', 'string', '-', "Wrapper around the input — the popover's anchor."],
+              [
+                'field',
+                'string',
+                '-',
+                "Wrapper around the input — the popover's anchor."
+              ],
+              ['label', 'string', '-', 'The visible label element.'],
               ['input', 'string', '-', 'The text input itself.'],
-              ['leftIcon', 'string', '-', 'Left icon wrapper inside the input.'],
+              [
+                'leftIcon',
+                'string',
+                '-',
+                'Left icon wrapper inside the input.'
+              ],
               ['clearButton', 'string', '-', 'The clear ("X") button.'],
-              ['content', 'string', '-', 'The popover surface holding the results.'],
+              [
+                'content',
+                'string',
+                '-',
+                'The popover surface holding the results.'
+              ],
               [
                 'listbox',
                 'string',
@@ -772,7 +818,12 @@ const options = [
                 'Secondary text span in a default row. Not applied when renderOption is used.'
               ],
               ['loading', 'string', '-', 'The loading row.'],
-              ['loadingSpinner', 'string', '-', 'The spinner inside the loading row.'],
+              [
+                'loadingSpinner',
+                'string',
+                '-',
+                'The spinner inside the loading row.'
+              ],
               [
                 'empty',
                 'string',
@@ -782,9 +833,19 @@ const options = [
               ['sheetOverlay', 'string', '-', "The sheet's backdrop."],
               ['sheetContent', 'string', '-', 'The sheet panel.'],
               ['sheetHeader', 'string', '-', "The sheet's pinned header row."],
-              ['sheetCloseButton', 'string', '-', "The sheet's close/back button."],
+              [
+                'sheetCloseButton',
+                'string',
+                '-',
+                "The sheet's close/back button."
+              ],
               ['sheetInput', 'string', '-', "The sheet's own text input."],
-              ['sheetList', 'string', '-', "The sheet's scrollable results area."]
+              [
+                'sheetList',
+                'string',
+                '-',
+                "The sheet's scrollable results area."
+              ]
             ]}
           />
 
@@ -826,8 +887,8 @@ const options = [
                 aria-autocomplete=&quot;list&quot;
               </code>{' '}
               and <code className="font-mono">aria-activedescendant</code>; rows
-              are <code className="font-mono">role=&quot;option&quot;</code> with{' '}
-              <code className="font-mono">aria-selected</code> plus{' '}
+              are <code className="font-mono">role=&quot;option&quot;</code>{' '}
+              with <code className="font-mono">aria-selected</code> plus{' '}
               <code className="font-mono">data-highlighted</code> /{' '}
               <code className="font-mono">data-disabled</code> for styling.
             </p>
