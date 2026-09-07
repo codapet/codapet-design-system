@@ -103,8 +103,11 @@ These are the foot-guns. Knowing them prevents most "why does my Button look wro
 ### Accordion
 
 - Adds a `variant` prop on `<Accordion>`: `default` (shadcn-equivalent, bottom-stripe items) or `outlined` (each item is its own bordered card with taller trigger and roomier padding). Reach for `variant="outlined"` on FAQ sections, settings panels, or any "stacked cards" pattern.
-- Variant propagates to children via context — set it once on the root, not on every `AccordionItem`/`Trigger`/`Content`.
-- Plus/Minus (or any custom) icons are opt-in via `collapsedIcon`/`expandedIcon` on `AccordionTrigger`. The default remains a rotating `ChevronDown`.
+- Variant propagates to children via context — set it once on the root, not on every `AccordionItem`/`AccordionTrigger`/`AccordionContent`.
+- `outlined` cards warm their border to `primary-stroke-default` on pointer hover, and their `AccordionContent` fades while it grows (250ms, soft ease). The `default` variant keeps the shadcn height-only motion. Both respect `prefers-reduced-motion`.
+- `staggerReveal` on `<Accordion>` fades-and-rises every item in on mount, 80ms apart. Items only stagger if you pass `revealIndex={i}` to each `AccordionItem` — without it they all arrive together.
+- Icons on `AccordionTrigger`: the default is a rotating `ChevronDown`; `icon="plus-minus"` switches to a two-bar + that morphs into a −; `iconClassName` resizes or recolours either built-in icon. `collapsedIcon`/`expandedIcon` still take any React node and win over `icon`. In the `outlined` variant a collapsed/expanded pair cross-rotates instead of hard-swapping.
+- For a plain question/answer list, don't assemble these by hand — use `FaqAccordion` (see the components table).
 
 ### Dialog vs SmartDialog
 
@@ -152,6 +155,7 @@ These don't exist in shadcn — reach for them instead of building your own:
 | `AutoResizeTextarea` | Textarea that grows with content; `maxHeight` enables scroll. Handles RHF `setValue`/`reset` correctly. |
 | `ProgressBar` | Step-based bar; pass `currentStep` + `totalSteps`, or `value` (0–100) directly. |
 | `SmartDialog*` | Responsive Dialog↔Drawer (see above). |
+| `FaqAccordion` | Data-driven FAQ list: pass `faqs` (`{ question, answer }[]`) and get the outlined Accordion with one item open at a time, a +/− morph icon, fade-while-growing answers and optional `staggerReveal`. `defaultOpenQuestion` opens a question on mount and re-opens whenever it changes. `questionClassName` / `answerClassName` / `itemClassName` restyle each slot. A string `answer` renders as a paragraph; pass a node for rich text. Prefer it over hand-assembling `Accordion*` for any question/answer array. |
 | `Typography`: `DisplayHeading`, `HeadingXL` … `HeadingXXS` (+ `*Medium` variants), `Body` | Use these instead of raw `<h1>`/`<p>` to inherit the right tokens (`font-serif italic` for display, `text-vibrant-text-heading` for headings, `text-vibrant-text-body` for body). Sizes are responsive (md: breakpoint baked in). |
 | `ThemeToggle` | Drop-in light/dark toggle. |
 
@@ -344,7 +348,8 @@ rather than reimplementing the classes: `buttonVariants`, `badgeVariants`,
 `progressBarVariants`, `tabsTriggerVariants`, `toggleVariants`,
 `bodyTextVariants`, `displayTextVariants`, `navigationMenuTriggerStyle`.
 
-**Exported types** — import with `import type`: `InputProps`, `TextareaProps`,
+**Exported types** — import with `import type`: `AccordionProps`, `AccordionItemProps`,
+`AccordionTriggerProps`, `FaqAccordionProps`, `FaqItem`, `InputProps`, `TextareaProps`,
 `SearchInputProps`, `SearchSuggestion`, `AlertBannerProps`,
 `BadgeActionableProps`, `BadgeInformativeProps`, `BadgeNumberProps`,
 `OptionCardProps`, `ProgressBarProps`, `TabsTriggerProps`, `TooltipContentProps`,

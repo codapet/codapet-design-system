@@ -287,6 +287,112 @@ import {
         </CardContent>
       </Card>
 
+      {/* Plus / Minus morph */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-sky-500 rounded-full" />
+            Plus / Minus Morph
+          </CardTitle>
+          <CardDescription>
+            <code className="text-xs bg-muted px-1 py-0.5 rounded">
+              icon=&quot;plus-minus&quot;
+            </code>{' '}
+            draws a + from two bars and rotates the upright one flat as the
+            item opens, so it becomes a −. No lucide icons needed. Resize or
+            recolour it with{' '}
+            <code className="text-xs bg-muted px-1 py-0.5 rounded">
+              iconClassName
+            </code>
+            . Outlined cards also warm their border on hover and fade their
+            answer in while it grows
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Accordion type="single" collapsible variant="outlined">
+            <AccordionItem value="item-1">
+              <AccordionTrigger icon="plus-minus">
+                Does the icon animate?
+              </AccordionTrigger>
+              <AccordionContent>
+                Yes — the vertical bar rotates 90° over 280ms with the same
+                easing as the panel, so the + becomes a − exactly when the
+                answer finishes opening.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger icon="plus-minus" iconClassName="size-5">
+                Can it be smaller?
+              </AccordionTrigger>
+              <AccordionContent>
+                This trigger passes <code>iconClassName=&quot;size-5&quot;</code>{' '}
+                to shrink the 24px box to 20px.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+          <CodeBlock
+            code={`<Accordion type="single" collapsible variant="outlined">
+  <AccordionItem value="item-1">
+    <AccordionTrigger icon="plus-minus">Does the icon animate?</AccordionTrigger>
+    <AccordionContent>Yes — the vertical bar rotates flat...</AccordionContent>
+  </AccordionItem>
+</Accordion>`}
+          />
+        </CardContent>
+      </Card>
+
+      {/* Staggered reveal */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-rose-500 rounded-full" />
+            Staggered Reveal
+          </CardTitle>
+          <CardDescription>
+            <code className="text-xs bg-muted px-1 py-0.5 rounded">
+              staggerReveal
+            </code>{' '}
+            on the root fades-and-rises each item in on mount. Give every{' '}
+            <code className="text-xs bg-muted px-1 py-0.5 rounded">
+              AccordionItem
+            </code>{' '}
+            a{' '}
+            <code className="text-xs bg-muted px-1 py-0.5 rounded">
+              revealIndex
+            </code>{' '}
+            so they land 80ms apart. Reload the page to see it again
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Accordion type="single" collapsible variant="outlined" staggerReveal>
+            {[
+              'First question arrives at 0ms',
+              'Second question arrives at 80ms',
+              'Third question arrives at 160ms'
+            ].map((question, i) => (
+              <AccordionItem key={question} value={`item-${i}`} revealIndex={i}>
+                <AccordionTrigger icon="plus-minus">{question}</AccordionTrigger>
+                <AccordionContent>
+                  Items without a <code>revealIndex</code> still animate, they
+                  just all start together. Reduced-motion users see the list
+                  immediately.
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+          <CodeBlock
+            code={`<Accordion type="single" collapsible variant="outlined" staggerReveal>
+  {faqs.map((faq, i) => (
+    <AccordionItem key={faq.question} value={faq.question} revealIndex={i}>
+      <AccordionTrigger icon="plus-minus">{faq.question}</AccordionTrigger>
+      <AccordionContent>{faq.answer}</AccordionContent>
+    </AccordionItem>
+  ))}
+</Accordion>`}
+          />
+        </CardContent>
+      </Card>
+
       {/* Chevron Up / Down (no rotation) */}
       <Card>
         <CardHeader>

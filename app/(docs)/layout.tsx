@@ -31,6 +31,7 @@ import {
   ListFilter,
   Loader,
   MessageCircle,
+  MessageCircleQuestionMark,
   MessageSquare,
   Moon,
   MousePointer,
@@ -165,6 +166,12 @@ const navigationItems = [
     label: 'Accordion',
     icon: ChevronDown,
     description: 'Expandable accordion panels'
+  },
+  {
+    id: 'faq-accordion',
+    label: 'FAQ Accordion',
+    icon: MessageCircleQuestionMark,
+    description: 'Data-driven FAQ list on the outlined accordion'
   },
   {
     id: 'dropdown',

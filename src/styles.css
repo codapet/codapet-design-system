@@ -7,6 +7,58 @@
   --tw-ease: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
+/* Accordion motion. Outlined cards fade while they grow (tw-animate-css's
+   accordion-down only animates height), and a root with `staggerReveal` rises
+   each item in, 80ms apart via `revealIndex`. Reduced-motion users get none
+   of it — declared here, unlayered, so it beats the utilities regardless of
+   how Tailwind orders its variants. */
+@theme inline {
+  --animate-accordion-down-fade: accordion-down-fade 250ms
+    cubic-bezier(0.33, 1, 0.68, 1);
+  --animate-accordion-up-fade: accordion-up-fade 250ms
+    cubic-bezier(0.33, 1, 0.68, 1);
+  --animate-accordion-item-in: accordion-item-in 480ms
+    cubic-bezier(0.33, 1, 0.68, 1) both;
+
+  @keyframes accordion-down-fade {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+  }
+  @keyframes accordion-up-fade {
+    from {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+    to {
+      height: 0;
+      opacity: 0;
+    }
+  }
+  @keyframes accordion-item-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot='accordion-item'],
+  [data-slot='accordion-content'] {
+    animation: none;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
