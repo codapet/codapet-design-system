@@ -119,6 +119,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
           {rightIcon && (
             <Button
+              type="button"
               onClick={rightIconOnClick}
               variant="ghost"
               size="icon"

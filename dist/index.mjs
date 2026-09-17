@@ -599,6 +599,7 @@ var Input = React7.forwardRef(
         rightIcon && /* @__PURE__ */ jsx7(
           Button,
           {
+            type: "button",
             onClick: rightIconOnClick,
             variant: "ghost",
             size: "icon",
@@ -1492,6 +1493,7 @@ function BadgeActionable({
   return /* @__PURE__ */ jsxs6(
     "button",
     {
+      type: "button",
       "data-slot": "badge-actionable",
       "data-selected": selected || void 0,
       className: cn(
@@ -1977,6 +1979,7 @@ function CalendarDayButton({
     Button,
     {
       ref,
+      type: "button",
       variant: "ghost",
       size: "icon",
       "data-day": day.date.toLocaleDateString(),
@@ -2220,6 +2223,7 @@ function CarouselPrevious({
   return /* @__PURE__ */ jsxs9(
     Button,
     {
+      type: "button",
       "data-slot": "carousel-previous",
       variant,
       size,
@@ -2248,6 +2252,7 @@ function CarouselNext({
   return /* @__PURE__ */ jsxs9(
     Button,
     {
+      type: "button",
       "data-slot": "carousel-next",
       variant,
       size,
@@ -7283,6 +7288,7 @@ function SidebarTrigger({
   return /* @__PURE__ */ jsxs33(
     Button,
     {
+      type: "button",
       "data-sidebar": "trigger",
       "data-slot": "sidebar-trigger",
       variant: "ghost",
@@ -7305,6 +7311,7 @@ function SidebarRail({ className, ...props }) {
   return /* @__PURE__ */ jsx55(
     "button",
     {
+      type: "button",
       "data-sidebar": "rail",
       "data-slot": "sidebar-rail",
       "aria-label": "Toggle Sidebar",
@@ -8242,11 +8249,21 @@ function ThemeToggle({
 }) {
   const { setTheme } = useTheme2();
   return /* @__PURE__ */ jsxs36(DropdownMenu, { children: [
-    /* @__PURE__ */ jsx63(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs36(Button, { variant: "outline", size: "icon", className, ...props, children: [
-      /* @__PURE__ */ jsx63(Sun, { className: "size-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" }),
-      /* @__PURE__ */ jsx63(Moon, { className: "absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" }),
-      /* @__PURE__ */ jsx63("span", { className: "sr-only", children: "Toggle theme" })
-    ] }) }),
+    /* @__PURE__ */ jsx63(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs36(
+      Button,
+      {
+        type: "button",
+        variant: "outline",
+        size: "icon",
+        className,
+        ...props,
+        children: [
+          /* @__PURE__ */ jsx63(Sun, { className: "size-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" }),
+          /* @__PURE__ */ jsx63(Moon, { className: "absolute size-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" }),
+          /* @__PURE__ */ jsx63("span", { className: "sr-only", children: "Toggle theme" })
+        ]
+      }
+    ) }),
     /* @__PURE__ */ jsxs36(DropdownMenuContent, { align: "end", children: [
       /* @__PURE__ */ jsxs36(DropdownMenuItem, { onClick: () => setTheme("light"), children: [
         /* @__PURE__ */ jsx63(Sun, { className: "size-4" }),
@@ -8408,6 +8425,7 @@ function TimeInput({
           /* @__PURE__ */ jsx64("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx64("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx64(
             Button,
             {
+              type: "button",
               variant: "ghost",
               size: "sm",
               "data-selected": selectedH12 === h,
@@ -8431,6 +8449,7 @@ function TimeInput({
               children: minutesList.map((m) => /* @__PURE__ */ jsx64(
                 Button,
                 {
+                  type: "button",
                   variant: "ghost",
                   size: "sm",
                   "data-selected": selectedMinute === m,
@@ -8448,6 +8467,7 @@ function TimeInput({
           !is24HourFormat(timeFormat) && /* @__PURE__ */ jsx64("div", { className: "flex flex-col p-1 justify-center gap-1", children: ["AM", "PM"].map((p) => /* @__PURE__ */ jsx64(
             Button,
             {
+              type: "button",
               variant: "ghost",
               size: "sm",
               "data-selected": selectedPeriod === p,

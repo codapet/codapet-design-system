@@ -79,11 +79,13 @@ These are the foot-guns. Knowing them prevents most "why does my Button look wro
 - **Default `variant` is `primary`**, not `default`. There is no `default` variant. Available: `primary | secondary | tertiary | outline | ghost | ghost-secondary | ghost-destructive | link | destructive | destructive-secondary | destructive-tertiary`.
 - **Default `size` is `lg` (h-12)**, not `default` (h-9). Sizes: `sm` (h-9) · `md` (h-10) · `lg` (h-12) · `icon` (size-8). For a typical inline action, you usually want `size="md"` — passing nothing gives you a chunky button.
 - Has `cursor-pointer` baked in (shadcn doesn't).
+- **No `type` default** — like any `<button>`, one inside a `<form>` submits it unless you pass `type="button"`. That is deliberate, so `<Button>Save</Button>` still submits. Components that render a Button *for* you (an Input's trailing icon, Calendar days, Carousel arrows, TimeInput options, SidebarTrigger, ThemeToggle, BadgeActionable) set `type="button"` themselves.
 
 ### Input
 
 - Custom `size` prop: `sm` (h-10) · `md` (h-12, default) · `lg` (h-14). All bigger than shadcn's h-9.
 - Built-in `leftIcon`, `rightIcon`, `rightIconOnClick`, `error` props — don't wrap Input in your own icon container, use these. `rightIcon` renders inside a `Button` (clickable); `leftIcon` is decorative.
+- That trailing-icon `Button` is `type="button"`, so it never submits a surrounding form. Override with `rightIconButtonProps={{ type: 'submit' }}` if you actually want a submit affordance.
 - Pass `error={true}` to switch to the error color scheme; it also sets `aria-invalid`.
 
 ### Textarea
@@ -374,6 +376,7 @@ There are no other public exports, and no subpath imports: only
 - **Wrong default Button look** → you forgot `variant="primary"`/`size="md"` are not the same as shadcn's defaults; passing nothing gives you `primary` + `lg`.
 - **Toast looks generic** → you imported `toast` from `'sonner'` instead of from `@codapet/design-system`.
 - **Modal doesn't bottom-sheet on mobile** → you used `Dialog` instead of `SmartDialog`.
+- **Clicking something inside a form submits it** → a bare `<Button>` has no `type`, so it defaults to `submit`. Give every non-submitting button in a form `type="button"`; the symptom is usually a form that validates and scroll-jumps to its first invalid field the moment you press an unrelated control.
 - **`AsyncAutocomplete` keeps stale results while refetching** → `loading` only replaces the list when there is nothing else to show. Once results are visible, a further keystroke leaves them in place and marks the listbox `aria-busy` plus `data-busy`, so the panel does not flash back to the spinner on every character. Style the refresh with `classNames={{ listbox: 'data-[busy=true]:opacity-60' }}` if you want visible feedback.
 - **`AsyncAutocomplete` warns about a missing accessible name** → a combobox must be named, and a `placeholder` does not name one (ARIA practices are explicit about this). Pass `label` for a visible label — it renders a real `<label htmlFor>`, unlike `SearchInput`/`MultiSelectFreeText`, whose `label` prop is a styled `<div>` and is *not* programmatically associated — or pass `inputProps={{ 'aria-label': '…' }}` when the design has no visible label. `mandatory` sets `aria-required` and hides the asterisk from assistive tech.
 - **`AsyncAutocomplete` fires a request per keystroke** → it deliberately does not debounce. Debounce in your fetch layer (`usePlacesService({ debounce: 300 })`, your own hook) so cancellation and out-of-order responses stay with the code that owns them.

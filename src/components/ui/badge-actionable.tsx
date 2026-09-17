@@ -39,6 +39,7 @@ function BadgeActionable({
 }: BadgeActionableProps) {
   return (
     <button
+      type="button"
       data-slot="badge-actionable"
       data-selected={selected || undefined}
       className={cn(

@@ -201,6 +201,7 @@ export function TimeInput({
                 {hoursList.map(h => (
                   <Button
                     key={h}
+                    type="button"
                     variant="ghost"
                     size="sm"
                     data-selected={selectedH12 === h}
@@ -229,6 +230,7 @@ export function TimeInput({
                 {minutesList.map(m => (
                   <Button
                     key={m}
+                    type="button"
                     variant="ghost"
                     size="sm"
                     data-selected={selectedMinute === m}
@@ -251,6 +253,7 @@ export function TimeInput({
                 {(['AM', 'PM'] as const).map(p => (
                   <Button
                     key={p}
+                    type="button"
                     variant="ghost"
                     size="sm"
                     data-selected={selectedPeriod === p}
