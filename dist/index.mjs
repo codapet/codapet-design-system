@@ -300,7 +300,7 @@ var buttonVariants = cva3(
         primary: "bg-primary text-primary-foreground hover:bg-brand-dark active:bg-active-primary",
         secondary: "bg-brand-subtle text-primary-stroke-default hover:bg-primary-surface-light border border-brand-light active:bg-icon-disabled",
         tertiary: "bg-gray-surface-light text-foreground-secondary hover:bg-gray-surface-default border border-gray-stroke-light hover:border-transparent active:border-transparent active:bg-[#9f9fa9] dark:active:bg-[#71717a]",
-        outline: "text-foreground-secondary border border-gray-surface-default bg-background hover:bg-gray-surface-light hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 active:bg-gray-surface-default",
+        outline: "text-foreground-secondary border border-gray-surface-default bg-background hover:bg-gray-surface-light hover:text-accent-foreground dark:bg-input/30 dark:border-transparent dark:ring-1 dark:ring-control-stroke dark:hover:bg-input/50 active:bg-gray-surface-default",
         ghost: "text-primary-stroke-default hover:bg-primary-surface-subtle dark:hover:bg-accent/50 active:bg-primary-surface-light",
         "ghost-secondary": "text-foreground-secondary hover:bg-gray-surface-light hover:text-accent-foreground dark:hover:bg-accent/50 active:bg-gray-surface-default",
         "ghost-destructive": "bg-transparent text-destructive-text hover:bg-destructive-hover focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 active:bg-destructive-active",
@@ -551,13 +551,18 @@ var Input = React7.forwardRef(
       "hover:border-error-stroke-default",
       "focus:border-error-stroke-default",
       "focus-visible:border",
-      "active:border-error-stroke-default"
+      "active:border-error-stroke-default",
+      // Dark: stroke drawn outside the box so outlined fields don't read
+      // smaller than filled buttons. Border stays (transparent) for sizing.
+      "dark:border-transparent dark:ring-1 dark:ring-error-stroke-default"
     ] : [
       "border-gray-stroke-default bg-background",
       "hover:border-focus-ring",
       "focus:border-focus-ring",
       "focus-visible:border",
-      "active:border-focus-ring"
+      "active:border-focus-ring",
+      "dark:border-transparent dark:ring-1 dark:ring-control-stroke",
+      "dark:hover:ring-focus-ring dark:focus:ring-focus-ring dark:active:ring-focus-ring"
     ];
     if (leftIcon || rightIcon) {
       return /* @__PURE__ */ jsxs4("div", { className: "relative", children: [
@@ -1262,6 +1267,9 @@ var textareaBaseStyles = [
   "focus:border-focus-ring",
   "focus-visible:border",
   "active:border-focus-ring",
+  // Dark: stroke drawn outside the box, same as Input
+  "dark:border-transparent dark:ring-1 dark:ring-control-stroke",
+  "dark:hover:ring-focus-ring dark:focus:ring-focus-ring dark:active:ring-focus-ring",
   // Textarea specific
   "field-sizing-content min-h-16 resize-y px-3 py-2"
 ].join(" ");
@@ -1270,7 +1278,8 @@ var errorStyles = [
   "hover:border-error-stroke-default",
   "focus:border-error-stroke-default",
   "focus-visible:border",
-  "active:border-error-stroke-default"
+  "active:border-error-stroke-default",
+  "dark:ring-error-stroke-default dark:hover:ring-error-stroke-default dark:focus:ring-error-stroke-default dark:active:ring-error-stroke-default"
 ].join(" ");
 var Textarea = React9.forwardRef(
   ({ className, error, ...props }, ref) => {
@@ -6454,7 +6463,7 @@ function SearchableSelectTrigger({
       "data-size": size,
       disabled: ctx.disabled,
       className: cn(
-        "border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:min-h-9 data-[size=sm]:min-h-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 dark:border-transparent dark:ring-1 dark:ring-control-stroke dark:focus-visible:ring-[3px] dark:focus-visible:ring-ring/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:min-h-9 data-[size=sm]:min-h-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         ctx.mode === "multiple" && "h-auto flex-wrap whitespace-normal",
         className
       ),
@@ -6634,7 +6643,7 @@ function SelectTrigger({
       "data-slot": "select-trigger",
       "data-size": size,
       className: cn(
-        "border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 dark:border-transparent dark:ring-1 dark:ring-control-stroke dark:focus-visible:ring-[3px] dark:focus-visible:ring-ring/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       ),
       ...props,
@@ -8497,7 +8506,7 @@ var toggleVariants = cva16(
     variants: {
       variant: {
         default: "bg-transparent",
-        outline: "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground"
+        outline: "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-transparent dark:ring-1 dark:ring-control-stroke dark:focus-visible:ring-[3px] dark:focus-visible:ring-ring/50"
       },
       size: {
         default: "h-9 px-2 min-w-9",

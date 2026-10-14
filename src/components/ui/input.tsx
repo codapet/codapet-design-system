@@ -66,14 +66,19 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           'hover:border-error-stroke-default',
           'focus:border-error-stroke-default',
           'focus-visible:border',
-          'active:border-error-stroke-default'
+          'active:border-error-stroke-default',
+          // Dark: stroke drawn outside the box so outlined fields don't read
+          // smaller than filled buttons. Border stays (transparent) for sizing.
+          'dark:border-transparent dark:ring-1 dark:ring-error-stroke-default'
         ]
       : [
           'border-gray-stroke-default bg-background',
           'hover:border-focus-ring',
           'focus:border-focus-ring',
           'focus-visible:border',
-          'active:border-focus-ring'
+          'active:border-focus-ring',
+          'dark:border-transparent dark:ring-1 dark:ring-control-stroke',
+          'dark:hover:ring-focus-ring dark:focus:ring-focus-ring dark:active:ring-focus-ring'
         ]
 
     if (leftIcon || rightIcon) {

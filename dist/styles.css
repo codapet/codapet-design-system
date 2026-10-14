@@ -174,6 +174,7 @@
   /* stroke */
   --color-gray-stroke-light: var(--gray-stroke-light);
   --color-gray-stroke-default: var(--gray-stroke-default);
+  --color-control-stroke: var(--control-stroke);
   --color-error-stroke-light: var(--error-stroke-light);
   --color-error-stroke-default: var(--error-stroke-default);
   --color-error-surface-subtle: var(--error-surface-subtle);
@@ -295,6 +296,9 @@
   --gray-surface-dark: oklch(0.228 0.006 286.07);
   --gray-stroke-light: oklch(0.9197 0.004 286.32);
   --gray-stroke-default: oklch(0.8686 0.0037 286.37);
+  /* Outlined-control stroke. Only used via dark: classes; light value mirrors
+     gray-stroke-default so it is safe if ever used unprefixed. */
+  --control-stroke: var(--gray-stroke-default);
   --vibrant-text-details: oklch(0.553 0.013 286.37);
 
   /* primary surface */
@@ -411,6 +415,10 @@
   --gray-surface-dark: oklch(0.228 0.006 286.07);
   --gray-stroke-light: oklch(0.3 0.005 286);
   --gray-stroke-default: oklch(0.35 0.006 286);
+  /* Brighter than gray-stroke-default and drawn as an outer ring (see Input,
+     outline Button): a faint 1px inner border makes outlined controls read
+     smaller than filled ones on dark backgrounds. */
+  --control-stroke: oklch(0.55 0.006 286);
   --vibrant-text-details: oklch(0.6 0.013 286);
   --icon-disabled: oklch(0.35 0.02 252);
 

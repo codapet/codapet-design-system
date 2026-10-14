@@ -17,6 +17,9 @@ const textareaBaseStyles = [
   'focus:border-focus-ring',
   'focus-visible:border',
   'active:border-focus-ring',
+  // Dark: stroke drawn outside the box, same as Input
+  'dark:border-transparent dark:ring-1 dark:ring-control-stroke',
+  'dark:hover:ring-focus-ring dark:focus:ring-focus-ring dark:active:ring-focus-ring',
   // Textarea specific
   'field-sizing-content min-h-16 resize-y px-3 py-2'
 ].join(' ')
@@ -27,7 +30,8 @@ const errorStyles = [
   'hover:border-error-stroke-default',
   'focus:border-error-stroke-default',
   'focus-visible:border',
-  'active:border-error-stroke-default'
+  'active:border-error-stroke-default',
+  'dark:ring-error-stroke-default dark:hover:ring-error-stroke-default dark:focus:ring-error-stroke-default dark:active:ring-error-stroke-default'
 ].join(' ')
 
 export interface TextareaProps extends Omit<
