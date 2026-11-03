@@ -10,10 +10,13 @@ import { cn } from '@/lib/utils'
 
 type TabsContextValue = {
   orientation: 'horizontal' | 'vertical'
+  /** False until the active tab first changes, so initial content never animates in. */
+  hasSwitched: boolean
 }
 
 const TabsContext = React.createContext<TabsContextValue>({
-  orientation: 'horizontal'
+  orientation: 'horizontal',
+  hasSwitched: false
 })
 
 /* ─── useTabIndicator hook ─────────────────────────────────── */
@@ -51,7 +54,7 @@ function useTabIndicator(
           transform: `translateX(${activeEl.offsetLeft}px)`,
           transition: noTransition
             ? 'none'
-            : 'transform 300ms ease-in-out, width 300ms ease-in-out',
+            : 'transform 300ms var(--ease-emphasized), width 300ms var(--ease-emphasized)',
           background: 'var(--primary-stroke-default)',
           opacity: 1
         })
@@ -66,7 +69,7 @@ function useTabIndicator(
           transform: `translateY(${activeEl.offsetTop}px)`,
           transition: noTransition
             ? 'none'
-            : 'transform 300ms ease-in-out, height 300ms ease-in-out',
+            : 'transform 300ms var(--ease-emphasized), height 300ms var(--ease-emphasized)',
           background: 'var(--primary-stroke-default)',
           opacity: 1
         })
@@ -116,12 +119,22 @@ function useTabIndicator(
 function Tabs({
   className,
   orientation = 'horizontal',
+  onValueChange,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Root>) {
+  const [hasSwitched, setHasSwitched] = React.useState(false)
   const ctx = React.useMemo(
-    () => ({ orientation: orientation ?? 'horizontal' }),
-    [orientation]
+    () => ({ orientation: orientation ?? 'horizontal', hasSwitched }),
+    [orientation, hasSwitched]
   ) as TabsContextValue
+
+  const handleValueChange = React.useCallback(
+    (value: string) => {
+      setHasSwitched(true)
+      onValueChange?.(value)
+    },
+    [onValueChange]
+  )
 
   return (
     <TabsContext.Provider value={ctx}>
@@ -132,6 +145,7 @@ function Tabs({
           orientation === 'vertical' ? 'flex flex-row gap-4' : 'flex flex-col gap-2',
           className
         )}
+        onValueChange={handleValueChange}
         {...props}
       />
     </TabsContext.Provider>
@@ -233,10 +247,19 @@ function TabsContent({
   className,
   ...props
 }: React.ComponentProps<typeof TabsPrimitive.Content>) {
+  const { hasSwitched } = React.useContext(TabsContext)
+
   return (
     <TabsPrimitive.Content
       data-slot="tabs-content"
-      className={cn('flex-1 outline-none', className)}
+      className={cn(
+        'flex-1 outline-none',
+        // Radix mounts the newly active panel, so an enter-only fade reads as
+        // a crossfade without holding the old panel in the DOM.
+        hasSwitched &&
+          'data-[state=active]:animate-in data-[state=active]:fade-in-0 data-[state=active]:slide-in-from-bottom-2 duration-300 ease-emphasized motion-reduce:animate-none',
+        className
+      )}
       {...props}
     />
   )

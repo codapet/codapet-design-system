@@ -80,6 +80,7 @@ These are the foot-guns. Knowing them prevents most "why does my Button look wro
 - **Default `size` is `lg` (h-12)**, not `default` (h-9). Sizes: `sm` (h-9) · `md` (h-10) · `lg` (h-12) · `icon` (size-8). For a typical inline action, you usually want `size="md"` — passing nothing gives you a chunky button.
 - Has `cursor-pointer` baked in (shadcn doesn't).
 - **No `type` default** — like any `<button>`, one inside a `<form>` submits it unless you pass `type="button"`. That is deliberate, so `<Button>Save</Button>` still submits. Components that render a Button *for* you (an Input's trailing icon, Calendar days, Carousel arrows, TimeInput options, SidebarTrigger, ThemeToggle, BadgeActionable) set `type="button"` themselves.
+- **`loading` prop** disables the button, sets `aria-busy` and puts a spinner before the label. Don't hand-roll a spinner + `disabled` pair. For an in-flight label, append `<LoadingDots />`: `<Button loading>Checking availability<LoadingDots /></Button>`. `loading` is ignored with `asChild`.
 
 ### Input
 
@@ -312,6 +313,16 @@ Source of truth: `src/styles.css` in this package. If a token is missing, propos
 - Border radius is **per-component**, not global — Buttons `rounded-md`, Cards `rounded-xl`, Badges `rounded-md` (default) or `rounded-[8px]` (informative/actionable), Alert banners `rounded-[12px]`. Don't override unless you have a reason.
 - Mobile breakpoint is **768px** (`useIsMobile`), but `SmartDialog*` switches at **600px** via its own `useMediaQuery`. They are intentionally different — use the right one.
 
+## Motion
+
+The house curve is **`ease-emphasized`** (`cubic-bezier(0.22, 1, 0.36, 1)`, also `var(--ease-emphasized)`). Use it instead of pasting the bezier or reaching for `ease-in-out`. Dialog, Tabs and the hover utilities below already use it, and all of them switch off under `prefers-reduced-motion`.
+
+- **Clickable cards: `interactive-surface`.** One class on any bordered element (or `<Card interactive>`) gives the brand-stroke hover border. Put `interactive-media` on a photo or thumbnail inside it to ease it up 2% on hover. Both are hover-capable-pointer only, so a phone tap never sticks. Don't rebuild this from `transition-[border-color]` + `group-hover:scale-*` per card.
+- **Tabs** fade and rise the new panel in when the user switches. Content on first render does not animate, so server-rendered tabs don't flash on load. The underline indicator slides by itself; never draw per-trigger borders.
+- **Dialog** (and the dialog half of `SmartDialog`) opens with a 0.98 scale and a short rise over 400ms.
+- **Accordion** stagger and icon morph: see the Accordion section.
+- **`animate-loading-dot`** is the keyframe behind `LoadingDots`, available for custom loading text.
+
 ## Utilities & hooks
 
 - `cn(...inputs)` — `clsx` + `tailwind-merge`. Use it when composing `className` props passed to design-system components, so caller classes win conflicts cleanly.
@@ -333,7 +344,7 @@ follow the standard shadcn part names; when unsure, grep the `.d.mts`.
 |---|---|
 | Layout & structure | `AspectRatio`, `Card*`, `Separator`, `ScrollArea`, `ScrollBar`, `Resizable*`, `Sidebar*`, `useSidebar`, `Table*`, `Skeleton` |
 | Typography | `DisplayHeading`, `HeadingXL`, `HeadingL`, `HeadingM`, `HeadingS`, `HeadingXS`, `HeadingXXS` (each with a `*Medium` twin, e.g. `HeadingLMedium`), `Body` |
-| Buttons & badges | `Button`, `Badge`, `BadgeActionable`, `BadgeInformative`, `BadgeInformativeGroup`, `BadgeInformativeItem`, `BadgeNumber`, `Toggle`, `ToggleGroup`, `ToggleGroupItem` |
+| Buttons & badges | `Button`, `LoadingDots`, `Badge`, `BadgeActionable`, `BadgeInformative`, `BadgeInformativeGroup`, `BadgeInformativeItem`, `BadgeNumber`, `Toggle`, `ToggleGroup`, `ToggleGroupItem` |
 | Form fields | `Input`, `Textarea`, `AutoResizeTextarea`, `Label`, `Checkbox`, `RadioGroup`, `RadioGroupItem`, `Switch`, `Slider`, `InputOTP*`, `Form*`, `useFormField`, `OptionCard` |
 | Selection & search | `AsyncAutocomplete*`, `SearchableSelect*`, `SearchInput`, `MultiSelectFreeText`, `DropdownSelect*`, `Select*`, `Command*` |
 | Date & time | `Calendar`, `CalendarDayButton`, `DateInput`, `DateRangeInput`, `TimeInput` |
@@ -354,7 +365,7 @@ rather than reimplementing the classes: `buttonVariants`, `badgeVariants`,
 `AccordionTriggerProps`, `FaqAccordionProps`, `FaqItem`, `InputProps`, `TextareaProps`,
 `SearchInputProps`, `SearchSuggestion`, `AlertBannerProps`,
 `BadgeActionableProps`, `BadgeInformativeProps`, `BadgeNumberProps`,
-`OptionCardProps`, `ProgressBarProps`, `TabsTriggerProps`, `TooltipContentProps`,
+`OptionCardProps`, `ButtonProps`, `CardProps`, `ProgressBarProps`, `TabsTriggerProps`, `TooltipContentProps`,
 `RichTooltipContentProps`, `RichTooltipVariant`, `DateFormat`, `DateInputProps`,
 `DateRangeInputProps`, `DateRange` (re-exported from `react-day-picker`:
 `{ from?: Date; to?: Date }` — the value type for `DateRangeInput`),

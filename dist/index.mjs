@@ -290,8 +290,9 @@ import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 // src/components/ui/button.tsx
 import { Slot } from "@radix-ui/react-slot";
 import { cva as cva3 } from "class-variance-authority";
+import { Loader2 } from "lucide-react";
 import "react";
-import { jsx as jsx4 } from "react/jsx-runtime";
+import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 var buttonVariants = cva3(
   "cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-semibold transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none relative select-none will-change-auto  focus-visible:before:absolute focus-visible:before:-inset-[3px] focus-visible:before:rounded-lg focus-visible:before:ring-2 focus-visible:before:ring-blue-500/80 focus-visible:before:pointer-events-none aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive duration-400",
   {
@@ -327,21 +328,51 @@ function Button({
   variant,
   size,
   asChild = false,
+  loading = false,
+  disabled,
+  children,
   ...props
 }) {
-  const Comp = asChild ? Slot : "button";
-  return /* @__PURE__ */ jsx4(
-    Comp,
+  if (asChild) {
+    return /* @__PURE__ */ jsx4(
+      Slot,
+      {
+        "data-slot": "button",
+        className: cn(buttonVariants({ variant, size, className })),
+        ...props,
+        children
+      }
+    );
+  }
+  return /* @__PURE__ */ jsxs3(
+    "button",
     {
       "data-slot": "button",
       className: cn(buttonVariants({ variant, size, className })),
-      ...props
+      disabled: disabled || loading,
+      "aria-busy": loading || void 0,
+      ...props,
+      children: [
+        loading && /* @__PURE__ */ jsx4(Loader2, { "aria-hidden": true, className: "animate-spin motion-reduce:animate-none" }),
+        children
+      ]
     }
   );
 }
+function LoadingDots({ className, ...props }) {
+  return /* @__PURE__ */ jsx4("span", { "aria-hidden": true, className: cn("inline-flex", className), ...props, children: [0, 1, 2].map((i) => /* @__PURE__ */ jsx4(
+    "span",
+    {
+      className: "animate-loading-dot",
+      style: { animationDelay: `${i * 0.16}s` },
+      children: "."
+    },
+    i
+  )) });
+}
 
 // src/components/ui/alert-dialog.tsx
-import { jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
+import { jsx as jsx5, jsxs as jsxs4 } from "react/jsx-runtime";
 function AlertDialog({
   ...props
 }) {
@@ -377,7 +408,7 @@ function AlertDialogContent({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs3(AlertDialogPortal, { children: [
+  return /* @__PURE__ */ jsxs4(AlertDialogPortal, { children: [
     /* @__PURE__ */ jsx5(AlertDialogOverlay, {}),
     /* @__PURE__ */ jsx5(
       AlertDialogPrimitive.Content,
@@ -484,7 +515,7 @@ function AspectRatio({
 // src/components/ui/async-autocomplete.tsx
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { ArrowLeft, Loader2, X as X2 } from "lucide-react";
+import { ArrowLeft, Loader2 as Loader22, X as X2 } from "lucide-react";
 import * as React8 from "react";
 
 // src/hooks/use-mobile.ts
@@ -507,7 +538,7 @@ function useIsMobile() {
 // src/components/ui/input.tsx
 import { cva as cva4 } from "class-variance-authority";
 import * as React7 from "react";
-import { jsx as jsx7, jsxs as jsxs4 } from "react/jsx-runtime";
+import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
 var inputVariants = cva4(
   [
     // Base styles
@@ -565,7 +596,7 @@ var Input = React7.forwardRef(
       "dark:hover:ring-focus-ring dark:focus:ring-focus-ring dark:active:ring-focus-ring"
     ];
     if (leftIcon || rightIcon) {
-      return /* @__PURE__ */ jsxs4("div", { className: "relative", children: [
+      return /* @__PURE__ */ jsxs5("div", { className: "relative", children: [
         /* @__PURE__ */ jsx7(
           "input",
           {
@@ -642,7 +673,7 @@ var Input = React7.forwardRef(
 Input.displayName = "Input";
 
 // src/components/ui/async-autocomplete.tsx
-import { Fragment as Fragment2, jsx as jsx8, jsxs as jsxs5 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx8, jsxs as jsxs6 } from "react/jsx-runtime";
 var TOUCH_SLOP_PX = 8;
 function useDismissOnScroll(enabled, onDismiss, ignore) {
   const latest = React8.useRef({ onDismiss, ignore });
@@ -935,7 +966,7 @@ function AsyncAutocomplete({
           option.disabled && classNames?.optionDisabled,
           option.className
         ),
-        children: renderOption ? renderOption(option, { index, highlighted, query }) : /* @__PURE__ */ jsxs5(Fragment2, { children: [
+        children: renderOption ? renderOption(option, { index, highlighted, query }) : /* @__PURE__ */ jsxs6(Fragment2, { children: [
           icon && /* @__PURE__ */ jsx8(
             "span",
             {
@@ -946,7 +977,7 @@ function AsyncAutocomplete({
               children: icon
             }
           ),
-          /* @__PURE__ */ jsxs5(
+          /* @__PURE__ */ jsxs6(
             "span",
             {
               className: cn(
@@ -985,7 +1016,7 @@ function AsyncAutocomplete({
         // `role="listbox"` may only own `option` and `group` children, so the
         // status rows are disabled options: still announced, never selectable,
         // and skipped by keyboard nav since they are not in `options`.
-        /* @__PURE__ */ jsxs5(
+        /* @__PURE__ */ jsxs6(
           "div",
           {
             role: "option",
@@ -994,7 +1025,7 @@ function AsyncAutocomplete({
             className: cn(messageClassName, classNames?.loading),
             children: [
               /* @__PURE__ */ jsx8(
-                Loader2,
+                Loader22,
                 {
                   className: cn(
                     "size-[16px] animate-spin text-gray-icon-light",
@@ -1019,7 +1050,7 @@ function AsyncAutocomplete({
     }
   );
   const activeDescendant = highlightedIndex >= 0 ? optionDomId(highlightedIndex) : void 0;
-  const labelNode = label ? /* @__PURE__ */ jsxs5(
+  const labelNode = label ? /* @__PURE__ */ jsxs6(
     "label",
     {
       htmlFor: `${prefix}-input`,
@@ -1083,7 +1114,7 @@ function AsyncAutocomplete({
       onKeyDown: handleKeyDown
     }
   ) });
-  return /* @__PURE__ */ jsxs5(
+  return /* @__PURE__ */ jsxs6(
     PopoverPrimitive.Root,
     {
       open: popoverOpen,
@@ -1091,7 +1122,7 @@ function AsyncAutocomplete({
         if (!next) closePanel();
       },
       children: [
-        /* @__PURE__ */ jsxs5(
+        /* @__PURE__ */ jsxs6(
           "div",
           {
             "data-slot": "async-autocomplete",
@@ -1148,7 +1179,7 @@ function AsyncAutocomplete({
             onOpenChange: (next) => {
               if (!next) closePanel();
             },
-            children: /* @__PURE__ */ jsxs5(DialogPrimitive.Portal, { children: [
+            children: /* @__PURE__ */ jsxs6(DialogPrimitive.Portal, { children: [
               /* @__PURE__ */ jsx8(
                 DialogPrimitive.Overlay,
                 {
@@ -1158,7 +1189,7 @@ function AsyncAutocomplete({
                   )
                 }
               ),
-              /* @__PURE__ */ jsxs5(
+              /* @__PURE__ */ jsxs6(
                 DialogPrimitive.Content,
                 {
                   "aria-describedby": void 0,
@@ -1173,7 +1204,7 @@ function AsyncAutocomplete({
                   onCloseAutoFocus: (event) => event.preventDefault(),
                   children: [
                     /* @__PURE__ */ jsx8(DialogPrimitive.Title, { className: "sr-only", children: sheetTitle }),
-                    /* @__PURE__ */ jsxs5(
+                    /* @__PURE__ */ jsxs6(
                       "div",
                       {
                         className: cn(
@@ -1475,7 +1506,7 @@ function Badge({
 // src/components/ui/badge-actionable.tsx
 import { cva as cva6 } from "class-variance-authority";
 import "react";
-import { jsx as jsx13, jsxs as jsxs6 } from "react/jsx-runtime";
+import { jsx as jsx13, jsxs as jsxs7 } from "react/jsx-runtime";
 var badgeActionableVariants = cva6(
   "inline-flex items-center justify-center gap-2 rounded-[8px] cursor-pointer select-none transition-all font-medium whitespace-nowrap shrink-0 [&_svg]:pointer-events-none [&_svg]:shrink-0 outline-none focus-visible:before:absolute focus-visible:before:-inset-[3px] focus-visible:before:rounded-xl focus-visible:before:ring-2 focus-visible:before:ring-blue-500/80 focus-visible:before:pointer-events-none relative",
   {
@@ -1499,7 +1530,7 @@ function BadgeActionable({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs6(
+  return /* @__PURE__ */ jsxs7(
     "button",
     {
       type: "button",
@@ -1523,7 +1554,7 @@ function BadgeActionable({
 // src/components/ui/badge-informative.tsx
 import { cva as cva7 } from "class-variance-authority";
 import "react";
-import { jsx as jsx14, jsxs as jsxs7 } from "react/jsx-runtime";
+import { jsx as jsx14, jsxs as jsxs8 } from "react/jsx-runtime";
 var badgeInformativeVariants = cva7(
   "inline-flex items-center justify-center font-medium whitespace-nowrap shrink-0 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
@@ -1554,7 +1585,7 @@ function BadgeInformative({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs7(
+  return /* @__PURE__ */ jsxs8(
     "div",
     {
       "data-slot": "badge-informative",
@@ -1563,7 +1594,7 @@ function BadgeInformative({
       children: [
         icon && /* @__PURE__ */ jsx14("span", { className: "flex items-center justify-center shrink-0", children: icon }),
         /* @__PURE__ */ jsx14("span", { children }),
-        linkText && /* @__PURE__ */ jsxs7(
+        linkText && /* @__PURE__ */ jsxs8(
           "a",
           {
             href: linkHref || "#",
@@ -1633,7 +1664,7 @@ function BadgeInformativeItem({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs7(
+  return /* @__PURE__ */ jsxs8(
     "div",
     {
       "data-slot": "badge-informative-item",
@@ -1649,7 +1680,7 @@ function BadgeInformativeItem({
       children: [
         icon && /* @__PURE__ */ jsx14("span", { className: "flex items-center justify-center shrink-0", children: icon }),
         /* @__PURE__ */ jsx14("span", { children }),
-        linkText && /* @__PURE__ */ jsxs7(
+        linkText && /* @__PURE__ */ jsxs8(
           "a",
           {
             href: linkHref || "#",
@@ -1729,7 +1760,7 @@ function BadgeNumber({
 import "react";
 import { Slot as Slot3 } from "@radix-ui/react-slot";
 import { ChevronRight, MoreHorizontal } from "lucide-react";
-import { jsx as jsx16, jsxs as jsxs8 } from "react/jsx-runtime";
+import { jsx as jsx16, jsxs as jsxs9 } from "react/jsx-runtime";
 function Breadcrumb({ ...props }) {
   return /* @__PURE__ */ jsx16("nav", { "aria-label": "breadcrumb", "data-slot": "breadcrumb", ...props });
 }
@@ -1805,7 +1836,7 @@ function BreadcrumbEllipsis({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs8(
+  return /* @__PURE__ */ jsxs9(
     "span",
     {
       "data-slot": "breadcrumb-ellipsis",
@@ -2008,13 +2039,14 @@ function CalendarDayButton({
 // src/components/ui/card.tsx
 import "react";
 import { jsx as jsx18 } from "react/jsx-runtime";
-function Card({ className, ...props }) {
+function Card({ className, interactive, ...props }) {
   return /* @__PURE__ */ jsx18(
     "div",
     {
       "data-slot": "card",
       className: cn(
         "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        interactive && "interactive-surface",
         className
       ),
       ...props
@@ -2092,7 +2124,7 @@ function CardFooter({ className, ...props }) {
 import * as React19 from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft as ArrowLeft2, ArrowRight } from "lucide-react";
-import { jsx as jsx19, jsxs as jsxs9 } from "react/jsx-runtime";
+import { jsx as jsx19, jsxs as jsxs10 } from "react/jsx-runtime";
 var CarouselContext = React19.createContext(null);
 function useCarousel() {
   const context = React19.useContext(CarouselContext);
@@ -2229,7 +2261,7 @@ function CarouselPrevious({
   ...props
 }) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
-  return /* @__PURE__ */ jsxs9(
+  return /* @__PURE__ */ jsxs10(
     Button,
     {
       type: "button",
@@ -2258,7 +2290,7 @@ function CarouselNext({
   ...props
 }) {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
-  return /* @__PURE__ */ jsxs9(
+  return /* @__PURE__ */ jsxs10(
     Button,
     {
       type: "button",
@@ -2284,7 +2316,7 @@ function CarouselNext({
 // src/components/ui/chart.tsx
 import * as React20 from "react";
 import * as RechartsPrimitive from "recharts";
-import { Fragment as Fragment3, jsx as jsx20, jsxs as jsxs10 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx20, jsxs as jsxs11 } from "react/jsx-runtime";
 var THEMES = { light: "", dark: ".dark" };
 var ChartContext = React20.createContext(null);
 function useChart() {
@@ -2303,7 +2335,7 @@ function ChartContainer({
 }) {
   const uniqueId = React20.useId();
   const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`;
-  return /* @__PURE__ */ jsx20(ChartContext.Provider, { value: { config }, children: /* @__PURE__ */ jsxs10(
+  return /* @__PURE__ */ jsx20(ChartContext.Provider, { value: { config }, children: /* @__PURE__ */ jsxs11(
     "div",
     {
       "data-slot": "chart",
@@ -2390,7 +2422,7 @@ function ChartTooltipContent({
     return null;
   }
   const nestLabel = payload.length === 1 && indicator !== "dot";
-  return /* @__PURE__ */ jsxs10(
+  return /* @__PURE__ */ jsxs11(
     "div",
     {
       className: cn(
@@ -2410,7 +2442,7 @@ function ChartTooltipContent({
                 "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5",
                 indicator === "dot" && "items-center"
               ),
-              children: formatter && item?.value !== void 0 && item.name ? formatter(item.value, item.name, item, index, item.payload) : /* @__PURE__ */ jsxs10(Fragment3, { children: [
+              children: formatter && item?.value !== void 0 && item.name ? formatter(item.value, item.name, item, index, item.payload) : /* @__PURE__ */ jsxs11(Fragment3, { children: [
                 itemConfig?.icon ? /* @__PURE__ */ jsx20(itemConfig.icon, {}) : !hideIndicator && /* @__PURE__ */ jsx20(
                   "div",
                   {
@@ -2429,7 +2461,7 @@ function ChartTooltipContent({
                     }
                   }
                 ),
-                /* @__PURE__ */ jsxs10(
+                /* @__PURE__ */ jsxs11(
                   "div",
                   {
                     className: cn(
@@ -2437,7 +2469,7 @@ function ChartTooltipContent({
                       nestLabel ? "items-end" : "items-center"
                     ),
                     children: [
-                      /* @__PURE__ */ jsxs10("div", { className: "grid gap-1.5", children: [
+                      /* @__PURE__ */ jsxs11("div", { className: "grid gap-1.5", children: [
                         nestLabel ? tooltipLabel : null,
                         /* @__PURE__ */ jsx20("span", { className: "text-muted-foreground", children: itemConfig?.label || item.name })
                       ] }),
@@ -2477,7 +2509,7 @@ function ChartLegendContent({
       children: payload.map((item) => {
         const key = `${nameKey || item.dataKey || "value"}`;
         const itemConfig = getPayloadConfigFromPayload(config, item, key);
-        return /* @__PURE__ */ jsxs10(
+        return /* @__PURE__ */ jsxs11(
           "div",
           {
             className: cn(
@@ -2587,7 +2619,7 @@ import { SearchIcon } from "lucide-react";
 import * as DialogPrimitive2 from "@radix-ui/react-dialog";
 import { XIcon } from "lucide-react";
 import "react";
-import { jsx as jsx23, jsxs as jsxs11 } from "react/jsx-runtime";
+import { jsx as jsx23, jsxs as jsxs12 } from "react/jsx-runtime";
 function Dialog({
   ...props
 }) {
@@ -2617,7 +2649,7 @@ function DialogOverlay({
     {
       "data-slot": "dialog-overlay",
       className: cn(
-        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/40",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-400 ease-emphasized fixed inset-0 z-50 bg-black/40",
         className
       ),
       ...props
@@ -2631,20 +2663,20 @@ function DialogContent({
   showCloseButton = true,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs11(DialogPortal, { "data-slot": "dialog-portal", children: [
+  return /* @__PURE__ */ jsxs12(DialogPortal, { "data-slot": "dialog-portal", children: [
     /* @__PURE__ */ jsx23(DialogOverlay, { className: overlayClassName }),
-    /* @__PURE__ */ jsxs11(
+    /* @__PURE__ */ jsxs12(
       DialogPrimitive2.Content,
       {
         "data-slot": "dialog-content",
         className: cn(
-          "bg-background border-border-default data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-3xl border p-6 shadow-lg duration-400 sm:max-w-lg",
+          "bg-background border-border-default data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-[0.98] data-[state=open]:zoom-in-[0.98] data-[state=open]:slide-in-from-bottom-[10px] data-[state=closed]:slide-out-to-bottom-[6px] ease-emphasized fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-3xl border p-6 shadow-lg duration-400 sm:max-w-lg",
           className
         ),
         ...props,
         children: [
           children,
-          showCloseButton && /* @__PURE__ */ jsxs11(
+          showCloseButton && /* @__PURE__ */ jsxs12(
             DialogPrimitive2.Close,
             {
               "data-slot": "dialog-close",
@@ -2711,7 +2743,7 @@ function DialogDescription({
 }
 
 // src/components/ui/command.tsx
-import { jsx as jsx24, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx24, jsxs as jsxs13 } from "react/jsx-runtime";
 function Command({
   className,
   ...props
@@ -2736,8 +2768,8 @@ function CommandDialog({
   showCloseButton = true,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs12(Dialog, { ...props, children: [
-    /* @__PURE__ */ jsxs12(DialogHeader, { className: "sr-only", children: [
+  return /* @__PURE__ */ jsxs13(Dialog, { ...props, children: [
+    /* @__PURE__ */ jsxs13(DialogHeader, { className: "sr-only", children: [
       /* @__PURE__ */ jsx24(DialogTitle, { children: title }),
       /* @__PURE__ */ jsx24(DialogDescription, { children: description })
     ] }),
@@ -2755,7 +2787,7 @@ function CommandInput({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs12(
+  return /* @__PURE__ */ jsxs13(
     "div",
     {
       "data-slot": "command-input-wrapper",
@@ -2871,7 +2903,7 @@ function CommandShortcut({
 import "react";
 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
 import { CheckIcon, ChevronRightIcon as ChevronRightIcon2, CircleIcon } from "lucide-react";
-import { jsx as jsx25, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx25, jsxs as jsxs14 } from "react/jsx-runtime";
 function ContextMenu({
   ...props
 }) {
@@ -2914,7 +2946,7 @@ function ContextMenuSubTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs13(
+  return /* @__PURE__ */ jsxs14(
     ContextMenuPrimitive.SubTrigger,
     {
       "data-slot": "context-menu-sub-trigger",
@@ -2989,7 +3021,7 @@ function ContextMenuCheckboxItem({
   checked,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs13(
+  return /* @__PURE__ */ jsxs14(
     ContextMenuPrimitive.CheckboxItem,
     {
       "data-slot": "context-menu-checkbox-item",
@@ -3011,7 +3043,7 @@ function ContextMenuRadioItem({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs13(
+  return /* @__PURE__ */ jsxs14(
     ContextMenuPrimitive.RadioItem,
     {
       "data-slot": "context-menu-radio-item",
@@ -3126,7 +3158,7 @@ function PopoverAnchor({
 }
 
 // src/components/ui/date-input.tsx
-import { jsx as jsx27, jsxs as jsxs14 } from "react/jsx-runtime";
+import { jsx as jsx27, jsxs as jsxs15 } from "react/jsx-runtime";
 var DATE_FORMAT_TOKENS = {
   "MM/DD/YYYY": "MM/dd/yyyy",
   "DD/MM/YYYY": "dd/MM/yyyy",
@@ -3408,7 +3440,7 @@ function DateInput({
       }
     }
   };
-  return /* @__PURE__ */ jsx27("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs14(Popover, { open, onOpenChange: setOpen, children: [
+  return /* @__PURE__ */ jsx27("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs15(Popover, { open, onOpenChange: setOpen, children: [
     /* @__PURE__ */ jsx27(PopoverTrigger, { asChild: true, disabled: isInputDisabled, children: /* @__PURE__ */ jsx27("div", { className: "w-full relative group", children: /* @__PURE__ */ jsx27(
       Input,
       {
@@ -3454,7 +3486,7 @@ import "class-variance-authority";
 import { format as dateFnsFormat2, isValid as isValid2 } from "date-fns";
 import { CalendarDays as CalendarDays2 } from "lucide-react";
 import * as React27 from "react";
-import { jsx as jsx28, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx28, jsxs as jsxs16 } from "react/jsx-runtime";
 var DATE_FORMAT_TOKENS2 = {
   "MM/DD/YYYY": "MM/dd/yyyy",
   "DD/MM/YYYY": "dd/MM/yyyy",
@@ -3631,8 +3663,8 @@ function DateRangeInput({
     onSelect: handleCalendarSelect,
     disabled: calendarDisabled ?? defaultCalendarDisabled
   };
-  return /* @__PURE__ */ jsx28("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs15(Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ jsx28(PopoverTrigger, { asChild: true, disabled: isInputDisabled, children: /* @__PURE__ */ jsxs15(
+  return /* @__PURE__ */ jsx28("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs16(Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsx28(PopoverTrigger, { asChild: true, disabled: isInputDisabled, children: /* @__PURE__ */ jsxs16(
       Button,
       {
         type: "button",
@@ -3659,9 +3691,9 @@ function DateRangeInput({
           popoverContentClassName
         ),
         ...popoverContentProps,
-        children: /* @__PURE__ */ jsxs15("div", { className: "border border-focus-ring h-full w-full rounded-md flex flex-col overflow-y-auto justify-between", children: [
+        children: /* @__PURE__ */ jsxs16("div", { className: "border border-focus-ring h-full w-full rounded-md flex flex-col overflow-y-auto justify-between", children: [
           /* @__PURE__ */ jsx28(Calendar, { ...resolvedCalendarProps }),
-          /* @__PURE__ */ jsxs15("div", { className: "flex flex-col gap-2 px-2 pb-1 shrink-0", children: [
+          /* @__PURE__ */ jsxs16("div", { className: "flex flex-col gap-2 px-2 pb-1 shrink-0", children: [
             /* @__PURE__ */ jsx28(
               Button,
               {
@@ -3693,7 +3725,7 @@ function DateRangeInput({
 import { XIcon as XIcon2 } from "lucide-react";
 import "react";
 import { Drawer as DrawerPrimitive } from "vaul";
-import { jsx as jsx29, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx29, jsxs as jsxs17 } from "react/jsx-runtime";
 function Drawer({
   ...props
 }) {
@@ -3745,9 +3777,9 @@ function DrawerContent({
   overlayClassName,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs16(DrawerPortal, { "data-slot": "drawer-portal", children: [
+  return /* @__PURE__ */ jsxs17(DrawerPortal, { "data-slot": "drawer-portal", children: [
     /* @__PURE__ */ jsx29(DrawerOverlay, { className: overlayClassName }),
-    /* @__PURE__ */ jsxs16(
+    /* @__PURE__ */ jsxs17(
       DrawerPrimitive.Content,
       {
         "data-slot": "drawer-content",
@@ -3759,7 +3791,7 @@ function DrawerContent({
         ...props,
         children: [
           withCloseButton && /* @__PURE__ */ jsx29("div", { className: "bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block" }),
-          showCloseButton && /* @__PURE__ */ jsxs16(
+          showCloseButton && /* @__PURE__ */ jsxs17(
             DrawerPrimitive.Close,
             {
               "data-slot": "drawer-close-button",
@@ -3833,7 +3865,7 @@ function DrawerDescription({
 import "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { CheckIcon as CheckIcon2, ChevronRightIcon as ChevronRightIcon3, CircleIcon as CircleIcon2 } from "lucide-react";
-import { jsx as jsx30, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx30, jsxs as jsxs18 } from "react/jsx-runtime";
 function DropdownMenu({
   ...props
 }) {
@@ -3904,7 +3936,7 @@ function DropdownMenuCheckboxItem({
   checked,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs17(
+  return /* @__PURE__ */ jsxs18(
     DropdownMenuPrimitive.CheckboxItem,
     {
       "data-slot": "dropdown-menu-checkbox-item",
@@ -3937,7 +3969,7 @@ function DropdownMenuRadioItem({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs17(
+  return /* @__PURE__ */ jsxs18(
     DropdownMenuPrimitive.RadioItem,
     {
       "data-slot": "dropdown-menu-radio-item",
@@ -4011,7 +4043,7 @@ function DropdownMenuSubTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs17(
+  return /* @__PURE__ */ jsxs18(
     DropdownMenuPrimitive.SubTrigger,
     {
       "data-slot": "dropdown-menu-sub-trigger",
@@ -4049,7 +4081,7 @@ function DropdownMenuSubContent({
 import * as React30 from "react";
 import * as PopoverPrimitive3 from "@radix-ui/react-popover";
 import { ChevronDown } from "lucide-react";
-import { jsx as jsx31, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx31, jsxs as jsxs19 } from "react/jsx-runtime";
 var DropdownSelectContext = React30.createContext(null);
 function useDropdownSelect() {
   const ctx = React30.useContext(DropdownSelectContext);
@@ -4128,7 +4160,7 @@ function DropdownSelectLabel({
   mandatory = false,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs18(
+  return /* @__PURE__ */ jsxs19(
     "div",
     {
       "data-slot": "dropdown-select-label",
@@ -4174,7 +4206,7 @@ function DropdownSelectTrigger({ className, ...props }) {
     [disabled, open, setOpen, options, highlightedIndex, setHighlightedIndex, onValueChange]
   );
   const hasValue = value !== "" && displayLabel !== "";
-  return /* @__PURE__ */ jsx31(PopoverPrimitive3.Trigger, { asChild: true, children: /* @__PURE__ */ jsxs18(
+  return /* @__PURE__ */ jsx31(PopoverPrimitive3.Trigger, { asChild: true, children: /* @__PURE__ */ jsxs19(
     "button",
     {
       type: "button",
@@ -4583,7 +4615,7 @@ function HeadingXXSMedium({
 }
 
 // src/components/ui/faq-accordion.tsx
-import { jsx as jsx33, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx33, jsxs as jsxs20 } from "react/jsx-runtime";
 function FaqAccordion({
   faqs,
   className,
@@ -4622,7 +4654,7 @@ function FaqAccordion({
       value,
       onValueChange: setValue,
       className,
-      children: faqs.map((faq, i) => /* @__PURE__ */ jsxs19(
+      children: faqs.map((faq, i) => /* @__PURE__ */ jsxs20(
         AccordionItem,
         {
           value: values[i],
@@ -4837,7 +4869,7 @@ function HoverCardContent({
 import * as React36 from "react";
 import { OTPInput, OTPInputContext } from "input-otp";
 import { MinusIcon } from "lucide-react";
-import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx37, jsxs as jsxs21 } from "react/jsx-runtime";
 var InputOTPErrorContext = React36.createContext(false);
 function InputOTP({
   className,
@@ -4877,7 +4909,7 @@ function InputOTPSlot({
   const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
   const isHovering = inputOTPContext?.isHovering ?? false;
   const error = React36.useContext(InputOTPErrorContext);
-  return /* @__PURE__ */ jsxs20(
+  return /* @__PURE__ */ jsxs21(
     "div",
     {
       "data-slot": "input-otp-slot",
@@ -4917,7 +4949,7 @@ function InputOTPSeparator({ ...props }) {
 import "react";
 import * as MenubarPrimitive from "@radix-ui/react-menubar";
 import { CheckIcon as CheckIcon3, ChevronRightIcon as ChevronRightIcon4, CircleIcon as CircleIcon3 } from "lucide-react";
-import { jsx as jsx38, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx38, jsxs as jsxs22 } from "react/jsx-runtime";
 function Menubar({
   className,
   ...props
@@ -5018,7 +5050,7 @@ function MenubarCheckboxItem({
   checked,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsxs22(
     MenubarPrimitive.CheckboxItem,
     {
       "data-slot": "menubar-checkbox-item",
@@ -5040,7 +5072,7 @@ function MenubarRadioItem({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsxs22(
     MenubarPrimitive.RadioItem,
     {
       "data-slot": "menubar-radio-item",
@@ -5114,7 +5146,7 @@ function MenubarSubTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs21(
+  return /* @__PURE__ */ jsxs22(
     MenubarPrimitive.SubTrigger,
     {
       "data-slot": "menubar-sub-trigger",
@@ -5152,9 +5184,9 @@ function MenubarSubContent({
 import * as React38 from "react";
 import * as PopoverPrimitive4 from "@radix-ui/react-popover";
 import { ChevronDown as ChevronDown2, X as X3 } from "lucide-react";
-import { jsx as jsx39, jsxs as jsxs22 } from "react/jsx-runtime";
+import { jsx as jsx39, jsxs as jsxs23 } from "react/jsx-runtime";
 function Tag({ label, onRemove }) {
-  return /* @__PURE__ */ jsxs22(
+  return /* @__PURE__ */ jsxs23(
     "span",
     {
       "data-slot": "multi-select-tag",
@@ -5280,17 +5312,17 @@ function MultiSelectFreeText({
     if (!open) setOpen(true);
   }, [disabled, open]);
   const isFocused = open;
-  return /* @__PURE__ */ jsx39(PopoverPrimitive4.Root, { open, onOpenChange: disabled ? void 0 : setOpen, children: /* @__PURE__ */ jsxs22(
+  return /* @__PURE__ */ jsx39(PopoverPrimitive4.Root, { open, onOpenChange: disabled ? void 0 : setOpen, children: /* @__PURE__ */ jsxs23(
     "div",
     {
       "data-slot": "multi-select-free-text",
       className: cn("flex flex-col gap-[8px] items-start w-full", className),
       children: [
-        label && /* @__PURE__ */ jsxs22("div", { className: "flex items-center font-sans font-medium text-[14px] leading-[20px] text-vibrant-text-details", children: [
+        label && /* @__PURE__ */ jsxs23("div", { className: "flex items-center font-sans font-medium text-[14px] leading-[20px] text-vibrant-text-details", children: [
           label,
           mandatory && /* @__PURE__ */ jsx39("span", { className: "text-error-surface-default ml-0.5 text-[14px] leading-[20px]", children: "*" })
         ] }),
-        /* @__PURE__ */ jsx39(PopoverPrimitive4.Anchor, { asChild: true, children: /* @__PURE__ */ jsxs22(
+        /* @__PURE__ */ jsx39(PopoverPrimitive4.Anchor, { asChild: true, children: /* @__PURE__ */ jsxs23(
           "div",
           {
             ref: triggerRef,
@@ -5303,7 +5335,7 @@ function MultiSelectFreeText({
             ),
             children: [
               icon && /* @__PURE__ */ jsx39("span", { className: "flex items-center justify-center shrink-0 size-[20px] [&_svg]:size-[20px] text-muted-foreground", children: icon }),
-              /* @__PURE__ */ jsxs22("div", { className: "flex flex-wrap items-center gap-[8px] flex-1 min-w-0", children: [
+              /* @__PURE__ */ jsxs23("div", { className: "flex flex-wrap items-center gap-[8px] flex-1 min-w-0", children: [
                 values.map((tag) => /* @__PURE__ */ jsx39(Tag, { label: tag, onRemove: () => removeTag(tag) }, tag)),
                 /* @__PURE__ */ jsx39(
                   "input",
@@ -5351,7 +5383,7 @@ function MultiSelectFreeText({
               "[&::-webkit-scrollbar]:w-[5px] [&::-webkit-scrollbar-track]:rounded-[3px] [&::-webkit-scrollbar-track]:bg-gray-surface-light [&::-webkit-scrollbar-thumb]:rounded-[3px] [&::-webkit-scrollbar-thumb]:bg-gray-surface-default",
               "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2"
             ),
-            children: /* @__PURE__ */ jsxs22("div", { role: "listbox", className: "flex flex-col", children: [
+            children: /* @__PURE__ */ jsxs23("div", { role: "listbox", className: "flex flex-col", children: [
               inputValue.trim() !== "" && !options.some(
                 (o) => o.label.toLowerCase() === inputValue.toLowerCase()
               ) && /* @__PURE__ */ jsx39(
@@ -5403,14 +5435,14 @@ import "react";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva as cva11 } from "class-variance-authority";
 import { ChevronDownIcon as ChevronDownIcon3 } from "lucide-react";
-import { jsx as jsx40, jsxs as jsxs23 } from "react/jsx-runtime";
+import { jsx as jsx40, jsxs as jsxs24 } from "react/jsx-runtime";
 function NavigationMenu({
   className,
   children,
   viewport = true,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs23(
+  return /* @__PURE__ */ jsxs24(
     NavigationMenuPrimitive.Root,
     {
       "data-slot": "navigation-menu",
@@ -5464,7 +5496,7 @@ function NavigationMenuTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs23(
+  return /* @__PURE__ */ jsxs24(
     NavigationMenuPrimitive.Trigger,
     {
       "data-slot": "navigation-menu-trigger",
@@ -5563,7 +5595,7 @@ function NavigationMenuIndicator({
 import { cva as cva12 } from "class-variance-authority";
 import { Check as Check2, Circle } from "lucide-react";
 import "react";
-import { jsx as jsx41, jsxs as jsxs24 } from "react/jsx-runtime";
+import { jsx as jsx41, jsxs as jsxs25 } from "react/jsx-runtime";
 var optionCardVariants = cva12(
   "group flex items-center gap-2 h-12 p-2 cursor-pointer transition-all duration-200 font-medium text-base leading-6 outline-none select-none",
   {
@@ -5681,7 +5713,7 @@ function OptionCard({
 }) {
   const Indicator5 = selectionType === "single" ? RadioIndicator : CheckboxIndicator;
   const indicator = /* @__PURE__ */ jsx41(Indicator5, { selected });
-  return /* @__PURE__ */ jsxs24(
+  return /* @__PURE__ */ jsxs25(
     "button",
     {
       type: "button",
@@ -5700,7 +5732,7 @@ function OptionCard({
       ...props,
       children: [
         selectorPosition === "left" && indicator,
-        /* @__PURE__ */ jsxs24("span", { className: "flex items-center gap-2 flex-1 min-w-0", children: [
+        /* @__PURE__ */ jsxs25("span", { className: "flex items-center gap-2 flex-1 min-w-0", children: [
           icon && /* @__PURE__ */ jsx41("span", { className: "flex items-center justify-center shrink-0 size-5 [&_svg]:size-5", children: icon }),
           /* @__PURE__ */ jsx41("span", { className: "truncate", children })
         ] }),
@@ -5717,7 +5749,7 @@ import {
   ChevronRightIcon as ChevronRightIcon5,
   MoreHorizontalIcon
 } from "lucide-react";
-import { jsx as jsx42, jsxs as jsxs25 } from "react/jsx-runtime";
+import { jsx as jsx42, jsxs as jsxs26 } from "react/jsx-runtime";
 function Pagination({ className, ...props }) {
   return /* @__PURE__ */ jsx42(
     "nav",
@@ -5773,7 +5805,7 @@ function PaginationPrevious({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs25(
+  return /* @__PURE__ */ jsxs26(
     PaginationLink,
     {
       "aria-label": "Go to previous page",
@@ -5791,7 +5823,7 @@ function PaginationNext({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs25(
+  return /* @__PURE__ */ jsxs26(
     PaginationLink,
     {
       "aria-label": "Go to next page",
@@ -5809,7 +5841,7 @@ function PaginationEllipsis({
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs25(
+  return /* @__PURE__ */ jsxs26(
     "span",
     {
       "aria-hidden": true,
@@ -5857,7 +5889,7 @@ function Progress({
 // src/components/ui/progress-bar.tsx
 import { cva as cva13 } from "class-variance-authority";
 import "react";
-import { jsx as jsx44, jsxs as jsxs26 } from "react/jsx-runtime";
+import { jsx as jsx44, jsxs as jsxs27 } from "react/jsx-runtime";
 var progressBarVariants = cva13("relative overflow-hidden rounded-[8px]", {
   variants: {
     device: {
@@ -5878,7 +5910,7 @@ function ProgressBar({
   ...props
 }) {
   const percentage = value !== void 0 ? Math.min(100, Math.max(0, value)) : Math.min(100, Math.max(0, currentStep / totalSteps * 100));
-  return /* @__PURE__ */ jsxs26(
+  return /* @__PURE__ */ jsxs27(
     "div",
     {
       "data-slot": "progress-bar",
@@ -5994,13 +6026,13 @@ function ResizableHandle({
 // src/components/ui/scroll-area.tsx
 import "react";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
-import { jsx as jsx47, jsxs as jsxs27 } from "react/jsx-runtime";
+import { jsx as jsx47, jsxs as jsxs28 } from "react/jsx-runtime";
 function ScrollArea({
   className,
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs27(
+  return /* @__PURE__ */ jsxs28(
     ScrollAreaPrimitive.Root,
     {
       "data-slot": "scroll-area",
@@ -6052,7 +6084,7 @@ function ScrollBar({
 // src/components/ui/search-input.tsx
 import * as React47 from "react";
 import { Search, X as X4 } from "lucide-react";
-import { jsx as jsx48, jsxs as jsxs28 } from "react/jsx-runtime";
+import { jsx as jsx48, jsxs as jsxs29 } from "react/jsx-runtime";
 function SearchInput({
   variant = "icon",
   value: valueProp,
@@ -6146,7 +6178,7 @@ function SearchInput({
   );
   const displayHelperText = error && errorMessage ? errorMessage : helperText;
   const showClearButton = (isFilledEdit || error) && hasValue;
-  return /* @__PURE__ */ jsxs28(
+  return /* @__PURE__ */ jsxs29(
     "div",
     {
       ref: containerRef,
@@ -6155,7 +6187,7 @@ function SearchInput({
       onBlur: handleBlur,
       children: [
         label && /* @__PURE__ */ jsx48("div", { className: "flex items-center font-sans font-medium text-[14px] leading-[20px] text-vibrant-text-details", children: label }),
-        /* @__PURE__ */ jsxs28(
+        /* @__PURE__ */ jsxs29(
           "div",
           {
             className: cn(
@@ -6249,7 +6281,7 @@ function SearchInput({
           {
             "data-slot": "search-input-suggestions",
             className: "w-full rounded-[8px] border border-gray-stroke-light bg-white dark:bg-card p-[12px] shadow-[0px_4px_24px_0px_rgba(0,0,0,0.05)] flex flex-col gap-[16px]",
-            children: suggestions.map((suggestion, idx) => /* @__PURE__ */ jsxs28(
+            children: suggestions.map((suggestion, idx) => /* @__PURE__ */ jsxs29(
               "button",
               {
                 type: "button",
@@ -6273,7 +6305,7 @@ function SearchInput({
 // src/components/ui/searchable-select.tsx
 import * as React48 from "react";
 import { CheckIcon as CheckIcon4, ChevronsUpDown, XIcon as XIcon3 } from "lucide-react";
-import { jsx as jsx49, jsxs as jsxs29 } from "react/jsx-runtime";
+import { jsx as jsx49, jsxs as jsxs30 } from "react/jsx-runtime";
 var SearchableSelectContext = React48.createContext(null);
 function useSearchableSelect() {
   const ctx = React48.useContext(SearchableSelectContext);
@@ -6415,13 +6447,13 @@ function SearchableSelectTrigger({
     }
     const visible = ctx.values.slice(0, ctx.maxCount);
     const remaining = ctx.values.length - visible.length;
-    return /* @__PURE__ */ jsxs29(
+    return /* @__PURE__ */ jsxs30(
       "span",
       {
         "data-slot": "searchable-select-value",
         className: "flex flex-wrap items-center gap-1",
         children: [
-          visible.map((v) => /* @__PURE__ */ jsxs29(
+          visible.map((v) => /* @__PURE__ */ jsxs30(
             Badge,
             {
               variant: "secondary",
@@ -6447,7 +6479,7 @@ function SearchableSelectTrigger({
             },
             v
           )),
-          remaining > 0 && /* @__PURE__ */ jsxs29(Badge, { variant: "outline", className: "text-muted-foreground", children: [
+          remaining > 0 && /* @__PURE__ */ jsxs30(Badge, { variant: "outline", className: "text-muted-foreground", children: [
             "+",
             remaining,
             " more"
@@ -6456,7 +6488,7 @@ function SearchableSelectTrigger({
       }
     );
   };
-  return /* @__PURE__ */ jsxs29(
+  return /* @__PURE__ */ jsxs30(
     PopoverTrigger,
     {
       "data-slot": "searchable-select-trigger",
@@ -6523,9 +6555,9 @@ function SearchableSelectContent({
       className: cn("w-[var(--radix-popover-trigger-width)] p-0", className),
       align: "start",
       ...props,
-      children: /* @__PURE__ */ jsxs29(Command, { children: [
+      children: /* @__PURE__ */ jsxs30(Command, { children: [
         ctx.searchable && /* @__PURE__ */ jsx49(CommandInput, { placeholder: ctx.searchPlaceholder }),
-        /* @__PURE__ */ jsxs29(CommandList, { children: [
+        /* @__PURE__ */ jsxs30(CommandList, { children: [
           /* @__PURE__ */ jsx49(CommandEmpty, { children: emptyText }),
           children || renderAutoItems()
         ] })
@@ -6553,7 +6585,7 @@ function SearchableSelectItem({
       );
     }
   };
-  return /* @__PURE__ */ jsxs29(
+  return /* @__PURE__ */ jsxs30(
     CommandItem,
     {
       "data-slot": "searchable-select-item",
@@ -6615,7 +6647,7 @@ function SearchableSelectEmpty({
 import "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { CheckIcon as CheckIcon5, ChevronDownIcon as ChevronDownIcon4, ChevronUpIcon } from "lucide-react";
-import { jsx as jsx50, jsxs as jsxs30 } from "react/jsx-runtime";
+import { jsx as jsx50, jsxs as jsxs31 } from "react/jsx-runtime";
 function Select({
   ...props
 }) {
@@ -6637,7 +6669,7 @@ function SelectTrigger({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs30(
+  return /* @__PURE__ */ jsxs31(
     SelectPrimitive.Trigger,
     {
       "data-slot": "select-trigger",
@@ -6660,7 +6692,7 @@ function SelectContent({
   position = "popper",
   ...props
 }) {
-  return /* @__PURE__ */ jsx50(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs30(
+  return /* @__PURE__ */ jsx50(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs31(
     SelectPrimitive.Content,
     {
       "data-slot": "select-content",
@@ -6706,7 +6738,7 @@ function SelectItem({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs30(
+  return /* @__PURE__ */ jsxs31(
     SelectPrimitive.Item,
     {
       "data-slot": "select-item",
@@ -6799,7 +6831,7 @@ function Separator5({
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { XIcon as XIcon4 } from "lucide-react";
 import "react";
-import { jsx as jsx52, jsxs as jsxs31 } from "react/jsx-runtime";
+import { jsx as jsx52, jsxs as jsxs32 } from "react/jsx-runtime";
 function Sheet({ ...props }) {
   return /* @__PURE__ */ jsx52(SheetPrimitive.Root, { "data-slot": "sheet", ...props });
 }
@@ -6841,9 +6873,9 @@ function SheetContent({
   showCloseButton = true,
   ...props
 }) {
-  return /* @__PURE__ */ jsxs31(SheetPortal, { children: [
+  return /* @__PURE__ */ jsxs32(SheetPortal, { children: [
     /* @__PURE__ */ jsx52(SheetOverlay, {}),
-    /* @__PURE__ */ jsxs31(
+    /* @__PURE__ */ jsxs32(
       SheetPrimitive.Content,
       {
         "data-slot": "sheet-content",
@@ -6858,7 +6890,7 @@ function SheetContent({
         ...props,
         children: [
           children,
-          showCloseButton && /* @__PURE__ */ jsxs31(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
+          showCloseButton && /* @__PURE__ */ jsxs32(SheetPrimitive.Close, { className: "ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none", children: [
             /* @__PURE__ */ jsx52(XIcon4, { className: "size-4" }),
             /* @__PURE__ */ jsx52("span", { className: "sr-only", children: "Close" })
           ] })
@@ -6937,7 +6969,7 @@ function Skeleton({ className, ...props }) {
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { X as X5 } from "lucide-react";
 import * as React52 from "react";
-import { jsx as jsx54, jsxs as jsxs32 } from "react/jsx-runtime";
+import { jsx as jsx54, jsxs as jsxs33 } from "react/jsx-runtime";
 function TooltipProvider({
   delayDuration = 0,
   ...props
@@ -6992,7 +7024,7 @@ function TooltipContent({
   children,
   ...props
 }) {
-  return /* @__PURE__ */ jsx54(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs32(
+  return /* @__PURE__ */ jsx54(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs33(
     TooltipPrimitive.Content,
     {
       "data-slot": "tooltip-content",
@@ -7051,7 +7083,7 @@ function RichTooltipContent({
     onDismiss?.();
   };
   const styles = richTooltipVariants[variant] ?? richTooltipVariants.dark;
-  return /* @__PURE__ */ jsx54(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs32(
+  return /* @__PURE__ */ jsx54(TooltipPrimitive.Portal, { children: /* @__PURE__ */ jsxs33(
     TooltipPrimitive.Content,
     {
       "data-slot": "rich-tooltip-content",
@@ -7065,7 +7097,7 @@ function RichTooltipContent({
       },
       ...props,
       children: [
-        /* @__PURE__ */ jsxs32(
+        /* @__PURE__ */ jsxs33(
           "div",
           {
             className: cn(
@@ -7076,7 +7108,7 @@ function RichTooltipContent({
             ),
             children: [
               icon && /* @__PURE__ */ jsx54("span", { className: "flex items-center justify-center shrink-0 size-5 [&_svg]:size-5", children: icon }),
-              /* @__PURE__ */ jsxs32("div", { className: "flex flex-1 flex-col gap-2 min-w-0", children: [
+              /* @__PURE__ */ jsxs33("div", { className: "flex flex-1 flex-col gap-2 min-w-0", children: [
                 heading && /* @__PURE__ */ jsx54("p", { className: "font-semibold text-sm leading-5", children: heading }),
                 /* @__PURE__ */ jsx54("div", { className: "font-normal text-sm leading-5", children })
               ] }),
@@ -7110,7 +7142,7 @@ function RichTooltipContent({
 }
 
 // src/components/ui/sidebar.tsx
-import { jsx as jsx55, jsxs as jsxs33 } from "react/jsx-runtime";
+import { jsx as jsx55, jsxs as jsxs34 } from "react/jsx-runtime";
 var SIDEBAR_COOKIE_NAME = "sidebar_state";
 var SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 var SIDEBAR_WIDTH = "18rem";
@@ -7218,7 +7250,7 @@ function Sidebar({
     );
   }
   if (isMobile) {
-    return /* @__PURE__ */ jsx55(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: /* @__PURE__ */ jsxs33(
+    return /* @__PURE__ */ jsx55(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, children: /* @__PURE__ */ jsxs34(
       SheetContent,
       {
         "data-sidebar": "sidebar",
@@ -7230,7 +7262,7 @@ function Sidebar({
         },
         side,
         children: [
-          /* @__PURE__ */ jsxs33(SheetHeader, { className: "sr-only", children: [
+          /* @__PURE__ */ jsxs34(SheetHeader, { className: "sr-only", children: [
             /* @__PURE__ */ jsx55(SheetTitle, { children: "Sidebar" }),
             /* @__PURE__ */ jsx55(SheetDescription, { children: "Displays the mobile sidebar." })
           ] }),
@@ -7239,7 +7271,7 @@ function Sidebar({
       }
     ) });
   }
-  return /* @__PURE__ */ jsxs33(
+  return /* @__PURE__ */ jsxs34(
     "div",
     {
       className: "group peer text-sidebar-foreground hidden md:block",
@@ -7294,7 +7326,7 @@ function SidebarTrigger({
   ...props
 }) {
   const { toggleSidebar } = useSidebar();
-  return /* @__PURE__ */ jsxs33(
+  return /* @__PURE__ */ jsxs34(
     Button,
     {
       type: "button",
@@ -7557,7 +7589,7 @@ function SidebarMenuButton({
       children: tooltip
     };
   }
-  return /* @__PURE__ */ jsxs33(Tooltip2, { children: [
+  return /* @__PURE__ */ jsxs34(Tooltip2, { children: [
     /* @__PURE__ */ jsx55(TooltipTrigger, { asChild: true, children: button }),
     /* @__PURE__ */ jsx55(
       TooltipContent,
@@ -7627,7 +7659,7 @@ function SidebarMenuSkeleton({
   const width = React53.useMemo(() => {
     return `${Math.floor(Math.random() * 40) + 50}%`;
   }, []);
-  return /* @__PURE__ */ jsxs33(
+  return /* @__PURE__ */ jsxs34(
     "div",
     {
       "data-slot": "sidebar-menu-skeleton",
@@ -7716,7 +7748,7 @@ function SidebarMenuSubButton({
 // src/components/ui/slider.tsx
 import * as React54 from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { jsx as jsx56, jsxs as jsxs34 } from "react/jsx-runtime";
+import { jsx as jsx56, jsxs as jsxs35 } from "react/jsx-runtime";
 function Slider({
   className,
   defaultValue,
@@ -7729,7 +7761,7 @@ function Slider({
     () => Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max],
     [value, defaultValue, min, max]
   );
-  return /* @__PURE__ */ jsxs34(
+  return /* @__PURE__ */ jsxs35(
     SliderPrimitive.Root,
     {
       "data-slot": "slider",
@@ -8041,9 +8073,10 @@ function TableCaption({
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { cva as cva15 } from "class-variance-authority";
 import * as React59 from "react";
-import { jsx as jsx61, jsxs as jsxs35 } from "react/jsx-runtime";
+import { jsx as jsx61, jsxs as jsxs36 } from "react/jsx-runtime";
 var TabsContext = React59.createContext({
-  orientation: "horizontal"
+  orientation: "horizontal",
+  hasSwitched: false
 });
 function useTabIndicator(listRef, orientation) {
   const [style, setStyle] = React59.useState({
@@ -8069,7 +8102,7 @@ function useTabIndicator(listRef, orientation) {
           height: "2px",
           width: activeEl.offsetWidth,
           transform: `translateX(${activeEl.offsetLeft}px)`,
-          transition: noTransition ? "none" : "transform 300ms ease-in-out, width 300ms ease-in-out",
+          transition: noTransition ? "none" : "transform 300ms var(--ease-emphasized), width 300ms var(--ease-emphasized)",
           background: "var(--primary-stroke-default)",
           opacity: 1
         });
@@ -8082,7 +8115,7 @@ function useTabIndicator(listRef, orientation) {
           width: "2px",
           height: activeEl.offsetHeight,
           transform: `translateY(${activeEl.offsetTop}px)`,
-          transition: noTransition ? "none" : "transform 300ms ease-in-out, height 300ms ease-in-out",
+          transition: noTransition ? "none" : "transform 300ms var(--ease-emphasized), height 300ms var(--ease-emphasized)",
           background: "var(--primary-stroke-default)",
           opacity: 1
         });
@@ -8119,11 +8152,20 @@ function useTabIndicator(listRef, orientation) {
 function Tabs({
   className,
   orientation = "horizontal",
+  onValueChange,
   ...props
 }) {
+  const [hasSwitched, setHasSwitched] = React59.useState(false);
   const ctx = React59.useMemo(
-    () => ({ orientation: orientation ?? "horizontal" }),
-    [orientation]
+    () => ({ orientation: orientation ?? "horizontal", hasSwitched }),
+    [orientation, hasSwitched]
+  );
+  const handleValueChange = React59.useCallback(
+    (value) => {
+      setHasSwitched(true);
+      onValueChange?.(value);
+    },
+    [onValueChange]
   );
   return /* @__PURE__ */ jsx61(TabsContext.Provider, { value: ctx, children: /* @__PURE__ */ jsx61(
     TabsPrimitive.Root,
@@ -8134,6 +8176,7 @@ function Tabs({
         orientation === "vertical" ? "flex flex-row gap-4" : "flex flex-col gap-2",
         className
       ),
+      onValueChange: handleValueChange,
       ...props
     }
   ) });
@@ -8145,7 +8188,7 @@ function TabsList({
   const listRef = React59.useRef(null);
   const { orientation } = React59.useContext(TabsContext);
   const { style: indicatorStyle } = useTabIndicator(listRef, orientation);
-  return /* @__PURE__ */ jsxs35(
+  return /* @__PURE__ */ jsxs36(
     TabsPrimitive.List,
     {
       ref: listRef,
@@ -8218,11 +8261,18 @@ function TabsContent({
   className,
   ...props
 }) {
+  const { hasSwitched } = React59.useContext(TabsContext);
   return /* @__PURE__ */ jsx61(
     TabsPrimitive.Content,
     {
       "data-slot": "tabs-content",
-      className: cn("flex-1 outline-none", className),
+      className: cn(
+        "flex-1 outline-none",
+        // Radix mounts the newly active panel, so an enter-only fade reads as
+        // a crossfade without holding the old panel in the DOM.
+        hasSwitched && "data-[state=active]:animate-in data-[state=active]:fade-in-0 data-[state=active]:slide-in-from-bottom-2 duration-300 ease-emphasized motion-reduce:animate-none",
+        className
+      ),
       ...props
     }
   );
@@ -8251,14 +8301,14 @@ function ThemeProvider({ children, ...props }) {
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme as useTheme2 } from "next-themes";
 import "react";
-import { jsx as jsx63, jsxs as jsxs36 } from "react/jsx-runtime";
+import { jsx as jsx63, jsxs as jsxs37 } from "react/jsx-runtime";
 function ThemeToggle({
   className,
   ...props
 }) {
   const { setTheme } = useTheme2();
-  return /* @__PURE__ */ jsxs36(DropdownMenu, { children: [
-    /* @__PURE__ */ jsx63(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs36(
+  return /* @__PURE__ */ jsxs37(DropdownMenu, { children: [
+    /* @__PURE__ */ jsx63(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsxs37(
       Button,
       {
         type: "button",
@@ -8273,16 +8323,16 @@ function ThemeToggle({
         ]
       }
     ) }),
-    /* @__PURE__ */ jsxs36(DropdownMenuContent, { align: "end", children: [
-      /* @__PURE__ */ jsxs36(DropdownMenuItem, { onClick: () => setTheme("light"), children: [
+    /* @__PURE__ */ jsxs37(DropdownMenuContent, { align: "end", children: [
+      /* @__PURE__ */ jsxs37(DropdownMenuItem, { onClick: () => setTheme("light"), children: [
         /* @__PURE__ */ jsx63(Sun, { className: "size-4" }),
         "Light"
       ] }),
-      /* @__PURE__ */ jsxs36(DropdownMenuItem, { onClick: () => setTheme("dark"), children: [
+      /* @__PURE__ */ jsxs37(DropdownMenuItem, { onClick: () => setTheme("dark"), children: [
         /* @__PURE__ */ jsx63(Moon, { className: "size-4" }),
         "Dark"
       ] }),
-      /* @__PURE__ */ jsxs36(DropdownMenuItem, { onClick: () => setTheme("system"), children: [
+      /* @__PURE__ */ jsxs37(DropdownMenuItem, { onClick: () => setTheme("system"), children: [
         /* @__PURE__ */ jsx63(Monitor, { className: "size-4" }),
         "System"
       ] })
@@ -8294,7 +8344,7 @@ function ThemeToggle({
 import "class-variance-authority";
 import { Clock } from "lucide-react";
 import * as React61 from "react";
-import { jsx as jsx64, jsxs as jsxs37 } from "react/jsx-runtime";
+import { jsx as jsx64, jsxs as jsxs38 } from "react/jsx-runtime";
 var TIME_FORMAT_PLACEHOLDER = {
   "12h": "hh:mm AM/PM",
   "24h": "HH:mm",
@@ -8404,8 +8454,8 @@ function TimeInput({
   const selectedH12 = time ? getDisplayHour(time.hours, timeFormat) : null;
   const selectedMinute = time?.minutes ?? null;
   const selectedPeriod = time ? getPeriod(time.hours) : null;
-  return /* @__PURE__ */ jsx64("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs37(Popover, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ jsx64(PopoverTrigger, { asChild: true, disabled: inputDisabled, children: /* @__PURE__ */ jsxs37(
+  return /* @__PURE__ */ jsx64("div", { className: cn("relative flex gap-2", className), children: /* @__PURE__ */ jsxs38(Popover, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsx64(PopoverTrigger, { asChild: true, disabled: inputDisabled, children: /* @__PURE__ */ jsxs38(
       Button,
       {
         type: "button",
@@ -8430,7 +8480,7 @@ function TimeInput({
         className: cn("w-auto p-0", popoverContentClassName),
         onOpenAutoFocus: (e) => e.preventDefault(),
         ...popoverContentProps,
-        children: /* @__PURE__ */ jsxs37("div", { className: "flex divide-x border border-focus-ring rounded-md", children: [
+        children: /* @__PURE__ */ jsxs38("div", { className: "flex divide-x border border-focus-ring rounded-md", children: [
           /* @__PURE__ */ jsx64("div", { className: "h-56 w-16 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]", children: /* @__PURE__ */ jsx64("div", { ref: hoursRef, className: "flex flex-col p-1 ", children: hoursList.map((h) => /* @__PURE__ */ jsx64(
             Button,
             {
@@ -8758,6 +8808,7 @@ export {
   InputOTPSeparator,
   InputOTPSlot,
   Label3 as Label,
+  LoadingDots,
   Menubar,
   MenubarCheckboxItem,
   MenubarContent,
