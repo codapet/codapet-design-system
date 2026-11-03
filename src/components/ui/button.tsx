@@ -1,5 +1,6 @@
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
@@ -45,25 +46,67 @@ const buttonVariants = cva(
   }
 )
 
+export interface ButtonProps
+  extends React.ComponentProps<'button'>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+  /** Disables the button, marks it busy and shows a spinner before the label. Ignored with `asChild`. */
+  loading?: boolean
+}
+
 function Button({
   className,
   variant,
   size,
   asChild = false,
+  loading = false,
+  disabled,
+  children,
   ...props
-}: React.ComponentProps<'button'> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }) {
-  const Comp = asChild ? Slot : 'button'
+}: ButtonProps) {
+  if (asChild) {
+    return (
+      <Slot
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        {...props}
+      >
+        {children}
+      </Slot>
+    )
+  }
 
   return (
-    <Comp
+    <button
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
       {...props}
-    />
+    >
+      {loading && (
+        <Loader2 aria-hidden className="animate-spin motion-reduce:animate-none" />
+      )}
+      {children}
+    </button>
   )
 }
 
-export { Button, buttonVariants }
+/** Three dots that rise in turn — append to a loading label ("Checking availability"). */
+function LoadingDots({ className, ...props }: React.ComponentProps<'span'>) {
+  return (
+    <span aria-hidden className={cn('inline-flex', className)} {...props}>
+      {[0, 1, 2].map(i => (
+        <span
+          key={i}
+          className="animate-loading-dot"
+          style={{ animationDelay: `${i * 0.16}s` }}
+        >
+          .
+        </span>
+      ))}
+    </span>
+  )
+}
+
+export { Button, buttonVariants, LoadingDots }

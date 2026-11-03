@@ -1,3 +1,6 @@
+'use client'
+
+import * as React from 'react'
 import {
   Card,
   CardContent,
@@ -5,6 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
+import { Button, LoadingDots } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
@@ -112,6 +116,79 @@ export default function LayoutPage() {
           />
         </CardContent>
       </Card>
+
+      <Card id="motion-demo">
+        <CardHeader>
+          <CardTitle>Motion</CardTitle>
+          <CardDescription>
+            Hover a card, switch a tab, or toggle the loading button
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-8">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Card interactive className="cursor-pointer overflow-hidden py-0">
+              <div className="overflow-hidden">
+                <div className="interactive-media h-32 bg-primary-surface-light" />
+              </div>
+              <CardHeader className="pb-6">
+                <CardTitle>{'<Card interactive>'}</CardTitle>
+                <CardDescription>
+                  The block above carries interactive-media
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <a
+              href="#motion-demo"
+              className="interactive-surface block rounded-3xl border border-gray-stroke-default p-5"
+            >
+              <p className="font-semibold">Any element</p>
+              <p className="text-sm text-muted-foreground">
+                className=&quot;interactive-surface&quot;
+              </p>
+            </a>
+          </div>
+
+          <Tabs defaultValue="euthanasia">
+            <TabsList>
+              <TabsTrigger value="euthanasia">Euthanasia</TabsTrigger>
+              <TabsTrigger value="cremation">Cremation</TabsTrigger>
+              <TabsTrigger value="memorial">Memorial</TabsTrigger>
+            </TabsList>
+            <TabsContent value="euthanasia" className="pt-2">
+              Panels fade in only after the first switch.
+            </TabsContent>
+            <TabsContent value="cremation" className="pt-2">
+              Private and communal options.
+            </TabsContent>
+            <TabsContent value="memorial" className="pt-2">
+              Paw prints and keepsakes.
+            </TabsContent>
+          </Tabs>
+
+          <LoadingButtonDemo />
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+function LoadingButtonDemo() {
+  const [loading, setLoading] = React.useState(false)
+  return (
+    <div className="flex items-center gap-3">
+      <Button size="md" loading={loading}>
+        {loading ? (
+          <>
+            Checking availability
+            <LoadingDots />
+          </>
+        ) : (
+          'Find availability'
+        )}
+      </Button>
+      <Button size="md" variant="outline" onClick={() => setLoading(l => !l)}>
+        Toggle loading
+      </Button>
     </div>
   )
 }
