@@ -43,15 +43,33 @@ function useTabIndicator(
 
       const noTransition = isFirstMeasurement.current
 
+      // Measure with client rects, not offsetLeft/offsetWidth: those round to
+      // whole pixels while triggers are usually fractional (text width, page
+      // zoom, OS display scaling), so the indicator could end up to 1px past
+      // the list's edge and make the horizontal list scroll for nothing.
+      const listRect = list.getBoundingClientRect()
+      const activeRect = activeEl.getBoundingClientRect()
+      // Client rects include ancestor transforms (e.g. Dialog's open scale)
+      // while the indicator lives in untransformed space. Under 1px apart is
+      // just offsetWidth rounding, not a transform.
+      const scale =
+        Math.abs(listRect.width - list.offsetWidth) < 1 || !list.offsetWidth
+          ? 1
+          : listRect.width / list.offsetWidth
+
       if (orientation === 'horizontal') {
+        const left =
+          (activeRect.left - listRect.left) / scale -
+          list.clientLeft +
+          list.scrollLeft
         setStyle({
           position: 'absolute',
           bottom: 0,
           left: 0,
           zIndex: 1,
           height: '2px',
-          width: activeEl.offsetWidth,
-          transform: `translateX(${activeEl.offsetLeft}px)`,
+          width: activeRect.width / scale,
+          transform: `translateX(${left}px)`,
           transition: noTransition
             ? 'none'
             : 'transform 300ms var(--ease-emphasized), width 300ms var(--ease-emphasized)',
@@ -59,14 +77,18 @@ function useTabIndicator(
           opacity: 1
         })
       } else {
+        const top =
+          (activeRect.top - listRect.top) / scale -
+          list.clientTop +
+          list.scrollTop
         setStyle({
           position: 'absolute',
           left: 0,
           top: 0,
           zIndex: 1,
           width: '2px',
-          height: activeEl.offsetHeight,
-          transform: `translateY(${activeEl.offsetTop}px)`,
+          height: activeRect.height / scale,
+          transform: `translateY(${top}px)`,
           transition: noTransition
             ? 'none'
             : 'transform 300ms var(--ease-emphasized), height 300ms var(--ease-emphasized)',
@@ -105,9 +127,25 @@ function useTabIndicator(
     })
     resizeObserver.observe(list)
 
+    // A list measured mid-animation inside a scaling ancestor (Dialog open)
+    // is only approximately right; re-measure once that animation settles.
+    const onAncestorAnimationEnd = (event: Event) => {
+      if (event.target instanceof Node && event.target.contains(list)) {
+        measure()
+      }
+    }
+    document.addEventListener('animationend', onAncestorAnimationEnd, true)
+    document.addEventListener('transitionend', onAncestorAnimationEnd, true)
+
     return () => {
       mutationObserver.disconnect()
       resizeObserver.disconnect()
+      document.removeEventListener('animationend', onAncestorAnimationEnd, true)
+      document.removeEventListener(
+        'transitionend',
+        onAncestorAnimationEnd,
+        true
+      )
     }
   }, [listRef, measure])
 
@@ -172,7 +210,10 @@ function TabsList({
         // inside the padding box, letting the active indicator paint over it.
         orientation === 'vertical'
           ? 'flex flex-col shadow-[inset_1px_0_0_0_var(--gray-stroke-default)]'
-          : 'flex w-fit items-center overflow-x-auto shadow-[inset_0_-1px_0_0_var(--gray-stroke-default)]',
+          : // Still scrolls sideways when it truly can't fit (phones), but
+            // without a visible bar. overflow-y must be set explicitly, or
+            // overflow-x:auto turns it into auto too.
+            'flex w-fit items-center overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shadow-[inset_0_-1px_0_0_var(--gray-stroke-default)]',
         className
       )}
       {...props}

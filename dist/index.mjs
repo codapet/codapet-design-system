@@ -8093,28 +8093,33 @@ function useTabIndicator(listRef, orientation) {
       );
       if (!activeEl) return;
       const noTransition = isFirstMeasurement.current;
+      const listRect = list.getBoundingClientRect();
+      const activeRect = activeEl.getBoundingClientRect();
+      const scale = Math.abs(listRect.width - list.offsetWidth) < 1 || !list.offsetWidth ? 1 : listRect.width / list.offsetWidth;
       if (orientation === "horizontal") {
+        const left = (activeRect.left - listRect.left) / scale - list.clientLeft + list.scrollLeft;
         setStyle({
           position: "absolute",
           bottom: 0,
           left: 0,
           zIndex: 1,
           height: "2px",
-          width: activeEl.offsetWidth,
-          transform: `translateX(${activeEl.offsetLeft}px)`,
+          width: activeRect.width / scale,
+          transform: `translateX(${left}px)`,
           transition: noTransition ? "none" : "transform 300ms var(--ease-emphasized), width 300ms var(--ease-emphasized)",
           background: "var(--primary-stroke-default)",
           opacity: 1
         });
       } else {
+        const top = (activeRect.top - listRect.top) / scale - list.clientTop + list.scrollTop;
         setStyle({
           position: "absolute",
           left: 0,
           top: 0,
           zIndex: 1,
           width: "2px",
-          height: activeEl.offsetHeight,
-          transform: `translateY(${activeEl.offsetTop}px)`,
+          height: activeRect.height / scale,
+          transform: `translateY(${top}px)`,
           transition: noTransition ? "none" : "transform 300ms var(--ease-emphasized), height 300ms var(--ease-emphasized)",
           background: "var(--primary-stroke-default)",
           opacity: 1
@@ -8142,9 +8147,22 @@ function useTabIndicator(listRef, orientation) {
       measure();
     });
     resizeObserver.observe(list);
+    const onAncestorAnimationEnd = (event) => {
+      if (event.target instanceof Node && event.target.contains(list)) {
+        measure();
+      }
+    };
+    document.addEventListener("animationend", onAncestorAnimationEnd, true);
+    document.addEventListener("transitionend", onAncestorAnimationEnd, true);
     return () => {
       mutationObserver.disconnect();
       resizeObserver.disconnect();
+      document.removeEventListener("animationend", onAncestorAnimationEnd, true);
+      document.removeEventListener(
+        "transitionend",
+        onAncestorAnimationEnd,
+        true
+      );
     };
   }, [listRef, measure]);
   return { style };
@@ -8197,7 +8215,12 @@ function TabsList({
         "text-muted-foreground relative",
         // The gray track is an inset shadow rather than a border so it lives
         // inside the padding box, letting the active indicator paint over it.
-        orientation === "vertical" ? "flex flex-col shadow-[inset_1px_0_0_0_var(--gray-stroke-default)]" : "flex w-fit items-center overflow-x-auto shadow-[inset_0_-1px_0_0_var(--gray-stroke-default)]",
+        orientation === "vertical" ? "flex flex-col shadow-[inset_1px_0_0_0_var(--gray-stroke-default)]" : (
+          // Still scrolls sideways when it truly can't fit (phones), but
+          // without a visible bar. overflow-y must be set explicitly, or
+          // overflow-x:auto turns it into auto too.
+          "flex w-fit items-center overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shadow-[inset_0_-1px_0_0_var(--gray-stroke-default)]"
+        ),
         className
       ),
       ...props,

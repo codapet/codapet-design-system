@@ -112,6 +112,11 @@ These are the foot-guns. Knowing them prevents most "why does my Button look wro
 - Icons on `AccordionTrigger`: the default is a rotating `ChevronDown`; `icon="plus-minus"` switches to a two-bar + that morphs into a −; `iconClassName` resizes or recolours either built-in icon. `collapsedIcon`/`expandedIcon` still take any React node and win over `icon`. In the `outlined` variant a collapsed/expanded pair cross-rotates instead of hard-swapping.
 - For a plain question/answer list, don't assemble these by hand — use `FaqAccordion` (see the components table).
 
+### Tabs
+
+- A horizontal `TabsList` is an underline strip that sizes to its triggers (`w-fit`). When it can't fit (phones), it scrolls sideways with the scrollbar hidden. Don't add `no-scrollbar`, `overflow-x-auto`, `overflow-y-hidden` or a scrolling wrapper; they're already built in. Older versions of this package could show a stray scrollbar, which is why some apps have those classes.
+- To make it full width, pass `className="w-full"`. Don't swap the underline for a border (`border-b`), and don't draw borders on individual triggers. The sliding indicator draws the active state.
+
 ### Dialog vs SmartDialog
 
 - `Dialog`/`Drawer` are the standard Radix/Vaul primitives.
