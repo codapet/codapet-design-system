@@ -11,9 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Two trees, both using the `@/*` alias:
 
 - `src/` — the **library** (everything published to npm). Built by tsup; entry is `src/index.ts`.
-- `app/`, `lib/`, `hooks/`, `public/` (repo root) — the **Next.js demo**. Not published.
-
-There are two near-identical `lib/utils.ts` files (`src/lib/utils.ts` and `lib/utils.ts`) — keep `cn` in sync if you change it.
+- `app/`, `public/` (repo root) — the **Next.js demo**. Not published.
 
 ## Common commands
 
